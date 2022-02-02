@@ -8,7 +8,7 @@
             "name": "gcc.exe - Criar e depurar o arquivo ativo",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}\\bin\\${fileBasenameNoExtension}.exe",
+            "program": "${fileDirname}\\release\\${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "C:/msys64/mingw64/bin",
