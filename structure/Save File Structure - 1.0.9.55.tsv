@@ -162,7 +162,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 161	154	Techies	Smartliness		0|1	Fail	Pass										
 162	155	Techies	Speederosity		0|2	Fail		Pass									
 163	156	Techies	Sneaktitude		0|4	Fail				Pass							
-164	157	Techies	Job 1 Index		0|1|2|3|4|5|6|7|8	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles			
+164	157	Techies	Job 1 Index		0|1|2|3|4|5|6|7|8	Actual Potato	Programmer	Cafeteria Worker	Supervisor	IT Specialist	Janitor	Ninja	Game Developer	Hacker			
 165	158	Techies	Cookies		0|X											Number of Cookies	
 166	159	Techies	Password Fails		0|X											Number of Fails	
 167	160	Servers	Sticky Mission Active		0|1|2	No	Active	Complete									
@@ -235,7 +235,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 234	227	Boss	Memory 3 Match to 71		0|1|2	Not Yet	Axe Kept	Axe Thrown									
 235	228	Boss	Memory 4 Did we kill Joe?		0|1|2	Not Yet	No	Yes									
 236	229	Boss	Memory 5 Do we hate the boss?		0|1|2	Not Yet	No	Yes									
-237	230	Animus Portal Network			0|1	Not Active	Active										
+237	230	Animus	Portal Network		0|1	Not Active	Active										
 238	231	NOT USED															
 239	232	INVENTORY	Phone Found		0|1	No	Yes										
 240	233	HR	Talked To Mycel		0|1	No	Yes										
@@ -348,11 +348,11 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 347	340	DeerField	Baskets Filled		0|1|2|3	Baskets Filled											
 348	341	The Tower	Mailshroom Key		0|1|2	NotYet	Have	Used									
 349	342	DeerField	Ferns mood about Rhode		0|1|2	NotYet	Negative	Positive									
-350	343	DeerField	Minigame Outcome		0|1|2|3|4|5|6	NotYet	Round 1NoFlowers	Round 1Loss	Round 2Loss	Round 3Loss	Round 3Win	Round 3Perfect					
+350	343	DeerField	Minigame Outcome		0|1|2|3|4|5|6	NotYet	R1_NoFlowers	R1_Loss	R2_Loss	R3_Loss	R3_Win	R3_Perfect					
 351	344	DeerField	Basket Image Index		0|X											Image Index	
 352	345	DeerField	Advice for Fern		0|1|2	NotYet	Heart	Safety									
 353	346	RhodeGame	Cartons Filled		0|1|2|3	Cartons Filled											
-354	347	RhodeGame	Minigame Outcome		0|1|2|3|4|5|6	NotYet	Round 1NoEggs	Round 1Loss	Round 2Loss	Round 3Loss	Round 3Win	Round 3NoObstacles					
+354	347	RhodeGame	Minigame Outcome		0|1|2|3|4|5|6	NotYet	R1_NoEggs	R1_Loss	R2_Loss	R3_Loss	R3_Win	R3_NoObstacles					
 355	348	GLOBAL	World Resolution First		0|1|2	NotYet	Positive	Negative									
 356	349	GLOBAL	World Resolution Second		0|1|2	NotYet	Positive	Negative									
 357	350	GLOBAL	World Resolution Third		0|1|2	NotYet	Positive	Negative									

@@ -1,4 +1,4 @@
-Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0	1	2	3	4	5	6	7	8	9	X (Count)	100
+Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0	1	2	3	4	5	6	7	8	9	X	100
 1			Seed Code														
 2			Room ID	Click to view.													
 3			X Axis														
@@ -162,7 +162,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 161	154	Techies	Smartliness		0|1	Fail	Pass										
 162	155	Techies	Speederosity		0|2	Fail		Pass									
 163	156	Techies	Sneaktitude		0|4	Fail				Pass							
-164	157	Techies	Job 1 Index		0|1|2|3|4|5|6|7|8	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles	Job Titles			
+164	157	Techies	Job 1 Index		0|1|2|3|4|5|6|7|8	Actual Potato	Programmer	Cafeteria Worker	Supervisor	IT Specialist	Janitor	Ninja	Game Developer	Hacker			
 165	158	Techies	Cookies		0|X											Number of Cookies	
 166	159	Techies	Password Fails		0|X											Number of Fails	
 167	160	Servers	Sticky Mission Active		0|1|2	No	Active	Complete									
@@ -235,7 +235,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 234	227	Boss	Memory 3 Match to 71		0|1|2	Not Yet	Axe Kept	Axe Thrown									
 235	228	Boss	Memory 4 Did we kill Joe?		0|1|2	Not Yet	No	Yes									
 236	229	Boss	Memory 5 Do we hate the boss?		0|1|2	Not Yet	No	Yes									
-237	230	Animus Portal Network			0|1	Not Active	Active										
+237	230	Animus	Portal Network		0|1	Not Active	Active										
 238	231	NOT USED															
 239	232	INVENTORY	Phone Found		0|1	No	Yes										
 240	233	HR	Talked To Mycel		0|1	No	Yes										
@@ -348,11 +348,11 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 347	340	Deer Field 	Baskets Filled		0|1|2|3	Baskets Filled											
 348	341	The Tower	Mailshroom Key		0|1|2	Not Yet 	Have	Used									
 349	342	Deer Field 	Ferns mood about Rhode		0|1|2	Not Yet 	Negative	Positive									
-350	343	Deer Field 	Minigame Outcome		0|1|2|3|4|5|6	Not Yet 	Round 1 No  Flowers 	Round 1 Loss 	Round 2 Loss 	Round 3 Loss 	Round 3 Win 	Round 3 Perfect 					
+350	343	Deer Field 	Minigame Outcome		0|1|2|3|4|5|6	Not Yet 	Round 1 No Flowers 	Round 1 Loss	Round 2 Loss	Round 3 Loss	Round 3 Win	Round 3 Perfect					
 351	344	Deer Field 	Basket Image Index		0|X											Image Index	
 352	345	Deer Field 	Advice for Fern		0|1|2	Not Yet 	Heart	Safety									
 353	346	Rhode Game 	Cartons Filled		0|1|2|3	Cartons Filled											
-354	347	Rhode Game 	Minigame Outcome		0|1|2|3|4|5|6	Not Yet 	Round 1 No  Eggs 	Round 1 Loss 	Round 2 Loss 	Round 3 Loss 	Round 3 Win 	Round 3 No  Obstacles 					
+354	347	Rhode Game 	Minigame Outcome		0|1|2|3|4|5|6	Not Yet 	Round 1 No Eggs 	Round 1 Loss	Round 2 Loss	Round 3 Loss	Round 3 Win	Round 3 No Obstacles 					
 355	348	GLOBAL	World Resolution First		0|1|2	Not Yet 	Positive	Negative									
 356	349	GLOBAL	World Resolution Second		0|1|2	Not Yet 	Positive	Negative									
 357	350	GLOBAL	World Resolution Third		0|1|2	Not Yet 	Positive	Negative									
