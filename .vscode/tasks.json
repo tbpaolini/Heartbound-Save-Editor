@@ -10,6 +10,7 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\release\\${fileBasenameNoExtension}.exe",
+                "-I \"${fileDirname}\\includes\"",
                 "-IC:/msys64/mingw64/include/gtk-3.0",
                 "-IC:/msys64/mingw64/include/pango-1.0",
                 "-IC:/msys64/mingw64/include",
