@@ -4,9 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SAVE_STRUCT_LOC "lib\\save_structure.tsv"   // Path to the file with the save structure
+#define SAVE_STRUCT_LOC "C:\\Users\\Tiago\\Desktop\\C\\Projetos\\Heartbound Save Editor\\release\\lib\\save_structure.tsv"   // Path to the file with the save structure
 #define TEXT_BUFFER_SIZE (size_t)500                // Buffer size (in bytes) for each line of the structure file
 #define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
+#define COLUMN_OFFSET (size_t)6                     // Amount of columns until the save values
 
 // Player attributes
 char *game_seed[10];            // Game seed (10 decimal characters long)
@@ -33,6 +34,7 @@ struct StorylineVars
 // Headers of the save structure
 char **save_headers;            // Names of the columns (array of strings)
 size_t num_columns;             // Amount of columns in the structure
+size_t unit_column;             // Index of the column with the measurement unit's name
 
 // Create the data structure for the save file
 int open_save()
@@ -41,7 +43,7 @@ int open_save()
     FILE *save_structure = fopen(SAVE_STRUCT_LOC, "r");
 
     // Buffer for reading the lines of the file
-    char *line_buffer = malloc(TEXT_BUFFER_SIZE);
+    char *restrict line_buffer = malloc(TEXT_BUFFER_SIZE);
 
     // Get the table header and amount of columns
     fgets(line_buffer, TEXT_BUFFER_SIZE, save_structure);    // Read the first line
@@ -53,8 +55,8 @@ int open_save()
     }
 
     // Store the column names in an array
-    save_headers = malloc(num_columns * sizeof(char*));         // Allocate enough memory for one string pointer per column
-    char *value_buffer = malloc(TEXT_BUFFER_SIZE + (size_t)1);  // Buffer for the column value
+    save_headers = malloc(num_columns * sizeof(char*));                 // Allocate enough memory for one string pointer per column
+    char *restrict value_buffer = malloc(TEXT_BUFFER_SIZE + (size_t)1); // Buffer for the column value
     
     size_t line_pos = (size_t)0;    // Current position of character on the line
     size_t value_pos = (size_t)0;   // Current position of character on the name of the current column
@@ -76,9 +78,134 @@ int open_save()
             value_buffer[value_pos] = '\0';                 // Terminate the string (null terminator)
             save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
             strcpy(save_headers[column++], value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
-            line_pos++;                                     // Move to the next column
+            if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
             value_pos = (size_t)0;                          // Return to the beginning of the value buffer
+
+            // Check if this is the column of the measurement unit's name
+            if ( strcmp(save_headers[column - 1], "X") == 0 ) {unit_column = column - 1;}
         }
+    }
+
+    // Skip the next 7 lines (player attributes)
+    
+    for (size_t i = 0; i < 7; i++)
+    {
+        fgets(line_buffer, TEXT_BUFFER_SIZE, save_structure);
+    }
+
+    // Read the structure of each storyline variable
+
+    for (size_t var = 0; var < NUM_STORY_VARS; var++)
+    {
+        // Read the next line into the line buffer
+        fgets(line_buffer, TEXT_BUFFER_SIZE, save_structure);
+
+        line_pos = (size_t)0;    // Current position of character on the line
+        value_pos = (size_t)0;   // Current position of character on the value of the current column
+        column = (size_t)0;      // Position of the current column
+
+        while (line_buffer[line_pos] != '\n')
+        {
+            // Skip empty columns
+            while ( (line_buffer[line_pos] == '\t') && (line_pos < TEXT_BUFFER_SIZE) )
+            {
+                column++;
+                line_pos++;
+            }
+
+            // Break if we arrived to the end of the line
+            if (line_buffer[line_pos] == '\n') break;
+            
+            // Check for buffer overflow
+            if (column >= num_columns) break;           // Headers array
+            if (line_pos >= TEXT_BUFFER_SIZE) break;    // Line buffer
+            if (value_pos >= TEXT_BUFFER_SIZE) break;   // Value buffer
+
+            // Add the current character to the value buffer and move to the next character
+            value_buffer[value_pos++] = line_buffer[line_pos++];
+
+            // Check if the column has ended (tabulation was found)
+            if ( (line_buffer[line_pos] == '\t') || (line_buffer[line_pos] == '\n') )
+            {
+                // Parse the value of the column
+                value_buffer[value_pos] = '\0';
+                char *my_value = malloc( ++value_pos );
+                strcpy(my_value, value_buffer);
+                
+                // Store the corresponding column value on memory and move to the next column
+                switch (column++)
+                {
+                    case 0:
+                        // Row
+                        free(my_value);
+                        break;
+                    
+                    case 1:
+                        // Storyline Var
+                        free(my_value);
+                        break;
+                    
+                    case 2:
+                        // Room/Object
+                        save_data[var].location = my_value;
+                        break;
+                    
+                    case 3:
+                        // Description 1
+                        save_data[var].name = my_value;
+                        break;
+                    
+                    case 4:
+                        // Description 2
+                        save_data[var].info = my_value;
+                        break;
+                    
+                    case 5:
+                        // Internal State Count
+                        if ( strcmp(my_value, "0|X") == 0 || strcmp(my_value, "X") == 0 )
+                        {
+                            // Storyline variable accepts any value
+                            save_data[var].num_entries = (unsigned short)0;
+                            save_data[var].aliases = NULL;
+                        }
+                        else
+                        {
+                            // Storyline variable accepts an specific amount of values
+                            save_data[var].num_entries = (unsigned short)(strspn(my_value, "|")) + 1;
+                            save_data[var].aliases = malloc( (num_columns - COLUMN_OFFSET) * sizeof(char*));
+                        }
+                        
+                        free(my_value);
+                        break;
+                    
+                    default:
+                        
+                        if (column == unit_column)
+                        {
+                            // Set the measurement unit's name
+                            save_data[var].unit = my_value;
+                        }
+                        else if (save_data[var].num_entries > 0)
+                        {
+                            // Set the alias for the value
+                            save_data[var].aliases[column - COLUMN_OFFSET] = my_value;
+                        }
+                        else
+                        {
+                            // Discard the value
+                            free(my_value);
+                        }
+
+                        break;
+                }
+
+                if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
+                value_pos = (size_t)0;                          // Return to the beginning of the value buffer
+            }
+        }
+
+        // Break if the end of the file has been reached
+        if (feof(save_structure)) break;
     }
 
     // Close the save structure file
@@ -101,4 +228,24 @@ void close_save()
         free(save_headers[i]);
     }
     free(save_headers);
+
+    // Values of the save structure
+    for (size_t i = 0; i < NUM_STORY_VARS; i++)
+    {
+        free(save_data[i].location);
+        free(save_data[i].name);
+        free(save_data[i].info);
+        free(save_data[i].unit);
+
+        size_t entries = (num_columns - COLUMN_OFFSET);
+        if (save_data[i].num_entries > 0)
+        {
+            for (size_t j = 0; j < entries; j++)
+            {
+                free(save_data[i].aliases[j]);
+            }
+        }
+
+        free(save_data[i].aliases);
+    }
 }
