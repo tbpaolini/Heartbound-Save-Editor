@@ -37,14 +37,14 @@ size_t num_columns;             // Amount of columns in the structure
 // Create the data structure for the save file
 int open_save()
 {
-    // Open the structure file
+    // Open the save structure file
     FILE *save_structure = fopen(SAVE_STRUCT_LOC, "r");
 
     // Buffer for reading the lines of the file
-    char *line_buffer = malloc(TEXT_BUFFER_SIZE * sizeof(char));
+    char *line_buffer = malloc(TEXT_BUFFER_SIZE);
 
     // Get the table header and amount of columns
-    fgets(line_buffer, sizeof(line_buffer), save_structure);    // Read the first line
+    fgets(line_buffer, TEXT_BUFFER_SIZE, save_structure);    // Read the first line
     num_columns = 1;
     for (size_t i = 0; i < TEXT_BUFFER_SIZE; i++)
     {
@@ -53,33 +53,46 @@ int open_save()
     }
 
     // Store the column names in an array
-    save_headers = malloc(num_columns * sizeof(char*));
+    save_headers = malloc(num_columns * sizeof(char*));         // Allocate enough memory for one string pointer per column
     char *name_buffer = malloc(TEXT_BUFFER_SIZE + (size_t)1);   // Buffer for the column name
-    size_t pos = (size_t)0;         // Current position of character on the line
+    
+    size_t line_pos = (size_t)0;    // Current position of character on the line
+    size_t name_pos = (size_t)0;    // Current position of character on the name of the current column
     size_t column = (size_t)0;      // Position of the current column
-    size_t col_size = (size_t)0;    // Amount of characters on the current column
 
-    while (line_buffer[pos] != '\n')    // Loop until the line break
+    while (line_buffer[line_pos] != '\n')    // Loop until the line break
     {
-        if (column >= num_columns) break;       // Prevent overflow of the headers array
-        if (pos >= TEXT_BUFFER_SIZE) break;     // Prevent overflow of the text buffers
+        // Check for buffer overflow
+        if (column >= num_columns) break;           // Headers array
+        if (line_pos >= TEXT_BUFFER_SIZE) break;    // Line buffer
+        if (name_pos >= TEXT_BUFFER_SIZE) break;    // Name buffer
         
-        // Add the current character to the name buffer
-        name_buffer[pos] = line_buffer[pos];
-        col_size++;
+        // Add the current character to the name buffer and move to the next character
+        name_buffer[name_pos++] = line_buffer[line_pos++];
 
-        // Move to the next character and check if the column has ended
-        if (line_buffer[++pos] == '\t')
+        // Check if the column has ended (tabulation was found)
+        if ( (line_buffer[line_pos] == '\t') || (line_buffer[line_pos] == '\n') )
         {
-            name_buffer[pos] = '\0';                        // Terminate the string (null terminator)
-            save_headers[column] = malloc( ++col_size );    // Allocate enough memory for the string (including the terminator)
-            strcpy(save_headers[column], name_buffer);      // Copy the string from the buffer until the terminator (inclusive)
-            column++;                                       // Move to the next column
+            name_buffer[name_pos] = '\0';                   // Terminate the string (null terminator)
+            save_headers[column] = malloc( ++name_pos );    // Allocate enough memory for the string (including the terminator)
+            strcpy(save_headers[column++], name_buffer);    // Copy the string from the buffer until the terminator (inclusive)
+            line_pos++;                                     // Move to the next column
+            name_pos = (size_t)0;                           // Return to the beginning of the name buffer
         }
     }
+
+    // Close the save structure file
+    fclose(save_structure);
     
-    // Free the memory of the line buffer
+    // Free the memory of the text buffers
+    free(name_buffer);
     free(line_buffer);
+
+    for (size_t i = 0; i < num_columns; i++)
+    {
+        printf("%s\n", save_headers[i]);
+    }
+    
     
     return 0;
     // TO DO: Error handling
