@@ -17,7 +17,8 @@
                 "C:/msys64/mingw64/include/lzo",
                 "C:/msys64/mingw64/include/pixman-1",
                 "C:/msys64/mingw64/include/gdk-pixbuf-2.0",
-                "C:/msys64/mingw64/include/atk-1.0"
+                "C:/msys64/mingw64/include/atk-1.0",
+                "${workspaceFolder}/includes"
             ],
             "defines": [
                 "_DEBUG",
