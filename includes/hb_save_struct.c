@@ -54,10 +54,10 @@ int open_save()
 
     // Store the column names in an array
     save_headers = malloc(num_columns * sizeof(char*));         // Allocate enough memory for one string pointer per column
-    char *name_buffer = malloc(TEXT_BUFFER_SIZE + (size_t)1);   // Buffer for the column name
+    char *value_buffer = malloc(TEXT_BUFFER_SIZE + (size_t)1);  // Buffer for the column value
     
     size_t line_pos = (size_t)0;    // Current position of character on the line
-    size_t name_pos = (size_t)0;    // Current position of character on the name of the current column
+    size_t value_pos = (size_t)0;   // Current position of character on the name of the current column
     size_t column = (size_t)0;      // Position of the current column
 
     while (line_buffer[line_pos] != '\n')    // Loop until the line break
@@ -65,19 +65,19 @@ int open_save()
         // Check for buffer overflow
         if (column >= num_columns) break;           // Headers array
         if (line_pos >= TEXT_BUFFER_SIZE) break;    // Line buffer
-        if (name_pos >= TEXT_BUFFER_SIZE) break;    // Name buffer
+        if (value_pos >= TEXT_BUFFER_SIZE) break;   // Value buffer
         
         // Add the current character to the name buffer and move to the next character
-        name_buffer[name_pos++] = line_buffer[line_pos++];
+        value_buffer[value_pos++] = line_buffer[line_pos++];
 
         // Check if the column has ended (tabulation was found)
         if ( (line_buffer[line_pos] == '\t') || (line_buffer[line_pos] == '\n') )
         {
-            name_buffer[name_pos] = '\0';                   // Terminate the string (null terminator)
-            save_headers[column] = malloc( ++name_pos );    // Allocate enough memory for the string (including the terminator)
-            strcpy(save_headers[column++], name_buffer);    // Copy the string from the buffer until the terminator (inclusive)
+            value_buffer[value_pos] = '\0';                 // Terminate the string (null terminator)
+            save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
+            strcpy(save_headers[column++], value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
             line_pos++;                                     // Move to the next column
-            name_pos = (size_t)0;                           // Return to the beginning of the name buffer
+            value_pos = (size_t)0;                          // Return to the beginning of the value buffer
         }
     }
 
@@ -85,7 +85,7 @@ int open_save()
     fclose(save_structure);
     
     // Free the memory of the text buffers
-    free(name_buffer);
+    free(value_buffer);
     free(line_buffer);
     
     return 0;
