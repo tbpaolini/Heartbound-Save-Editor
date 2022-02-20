@@ -87,6 +87,12 @@ int open_save()
     // Free the memory of the text buffers
     free(name_buffer);
     free(line_buffer);
+
+    for (size_t i = 0; i < num_columns; i++)
+    {
+        printf("%s\n", save_headers[i]);
+    }
+    
     
     return 0;
     // TO DO: Error handling
