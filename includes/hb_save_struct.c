@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SAVE_STRUCT_LOC "C:\\Users\\Tiago\\Desktop\\C\\Projetos\\Heartbound Save Editor\\release\\lib\\save_structure.tsv"   // Path to the file with the save structure
+#define SAVE_STRUCT_LOC "release\\lib\\save_structure.tsv"   // Path to the file with the save structure
 #define TEXT_BUFFER_SIZE (size_t)500                // Buffer size (in bytes) for each line of the structure file
 #define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
 #define COLUMN_OFFSET (size_t)6                     // Amount of columns until the save values
@@ -34,6 +34,7 @@ struct StorylineVars
 // Headers of the save structure
 char **save_headers;            // Names of the columns (array of strings)
 size_t num_columns;             // Amount of columns in the structure
+size_t num_data;                // Amount of data columns
 size_t unit_column;             // Index of the column with the measurement unit's name
 
 // Create the data structure for the save file
@@ -53,6 +54,8 @@ int open_save()
         if (line_buffer[i] == '\t') {num_columns++;}
         else if (line_buffer[i] == '\n') {break;}
     }
+    num_data = num_columns - COLUMN_OFFSET;
+
 
     // Store the column names in an array
     save_headers = malloc(num_columns * sizeof(char*));                 // Allocate enough memory for one string pointer per column
@@ -137,11 +140,13 @@ int open_save()
                 {
                     case 0:
                         // Row
+                        // TO DO: consistency checking
                         free(my_value);
                         break;
                     
                     case 1:
                         // Storyline Var
+                        // TO DO: consistency checking
                         free(my_value);
                         break;
                     
@@ -172,7 +177,13 @@ int open_save()
                         {
                             // Storyline variable accepts an specific amount of values
                             save_data[var].num_entries = (unsigned short)(strspn(my_value, "|")) + 1;
-                            save_data[var].aliases = malloc( (num_columns - COLUMN_OFFSET) * sizeof(char*));
+                            save_data[var].aliases = malloc( num_data * sizeof(char*));
+                            
+                            // Initialize all values of the aliases array to NULL
+                            for (size_t i = 0; i < num_data; i++)
+                            {
+                                save_data[var].aliases[i] = NULL;
+                            }
                         }
                         
                         free(my_value);
@@ -237,10 +248,9 @@ void close_save()
         free(save_data[i].info);
         free(save_data[i].unit);
 
-        size_t entries = (num_columns - COLUMN_OFFSET);
         if (save_data[i].num_entries > 0)
         {
-            for (size_t j = 0; j < entries; j++)
+            for (size_t j = 0; j < num_data; j++)
             {
                 free(save_data[i].aliases[j]);
             }
