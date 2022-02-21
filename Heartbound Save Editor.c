@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <gtk\gtk.h>
-#include <hb_save_struct.c>
 
 static void
 activate (GtkApplication* app,
@@ -18,8 +17,6 @@ int
 main (int    argc,
       char **argv)
 {
-  open_save();
-
   GtkApplication *app;
   int status;
 

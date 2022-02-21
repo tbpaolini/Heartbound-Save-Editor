@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SAVE_STRUCT_LOC "release\\lib\\save_structure.tsv"   // Path to the file with the save structure
+#define SAVE_STRUCT_LOC "lib\\save_structure.tsv"   // Path to the file with the save structure
 #define TEXT_BUFFER_SIZE (size_t)500                // Buffer size (in bytes) for each line of the structure file
 #define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
 #define COLUMN_OFFSET (size_t)6                     // Amount of columns until the save values
