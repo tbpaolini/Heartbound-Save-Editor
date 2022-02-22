@@ -7,7 +7,8 @@
 #define SAVE_STRUCT_LOC "lib\\save_structure.tsv"   // Path to the file with the save structure
 #define TEXT_BUFFER_SIZE (size_t)500                // Buffer size (in bytes) for each line of the structure file
 #define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
-#define COLUMN_OFFSET (size_t)6                     // Amount of columns until the save values
+#define COLUMN_OFFSET (size_t)6                     // Amount of columns until the storyline variable values
+#define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
 
 // Player attributes
 char *game_seed[10];            // Game seed (10 decimal characters long)
@@ -135,18 +136,29 @@ int open_save()
                 char *my_value = malloc( ++value_pos );
                 strcpy(my_value, value_buffer);
                 
-                // Store the corresponding column value on memory and move to the next column
-                switch (column++)
+                // Store the corresponding column value on memory
+                switch (column)
                 {
                     case 0:
                         // Row
-                        // TO DO: consistency checking
+                        while (atoll(my_value) != (var + ROW_OFFSET))
+                        {
+                            // Skip unused rows
+                            var++;
+                        }
+                        
                         free(my_value);
                         break;
                     
                     case 1:
                         // Storyline Var
-                        // TO DO: consistency checking
+                        if (atoll(my_value) != var)
+                        {
+                            // Consistency checking: Is the program on the variable  where it is expected to be?
+                            // TO DO: Show some error dialog instead of just exiting
+                            exit(EXIT_FAILURE);
+                        }
+                        
                         free(my_value);
                         break;
                     
@@ -190,7 +202,7 @@ int open_save()
                         break;
                     
                     default:
-                        
+                        // Name of the storyline variable value
                         if (column == unit_column)
                         {
                             // Set the measurement unit's name
