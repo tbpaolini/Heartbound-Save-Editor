@@ -208,7 +208,7 @@ int open_save()
                             // Set the measurement unit's name
                             save_data[var].unit = my_value;
                         }
-                        else if (save_data[var].num_entries > 0)
+                        else if (save_data[var].num_entries > 1)
                         {
                             // Set the alias for the value
                             save_data[var].aliases[column - COLUMN_OFFSET] = my_value;
@@ -262,14 +262,14 @@ void close_save()
         free(save_data[i].info);
         free(save_data[i].unit);
 
-        if (save_data[i].num_entries > 0)
+        if (save_data[i].num_entries > 1)
         {
             for (size_t j = 0; j < num_data; j++)
             {
                 free(save_data[i].aliases[j]);
             }
-        }
 
         free(save_data[i].aliases);
+        }
     }
 }
