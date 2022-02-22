@@ -41,5 +41,5 @@ with open("Save File Structure - 1.0.9.55.tsv", "rt") as file:
         edited_lines.append(new_line)
 
 # Save a file with all the changed lines
-with open("Save File Structure - 1.0.9.55 - new.tsv", "wt") as file:
+with open("save_structure.tsv", "wt") as file:
     file.writelines(edited_lines)
