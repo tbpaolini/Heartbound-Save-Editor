@@ -6,17 +6,17 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 5			Current HP														
 6			Maximum HP														
 7			Language														
-8	0	DEBUG VARIABLE	DOES NOT SAVE														
-9	1	GLOBAL	Lores Current Clothing		0|1	Pajamas	Sweater										
-10	2	Home Bedroom	Lightswitch State		0|1	Off	On										
-11	3	Home Bedroom	Lightswitch Event														
-12	4	Home Bedroom	Lightswitch Burn State		0|1	Unburnt	Burnt										
-13	5	Home Bedroom	Room has been exited														
-14	6	Home Bedroom	Baron woken up														
-15	7	GLOBAL	Baron following Lore														
-16	8	Home Hallway	Lightswitch State		0|1	Off	On										
-17	9	Home Hallway	Door Slammed														
-18	10	Home Hallway	Lore's Dad	Conversation													
+	0	DEBUG VARIABLE	DOES NOT SAVE														
+8	1	GLOBAL	Lores Current Clothing		0|1	Pajamas	Sweater										
+9	2	Home Bedroom	Lightswitch State		0|1	Off	On										
+10	3	Home Bedroom	Lightswitch Event														
+11	4	Home Bedroom	Lightswitch Burn State		0|1	Unburnt	Burnt										
+12	5	Home Bedroom	Room has been exited														
+13	6	Home Bedroom	Baron woken up														
+14	7	GLOBAL	Baron following Lore														
+15	8	Home Hallway	Lightswitch State		0|1	Off	On										
+16	9	Home Hallway	Door Slammed														
+17	10	Home Hallway	Lore's Dad	Conversation													
 19	12	Home Bedroom	Leaving State		0|1|2	Dialog Options											
 20	13	Home Livingroom	Lightswitch State		0|1	Off	On										
 21	14	Home Livingroom	TV State		0|1	Off	On										
