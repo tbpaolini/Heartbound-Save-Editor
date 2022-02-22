@@ -210,7 +210,9 @@ int open_save()
                         break;
                 }
 
-                if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
+                // Move to the next column
+                column++;
+                if (line_buffer[line_pos] == '\t') line_pos++;  // Skip the tabulation character
                 value_pos = (size_t)0;                          // Return to the beginning of the value buffer
             }
         }
