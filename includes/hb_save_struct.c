@@ -3,16 +3,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define SAVE_STRUCT_LOC "lib\\save_structure.tsv"   // Path to the file with the save structure
+#define SEED_SIZE (size_t)11                        // Amount of characters (plus one) of the game seed string
+#define ROOM_NAME_SIZE (size_t) 50                  // Maximum amount of characters (plus one) for the room name string
 #define TEXT_BUFFER_SIZE (size_t)500                // Buffer size (in bytes) for each line of the structure file
 #define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
 #define COLUMN_OFFSET (size_t)6                     // Amount of columns until the storyline variable values
 #define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
 
 // Player attributes
-char *game_seed[10];            // Game seed (10 decimal characters long)
-char *room_id[30];              // The ID (as a string) of the room the player is
+char game_seed[11];             // Game seed (10 decimal characters long)
+char room_id[ROOM_NAME_SIZE];   // The ID (as a string) of the room the player is
 double x_axis, y_axis;          // Coordinates of the player in the room
 double hp_current, hp_maximum;  // Current and maximum hit points of the player
 
@@ -23,7 +26,7 @@ char known_glyphs;
 // The storyline variables
 struct StorylineVars
 {
-    unsigned int value;          // Value of this entry on the save file
+    double value;                // Value of this entry on the save file
     char *location;              // In-game location that this entry applies to
     char *name;                  // Description of the in-game feature this entry refers to
     char *info;                  // Further description of the feature
@@ -38,9 +41,15 @@ size_t num_columns;             // Amount of columns in the structure
 size_t num_data;                // Amount of data columns
 size_t unit_column;             // Index of the column with the measurement unit's name
 
+// Whether the structure file has been parsed
+static bool save_is_initialized = false;
+
 // Create the data structure for the save file
-int open_save()
+int init_save()
 {
+    // Return if the save structure file has already been parsed
+    if (save_is_initialized == true) return 0;
+    
     // Open the save structure file
     FILE *save_structure = fopen(SAVE_STRUCT_LOC, "r");
 
@@ -248,11 +257,14 @@ int open_save()
     free(value_buffer);
     free(line_buffer);
     
-    return 0;
+    // Flag that the structure file has been parsed
+    save_is_initialized = true;
+    return true;
+
     // TO DO: Error handling
 }
 
-// Free used memory for the save file
+// Free the used memory by the save data structure
 void close_save()
 {
     // Names of the columns of the save structure
@@ -280,4 +292,7 @@ void close_save()
         free(save_data[i].aliases);
         }
     }
+
+    // Flag that the save structure is not parsed
+    save_is_initialized = false;
 }
