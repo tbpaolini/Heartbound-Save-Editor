@@ -188,7 +188,15 @@ int open_save()
                         else
                         {
                             // Storyline variable accepts an specific amount of values
-                            save_data[var].num_entries = (unsigned short)(strspn(my_value, "|")) + 1;
+
+                            // Count how many values
+                            save_data[var].num_entries = (unsigned short)1;
+                            size_t v_pos = 0;
+                            while (my_value[v_pos] != '0')
+                            {
+                                if (my_value[v_pos++] == '|') save_data[var].num_entries += 1;
+                            }
+
                             save_data[var].aliases = malloc( num_data * sizeof(char*));
                             
                             // Initialize all values of the aliases array to NULL
