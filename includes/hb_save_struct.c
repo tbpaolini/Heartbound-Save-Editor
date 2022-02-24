@@ -201,7 +201,7 @@ int init_save()
                             // Count how many values
                             save_data[var].num_entries = (unsigned short)1;
                             size_t v_pos = 0;
-                            while (my_value[v_pos] != '0')
+                            while (my_value[v_pos] != '\0')
                             {
                                 if (my_value[v_pos++] == '|') save_data[var].num_entries += 1;
                             }
