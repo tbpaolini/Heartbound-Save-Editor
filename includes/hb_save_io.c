@@ -63,7 +63,7 @@ int read_save()
     {
         fgets(line, SAVE_LINE_BUFFER, save_file);
         save_data[var++].value = atof(line);    // Store the current value and move to the next variable
-        if (var > NUM_STORY_VARS) break;
+        if (var >= NUM_STORY_VARS) break;
     }
 
     free(line);
