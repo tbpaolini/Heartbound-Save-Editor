@@ -59,15 +59,15 @@ int read_save()
 
     // Parse the storyline variables
     size_t var = 1;
-    while (!feof(save_file))
+    while (!feof(save_file))    // Stop if we have arrived at the end of the file
     {
-        fgets(line, SAVE_LINE_BUFFER, save_file);
-        save_data[var++].value = atof(line);    // Store the current value and move to the next variable
-        if (var >= NUM_STORY_VARS) break;
+        fgets(line, SAVE_LINE_BUFFER, save_file);   // Read the storyline variable from the save file
+        save_data[var++].value = atof(line);        // Store the current value and move to the next variable
+        if (var >= NUM_STORY_VARS) break;           // Stop if we have arrived to the end of the storyline array
     }
 
-    free(line);
-    fclose(save_file);
+    free(line);         // Delete the line buffer from memory
+    fclose(save_file);  // Close the save file
     return 0;
     // TO DO: Error handling
 }
