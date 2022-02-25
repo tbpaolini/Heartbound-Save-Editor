@@ -1,9 +1,12 @@
 /* Reading and writting of the Heartbound save file */
 
+#ifndef _HB_SAVE_IO
+#define _HB_SAVE_IO
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-// #include <hb_save_struct.c>
+#include <hb_save_struct.c>
 
 #define LOCAL_APP_DATA getenv("LocalAppData")   // Path to the local application data
 #define SAVE_FOLDER "Heartbound"                // Save folder on the local application data
@@ -71,3 +74,5 @@ int read_save()
     return 0;
     // TO DO: Error handling
 }
+
+#endif

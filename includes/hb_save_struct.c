@@ -1,5 +1,8 @@
 /* Template and data structure for the saved data of Heartbound */
 
+#ifndef _HB_SAVE_STRUCT
+#define _HB_SAVE_STRUCT
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -296,3 +299,5 @@ void close_save()
     // Flag that the save structure is not parsed
     save_is_initialized = false;
 }
+
+#endif
