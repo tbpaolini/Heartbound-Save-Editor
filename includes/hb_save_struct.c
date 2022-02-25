@@ -26,6 +26,14 @@ double hp_current, hp_maximum;  // Current and maximum hit points of the player
 // 0 = None; 1 = Lightbringer; 2 = Lightbringer and Darksider
 char known_glyphs;
 
+// Alias for the variable's values
+// (associate the variable value with its meaning)
+typedef struct ValueAlias
+{
+    char **header;      // Pointer to the row's name
+    char *description;  // What the value does in-game (as a string)
+} ValueAlias;
+
 // The storyline variables
 struct StorylineVars
 {
@@ -34,15 +42,16 @@ struct StorylineVars
     char *name;                  // Description of the in-game feature this entry refers to
     char *info;                  // Further description of the feature
     char *unit;                  // Measurement unit of the value this entry represents
-    unsigned short num_entries;  // Amount of different values that the field accept (0 if it accepts any value)
-    char **aliases;              // Associate each numeric value to its meaning (as strings)
+    size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
+    ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
 } save_data[NUM_STORY_VARS];
 
 // Headers of the save structure
-char **save_headers;            // Names of the columns (array of strings)
-size_t num_columns;             // Amount of columns in the structure
-size_t num_data;                // Amount of data columns
-size_t unit_column;             // Index of the column with the measurement unit's name
+static char **save_headers;            // Names of the columns (array of strings)
+static size_t num_columns;             // Amount of columns in the structure
+static size_t num_data;                // Amount of data columns
+static size_t unit_column;             // Index of the column with the measurement unit's name
+static size_t var_pos;                 // Index of the value of a storyline variable
 
 // Whether the structure file has been parsed
 static bool save_is_initialized = false;
@@ -127,6 +136,9 @@ int init_save()
             {
                 column++;
                 line_pos++;
+                
+                // Keep track of the current value column of the storyline variable
+                if (column == COLUMN_OFFSET) var_pos = 0;
             }
 
             // Break if we arrived to the end of the line
@@ -194,7 +206,7 @@ int init_save()
                         if ( strcmp(my_value, "0|X") == 0 || strcmp(my_value, "X") == 0 )
                         {
                             // Storyline variable accepts any value
-                            save_data[var].num_entries = (unsigned short)0;
+                            save_data[var].num_entries = (size_t)0;
                             save_data[var].aliases = NULL;
                         }
                         else
@@ -202,19 +214,19 @@ int init_save()
                             // Storyline variable accepts an specific amount of values
 
                             // Count how many values
-                            save_data[var].num_entries = (unsigned short)1;
+                            save_data[var].num_entries = (size_t)1;
                             size_t v_pos = 0;
                             while (my_value[v_pos] != '\0')
                             {
                                 if (my_value[v_pos++] == '|') save_data[var].num_entries += 1;
                             }
 
-                            save_data[var].aliases = malloc( num_data * sizeof(char*));
+                            save_data[var].aliases = malloc( save_data[var].num_entries * sizeof(ValueAlias));
                             
                             // Initialize all values of the aliases array to NULL
-                            for (size_t i = 0; i < num_data; i++)
+                            for (size_t i = 0; i < save_data[var].num_entries; i++)
                             {
-                                save_data[var].aliases[i] = NULL;
+                                save_data[var].aliases[i] = (ValueAlias){NULL, NULL};
                             }
                         }
                         
@@ -222,17 +234,27 @@ int init_save()
                         break;
                     
                     default:
-                        // Name of the storyline variable value
+                        // Value of the storyline variable value
+                        
+                        // We are on the unit's column
                         if (column == unit_column)
                         {
                             // Set the measurement unit's name
                             save_data[var].unit = my_value;
                         }
-                        else if (save_data[var].num_entries > 1)
+
+                        // There are multiple values
+                        else if (save_data[var].num_entries > 0)
                         {
-                            // Set the alias for the value
-                            save_data[var].aliases[column - COLUMN_OFFSET] = my_value;
+                            // Set the alias for the current value and move to the next value
+                            // (The value's description is linked to the name of its respective column)
+                            save_data[var].aliases[var_pos++] = (ValueAlias){
+                                 .header = &(save_headers[column]), // Pointer to the name of the header (which is the value itself)
+                                 .description = my_value            // What the value does (as a string)
+                            };
                         }
+                        
+                        // The variable has no specified amount of values (can accept any value)
                         else
                         {
                             // Discard the value
@@ -246,6 +268,9 @@ int init_save()
                 column++;
                 if (line_buffer[line_pos] == '\t') line_pos++;  // Skip the tabulation character
                 value_pos = (size_t)0;                          // Return to the beginning of the value buffer
+
+                // Keep track of the current value column of the storyline variable
+                if (column == COLUMN_OFFSET) var_pos = 0;
             }
         }
 
@@ -271,28 +296,30 @@ int init_save()
 void close_save()
 {
     // Names of the columns of the save structure
-    for (unsigned short i = 0; i < num_columns; i++)
+    for (size_t i = 0; i < num_columns; i++)
     {
         free(save_headers[i]);
     }
     free(save_headers);
 
     // Values of the save structure
-    for (size_t i = 0; i < NUM_STORY_VARS; i++)
+    for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
-        free(save_data[i].location);
-        free(save_data[i].name);
-        free(save_data[i].info);
-        free(save_data[i].unit);
+        free(save_data[var].location);
+        free(save_data[var].name);
+        free(save_data[var].info);
+        free(save_data[var].unit);
 
-        if (save_data[i].num_entries > 1)
+        if (save_data[var].num_entries > 0)
         {
-            for (size_t j = 0; j < num_data; j++)
+            for (size_t j = 0; j < save_data[var].num_entries; j++)
             {
-                free(save_data[i].aliases[j]);
+                // Deallocate the description string of each value
+                free(save_data[var].aliases[j].description);
             }
 
-        free(save_data[i].aliases);
+        // Deallocate the array of ValueAlias structs
+        free(save_data[var].aliases);
         }
     }
 
