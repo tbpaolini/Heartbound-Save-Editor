@@ -19,7 +19,6 @@ char SAVE_PATH[PATH_BUFFER];    // Absolute path to the save file
 // Store the location of the save file on the SAVE_PATH variable
 int find_save()
 {
-    init_save();
     snprintf(SAVE_PATH, sizeof(SAVE_PATH), "%s\\%s\\%s", LOCAL_APP_DATA, SAVE_FOLDER, SAVE_FNAME);
     return 0;
     // TO DO: Error handling
@@ -28,7 +27,6 @@ int find_save()
 // Get the contents of the save file and store them on memory
 int read_save()
 {
-    find_save();
     FILE *save_file = fopen(SAVE_PATH, "r");
     char *restrict line = malloc(SAVE_LINE_BUFFER);
 
