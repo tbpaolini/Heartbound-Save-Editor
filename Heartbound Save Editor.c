@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <gtk\gtk.h>
+#include <unistd.h>
+#include <hb_save.h>
+// #include <windows.h>
 
 static void
 activate (GtkApplication* app,
@@ -17,6 +20,16 @@ int
 main (int    argc,
       char **argv)
 {
+  chdir("C:\\Users\\Tiago\\Desktop\\C\\Projetos\\Heartbound Save Editor\\release");
+  // LARGE_INTEGER start, end, freq;
+  // QueryPerformanceFrequency(&freq);
+  // QueryPerformanceCounter(&start);
+  init_save();
+  // QueryPerformanceCounter(&end);
+  // LONGLONG total = end.QuadPart - start.QuadPart;
+  // printf("%d", total);
+  close_save();
+
   GtkApplication *app;
   int status;
 
