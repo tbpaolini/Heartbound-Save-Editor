@@ -52,6 +52,7 @@ static size_t num_columns;             // Amount of columns in the structure
 static size_t num_data;                // Amount of data columns
 static size_t unit_column;             // Index of the column with the measurement unit's name
 static size_t var_pos;                 // Index of the value of a storyline variable
+static size_t max_var;                 // Index of the last storyline variable on the structure file
 
 // Whether the structure file has been parsed
 static bool save_is_initialized = false;
@@ -235,6 +236,19 @@ int init_save()
                     
                     default:
                         // Value of the storyline variable value
+
+                        // Break if the string is empty
+                        /*  
+                            In case the file does not end in a line break, the last column of the last line
+                            will return an empty string, which would lead the program to attempt writting an
+                            extra value to the 'save_data' array beyond its allocated memory. This would
+                            happen because the program checks for a tabulation or line break in order to end
+                            parsing a cell.
+                            
+                            Adding this check for an empty string here seems simpler than reworking the
+                            entire file parsing system just for this case.
+                        */
+                        if (my_value[0] == '\0') break;
                         
                         // We are on the unit's column
                         if (column == unit_column)
@@ -275,7 +289,11 @@ int init_save()
         }
 
         // Break if the end of the file has been reached
-        if (feof(save_structure)) break;
+        if (feof(save_structure))
+        {
+            max_var = var;
+            break;
+        }
     }
 
     // Close the save structure file
@@ -303,7 +321,7 @@ void close_save()
     free(save_headers);
 
     // Values of the save structure
-    for (size_t var = 0; var < NUM_STORY_VARS; var++)
+    for (size_t var = 0; var <= max_var; var++)
     {
         free(save_data[var].location);
         free(save_data[var].name);
