@@ -323,6 +323,8 @@ void close_save()
     // Values of the save structure
     for (size_t var = 0; var <= max_var; var++)
     {
+        save_data[var].value = (size_t)0;
+        save_data[var].num_entries = (size_t)0;
         free(save_data[var].location);
         free(save_data[var].name);
         free(save_data[var].info);
