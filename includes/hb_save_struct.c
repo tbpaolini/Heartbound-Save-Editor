@@ -188,22 +188,28 @@ int init_save()
                         break;
                     
                     case 2:
-                        // Room/Object
+                        // Room/Object (where or for what the storyline variable applies to)
                         save_data[var].location = my_value;
                         break;
                     
                     case 3:
-                        // Description 1
+                        // Description 1 (name of the storyline variable)
                         save_data[var].name = my_value;
                         break;
                     
                     case 4:
-                        // Description 2
+                        // Description 2 (more detail about the storyline variable)
                         save_data[var].info = my_value;
                         break;
                     
                     case 5:
                         // Internal State Count
+                        /*
+                            This column stores all the possible states for the storyline variable.
+                            If the variable accepts some arbitrary number instead, then the value of this
+                            column is either '0|X' or 'X'. In that case, there will be no aliases for the
+                            values, just the measurement unit that the value represents (like seconds, tries..)
+                        */
                         if ( strcmp(my_value, "0|X") == 0 || strcmp(my_value, "X") == 0 )
                         {
                             // Storyline variable accepts any value
@@ -235,7 +241,24 @@ int init_save()
                         break;
                     
                     default:
-                        // Value of the storyline variable value
+                        // Storyline variable value
+                        /*
+                            The switch statement will end up on this clause, once it gets to the columns that
+                            store the possible values for the current variable.
+
+                            Among these columns, is the 'X' column that stores the measurement unit for the
+                            variables that accept any value (like elapsed time, number of tries, etc.)
+                            We will check if we are on the unit's column to add the unit's name to the
+                            appropriate place.
+                            
+                            The index where the values columns begin is on the 'COLUMN_OFFSET' macro. Each
+                            time the column counter is increased, the program checks if we are at that index.
+                            If it is, then the 'value_pos' variable is set to zero. That variable is used to
+                            keep track of the current index on the array of value's aliases.
+
+                            If we are not on the unit column, then the cell counts as a regular value for
+                            the storyline variable.
+                        */
 
                         // Break if the string is empty
                         /*  
