@@ -347,16 +347,17 @@ void close_save()
     }
     free(save_headers);
 
-    // Values of the save structure
+    // Deallocate the values of the save structure for each storyline variable
     for (size_t var = 0; var <= max_var; var++)
     {
-        save_data[var].value = (size_t)0;
-        save_data[var].num_entries = (size_t)0;
+        
+        // Deallocate the memory from the attributes
         free(save_data[var].location);
         free(save_data[var].name);
         free(save_data[var].info);
         free(save_data[var].unit);
 
+        // Deallocate the aliases array
         if (save_data[var].num_entries > 0)
         {
             for (size_t j = 0; j < save_data[var].num_entries; j++)
