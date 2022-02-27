@@ -271,7 +271,11 @@ int create_save_struct()
                             Adding this check for an empty string here seems simpler than reworking the
                             entire file parsing system just for this case.
                         */
-                        if (my_value[0] == '\0') break;
+                        if (my_value[0] == '\0')
+                        {
+                            free(my_value);
+                            break;
+                        }
                         
                         // We are on the unit's column
                         if (column == unit_column)
