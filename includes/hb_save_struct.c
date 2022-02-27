@@ -368,6 +368,10 @@ void close_save()
         // Deallocate the array of ValueAlias structs
         free(save_data[var].aliases);
         }
+        
+        // Set the statically allocated values to zero
+        save_data[var].value = (size_t)0;
+        save_data[var].num_entries = (size_t)0;
     }
 
     // Flag that the save structure is not parsed
