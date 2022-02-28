@@ -103,8 +103,7 @@ int create_save_struct()
         {
             value_buffer[value_pos] = '\0';                 // Terminate the string (null terminator)
             save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
-            strncpy(save_headers[column++], value_buffer,   // Copy the string from the buffer until the terminator (inclusive)
-                    TEXT_BUFFER_SIZE);
+            strcpy(save_headers[column++], value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
             if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
             value_pos = (size_t)0;                          // Return to the beginning of the value buffer
 
@@ -160,7 +159,7 @@ int create_save_struct()
                 // Parse the value of the column
                 value_buffer[value_pos] = '\0';
                 char *my_value = malloc( ++value_pos );
-                strncpy(my_value, value_buffer, TEXT_BUFFER_SIZE);
+                strcpy(my_value, value_buffer);
                 
                 // Store the corresponding column value on memory
                 switch (column)
