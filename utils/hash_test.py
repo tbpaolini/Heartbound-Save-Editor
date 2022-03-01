@@ -2,7 +2,7 @@ from collections import Counter
 from secrets import choice, randbelow
 from string import ascii_letters
 
-with open("save_structure.tsv", "rt") as file:
+with open("..\structure\save_structure.tsv", "rt") as file:
     file.readline()
     places = {line.split("\t")[2] for line in file}
 
