@@ -24,7 +24,7 @@ double hp_current, hp_maximum;  // Current and maximum hit points of the player
 
 // Which glyph sets the player know:
 // 0 = None; 1 = Lightbringer; 2 = Lightbringer and Darksider
-char known_glyphs;
+double known_glyphs;
 
 // Alias for the variable's values
 // (associate the variable value with its meaning)

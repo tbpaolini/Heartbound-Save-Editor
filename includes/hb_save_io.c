@@ -56,7 +56,7 @@ int read_save()
 
     // Known languages
     fgets(line, SAVE_LINE_BUFFER, save_file);
-    known_glyphs = line[0] - '0';
+    known_glyphs = atof(line);
 
     // Parse the storyline variables
     size_t var = 1;
