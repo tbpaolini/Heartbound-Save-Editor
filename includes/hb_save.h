@@ -10,6 +10,7 @@
 
 #include <hb_save_struct.c>     // Creation of the data structure for the save data
 #include <hb_save_io.c>         // Reading and saving to the save file
+#include <hb_room_mapping.c>    // Hashmaps for the game's rooms
 
 // Initialize the data structures and parse the save file
 void init_save()
