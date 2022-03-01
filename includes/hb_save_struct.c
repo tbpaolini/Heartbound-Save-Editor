@@ -11,7 +11,7 @@
 #define SAVE_STRUCT_LOC "lib\\save_structure.tsv"   // Path to the file with the save structure
 #define SEED_SIZE (size_t)11                        // Amount of characters (plus one) of the game seed string
 #define ROOM_NAME_SIZE (size_t) 50                  // Maximum amount of characters (plus one) for the room name string
-#define TEXT_BUFFER_SIZE (size_t)500                // Buffer size (in bytes) for each line of the structure file
+#define SAVE_STRUCT_BUFFER (size_t)500              // Buffer size (in bytes) for each line of the structure file
 #define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
 #define COLUMN_OFFSET (size_t)6                     // Amount of columns until the storyline variable values
 #define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
@@ -67,12 +67,12 @@ int create_save_struct()
     FILE *save_structure = fopen(SAVE_STRUCT_LOC, "r");
 
     // Buffer for reading the lines of the file
-    char *restrict line_buffer = malloc(TEXT_BUFFER_SIZE);
+    char *restrict line_buffer = malloc(SAVE_STRUCT_BUFFER);
 
     // Get the table header and amount of columns
-    fgets(line_buffer, TEXT_BUFFER_SIZE, save_structure);    // Read the first line
+    fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);    // Read the first line
     num_columns = 1;
-    for (size_t i = 0; i < TEXT_BUFFER_SIZE; i++)
+    for (size_t i = 0; i < SAVE_STRUCT_BUFFER; i++)
     {
         if (line_buffer[i] == '\t') {num_columns++;}
         else if (line_buffer[i] == '\n') {break;}
@@ -82,7 +82,7 @@ int create_save_struct()
 
     // Store the column names in an array
     save_headers = malloc(num_columns * sizeof(char*));                 // Allocate enough memory for one string pointer per column
-    char *restrict value_buffer = malloc(TEXT_BUFFER_SIZE + (size_t)1); // Buffer for the column value
+    char *restrict value_buffer = malloc(SAVE_STRUCT_BUFFER + (size_t)1); // Buffer for the column value
     
     size_t line_pos = (size_t)0;    // Current position of character on the line
     size_t value_pos = (size_t)0;   // Current position of character on the name of the current column
@@ -92,8 +92,8 @@ int create_save_struct()
     {
         // Check for buffer overflow
         if (column >= num_columns) break;           // Headers array
-        if (line_pos >= TEXT_BUFFER_SIZE) break;    // Line buffer
-        if (value_pos >= TEXT_BUFFER_SIZE) break;   // Value buffer
+        if (line_pos >= SAVE_STRUCT_BUFFER) break;    // Line buffer
+        if (value_pos >= SAVE_STRUCT_BUFFER) break;   // Value buffer
         
         // Add the current character to the name buffer and move to the next character
         value_buffer[value_pos++] = line_buffer[line_pos++];
@@ -116,7 +116,7 @@ int create_save_struct()
     
     for (size_t i = 0; i < 7; i++)
     {
-        fgets(line_buffer, TEXT_BUFFER_SIZE, save_structure);
+        fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);
     }
 
     // Read the structure of each storyline variable
@@ -124,7 +124,7 @@ int create_save_struct()
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         // Read the next line into the line buffer
-        fgets(line_buffer, TEXT_BUFFER_SIZE, save_structure);
+        fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);
 
         line_pos = (size_t)0;    // Current position of character on the line
         value_pos = (size_t)0;   // Current position of character on the value of the current column
@@ -133,7 +133,7 @@ int create_save_struct()
         while (line_buffer[line_pos] != '\n')
         {
             // Skip empty columns
-            while ( (line_buffer[line_pos] == '\t') && (line_pos < TEXT_BUFFER_SIZE) )
+            while ( (line_buffer[line_pos] == '\t') && (line_pos < SAVE_STRUCT_BUFFER) )
             {
                 column++;
                 line_pos++;
@@ -147,8 +147,8 @@ int create_save_struct()
             
             // Check for buffer overflow
             if (column >= num_columns) break;           // Headers array
-            if (line_pos >= TEXT_BUFFER_SIZE) break;    // Line buffer
-            if (value_pos >= TEXT_BUFFER_SIZE) break;   // Value buffer
+            if (line_pos >= SAVE_STRUCT_BUFFER) break;    // Line buffer
+            if (value_pos >= SAVE_STRUCT_BUFFER) break;   // Value buffer
 
             // Add the current character to the value buffer and move to the next character
             value_buffer[value_pos++] = line_buffer[line_pos++];
