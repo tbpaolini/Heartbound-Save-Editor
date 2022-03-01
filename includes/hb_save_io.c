@@ -73,4 +73,39 @@ int read_save()
     // TO DO: Error handling
 }
 
+// Save the contents back to the save file
+int write_save()
+{
+    // Open save file for writting
+    FILE *save_file = fopen(SAVE_PATH, "w");
+
+    // Game seed
+    fprintf_s(save_file, "%s \n", game_seed);
+
+    // Current room
+    fprintf_s(save_file, "%s \n", room_id);
+
+    // Coordinates on the room
+    fprintf_s(save_file, "%.0f \n", x_axis);
+    fprintf_s(save_file, "%.0f \n", y_axis);
+
+    // Hit points
+    fprintf_s(save_file, "%.0f \n", hp_current);
+    fprintf_s(save_file, "%.0f \n", hp_maximum);
+
+    // Known languages
+    fprintf_s(save_file, "%.0f \n", known_glyphs);
+
+    // Storyline variables
+    for (size_t i = 1; i < NUM_STORY_VARS; i++)
+    {
+        fprintf_s(save_file, "%.0f \n", save_data[i].value);
+    }
+    
+    // Close the save file
+    fclose(save_file);
+    return 0;
+    // TO DO: Error handling and back up of the original save file
+}
+
 #endif
