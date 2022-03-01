@@ -253,7 +253,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 252	245	Animus	Ramul knows our name		0|1	No	Yes										
 253	246	Animus	Ramul talked about our sweater		0|1	No	Yes										
 254	247	Turtlehome	Lightswitch State		0|1	Off	On										
-255	248	Breakroom 103	Red Papers Investigated		0|1|2	No	Yes	Completed									
+255	248	Breakroom103	Red Papers Investigated		0|1|2	No	Yes	Completed									
 256	249	Techies	Talked to shirt guy		0|1	No	Yes										
 257	250	Techies	Talked to hat guy		0|1	No	Yes										
 258	251	Molehome	Lightswitch State		0|1	Off	On										
@@ -315,7 +315,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 314	307	Dillohome	Emelio spawned at the Forge	Reality Path	0|1	NotYet	Spawned										
 315	308	Dilloyard	Terry Thankful Talk		0|1	NotYet	Finished										
 316	309	Animus	We know about Sunstones		0|1	NotYet	Yes										
-317	310	Ironmines2	Shortcut Question		0|1	NotYet	Yes										
+317	310	IronMines2	Shortcut Question		0|1	NotYet	Yes										
 318	311	DeerYard	Ant Conversation		0|X	NotYet										NumberOfConversations	
 319	312	DeerHome	Eggs Obtained		0|X	NotYet										NumberFound	
 320	313	DeerYard	Got mad at Fern?		0|1|2	NotYet	No	Yes									
