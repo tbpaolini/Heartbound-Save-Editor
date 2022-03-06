@@ -23,7 +23,7 @@ round_n = re.compile(r"R([1-3])_")
 
 # Loop through the file
 edited_lines = []
-with open("Save File Structure - 1.0.9.55.tsv", "rt") as file:
+with open("..\structure\Save File Structure - 1.0.9.55.tsv", "rt") as file:
     for line in file:
 
         # Change the header 'X (Count)' to just 'X'
