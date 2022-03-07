@@ -13,7 +13,7 @@ import keyboard     # Third party module: https://pypi.org/project/keyboard/
 from time import sleep
 
 SAVE_PATH = f"{os.getenv('LocalAppData')}\\Heartbound\\heartbound_save8.thor"
-OUTPUT_PATH = "..\structure\\room_coordinates.tsv"
+OUTPUT_PATH = "..\structure\\room_coordinates-raw.tsv"
 
 def parse_save():
 
