@@ -87,13 +87,13 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 86	79	INVENTORY	Chapter 1 Socks	Max 5													
 87	80	INVENTORY	Gizmo		0|1|2	NotFound	Taken	Left									
 88	81	Binder Booktrial 1	Event Executed														
-89	82	Possumhome	Initial Event Executed														
-90	83	Possumhome	Trash Inspected														
-91	84	Possumhome	Bed Status		0|1	Messy	Clean										
-92	85	Animus	Left Possumhome														
-93	86	Possumyard	Talked To Sapling														
+89	82	PossumHome	Initial Event Executed														
+90	83	PossumHome	Trash Inspected														
+91	84	PossumHome	Bed Status		0|1	Messy	Clean										
+92	85	Animus	Left PossumHome														
+93	86	PossumYard	Talked To Sapling														
 94	87	Corridor	Fought With Emelio														
-95	88	Frogpond	Found the secret path														
+95	88	FrogPond	Found the secret path														
 96	89	Animus	Time Frozen		0|1	No	Yes										
 97	90	Animus	Time Hour	Default 12, Max 23	0|23											Hour	
 98	91	Animus	Time Minute	Default 7, Max 59	0|59											Minute	
@@ -101,15 +101,15 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 100	93	Animus	Time Phase	Default 1	0|1|2|3	Morning	Day	Evening	Night								
 101	94	Animus	Time Color	Default 1	0|1|2|3	Morning	Day	Evening	Night								
 102	95	Animus	Time Days		0|X											Total number of days	
-103	96	Snakehome	Lightswitch State		0|1	Off	On										
-104	97	Possumyard	Plants 1		0|1	Nothing	Curious										
-105	98	Possumyard	Plants 2		0|1	Nothing	Curious										
-106	99	Possumyard	Plants 3		0|1	Nothing	Curious										
-107	100	Possumyard	Plants 4		0|1	Nothing	Curious										
-108	101	Possumyard	Plants 5		0|1	Nothing	Curious										
-109	102	Possumyard	Plants 6		0|1	Nothing	Curious										
-110	103	Possumyard	Plants 7		0|1	Nothing	Curious										
-111	104	Possumyard	Plants Complete		0|1	Nothing	Finished										
+103	96	SnakeHome	Lightswitch State		0|1	Off	On										
+104	97	PossumYard	Plants 1		0|1	Nothing	Curious										
+105	98	PossumYard	Plants 2		0|1	Nothing	Curious										
+106	99	PossumYard	Plants 3		0|1	Nothing	Curious										
+107	100	PossumYard	Plants 4		0|1	Nothing	Curious										
+108	101	PossumYard	Plants 5		0|1	Nothing	Curious										
+109	102	PossumYard	Plants 6		0|1	Nothing	Curious										
+110	103	PossumYard	Plants 7		0|1	Nothing	Curious										
+111	104	PossumYard	Plants Complete		0|1	Nothing	Finished										
 112	105	Possumstore	Shopkeep Event		0|1	Nothing	Finished										
 113	106	GLOBAL	Have we saved before?		0|1	NotSaved	Saved										
 114	107	GLOBAL	Hometown Fear	Max 5													
@@ -244,7 +244,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 243	236	Records	Read Dad's Information		0|1	No	Yes										
 244	237	INVENTORY	Sock Tower 4		0|1	Left	Taken										
 245	238	The Truth				No	Yes										
-246	239	Animus Full Time														Count	
+246	239	Animus	Full Time													Count	
 247	240	DEBUG	Early Access Cutscene		0|1	NotYet	Finished										
 248	241	NOT USED															
 249	242	Timeroom	Manipulator		0|1	No	Yes										
@@ -252,20 +252,20 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 251	244	Animus	Clothing when we first met Ramul		0|1|2	Not Yet	Pajama	Sweater									
 252	245	Animus	Ramul knows our name		0|1	No	Yes										
 253	246	Animus	Ramul talked about our sweater		0|1	No	Yes										
-254	247	Turtlehome	Lightswitch State		0|1	Off	On										
+254	247	TurtleHome	Lightswitch State		0|1	Off	On										
 255	248	Breakroom103	Red Papers Investigated		0|1|2	No	Yes	Completed									
 256	249	Techies	Talked to shirt guy		0|1	No	Yes										
 257	250	Techies	Talked to hat guy		0|1	No	Yes										
-258	251	Molehome	Lightswitch State		0|1	Off	On										
+258	251	MoleHome	Lightswitch State		0|1	Off	On										
 259	252	Techies	Ant chat		0|1	No	Yes										
-260	253	Molehome	Ant chat		0|1	No	Yes										
-261	254	Molehome	Frog chat		0|1	No	Yes										
-262	255	Molehome	Spider chat		0|1	No	Yes										
-263	256	Molehome	The Factus		0|1	Not Yet	Taken										
+260	253	MoleHome	Ant chat		0|1	No	Yes										
+261	254	MoleHome	Frog chat		0|1	No	Yes										
+262	255	MoleHome	Spider chat		0|1	No	Yes										
+263	256	MoleHome	The Factus		0|1	Not Yet	Taken										
 264	257	INVENTORY	Gadget		0|1|2	NotFound	Taken	Left									
 265	258	Bedhead	Phone Step		X											Phone Conversation	
-266	259	Molehome	Salamander food chat		0|1	No	Yes										
-267	260	Molehome	Bed Crime Level		0|1|2|3|4|5	No	Angry	Double Angry	Kicked Out	Banned	Unbanned						
+266	259	MoleHome	Salamander food chat		0|1	No	Yes										
+267	260	MoleHome	Bed Crime Level		0|1|2|3|4|5	No	Angry	Double Angry	Kicked Out	Banned	Unbanned						
 268	261	Nekane	Entrance Event		0|1	No	Yes										
 269	262	Nekane	Beard Mirror		0|1	No	Yes										
 270	263	Nekane	Clock		0|1	No	Yes										
@@ -276,14 +276,14 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 275	268	Nekane	Potion Stolen		0|1|2|3|4	No	Left	Middle	Right	Never							
 276	269	Nekane	Houseplant		0|1	No	Yes										
 277	270	Nekane	Wrong Side		0|1	No	Yes										
-278	271	Molehome	Worm Tank		0|1	No	Yes										
-279	272	Dillohome	Lightswitch State		0|1	Off	On										
-280	273	Molehome	Snakesock Tank		0|1|2	No	Yes	Complete									
+278	271	MoleHome	Worm Tank		0|1	No	Yes										
+279	272	DilloHome	Lightswitch State		0|1	Off	On										
+280	273	MoleHome	Snakesock Tank		0|1|2	No	Yes	Complete									
 281	274	INVENTORY	Snakewarmer		0|1|2	No	Yes	Used									
 282	275	INVENTORY	Sock Animus 1		0|1	Left	Taken										
 283	276	Terminated	Nekane Unlocked		0|1	No	Yes										
 284	277	INVENTORY	Pocketwatch		0|1|2	NotFound	Found	NotWithUs									
-285	278	Dillohomedark	Hurt Emelio?		0|1|2	NotYet	No	Yes									
+285	278	DilloHomeDark	Hurt Emelio?		0|1|2	NotYet	No	Yes									
 286	279	Animus	Basil Secret Found		0|1	NotFound	Found										
 287	280	GLOBAL	Hit In Combat														
 288	281	Lake	Beetle 1		0|1	Not Taken	Taken										
@@ -311,9 +311,9 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 310	303	Animus	Village State		0|1|2|3|4|5|100	Dillo	DilloFinished	Deer	Forest	Mole	Turtle						FullyUnlocked
 311	304	IronMines	Help Emelio?		0|1|2|3	NotYet	Yes	No	No								
 312	305	Animus	Twins Emelio Judgement		0|1|2	NotYet	Positive	Negative									
-313	306	Dilloyard	Terry Sad Talk		0|1|2	NotYet	Once	Finished									
-314	307	Dillohome	Emelio spawned at the Forge	Reality Path	0|1	NotYet	Spawned										
-315	308	Dilloyard	Terry Thankful Talk		0|1	NotYet	Finished										
+313	306	DilloYard	Terry Sad Talk		0|1|2	NotYet	Once	Finished									
+314	307	DilloHome	Emelio spawned at the Forge	Reality Path	0|1	NotYet	Spawned										
+315	308	DilloYard	Terry Thankful Talk		0|1	NotYet	Finished										
 316	309	Animus	We know about Sunstones		0|1	NotYet	Yes										
 317	310	IronMines2	Shortcut Question		0|1	NotYet	Yes										
 318	311	DeerYard	Ant Conversation		0|X	NotYet										NumberOfConversations	
@@ -326,8 +326,8 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 325	318	INVENTORY	Mining Pickaxe		0|1	Nothing	Have										
 326	319	IronMines	Destroy Whale?		0|1|2|3	NotYet	No	Yes	Ignored								
 327	320	IronMines	Emelio Dialog Step		0|1	NotTalked	Talked										
-328	321	Dillohome	Talked To Emelio In Bed		0|1	NotTalked	Talked										
-329	322	Dillohome	Mining Tools		0|1	OnTheWall	Missing										
+328	321	DilloHome	Talked To Emelio In Bed		0|1	NotTalked	Talked										
+329	322	DilloHome	Mining Tools		0|1	OnTheWall	Missing										
 330	323	IronMines	Spoke to Emelio from behind		0|1	NotYet	Yes										
 331	324	IronMines	Mindworms		0|X	Nothing										NumberOfWorms	
 332	325	IronMines	Harvest Sunstone?		0|1	NotYet	Finished										
@@ -380,7 +380,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 379	372	Lake	Time Before Pier		0|X	NotYet										TimeInSeconds	
 380	373	Lake	Pier Cutscene		0|1	NotYet	Finished										
 381	374	Lake	Avocado Pier Mood		0|1|2	NotYet	Happy	Sad									
-382	375	Dillojudge	Do we know who we are?		0|1|2	NotYet	Yes	No									
+382	375	DilloJudge	Do we know who we are?		0|1|2	NotYet	Yes	No									
 383	376	Judgement	Corruption Level		0|X	NotYet										CorruptionLevel	
 384	377	INVENTORY	Fishing Rod		0|1	NotYet	Have										
 385	378	Lake	Gave Avocado Advice		0|1	NotYet	GaveAdvice										
