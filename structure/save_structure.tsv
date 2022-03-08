@@ -389,7 +389,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 388	381	Rhode Judge	Kill or Don't		0|1|2	Not Yet	Killed	Not Killed									
 389	382	Rhode Judge	Number of Killing Blows		0|X	Not Yet	Number Of Blows										
 390	383	Rhode Judge	Moved In Combat		0|1	Not Moved	Moved										
-391	384	Global	Lores Polarity		0|1	Positive	Negative										
+391	384	GLOBAL	Lores Polarity		0|1	Positive	Negative										
 392	385	Rhode Judge	Destroyed The Crown?		0|1|2	Not Yet	Destroyed	Ignored									
 393	386	Barghest 2	Won or Lost?		0|1|2	No	Won	Lost									
 394	387	Rhode Game	What does Rhode call eggs?		0|1	Food Pods	Egg Pods										
