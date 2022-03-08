@@ -1,172 +1,172 @@
-Room	x-axis	y-axis
-ARENA_TESTER	320	180
-DIALOG_TESTER	320	180
-PHYSICS_TESTER	320	180
-animus_basil	316	299
-animus_bearyard	288	656
-animus_clockyard	50	300
-animus_corridor	290	40
-animus_crossroads_1	310	35
-animus_crossroads_2	340	305
-animus_crossroadsfull	324	164
-animus_deerbridge	1536	168
-animus_deercorridor	289	585
-animus_deerfield	320	305
-animus_deerforest	606	202
-animus_deerhome	320	295
-animus_deeriron	926	140
-animus_deersecret	606	155
-animus_deeryard_1	600	385
-animus_deeryard_2	250	210
-animus_deeryard_full	34	354
-animus_deeryard_sad	34	354
-animus_dillocross_1	737	60
-animus_dillocross_full	618	165
-animus_dillohome	260	300
-animus_dilloyard_1	580	260
-animus_dilloyard_full	320	90
-animus_dilloyard_sad	50	165
-animus_disclaimer	344	155
-animus_dream	320	270
-animus_earlyaccess	977	431
-animus_froghome	317	181
-animus_frogpond	510	315
-animus_irondoor	320	260
-animus_ironmines1	608	985
-animus_ironmines2	466	770
-animus_ironyard_1	580	427
-animus_ironyard_full	320	130
-animus_lake_1	43	503
-animus_lake_full	43	503
-animus_molehome	318	295
-animus_moleyard	350	309
-animus_moleyard_sad	606	160
-animus_possumhome	209	160
-animus_possumshame	315	160
-animus_possumstore	318	290
-animus_possumyard	584	552
-animus_rabbithome1	130	185
-animus_rabbithome2	320	280
-animus_rhodefield	320	180
-animus_rhodegame	319	279
-animus_ruins_1	166	120
-animus_ruins_full	166	120
-animus_ruins_sad	166	120
-animus_runetrial1	321	1450
-animus_runetrial2	311	268
-animus_runetrial3	325	145
-animus_runetrial4	300	160
-animus_runeward	310	315
-animus_snabityard	70	306
-animus_snakehome	320	295
-animus_thanks	977	431
-animus_turtlefarm_1	76	379
-animus_turtlefarm_full	962	381
-animus_turtlehome	224	290
-animus_vaporcave	320	150
-binder_bookdream	320	190
-binder_bookhome	320	584
-binder_booktrial1	320	250
-binder_booktrial2	320	244
-binder_booktrial3	320	244
-binder_booktrial4	320	729
-binder_secret	595	281
-credits_animus	32	-16
-credits_hometown	32	-16
-credits_muspelheim	32	-16
-credits_niflheim	32	-16
-credits_tower	32	-16
-darkworld_barghest2	320	1420
-darkworld_deerjudge	319	1274
-darkworld_dillohomedark	527	223
-darkworld_dillojudge	319	1274
-darkworld_falsepath	337	154
-darkworld_falsestart	411	196
-darkworld_finaljudge	319	1628
-darkworld_lossdream	320	270
-darkworld_molejudge	319	1274
-darkworld_portals	320	270
-darkworld_portals	320	270
-darkworld_rhodejudge	319	1274
-darkworld_timeroom	320	224
-darkworld_windream	320	270
-death_barghest	320	270
-endgame_bookbind	354	155
-endgame_bookbind	354	155
-floor0_hr	48	248
-floor0_records	640	56
-floor0_stairwell	447	226
-floor0_storage	592	248
-floor1_boardroom	45	213
-floor1_cafeteria	979	202
-floor1_closet	320	310
-floor1_elevator	399	153
-floor1_lobby	303	310
-floor1_mailhall	367	55
-floor1_mailshroom	544	55
-floor1_mailturn	45	176
-floor1_servers	590	244
-floor1_sidewalk	45	234
-floor1_techies	750	1688
-floor1_techserv	590	175
-floor1_void	319	1276
-floor2_cafe	595	185
-floor2_gym	45	215
-floor2_lobby	320	310
-floor2_midcafe	595	215
-floor2_middle	751	1402
-floor2_midgym	45	215
-floor2_midpool	45	215
-floor2_noir	320	260
-floor2_pool	45	215
-floor3_boss	320	180
-floor3_boss1	320	270
-floor3_boss2	320	270
-floor3_boss3	320	270
-floor3_boss4	320	270
-floor3_bossloss	320	270
-floor3_bosswin	320	270
-floor3_corridor	320	1750
-floor3_memory1	320	270
-floor3_memory2	320	270
-floor3_memory3	320	270
-floor3_memory4	320	270
-floor3_memory5	320	270
-floor3_nekane	320	250
-floor3_terminated	320	250
-forest_barghest1	320	360
-forest_darkbough	320	757
-forest_forestdream	320	360
-forest_treepuzzle	61	315
-global_bedhead	411	196
-global_worldfall	320	270
-global_worldpath	320	270
-home_bedroom	411	196
-home_dream	411	182
-home_hallway	128	250
-home_kitchen	318	260
-home_livingroom	434	200
-home_yard	380	404
-joe_regular	348	155
-menu_controls	32	-16
-menu_credits	32	-16
-menu_language	32	-16
-menu_logo	32	-16
-menu_main	32	-16
-menu_preload	32	-16
-muspelheim_firedoors	318	621
-muspelheim_firefall	320	900
-muspelheim_firepipes	305	935
-muspelheim_thanks	380	179.271
-muspelheim_throne	320	180
-niflheim_frostdoors	319	621
-niflheim_frostfall	320	900
-niflheim_frostpipes	300	958
-niflheim_thanks	323	179.861
-niflheim_throne	320	180
-office_breakroom103	359	220
-office_corridor103	320	650
-office_darkworld103	575	1156
-office_thanks	320	270
-tower_resolution	320	270
-utility_thanks	977	431
+Index	Room	x-axis	y-axis
+0	ARENA_TESTER	320	180
+1	DIALOG_TESTER	320	180
+2	PHYSICS_TESTER	320	180
+3	animus_basil	316	299
+4	animus_bearyard	288	656
+5	animus_clockyard	50	300
+6	animus_corridor	290	40
+7	animus_crossroads_1	310	35
+8	animus_crossroads_2	340	305
+9	animus_crossroadsfull	324	164
+10	animus_deerbridge	1536	168
+11	animus_deercorridor	289	585
+12	animus_deerfield	320	305
+13	animus_deerforest	606	202
+14	animus_deerhome	320	295
+15	animus_deeriron	926	140
+16	animus_deersecret	606	155
+17	animus_deeryard_1	600	385
+18	animus_deeryard_2	250	210
+19	animus_deeryard_full	34	354
+20	animus_deeryard_sad	34	354
+21	animus_dillocross_1	737	60
+22	animus_dillocross_full	618	165
+23	animus_dillohome	260	300
+24	animus_dilloyard_1	580	260
+25	animus_dilloyard_full	320	90
+26	animus_dilloyard_sad	50	165
+27	animus_disclaimer	344	155
+28	animus_dream	320	270
+29	animus_earlyaccess	977	431
+30	animus_froghome	317	181
+31	animus_frogpond	510	315
+32	animus_irondoor	320	260
+33	animus_ironmines1	608	985
+34	animus_ironmines2	466	770
+35	animus_ironyard_1	580	427
+36	animus_ironyard_full	320	130
+37	animus_lake_1	43	503
+38	animus_lake_full	43	503
+39	animus_molehome	318	295
+40	animus_moleyard	350	309
+41	animus_moleyard_sad	606	160
+42	animus_possumhome	209	160
+43	animus_possumshame	315	160
+44	animus_possumstore	318	290
+45	animus_possumyard	584	552
+46	animus_rabbithome1	130	185
+47	animus_rabbithome2	320	280
+48	animus_rhodefield	320	180
+49	animus_rhodegame	319	279
+50	animus_ruins_1	166	120
+51	animus_ruins_full	166	120
+52	animus_ruins_sad	166	120
+53	animus_runetrial1	321	1450
+54	animus_runetrial2	311	268
+55	animus_runetrial3	325	145
+56	animus_runetrial4	300	160
+57	animus_runeward	310	315
+58	animus_snabityard	70	306
+59	animus_snakehome	320	295
+60	animus_thanks	977	431
+61	animus_turtlefarm_1	76	379
+62	animus_turtlefarm_full	962	381
+63	animus_turtlehome	224	290
+64	animus_vaporcave	320	150
+65	binder_bookdream	320	190
+66	binder_bookhome	320	584
+67	binder_booktrial1	320	250
+68	binder_booktrial2	320	244
+69	binder_booktrial3	320	244
+70	binder_booktrial4	320	729
+71	binder_secret	595	281
+72	credits_animus	32	-16
+73	credits_hometown	32	-16
+74	credits_muspelheim	32	-16
+75	credits_niflheim	32	-16
+76	credits_tower	32	-16
+77	darkworld_barghest2	320	1420
+78	darkworld_deerjudge	319	1274
+79	darkworld_dillohomedark	527	223
+80	darkworld_dillojudge	319	1274
+81	darkworld_falsepath	337	154
+82	darkworld_falsestart	411	196
+83	darkworld_finaljudge	319	1628
+84	darkworld_lossdream	320	270
+85	darkworld_molejudge	319	1274
+86	darkworld_portals	320	270
+87	darkworld_portals	320	270
+88	darkworld_rhodejudge	319	1274
+89	darkworld_timeroom	320	224
+90	darkworld_windream	320	270
+91	death_barghest	320	270
+92	endgame_bookbind	354	155
+93	endgame_bookbind	354	155
+94	floor0_hr	48	248
+95	floor0_records	640	56
+96	floor0_stairwell	447	226
+97	floor0_storage	592	248
+98	floor1_boardroom	45	213
+99	floor1_cafeteria	979	202
+100	floor1_closet	320	310
+101	floor1_elevator	399	153
+102	floor1_lobby	303	310
+103	floor1_mailhall	367	55
+104	floor1_mailshroom	544	55
+105	floor1_mailturn	45	176
+106	floor1_servers	590	244
+107	floor1_sidewalk	45	234
+108	floor1_techies	750	1688
+109	floor1_techserv	590	175
+110	floor1_void	319	1276
+111	floor2_cafe	595	185
+112	floor2_gym	45	215
+113	floor2_lobby	320	310
+114	floor2_midcafe	595	215
+115	floor2_middle	751	1402
+116	floor2_midgym	45	215
+117	floor2_midpool	45	215
+118	floor2_noir	320	260
+119	floor2_pool	45	215
+120	floor3_boss	320	180
+121	floor3_boss1	320	270
+122	floor3_boss2	320	270
+123	floor3_boss3	320	270
+124	floor3_boss4	320	270
+125	floor3_bossloss	320	270
+126	floor3_bosswin	320	270
+127	floor3_corridor	320	1750
+128	floor3_memory1	320	270
+129	floor3_memory2	320	270
+130	floor3_memory3	320	270
+131	floor3_memory4	320	270
+132	floor3_memory5	320	270
+133	floor3_nekane	320	250
+134	floor3_terminated	320	250
+135	forest_barghest1	320	360
+136	forest_darkbough	320	757
+137	forest_forestdream	320	360
+138	forest_treepuzzle	61	315
+139	global_bedhead	411	196
+140	global_worldfall	320	270
+141	global_worldpath	320	270
+142	home_bedroom	411	196
+143	home_dream	411	182
+144	home_hallway	128	250
+145	home_kitchen	318	260
+146	home_livingroom	434	200
+147	home_yard	380	404
+148	joe_regular	348	155
+149	menu_controls	32	-16
+150	menu_credits	32	-16
+151	menu_language	32	-16
+152	menu_logo	32	-16
+153	menu_main	32	-16
+154	menu_preload	32	-16
+155	muspelheim_firedoors	318	621
+156	muspelheim_firefall	320	900
+157	muspelheim_firepipes	305	935
+158	muspelheim_thanks	380	179.271
+159	muspelheim_throne	320	180
+160	niflheim_frostdoors	319	621
+161	niflheim_frostfall	320	900
+162	niflheim_frostpipes	300	958
+163	niflheim_thanks	323	179.861
+164	niflheim_throne	320	180
+165	office_breakroom103	359	220
+166	office_corridor103	320	650
+167	office_darkworld103	575	1156
+168	office_thanks	320	270
+169	tower_resolution	320	270
+170	utility_thanks	977	431
