@@ -11,6 +11,35 @@
 #include <string.h>
 #include <hb_save_struct.c>
 
+#define ROOM_LIST_MAX_SIZE (size_t)1000
+#define PLACE_LIST_MAX_SIZE (size_t)500
+
+// List of all rooms in the game and their repective coordinates where the player spawns
+typedef struct
+{
+    char name[ROOM_NAME_SIZE];  // ID of the room
+    double x;                   // x-axis coordinate
+    double y;                   // y-axis coordinate
+    HeartboundRoom *_next;      // Next entry on the linked list (for when there is a collision on the hashmap)
+} HeartboundRoom;
+
+room_list[ROOM_LIST_MAX_SIZE];
+
+// List of Room/Objects and their respective worlds
+typedef struct
+{
+    char name[ROOM_NAME_SIZE];  // Value of the Room/Object column of the save structure file
+    uint8_t world;              // Number of the world (0 - Global | 1 - Hometown | 2 - The Tower | 3 - Animus | 4 - Jotunheim | 5 - End)
+    HeartboundPlace *_next;     // Next entry on the linked list (for when there is a collision on the hashmap)
+} HeartboundPlace;
+
+HeartboundPlace place_list[PLACE_LIST_MAX_SIZE];
+
+
+// ********************************************************************
+// Hashmap for retrieving the values from the lists of rooms and places
+// ********************************************************************
+
 // Bit-mask for obtaining the most significant bit of a 32-bit unsigned integer
 static const uint32_t MASK = (1 << 31);
 
