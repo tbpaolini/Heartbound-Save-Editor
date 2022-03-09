@@ -110,7 +110,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 109	102	PossumYard	Plants 6		0|1	Nothing	Curious										
 110	103	PossumYard	Plants 7		0|1	Nothing	Curious										
 111	104	PossumYard	Plants Complete		0|1	Nothing	Finished										
-112	105	Possumstore	Shopkeep Event		0|1	Nothing	Finished										
+112	105	PossumStore	Shopkeep Event		0|1	Nothing	Finished										
 113	106	GLOBAL	Have we saved before?		0|1	NotSaved	Saved										
 114	107	GLOBAL	Hometown Fear	Max 5													
 115	108	GLOBAL	Hometown Curiosity	Max 11													
