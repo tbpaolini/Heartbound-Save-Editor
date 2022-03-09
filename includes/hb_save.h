@@ -30,4 +30,11 @@ void close_save()
     unmap_rooms_places();
 }
 
+// Free the memory allocated by the functions on 'open_save()'
+void close_save()
+{
+    destroy_save_struct();
+    unmap_rooms_places();
+}
+
 #endif
