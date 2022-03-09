@@ -21,14 +21,19 @@ main (int    argc,
       char **argv)
 {
   chdir("C:\\Users\\Tiago\\Desktop\\C\\Projetos\\Heartbound Save Editor\\release");
-  // LARGE_INTEGER start, end, freq;
-  // QueryPerformanceFrequency(&freq);
-  // QueryPerformanceCounter(&start);
-  open_save();
-  // QueryPerformanceCounter(&end);
-  // LONGLONG total = end.QuadPart - start.QuadPart;
-  // printf("%d", total);
-  close_save();
+  // LONGLONG r = LONG_LONG_MAX;
+  // for (size_t i = 0; i < 10000; i++)
+  // {
+  //   LARGE_INTEGER start, end, freq;
+  //   QueryPerformanceFrequency(&freq);
+  //   QueryPerformanceCounter(&start);
+    open_save();
+    // QueryPerformanceCounter(&end);
+    // LONGLONG total = end.QuadPart - start.QuadPart;
+    // r = (total < r) ? total : r;
+    close_save();
+  // }
+  // printf("%d", r);
 
   GtkApplication *app;
   int status;
