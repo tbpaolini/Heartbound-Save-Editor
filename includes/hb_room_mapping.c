@@ -84,7 +84,7 @@ static uint32_t hash(char *key, uint32_t slots)
 #undef MSB32
 
 // Count the number of entries in the Room/Place files
-static size_t count_entries(FILE *my_file, char *buffer, size_t buffer_size, size_t max_entries)
+static size_t count_entries(FILE *my_file, size_t max_entries)
 {
     // Get the current position at the file
     fpos_t init_pos;
@@ -92,9 +92,6 @@ static size_t count_entries(FILE *my_file, char *buffer, size_t buffer_size, siz
 
     // Return back to the beginning of the file
     rewind(my_file);
-    
-    // Skip the header line
-    fgets(buffer, buffer_size, my_file);
 
     // Count the number of rooms
     size_t amount = 0;
@@ -108,8 +105,8 @@ static size_t count_entries(FILE *my_file, char *buffer, size_t buffer_size, siz
     // Return back to the initial position on the file
     fsetpos(my_file, &init_pos);
 
-    // Return the amount of entries
-    return amount;
+    // Return the amount of entries (not considering the header line)
+    return amount - 1;
 
     /* NOTE:
         Since the function counts both the newline character and the end of file,
@@ -126,7 +123,7 @@ static size_t count_entries(FILE *my_file, char *buffer, size_t buffer_size, siz
 // Parse the rooms/places files and build the lookup tables and hashmaps
 static void parse_rooms_places()
 {
-    char *read_buffer = malloc(READ_BUFFER_SIZE);  // Bufer for reading the lines of each file
+    char *restrict read_buffer = malloc(READ_BUFFER_SIZE);  // Bufer for reading the lines of each file
     size_t list_index;      // Current index on the lookup table
     uint32_t map_index;     // Current index on the hashmap
     char *token;            // Value of the current column on the current line
@@ -137,7 +134,7 @@ static void parse_rooms_places()
     FILE *rooms_file = fopen(ROOMS_FILE_PATH, "rt");
 
     // Count the number of rooms in the file
-    rooms_amount = count_entries(rooms_file, read_buffer, READ_BUFFER_SIZE, MAX_ROOM_AMOUNT);
+    rooms_amount = count_entries(rooms_file, MAX_ROOM_AMOUNT);
     room_list = calloc( rooms_amount, sizeof(HeartboundRoom) );
     
     // Skip the header line
@@ -215,7 +212,7 @@ static void parse_rooms_places()
     FILE *places_file = fopen(PLACES_FILE_PATH, "rt");
 
     // Count the number of places in the file
-    places_amount = count_entries(places_file, read_buffer, READ_BUFFER_SIZE, MAX_PLACE_AMOUNT);
+    places_amount = count_entries(places_file, MAX_PLACE_AMOUNT);
     place_list = calloc( places_amount, sizeof(HeartboundPlace) );
     
     // Skip the header line
