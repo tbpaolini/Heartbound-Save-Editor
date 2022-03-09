@@ -292,13 +292,43 @@ static void parse_rooms_places()
 // Retrieve a room struct from its name
 HeartboundRoom* get_room(char *name)
 {
+    // Calculate the index on the hashmap
+    uint32_t map_index = hash(name, ROOM_MAP_SIZE);
+    HeartboundRoom *room_ptr = room_map[map_index];
 
+    // If there is nothing on that index, return NULL
+    if (room_ptr == NULL) return NULL;
+
+    // Loop through all elements on that index until one matches the name
+    while ( strncmp(name, room_ptr->name, ROOM_NAME_SIZE) != 0 )
+    {
+        room_ptr = room_ptr->_next;         // Go to the next element on the linked list
+        if (room_ptr == NULL) return NULL;  // Return NULL if there is no next element
+    }
+
+    // Return the pointer to the struct if a match was found
+    return room_ptr;
 }
 
 // Retrieve a place struct from its name
-HeartboundRoom* get_place(char *name)
+HeartboundPlace* get_place(char *name)
 {
+    // Calculate the index on the hashmap
+    uint32_t map_index = hash(name, PLACE_MAP_SIZE);
+    HeartboundPlace *place_ptr = place_map[map_index];
 
+    // If there is nothing on that index, return NULL
+    if (place_ptr == NULL) return NULL;
+
+    // Loop through all elements on that index until one matches the name
+    while ( strncmp(name, place_ptr->name, ROOM_NAME_SIZE) != 0 )
+    {
+        place_ptr = place_ptr->_next;         // Go to the next element on the linked list
+        if (place_ptr == NULL) return NULL;  // Return NULL if there is no next element
+    }
+
+    // Return the pointer to the struct if a match was found
+    return place_ptr;
 }
 
 void unmap_rooms_places()
