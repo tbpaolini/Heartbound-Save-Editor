@@ -331,6 +331,7 @@ HeartboundPlace* get_place(char *name)
     return place_ptr;
 }
 
+// Free the memory used by the Places and Rooms list
 void unmap_rooms_places()
 {
     free(room_list);

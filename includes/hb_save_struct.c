@@ -338,7 +338,7 @@ int create_save_struct()
 }
 
 // Free the used memory by the save data structure
-void close_save()
+void destroy_save_struct()
 {
     // Names of the columns of the save structure
     for (size_t i = 0; i < num_columns; i++)
