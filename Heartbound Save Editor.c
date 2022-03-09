@@ -25,6 +25,7 @@ main (int    argc,
   // QueryPerformanceFrequency(&freq);
   // QueryPerformanceCounter(&start);
   init_save();
+  parse_rooms_places();
   // QueryPerformanceCounter(&end);
   // LONGLONG total = end.QuadPart - start.QuadPart;
   // printf("%d", total);
