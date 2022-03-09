@@ -324,7 +324,7 @@ HeartboundPlace* get_place(char *name)
     while ( strncmp(name, place_ptr->name, ROOM_NAME_SIZE) != 0 )
     {
         place_ptr = place_ptr->_next;         // Go to the next element on the linked list
-        if (place_ptr == NULL) return NULL;  // Return NULL if there is no next element
+        if (place_ptr == NULL) return NULL;   // Return NULL if there is no next element
     }
 
     // Return the pointer to the struct if a match was found
