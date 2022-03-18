@@ -26,7 +26,7 @@ typedef struct HeartboundRoom
     char name[ROOM_NAME_SIZE];      // ID of the room
     double x;                       // x-axis coordinate
     double y;                       // y-axis coordinate
-    struct HeartboundRoom *_next;   // Next entry on the linked list (for when there is a collision on the hashmap)
+    struct HeartboundRoom *next;   // Next entry on the linked list (for when there is a collision on the hashmap)
 } HeartboundRoom;
 
 HeartboundRoom* room_list;                  // Lookup table for the rooms
@@ -38,7 +38,7 @@ typedef struct HeartboundPlace
 {
     char name[ROOM_NAME_SIZE];      // Value of the Room/Object column of the save structure file
     uint8_t world;                  // Number of the world (0 - Global | 1 - Hometown | 2 - The Tower | 3 - Animus | 4 - Jotunheim | 5 - End)
-    struct HeartboundPlace *_next;  // Next entry on the linked list (for when there is a collision on the hashmap)
+    struct HeartboundPlace *next;  // Next entry on the linked list (for when there is a collision on the hashmap)
 } HeartboundPlace;
 
 HeartboundPlace* place_list;                    // Lookup table for the rooms
@@ -175,7 +175,7 @@ static void parse_rooms_places()
         room_list[list_index].y = atof(token);
 
         // Pointer to the next element on the hashmap (in case a collision happens)
-        room_list[list_index]._next = NULL;
+        room_list[list_index].next = NULL;
         
         // Add the new room to the hashmap
         map_index = hash(room_list[list_index].name, ROOM_MAP_SIZE);
@@ -190,13 +190,13 @@ static void parse_rooms_places()
             HeartboundRoom *room_ptr = room_map[map_index];
             
             // Navigate through the linked list until the last element
-            while (room_ptr->_next != NULL)
+            while (room_ptr->next != NULL)
             {
-                room_ptr = room_ptr->_next;
+                room_ptr = room_ptr->next;
             }
 
             // Add the new room to the end of the linked list
-            room_ptr->_next = &(room_list[list_index]);
+            room_ptr->next = &(room_list[list_index]);
         }
 
         // Move to the next index
@@ -251,7 +251,7 @@ static void parse_rooms_places()
         place_list[list_index].world = atoi(token);
 
         // Pointer to the next element on the hashmap (in case a collision happens)
-        place_list[list_index]._next = NULL;
+        place_list[list_index].next = NULL;
 
         // Add the new place to the hashmap
         map_index = hash(place_list[list_index].name, PLACE_MAP_SIZE);
@@ -266,13 +266,13 @@ static void parse_rooms_places()
             HeartboundPlace *place_ptr = place_map[map_index];
             
             // Navigate through the linked list until the last element
-            while (place_ptr->_next != NULL)
+            while (place_ptr->next != NULL)
             {
-                place_ptr = place_ptr->_next;
+                place_ptr = place_ptr->next;
             }
 
             // Add the new place to the end of the linked list
-            place_ptr->_next = &(place_list[list_index]);
+            place_ptr->next = &(place_list[list_index]);
         }
 
         // Move to the next index
@@ -299,7 +299,7 @@ HeartboundRoom* get_room(char *name)
     // Loop through all elements on that index until one matches the name
     while ( strncmp(name, room_ptr->name, ROOM_NAME_SIZE) != 0 )
     {
-        room_ptr = room_ptr->_next;         // Go to the next element on the linked list
+        room_ptr = room_ptr->next;         // Go to the next element on the linked list
         if (room_ptr == NULL) return NULL;  // Return NULL if there is no next element
     }
 
@@ -320,7 +320,7 @@ HeartboundPlace* get_place(char *name)
     // Loop through all elements on that index until one matches the name
     while ( strncmp(name, place_ptr->name, ROOM_NAME_SIZE) != 0 )
     {
-        place_ptr = place_ptr->_next;         // Go to the next element on the linked list
+        place_ptr = place_ptr->next;         // Go to the next element on the linked list
         if (place_ptr == NULL) return NULL;   // Return NULL if there is no next element
     }
 
