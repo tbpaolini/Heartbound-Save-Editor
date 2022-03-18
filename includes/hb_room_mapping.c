@@ -20,6 +20,9 @@
 #define MAX_PLACE_AMOUNT (size_t)1000                   // Maximum number of places the Places File can have
 static const size_t READ_BUFFER_SIZE = 100;             // Maximum number of characters per line
 
+#define CHAPTER_AMOUNT 6
+char *chapter[CHAPTER_AMOUNT] = {"Global", "Hometown", "The Tower", "Animus", "Jotunheim", "REDACTED"};
+
 // List of all rooms in the game and their repective coordinates where the player spawns
 typedef struct HeartboundRoom
 {
