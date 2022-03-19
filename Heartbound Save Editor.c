@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <gtk\gtk.h>
 #include <unistd.h>
 #include <hb_save.h>
@@ -10,7 +11,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     
     // Create the application window
     window = gtk_application_window_new(app);
-    gtk_window_set_icon_from_file(GTK_WINDOW(window), "lib\\icon.png", NULL);
+    gtk_window_set_icon_from_file(GTK_WINDOW(window), "..\\lib\\icon.png", NULL);
     gtk_window_set_title( GTK_WINDOW(window), "Heartbound Save Editor" );
     gtk_window_set_default_size( GTK_WINDOW(window), 720, 540 );
     gtk_container_set_border_width(GTK_CONTAINER(window), 10);
@@ -38,9 +39,26 @@ static void activate( GtkApplication* app, gpointer user_data )
 
 int main ( int argc, char **argv )
 {
-    chdir("C:\\Users\\Tiago\\Desktop\\C\\Projetos\\Heartbound Save Editor\\release");
+    // Find the directory of our executable
+    size_t path_len = strnlen_s(argv[0], 1024);  // Length of the program's path
+    size_t path_pos = 0;
+    for (size_t i = path_len - 1; i >= 0; i--)
+    {
+        // Move backwards from the end of the path until a backslash or slash character is found
+        if ( (argv[0][i] == '\\') || (argv[0][i] == '/') )
+        {
+            path_pos = i;   // The position on the string where the program's directory ends
+            break;
+        }
+    }
+
+    // Change the current working directory to the executable directory
+    char *path_dir = calloc(path_pos + 1, sizeof(char));
+    memcpy(path_dir, argv[0], path_pos);
+    chdir(path_dir);
+    free(path_dir);
+
     open_save();
-    close_save();
 
     GtkApplication *app;
     int status;
@@ -49,6 +67,7 @@ int main ( int argc, char **argv )
     g_signal_connect( app, "activate", G_CALLBACK(activate), NULL );
     status = g_application_run( G_APPLICATION(app), argc, argv );
     g_object_unref(app);
+    close_save();
 
     return status;
 }
