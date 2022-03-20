@@ -6,7 +6,7 @@
             "command": "C:/msys64/mingw64/bin/gcc.exe",
             "args": [
                 "-fdiagnostics-color=always",
-                "-g",
+                "-g0",
                 "${file}",
                 "-o",
                 "${workspaceFolder}\\release\\bin\\${fileBasenameNoExtension}.exe",
@@ -88,7 +88,7 @@
             "command": "C:/msys64/mingw64/bin/gcc.exe",
             "args": [
                 "-fdiagnostics-color=always",
-                "-g",
+                "-g3",
                 "${file}",
                 "-o",
                 "${workspaceFolder}\\release\\bin\\${fileBasenameNoExtension}.exe",
