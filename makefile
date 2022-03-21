@@ -8,10 +8,14 @@ CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --li
 .PHONY: release debug clean
 
 release: $(DEPENDENCIES)
-	@gcc "$(SOURCE)" icon.o -o "$(DIRECTORY)\$@\bin\$(NAME).exe" $(CFLAGS) -O2 -mwindows
+	@echo Compiling release build...
+	gcc "$(SOURCE)" icon.o -o "$(DIRECTORY)\$@\bin\$(NAME).exe" $(CFLAGS) -O2 -mwindows
+	@echo Release build saved to the folder: $(DIRECTORY)\$@\
 
 debug: $(DEPENDENCIES)
-	@gcc "$(SOURCE)" icon.o -o "$(DIRECTORY)\$@\bin\$(NAME).exe" $(CFLAGS) -g3 -mconsole
+	@echo Compiling debug build...
+	gcc "$(SOURCE)" icon.o -o "$(DIRECTORY)\$@\bin\$(NAME).exe" $(CFLAGS) -g3 -mconsole
+	@echo Debug build saved to the folder: $(DIRECTORY)\$@\
 
 gtk3:
 	$(foreach target, $(MAKECMDGOALS), \
