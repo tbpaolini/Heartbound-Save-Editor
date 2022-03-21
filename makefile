@@ -5,7 +5,7 @@ ICON = icon.ico
 DEPENDENCIES := gtk3 structure assets icon.o
 CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-color=always
 
-.PHONY: release debug assets
+.PHONY: release debug clean
 
 release: $(DEPENDENCIES)
 	@gcc "$(SOURCE)" icon.o -o "$(DIRECTORY)\$@\bin\$(NAME).exe" $(CFLAGS) -O2 -mwindows
@@ -33,3 +33,7 @@ assets:
 icon.o: assets\$(ICON)
 	$(file > $*.rc,1 ICON assets\$(ICON))
 	windres $*.rc $*.o
+
+clean:
+	del *.o
+	del *.rc
