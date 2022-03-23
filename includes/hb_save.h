@@ -20,14 +20,14 @@ void open_save()
     create_save_struct();
     find_save();
     read_save();
-    parse_rooms_places();
+    parse_rooms_locations();
 }
 
 // Free the memory allocated by the functions on 'open_save()'
 void close_save()
 {
     destroy_save_struct();
-    unmap_rooms_places();
+    unmap_rooms_locations();
 }
 
 #endif

@@ -17,7 +17,7 @@
 #define ROOM_MAP_SIZE (size_t)547                       // Number of slots on the hashmap for the Room File
 #define PLACE_MAP_SIZE (size_t)307                      // Number of slots on the hashmap for the Place File
 #define MAX_ROOM_AMOUNT (size_t)1000                    // Maximum number of rooms the Room File can have
-#define MAX_PLACE_AMOUNT (size_t)1000                   // Maximum number of places the Places File can have
+#define MAX_PLACE_AMOUNT (size_t)1000                   // Maximum number of locations the Places File can have
 static const size_t READ_BUFFER_SIZE = 100;             // Maximum number of characters per line
 
 #define CHAPTER_AMOUNT 6
@@ -37,20 +37,20 @@ HeartboundRoom* room_map[ROOM_MAP_SIZE];    // Maps to an element of the table b
 size_t rooms_amount;                        // Number of rooms in the data structures
 
 // List of Room/Objects and their respective worlds
-typedef struct HeartboundPlace
+typedef struct HeartboundLocation
 {
     char name[ROOM_NAME_SIZE];      // Value of the Room/Object column of the save structure file
     uint8_t world;                  // Number of the world (0 - Global | 1 - Hometown | 2 - The Tower | 3 - Animus | 4 - Jotunheim | 5 - End)
-    struct HeartboundPlace *next;  // Next entry on the linked list (for when there is a collision on the hashmap)
-} HeartboundPlace;
+    struct HeartboundLocation *next;  // Next entry on the linked list (for when there is a collision on the hashmap)
+} HeartboundLocation;
 
-HeartboundPlace* place_list;                    // Lookup table for the rooms
-HeartboundPlace* place_map[PLACE_MAP_SIZE];     // Maps to an element of the table by a hash function
-size_t places_amount;                           // Number of places in the data structures
+HeartboundLocation* location_list;                    // Lookup table for the rooms
+HeartboundLocation* location_map[PLACE_MAP_SIZE];     // Maps to an element of the table by a hash function
+size_t locations_amount;                           // Number of locations in the data structures
 
 
 // ********************************************************************
-// Hashmap for retrieving the values from the lists of rooms and places
+// Hashmap for retrieving the values from the lists of rooms and locations
 // ********************************************************************
 
 // Bit-mask for obtaining the most significant bit of a 32-bit unsigned integer
@@ -123,8 +123,8 @@ static size_t count_entries(FILE *my_file, size_t max_entries)
     */
 }
 
-// Parse the rooms/places files and build the lookup tables and hashmaps
-static void parse_rooms_places()
+// Parse the rooms/locations files and build the lookup tables and hashmaps
+static void parse_rooms_locations()
 {
     char *restrict read_buffer = malloc(READ_BUFFER_SIZE);  // Bufer for reading the lines of each file
     size_t list_index;      // Current index on the lookup table
@@ -212,26 +212,26 @@ static void parse_rooms_places()
     /* ------------------ Place File ------------------ */
 
     // Open the Place File
-    FILE *places_file = fopen(PLACES_FILE_PATH, "rt");
+    FILE *locations_file = fopen(PLACES_FILE_PATH, "rt");
 
-    // Count the number of places in the file
-    places_amount = count_entries(places_file, MAX_PLACE_AMOUNT);
-    place_list = calloc( places_amount, sizeof(HeartboundPlace) );
+    // Count the number of locations in the file
+    locations_amount = count_entries(locations_file, MAX_PLACE_AMOUNT);
+    location_list = calloc( locations_amount, sizeof(HeartboundLocation) );
     
     // Skip the header line
-    fgets(read_buffer, READ_BUFFER_SIZE, places_file);
+    fgets(read_buffer, READ_BUFFER_SIZE, locations_file);
 
-    // Initialize all place map entries to NULL
+    // Initialize all location map entries to NULL
     for (uint32_t i = 0; i < PLACE_MAP_SIZE; i++)
     {
-        place_map[i] = NULL;
+        location_map[i] = NULL;
     }
 
     list_index = 0;
-    while ( !feof(places_file) || (list_index < places_amount) )
+    while ( !feof(locations_file) || (list_index < locations_amount) )
     {
         // Get the next line from the file
-        if (fgets(read_buffer, READ_BUFFER_SIZE, places_file) == NULL)
+        if (fgets(read_buffer, READ_BUFFER_SIZE, locations_file) == NULL)
         {
             // Break if no more data could be read from the file
             break;
@@ -245,37 +245,37 @@ static void parse_rooms_places()
             // TO DO: Error handling
         }
 
-        // Get the place name
+        // Get the location name
         token = strtok(NULL, "\t");
-        strcpy_s(place_list[list_index].name, ROOM_NAME_SIZE, token);
+        strcpy_s(location_list[list_index].name, ROOM_NAME_SIZE, token);
 
         // Get the world number
         token = strtok(NULL, "\t");
-        place_list[list_index].world = atoi(token);
+        location_list[list_index].world = atoi(token);
 
         // Pointer to the next element on the hashmap (in case a collision happens)
-        place_list[list_index].next = NULL;
+        location_list[list_index].next = NULL;
 
-        // Add the new place to the hashmap
-        map_index = hash(place_list[list_index].name, PLACE_MAP_SIZE);
+        // Add the new location to the hashmap
+        map_index = hash(location_list[list_index].name, PLACE_MAP_SIZE);
         
-        if (place_map[map_index] == NULL)    // No collision
+        if (location_map[map_index] == NULL)    // No collision
         {
-            place_map[map_index] = &(place_list[list_index]);
+            location_map[map_index] = &(location_list[list_index]);
         }
         else    // Collision happened
         {
             // Place already on this spot
-            HeartboundPlace *place_ptr = place_map[map_index];
+            HeartboundLocation *location_ptr = location_map[map_index];
             
             // Navigate through the linked list until the last element
-            while (place_ptr->next != NULL)
+            while (location_ptr->next != NULL)
             {
-                place_ptr = place_ptr->next;
+                location_ptr = location_ptr->next;
             }
 
-            // Add the new place to the end of the linked list
-            place_ptr->next = &(place_list[list_index]);
+            // Add the new location to the end of the linked list
+            location_ptr->next = &(location_list[list_index]);
         }
 
         // Move to the next index
@@ -283,7 +283,7 @@ static void parse_rooms_places()
     }
 
     // Close the Place File
-    fclose(places_file);
+    fclose(locations_file);
     
     // Deallocate the read buffer
     free(read_buffer);
@@ -310,32 +310,32 @@ HeartboundRoom* get_room(char *name)
     return room_ptr;
 }
 
-// Retrieve a place struct from its name
-HeartboundPlace* get_place(char *name)
+// Retrieve a location struct from its name
+HeartboundLocation* get_location(char *name)
 {
     // Calculate the index on the hashmap
     uint32_t map_index = hash(name, PLACE_MAP_SIZE);
-    HeartboundPlace *place_ptr = place_map[map_index];
+    HeartboundLocation *location_ptr = location_map[map_index];
 
     // If there is nothing on that index, return NULL
-    if (place_ptr == NULL) return NULL;
+    if (location_ptr == NULL) return NULL;
 
     // Loop through all elements on that index until one matches the name
-    while ( strncmp(name, place_ptr->name, ROOM_NAME_SIZE) != 0 )
+    while ( strncmp(name, location_ptr->name, ROOM_NAME_SIZE) != 0 )
     {
-        place_ptr = place_ptr->next;         // Go to the next element on the linked list
-        if (place_ptr == NULL) return NULL;   // Return NULL if there is no next element
+        location_ptr = location_ptr->next;         // Go to the next element on the linked list
+        if (location_ptr == NULL) return NULL;   // Return NULL if there is no next element
     }
 
     // Return the pointer to the struct if a match was found
-    return place_ptr;
+    return location_ptr;
 }
 
 // Free the memory used by the Places and Rooms list
-void unmap_rooms_places()
+void unmap_rooms_locations()
 {
     free(room_list);
-    free(place_list);
+    free(location_list);
 }
 
 #endif
