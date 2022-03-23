@@ -21,7 +21,7 @@
 static const size_t READ_BUFFER_SIZE = 100;             // Maximum number of characters per line
 
 #define CHAPTER_AMOUNT 6
-char *chapter[CHAPTER_AMOUNT] = {"Global", "Hometown", "The Tower", "Animus", "Jotunheim", "REDACTED"};
+char *hb_chapter[CHAPTER_AMOUNT] = {"Global", "Hometown", "The Tower", "Animus", "Jotunheim", "REDACTED"};
 
 // List of all rooms in the game and their repective coordinates where the player spawns
 typedef struct HeartboundRoom
@@ -32,8 +32,8 @@ typedef struct HeartboundRoom
     struct HeartboundRoom *next;   // Next entry on the linked list (for when there is a collision on the hashmap)
 } HeartboundRoom;
 
-HeartboundRoom* room_list;                  // Lookup table for the rooms
-HeartboundRoom* room_map[ROOM_MAP_SIZE];    // Maps to an element of the table by a hash function
+HeartboundRoom* hb_room_list;                  // Lookup table for the rooms
+HeartboundRoom* hb_room_map[ROOM_MAP_SIZE];    // Maps to an element of the table by a hash function
 size_t rooms_amount;                        // Number of rooms in the data structures
 
 // List of Room/Objects and their respective worlds
@@ -124,7 +124,7 @@ static size_t count_entries(FILE *my_file, size_t max_entries)
 }
 
 // Parse the rooms/locations files and build the lookup tables and hashmaps
-static void parse_rooms_locations()
+static void hb_parse_rooms_locations()
 {
     char *restrict read_buffer = malloc(READ_BUFFER_SIZE);  // Bufer for reading the lines of each file
     size_t list_index;      // Current index on the lookup table
@@ -138,7 +138,7 @@ static void parse_rooms_locations()
 
     // Count the number of rooms in the file
     rooms_amount = count_entries(rooms_file, MAX_ROOM_AMOUNT);
-    room_list = calloc( rooms_amount, sizeof(HeartboundRoom) );
+    hb_room_list = calloc( rooms_amount, sizeof(HeartboundRoom) );
     
     // Skip the header line
     fgets(read_buffer, READ_BUFFER_SIZE, rooms_file);
@@ -146,7 +146,7 @@ static void parse_rooms_locations()
     // Initialize all room map entries to NULL
     for (uint32_t i = 0; i < ROOM_MAP_SIZE; i++)
     {
-        room_map[i] = NULL;
+        hb_room_map[i] = NULL;
     }
 
     list_index = 0;
@@ -169,28 +169,28 @@ static void parse_rooms_locations()
 
         // Get the room name
         token = strtok(NULL, "\t");
-        strcpy_s(room_list[list_index].name, ROOM_NAME_SIZE, token);
+        strcpy_s(hb_room_list[list_index].name, ROOM_NAME_SIZE, token);
 
         // Get (x,y) coordinates
         token = strtok(NULL, "\t");
-        room_list[list_index].x = atof(token);
+        hb_room_list[list_index].x = atof(token);
         token = strtok(NULL, "\t");
-        room_list[list_index].y = atof(token);
+        hb_room_list[list_index].y = atof(token);
 
         // Pointer to the next element on the hashmap (in case a collision happens)
-        room_list[list_index].next = NULL;
+        hb_room_list[list_index].next = NULL;
         
         // Add the new room to the hashmap
-        map_index = hash(room_list[list_index].name, ROOM_MAP_SIZE);
+        map_index = hash(hb_room_list[list_index].name, ROOM_MAP_SIZE);
         
-        if (room_map[map_index] == NULL)    // No collision
+        if (hb_room_map[map_index] == NULL)    // No collision
         {
-            room_map[map_index] = &(room_list[list_index]);
+            hb_room_map[map_index] = &(hb_room_list[list_index]);
         }
         else    // Collision happened
         {
             // Room already on this spot
-            HeartboundRoom *room_ptr = room_map[map_index];
+            HeartboundRoom *room_ptr = hb_room_map[map_index];
             
             // Navigate through the linked list until the last element
             while (room_ptr->next != NULL)
@@ -199,7 +199,7 @@ static void parse_rooms_locations()
             }
 
             // Add the new room to the end of the linked list
-            room_ptr->next = &(room_list[list_index]);
+            room_ptr->next = &(hb_room_list[list_index]);
         }
 
         // Move to the next index
@@ -290,11 +290,11 @@ static void parse_rooms_locations()
 }
 
 // Retrieve a room struct from its name
-HeartboundRoom* get_room(char *name)
+HeartboundRoom* hb_get_room(char *name)
 {
     // Calculate the index on the hashmap
     uint32_t map_index = hash(name, ROOM_MAP_SIZE);
-    HeartboundRoom *room_ptr = room_map[map_index];
+    HeartboundRoom *room_ptr = hb_room_map[map_index];
 
     // If there is nothing on that index, return NULL
     if (room_ptr == NULL) return NULL;
@@ -311,7 +311,7 @@ HeartboundRoom* get_room(char *name)
 }
 
 // Retrieve a location struct from its name
-HeartboundLocation* get_location(char *name)
+HeartboundLocation* hb_get_location(char *name)
 {
     // Calculate the index on the hashmap
     uint32_t map_index = hash(name, PLACE_MAP_SIZE);
@@ -332,9 +332,9 @@ HeartboundLocation* get_location(char *name)
 }
 
 // Free the memory used by the Places and Rooms list
-void unmap_rooms_locations()
+void hb_unmap_rooms_locations()
 {
-    free(room_list);
+    free(hb_room_list);
     free(location_list);
 }
 

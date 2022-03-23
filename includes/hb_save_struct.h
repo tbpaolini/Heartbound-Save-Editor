@@ -17,14 +17,14 @@
 #define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
 
 // Player attributes
-char game_seed[SEED_SIZE];      // Game seed (10 decimal characters long)
-char room_id[ROOM_NAME_SIZE];   // The ID (as a string) of the room the player is
-double x_axis, y_axis;          // Coordinates of the player in the room
-double hp_current, hp_maximum;  // Current and maximum hit points of the player
+char hb_game_seed[SEED_SIZE];                       // Game seed (10 decimal characters long)
+char hb_room_id[ROOM_NAME_SIZE];                    // The ID (as a string) of the room the player is
+double hb_x_axis, hb_y_axis;                        // Coordinates of the player in the room
+double hb_hitpoints_current, hb_hitpoints_maximum;  // Current and maximum hit points of the player
 
 // Which glyph sets the player know:
 // 0 = None; 1 = Lightbringer; 2 = Lightbringer and Darksider
-double known_glyphs;
+double hb_known_glyphs;
 
 // Alias for the variable's values
 // (associate the variable value with its meaning)
@@ -45,7 +45,7 @@ struct StorylineVars
     size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
     ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
     bool used;                   // Wheter the variable has data on it
-} save_data[NUM_STORY_VARS];
+} hb_save_data[NUM_STORY_VARS];
 
 // Headers of the save structure
 static char **save_headers;            // Names of the columns (array of strings)
@@ -59,7 +59,7 @@ static size_t max_var;                 // Index of the last storyline variable o
 static bool save_is_initialized = false;
 
 // Create the data structure for the save file
-int create_save_struct()
+int hb_create_save_struct()
 {
     // Return if the save structure file has already been parsed
     if (save_is_initialized == true) return 0;
@@ -124,7 +124,7 @@ int create_save_struct()
     
     for (size_t i = 0; i < NUM_STORY_VARS; i++)
     {
-        save_data[i].used = false;
+        hb_save_data[i].used = false;
     }
 
     // Read the structure of each storyline variable
@@ -192,23 +192,23 @@ int create_save_struct()
                             exit(EXIT_FAILURE);
                         }
                         
-                        save_data[var].used = true;  // Flag the variable as 'used'
+                        hb_save_data[var].used = true;  // Flag the variable as 'used'
                         free(my_value);
                         break;
                     
                     case 2:
                         // Room/Object (where or for what the storyline variable applies to)
-                        save_data[var].location = my_value;
+                        hb_save_data[var].location = my_value;
                         break;
                     
                     case 3:
                         // Description 1 (name of the storyline variable)
-                        save_data[var].name = my_value;
+                        hb_save_data[var].name = my_value;
                         break;
                     
                     case 4:
                         // Description 2 (more detail about the storyline variable)
-                        save_data[var].info = my_value;
+                        hb_save_data[var].info = my_value;
                         break;
                     
                     case 5:
@@ -222,27 +222,27 @@ int create_save_struct()
                         if ( strcmp(my_value, "0|X") == 0 || strcmp(my_value, "X") == 0 )
                         {
                             // Storyline variable accepts any value
-                            save_data[var].num_entries = (size_t)0;
-                            save_data[var].aliases = NULL;
+                            hb_save_data[var].num_entries = (size_t)0;
+                            hb_save_data[var].aliases = NULL;
                         }
                         else
                         {
                             // Storyline variable accepts an specific amount of values
 
                             // Count how many values
-                            save_data[var].num_entries = (size_t)1;
+                            hb_save_data[var].num_entries = (size_t)1;
                             size_t v_pos = 0;
                             while (my_value[v_pos] != '\0')
                             {
-                                if (my_value[v_pos++] == '|') save_data[var].num_entries += 1;
+                                if (my_value[v_pos++] == '|') hb_save_data[var].num_entries += 1;
                             }
 
-                            save_data[var].aliases = malloc( save_data[var].num_entries * sizeof(ValueAlias));
+                            hb_save_data[var].aliases = malloc( hb_save_data[var].num_entries * sizeof(ValueAlias));
                             
                             // Initialize all values of the aliases array to NULL
-                            for (size_t i = 0; i < save_data[var].num_entries; i++)
+                            for (size_t i = 0; i < hb_save_data[var].num_entries; i++)
                             {
-                                save_data[var].aliases[i] = (ValueAlias){NULL, NULL};
+                                hb_save_data[var].aliases[i] = (ValueAlias){NULL, NULL};
                             }
                         }
                         
@@ -273,7 +273,7 @@ int create_save_struct()
                         /*  
                             In case the file does not end in a line break, the last column of the last line
                             will return an empty string, which would lead the program to attempt writting an
-                            extra value to the 'save_data' array beyond its allocated memory. This would
+                            extra value to the 'hb_save_data' array beyond its allocated memory. This would
                             happen because the program checks for a tabulation or line break in order to end
                             parsing a cell.
                             
@@ -290,15 +290,15 @@ int create_save_struct()
                         if (column == unit_column)
                         {
                             // Set the measurement unit's name
-                            save_data[var].unit = my_value;
+                            hb_save_data[var].unit = my_value;
                         }
 
                         // There are multiple values
-                        else if (save_data[var].num_entries > 0)
+                        else if (hb_save_data[var].num_entries > 0)
                         {
                             // Set the alias for the current value and move to the next value
                             // (The value's description is linked to the name of its respective column)
-                            save_data[var].aliases[var_pos++] = (ValueAlias){
+                            hb_save_data[var].aliases[var_pos++] = (ValueAlias){
                                  .header = &(save_headers[column]), // Pointer to the name of the header (which is the value itself)
                                  .description = my_value            // What the value does (as a string)
                             };
@@ -361,27 +361,27 @@ void destroy_save_struct()
     {
         
         // Deallocate the memory from the attributes
-        free(save_data[var].location);
-        free(save_data[var].name);
-        free(save_data[var].info);
-        free(save_data[var].unit);
+        free(hb_save_data[var].location);
+        free(hb_save_data[var].name);
+        free(hb_save_data[var].info);
+        free(hb_save_data[var].unit);
 
         // Deallocate the aliases array
-        if (save_data[var].num_entries > 0)
+        if (hb_save_data[var].num_entries > 0)
         {
-            for (size_t j = 0; j < save_data[var].num_entries; j++)
+            for (size_t j = 0; j < hb_save_data[var].num_entries; j++)
             {
                 // Deallocate the description string of each value
-                free(save_data[var].aliases[j].description);
+                free(hb_save_data[var].aliases[j].description);
             }
 
         // Deallocate the array of ValueAlias structs
-        free(save_data[var].aliases);
+        free(hb_save_data[var].aliases);
         }
         
         // Set the statically allocated values to zero
-        save_data[var].value = (size_t)0;
-        save_data[var].num_entries = (size_t)0;
+        hb_save_data[var].value = (size_t)0;
+        hb_save_data[var].num_entries = (size_t)0;
     }
 
     // Flag that the save structure is not parsed
