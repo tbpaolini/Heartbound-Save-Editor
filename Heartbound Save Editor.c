@@ -20,12 +20,21 @@ static void activate( GtkApplication* app, gpointer user_data )
     GtkWidget *notebook = gtk_notebook_new();
     GtkWidget *chapter_label[CHAPTER_AMOUNT];
     GtkWidget *chapter_page[CHAPTER_AMOUNT];
+    GtkWidget *chapter_grid[CHAPTER_AMOUNT];
 
     // Create the chapters tabs and their respective pages
     for (int i = 0; i < CHAPTER_AMOUNT; i++)
     {
-        chapter_label[i] = gtk_label_new(chapter[i]);
-        chapter_page[i] = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+        // Create chapter page
+        chapter_label[i] = gtk_label_new(chapter[i]);           // Notebook tab for the chapter window
+        chapter_page[i] = gtk_scrolled_window_new(NULL, NULL);  // Scrollable window for the grid
+        chapter_grid[i] = gtk_grid_new();                       // Grid with the contents of the chapter
+        gtk_widget_set_margin_start(chapter_grid[i], 10);       // Add a margin to the left of the grid
+        
+        // Add the grid to the scrollable window (chapter page)
+        gtk_container_add(GTK_CONTAINER(chapter_page[i]), chapter_grid[i]);
+
+        // Add the chapter page to the notebook
         gtk_notebook_append_page(GTK_NOTEBOOK(notebook), chapter_page[i], chapter_label[i]);
     }
 
