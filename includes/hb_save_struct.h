@@ -17,9 +17,9 @@
 #define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
 
 // Player attributes
-char hb_game_seed[SEED_SIZE];      // Game seed (10 decimal characters long)
-char hb_room_id[ROOM_NAME_SIZE];   // The ID (as a string) of the room the player is
-double hb_x_axis, hb_y_axis;          // Coordinates of the player in the room
+char hb_game_seed[SEED_SIZE];                       // Game seed (10 decimal characters long)
+char hb_room_id[ROOM_NAME_SIZE];                    // The ID (as a string) of the room the player is
+double hb_x_axis, hb_y_axis;                        // Coordinates of the player in the room
 double hb_hitpoints_current, hb_hitpoints_maximum;  // Current and maximum hit points of the player
 
 // Which glyph sets the player know:

@@ -1,5 +1,5 @@
-SOURCE := Heartbound Save Editor.c
-NAME := $(basename $(SOURCE))
+SOURCE := main.c
+NAME := Heartbound Save Editor
 DIRECTORY := build
 ICON := icon.ico
 STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
@@ -11,12 +11,12 @@ CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --li
 release: $(DEPENDENCIES)
 	@echo Compiling release build...
 	gcc "$(SOURCE)" icon.o -o "$(DIRECTORY)\bin\$(NAME).exe" $(CFLAGS) -O2 -mwindows
-	@echo Release build saved to the folder: $(DIRECTORY)\\
+	@echo Release build saved to the folder: $(DIRECTORY)\ 
 
 debug: $(DEPENDENCIES)
 	@echo Compiling debug build...
 	gcc "$(SOURCE)" icon.o -o "$(DIRECTORY)\bin\$(NAME).exe" $(CFLAGS) -g3 -mconsole
-	@echo Debug build saved to the folder: $(DIRECTORY)\\
+	@echo Debug build saved to the folder: $(DIRECTORY)\ 
 
 gtk3:
 	xcopy "gtk3" "$(DIRECTORY)" /S /E /D /Y /I

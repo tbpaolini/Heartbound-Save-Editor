@@ -27,7 +27,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     for (int i = 0; i < CHAPTER_AMOUNT; i++)
     {
         // Create chapter page
-        chapter_label[i] = gtk_label_new(chapter[i]);           // Notebook tab for the chapter window
+        chapter_label[i] = gtk_label_new(hb_chapter[i]);           // Notebook tab for the chapter window
         chapter_page[i] = gtk_scrolled_window_new(NULL, NULL);  // Scrollable window for the grid
         chapter_grid[i] = gtk_grid_new();                       // Grid with the contents of the chapter
         gtk_widget_set_margin_start(chapter_grid[i], 10);       // Add a margin to the left of the grid
@@ -46,13 +46,13 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Add the save entries to their respective page
     for (size_t i = 0; i < NUM_STORY_VARS; i++)
     {
-        if (save_data[i].used)
+        if (hb_save_data[i].used)
         {
             /* Test of grid insertion (not the final layout)*/
             GtkWidget *my_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-            GtkWidget *my_label = gtk_label_new(save_data[i].name);
+            GtkWidget *my_label = gtk_label_new(hb_save_data[i].name);
             gtk_widget_set_halign(my_label, GTK_ALIGN_START);
-            HeartboundLocation *my_location = get_location(save_data[i].location);
+            HeartboundLocation *my_location = hb_get_location(hb_save_data[i].location);
             if (my_location != NULL)
             {
                 uint8_t my_chapter = my_location->world;
@@ -87,7 +87,7 @@ int main ( int argc, char **argv )
     chdir(path_dir);
     free(path_dir);
 
-    open_save();
+    hb_open_save();
 
     GtkApplication *app;
     int status;
