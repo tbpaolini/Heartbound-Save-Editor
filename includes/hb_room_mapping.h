@@ -124,7 +124,7 @@ static size_t count_entries(FILE *my_file, size_t max_entries)
 }
 
 // Parse the rooms/locations files and build the lookup tables and hashmaps
-static void hb_parse_rooms_locations()
+void hb_parse_rooms_locations()
 {
     char *restrict read_buffer = malloc(READ_BUFFER_SIZE);  // Bufer for reading the lines of each file
     size_t list_index;      // Current index on the lookup table
