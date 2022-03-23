@@ -44,6 +44,7 @@ struct StorylineVars
     char *unit;                  // Measurement unit of the value this entry represents
     size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
     ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
+    bool used;                   // Wheter the variable has data on it
 } save_data[NUM_STORY_VARS];
 
 // Headers of the save structure
@@ -119,6 +120,13 @@ int create_save_struct()
         fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);
     }
 
+    // Initialize the 'used' flags of the storyline variables to 'false'
+    
+    for (size_t i = 0; i < NUM_STORY_VARS; i++)
+    {
+        save_data[i].used = false;
+    }
+
     // Read the structure of each storyline variable
 
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
@@ -184,6 +192,7 @@ int create_save_struct()
                             exit(EXIT_FAILURE);
                         }
                         
+                        save_data[var].used = true;  // Flag the variable as 'used'
                         free(my_value);
                         break;
                     
