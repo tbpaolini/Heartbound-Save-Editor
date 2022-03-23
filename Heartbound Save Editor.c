@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 #include <gtk\gtk.h>
 #include <unistd.h>
 #include <hb_save.h>
@@ -41,6 +42,25 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Add the notebook to the application window
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
     gtk_container_add(GTK_CONTAINER(window), notebook);
+
+    // Add the save entries to their respective page
+    for (size_t i = 0; i < NUM_STORY_VARS; i++)
+    {
+        if (save_data[i].used)
+        {
+            /* Test of grid insertion (not the final layout)*/
+            GtkWidget *my_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+            GtkWidget *my_label = gtk_label_new(save_data[i].name);
+            gtk_widget_set_halign(my_label, GTK_ALIGN_START);
+            HeartboundLocation *my_location = get_location(save_data[i].location);
+            if (my_location != NULL)
+            {
+                uint8_t my_chapter = my_location->world;
+                gtk_grid_attach(GTK_GRID(chapter_grid[my_chapter]), my_label, 1, i, 1, 1);
+            }
+            /* End of test */
+        }
+    }
     
     // Render the application window and all its children
     gtk_widget_show_all(window);
