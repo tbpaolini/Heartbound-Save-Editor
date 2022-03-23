@@ -4,7 +4,7 @@
     The function 'hb_open_save()' should be used for initializing the data structures
     and parsing the save file.
     
-    The function 'close_save()' destroys the data structures.
+    The function 'hb_close_save()' destroys the data structures.
 */
 
 #ifndef _HB_SAVE
@@ -24,9 +24,9 @@ void hb_open_save()
 }
 
 // Free the memory allocated by the functions on 'hb_open_save()'
-void close_save()
+void hb_close_save()
 {
-    destroy_save_struct();
+    hb_destroy_save_struct();
     hb_unmap_rooms_locations();
 }
 
