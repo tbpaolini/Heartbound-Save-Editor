@@ -1,5 +1,5 @@
-SOURCE := Heartbound Save Editor.c
-NAME := $(basename $(SOURCE))
+SOURCE := main.c
+NAME := Heartbound Save Editor
 DIRECTORY := build
 ICON := icon.ico
 STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
