@@ -41,6 +41,8 @@ typedef struct HeartboundLocation
 {
     char name[ROOM_NAME_SIZE];        // Value of the Room/Object column of the save structure file
     uint8_t world;                    // Number of the world (0 - Global | 1 - Hometown | 2 - The Tower | 3 - Animus | 4 - Jotunheim | 5 - End)
+    size_t position;                  // The order in which the location will appear in the program's window
+    char *image;                      // The file name of the image used to illustrate the location on the program's window
     struct HeartboundLocation *next;  // Next entry on the linked list (for when there is a collision on the hashmap)
 } HeartboundLocation;
 

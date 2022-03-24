@@ -183,7 +183,7 @@ void hb_parse_rooms_locations()
     // Close the Room File
     fclose(rooms_file);
 
-    /* ------------------ Place File ------------------ */
+    /* ------------------ Locations File ------------------ */
 
     // Open the Place File
     FILE *locations_file = fopen(PLACES_FILE_PATH, "rt");
@@ -226,6 +226,30 @@ void hb_parse_rooms_locations()
         // Get the world number
         token = strtok(NULL, "\t");
         hb_location_list[list_index].world = atoi(token);
+
+        // Get the position
+        token = strtok(NULL, "\t");
+        hb_location_list[list_index].position = atoll(token);
+
+        // Get the image's file name
+        token = strtok(NULL, "\t");
+        size_t filename_size = strnlen_s(token, STRUCT_LINE_BUFFER);
+        if ( (filename_size > 0) && (filename_size < STRUCT_LINE_BUFFER) )
+        {
+            // Copy the file name
+            hb_location_list[list_index].image = malloc( filename_size * sizeof(char) + 1 );
+            strcpy_s(hb_location_list[list_index].image, filename_size + 1, token);
+            
+            // Remove the line break at the end, if necessary
+            if (hb_location_list[list_index].image[filename_size - 1] == '\n')
+            {
+                hb_location_list[list_index].image[filename_size - 1] = '\0';
+            }
+        }
+        else
+        {
+            hb_location_list[list_index].image = NULL;
+        }
 
         // Pointer to the next element on the hashmap (in case a collision happens)
         hb_location_list[list_index].next = NULL;
@@ -308,6 +332,11 @@ HeartboundLocation* hb_get_location(char *name)
 // Free the memory used by the Places and Rooms list
 void hb_unmap_rooms_locations()
 {
+    for (size_t i = 0; i < hb_locations_amount; i++)
+    {
+        free(hb_location_list[i].image);
+    }
+    
     free(hb_room_list);
     free(hb_location_list);
 }
