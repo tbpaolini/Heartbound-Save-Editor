@@ -9,37 +9,41 @@ CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --li
 
 .PHONY: release debug clean
 
+release: TARGET = release
 release: $(DEPENDENCIES)
-	@echo Compiling release build...
-	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\bin\$(NAME).exe" $(CFLAGS) -O2 -mwindows
-	@echo Release build saved to the folder: $(DIRECTORY)\ 
+	@echo Linking release build...
+	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -O2 -mwindows
+	@echo Release build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
+debug: TARGET = debug
 debug: $(DEPENDENCIES)
-	@echo Compiling debug build...
-	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\bin\$(NAME).exe" $(CFLAGS) -g3 -mconsole
-	@echo Debug build saved to the folder: $(DIRECTORY)\ 
+	@echo Linking debug build...
+	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -g3 -mconsole
+	@echo Debug build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 main.o: main.c
+	@echo Compiling $(TARGET) build...
 	gcc -c $< -o $@ $(CFLAGS) -g3
 
 includes/%.o: includes/%.c
 	gcc -c $< -o $@ $(CFLAGS) -g3
 
 gtk3:
-	xcopy "gtk3" "$(DIRECTORY)" /S /E /D /Y /I
-	glib-compile-schemas.exe $(DIRECTORY)\share\glib-2.0\schemas
+	xcopy "gtk3" "$(DIRECTORY)\$(TARGET)" /S /E /D /Y /I
+	glib-compile-schemas.exe $(DIRECTORY)\$(TARGET)\share\glib-2.0\schemas
 	
 assets:
-	xcopy "assets\icon.png" "$(DIRECTORY)\lib\" /D /Y /I
-	xcopy "assets\icon.ico" "$(DIRECTORY)\lib\" /D /Y /I
+	xcopy "assets\icon.png" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I
+	xcopy "assets\icon.ico" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I
 	
 structure:
-	$(foreach file, $(STRUCT), xcopy "structure\$(file)" "$(DIRECTORY)\lib\" /D /Y /I &)
+	$(foreach file, $(STRUCT), xcopy "structure\$(file)" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I &)
 
 icon.o: assets\$(ICON)
 	$(file > $*.rc,1 ICON assets\$(ICON))
 	windres $*.rc $*.o
 
 clean:
-	del icon.o
+	del *.o
+	del includes\*.o
 	del icon.rc

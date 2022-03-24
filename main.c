@@ -6,9 +6,6 @@
 #include <hb_save.h>
 // #include <windows.h>
 
-// // Lookup table of storyline variables
-// StorylineVars hb_save_data[NUM_STORY_VARS];
-
 static void activate( GtkApplication* app, gpointer user_data )
 {
     GtkWidget *window;
