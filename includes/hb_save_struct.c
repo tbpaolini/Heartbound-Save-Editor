@@ -6,6 +6,9 @@
 #include <stdbool.h>
 #include <hb_save_struct.h>
 
+// Lookup table of storyline variables
+StorylineVars hb_save_data[NUM_STORY_VARS];
+
 // Headers of the save structure
 static char **save_headers;            // Names of the columns (array of strings)
 static size_t num_columns;             // Amount of columns in the structure
@@ -22,9 +25,6 @@ int hb_create_save_struct()
 {
     // Return if the save structure file has already been parsed
     if (save_is_initialized == true) return 0;
-
-    // Lookup table of storyline variables
-    StorylineVars hb_save_data[NUM_STORY_VARS];
     
     // Open the save structure file
     FILE *save_structure = fopen(SAVE_STRUCT_LOC, "r");
