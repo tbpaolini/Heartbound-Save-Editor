@@ -10,23 +10,25 @@ CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --li
 .PHONY: release debug clean
 
 release: TARGET = release
+release: CFLAGS += -O2
 release: $(DEPENDENCIES)
 	@echo Linking release build...
-	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -O2 -mwindows
+	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mwindows
 	@echo Release build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 debug: TARGET = debug
+debug: CFLAGS += -g3
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
-	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -g3 -mconsole
+	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mconsole
 	@echo Debug build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 main.o: main.c
 	@echo Compiling $(TARGET) build...
-	gcc -c $< -o $@ $(CFLAGS) -g3
+	gcc -c $< -o $@ $(CFLAGS)
 
 includes/%.o: includes/%.c
-	gcc -c $< -o $@ $(CFLAGS) -g3
+	gcc -c $< -o $@ $(CFLAGS)
 
 gtk3:
 	xcopy "gtk3" "$(DIRECTORY)\$(TARGET)" /S /E /D /Y /I
