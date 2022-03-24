@@ -1,20 +1,20 @@
 /* Reading and writting of the Heartbound save file */
-
-#ifndef _HB_SAVE_IO
-#define _HB_SAVE_IO
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <hb_save_struct.c>
+#include <hb_save_io.h>
 
-#define LOCAL_APP_DATA getenv("LocalAppData")   // Path to the local application data
-#define SAVE_FOLDER "Heartbound"                // Save folder on the local application data
-#define SAVE_FNAME "heartbound_save8.thor"      // Name of the save file
-#define PATH_BUFFER 512                         // Maximum number of characters of the absolute file path
-#define SAVE_LINE_BUFFER 50                     // Maximum number of characters on each line of the save file
+char SAVE_PATH[PATH_BUFFER];
 
-char SAVE_PATH[PATH_BUFFER];    // Absolute path to the save file
+// Player attributes
+char hb_game_seed[SEED_SIZE];                       // Game seed (10 decimal characters long)
+char hb_room_id[ROOM_NAME_SIZE];                    // The ID (as a string) of the room the player is
+double hb_x_axis, hb_y_axis;                        // Coordinates of the player in the room
+double hb_hitpoints_current, hb_hitpoints_maximum;  // Current and maximum hit points of the player
+
+// Which glyph sets the player know:
+// 0 = None; 1 = Lightbringer; 2 = Lightbringer and Darksider
+double hb_known_glyphs;
 
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save()
@@ -107,5 +107,3 @@ int hb_write_save()
     return 0;
     // TO DO: Error handling and back up of the original save file
 }
-
-#endif

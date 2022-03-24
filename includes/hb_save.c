@@ -7,12 +7,7 @@
     The function 'hb_close_save()' destroys the data structures.
 */
 
-#ifndef _HB_SAVE
-#define _HB_SAVE
-
-#include <hb_save_struct.c>     // Creation of the data structure for the save data
-#include <hb_save_io.c>         // Reading and saving to the save file
-#include <hb_room_mapping.c>    // Hashmaps for the game's rooms
+#include <hb_save.h>
 
 // Initialize the data structures and parse the save file
 void hb_open_save()
@@ -29,5 +24,3 @@ void hb_close_save()
     hb_destroy_save_struct();
     hb_unmap_rooms_locations();
 }
-
-#endif

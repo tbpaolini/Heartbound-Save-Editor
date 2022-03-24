@@ -1,51 +1,10 @@
 /* Template and data structure for the saved data of Heartbound */
 
-#ifndef _HB_SAVE_STRUCT
-#define _HB_SAVE_STRUCT
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
-#define SAVE_STRUCT_LOC "..\\lib\\save_structure.tsv"   // Path to the file with the save structure
-#define SEED_SIZE (size_t)11                        // Amount of characters (plus one) of the game seed string
-#define ROOM_NAME_SIZE (size_t) 50                  // Maximum amount of characters (plus one) for the room name string
-#define SAVE_STRUCT_BUFFER (size_t)500              // Buffer size (in bytes) for each line of the structure file
-#define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
-#define COLUMN_OFFSET (size_t)6                     // Amount of columns until the storyline variable values
-#define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
-
-// Player attributes
-char hb_game_seed[SEED_SIZE];      // Game seed (10 decimal characters long)
-char hb_room_id[ROOM_NAME_SIZE];   // The ID (as a string) of the room the player is
-double hb_x_axis, hb_y_axis;          // Coordinates of the player in the room
-double hb_hitpoints_current, hb_hitpoints_maximum;  // Current and maximum hit points of the player
-
-// Which glyph sets the player know:
-// 0 = None; 1 = Lightbringer; 2 = Lightbringer and Darksider
-double hb_known_glyphs;
-
-// Alias for the variable's values
-// (associate the variable value with its meaning)
-typedef struct ValueAlias
-{
-    char **header;      // Pointer to the row's name
-    char *description;  // What the value does in-game (as a string)
-} ValueAlias;
-
-// The storyline variables
-struct StorylineVars
-{
-    double value;                // Value of this entry on the save file
-    char *location;              // In-game location that this entry applies to
-    char *name;                  // Description of the in-game feature this entry refers to
-    char *info;                  // Further description of the feature
-    char *unit;                  // Measurement unit of the value this entry represents
-    size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
-    ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
-    bool used;                   // Wheter the variable has data on it
-} hb_save_data[NUM_STORY_VARS];
+#include <hb_save_struct.h>
 
 // Headers of the save structure
 static char **save_headers;            // Names of the columns (array of strings)
@@ -63,6 +22,9 @@ int hb_create_save_struct()
 {
     // Return if the save structure file has already been parsed
     if (save_is_initialized == true) return 0;
+
+    // Lookup table of storyline variables
+    StorylineVars hb_save_data[NUM_STORY_VARS];
     
     // Open the save structure file
     FILE *save_structure = fopen(SAVE_STRUCT_LOC, "r");
@@ -387,5 +349,3 @@ void hb_destroy_save_struct()
     // Flag that the save structure is not parsed
     save_is_initialized = false;
 }
-
-#endif

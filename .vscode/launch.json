@@ -8,7 +8,7 @@
             "name": "gcc.exe - Criar e depurar o arquivo ativo",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\build\\debug\\bin\\Heartbound Save Editor.exe",
+            "program": "${workspaceFolder}\\build\\bin\\Heartbound Save Editor.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "C:/msys64/mingw64/bin",

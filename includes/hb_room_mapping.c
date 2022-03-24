@@ -4,49 +4,23 @@
     - each Room/Object of the save structure with its world
 */
 
-#ifndef _HB_ROOM_MAPPING
-#define _HB_ROOM_MAPPING
-
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include <hb_save_struct.c>
+#include <hb_room_mapping.h>
 
-#define ROOMS_FILE_PATH "..\\lib\\room_coordinates.tsv"     // File listing the player spawn point for each room
-#define PLACES_FILE_PATH "..\\lib\\places_list.tsv"         // File that correlates each Room/Object on the save structure to its world
-#define ROOM_MAP_SIZE (size_t)547                       // Number of slots on the hashmap for the Room File
-#define PLACE_MAP_SIZE (size_t)307                      // Number of slots on the hashmap for the Place File
-#define MAX_ROOM_AMOUNT (size_t)1000                    // Maximum number of rooms the Room File can have
-#define MAX_PLACE_AMOUNT (size_t)1000                   // Maximum number of locations the Places File can have
-static const size_t READ_BUFFER_SIZE = 100;             // Maximum number of characters per line
-
-#define CHAPTER_AMOUNT 6
+// Array of chapter names (as strings)
 char *hb_chapter[CHAPTER_AMOUNT] = {"Global", "Hometown", "The Tower", "Animus", "Jotunheim", "REDACTED"};
 
 // List of all rooms in the game and their repective coordinates where the player spawns
-typedef struct HeartboundRoom
-{
-    char name[ROOM_NAME_SIZE];      // ID of the room
-    double x;                       // x-axis coordinate
-    double y;                       // y-axis coordinate
-    struct HeartboundRoom *next;   // Next entry on the linked list (for when there is a collision on the hashmap)
-} HeartboundRoom;
-
 HeartboundRoom* hb_room_list;                  // Lookup table for the rooms
 HeartboundRoom* hb_room_map[ROOM_MAP_SIZE];    // Maps to an element of the table by a hash function
-size_t rooms_amount;                        // Number of rooms in the data structures
+size_t hb_rooms_amount;                        // Number of rooms in the data structures
 
 // List of Room/Objects and their respective worlds
-typedef struct HeartboundLocation
-{
-    char name[ROOM_NAME_SIZE];      // Value of the Room/Object column of the save structure file
-    uint8_t world;                  // Number of the world (0 - Global | 1 - Hometown | 2 - The Tower | 3 - Animus | 4 - Jotunheim | 5 - End)
-    struct HeartboundLocation *next;  // Next entry on the linked list (for when there is a collision on the hashmap)
-} HeartboundLocation;
-
 HeartboundLocation* location_list;                    // Lookup table for the rooms
 HeartboundLocation* location_map[PLACE_MAP_SIZE];     // Maps to an element of the table by a hash function
-size_t locations_amount;                           // Number of locations in the data structures
+size_t hb_locations_amount;                           // Number of locations in the data structures
 
 
 // ********************************************************************
@@ -124,9 +98,9 @@ static size_t count_entries(FILE *my_file, size_t max_entries)
 }
 
 // Parse the rooms/locations files and build the lookup tables and hashmaps
-static void hb_parse_rooms_locations()
+void hb_parse_rooms_locations()
 {
-    char *restrict read_buffer = malloc(READ_BUFFER_SIZE);  // Bufer for reading the lines of each file
+    char *restrict read_buffer = malloc(STRUCT_LINE_BUFFER);  // Bufer for reading the lines of each file
     size_t list_index;      // Current index on the lookup table
     uint32_t map_index;     // Current index on the hashmap
     char *token;            // Value of the current column on the current line
@@ -137,11 +111,11 @@ static void hb_parse_rooms_locations()
     FILE *rooms_file = fopen(ROOMS_FILE_PATH, "rt");
 
     // Count the number of rooms in the file
-    rooms_amount = count_entries(rooms_file, MAX_ROOM_AMOUNT);
-    hb_room_list = calloc( rooms_amount, sizeof(HeartboundRoom) );
+    hb_rooms_amount = count_entries(rooms_file, MAX_ROOM_AMOUNT);
+    hb_room_list = calloc( hb_rooms_amount, sizeof(HeartboundRoom) );
     
     // Skip the header line
-    fgets(read_buffer, READ_BUFFER_SIZE, rooms_file);
+    fgets(read_buffer, STRUCT_LINE_BUFFER, rooms_file);
 
     // Initialize all room map entries to NULL
     for (uint32_t i = 0; i < ROOM_MAP_SIZE; i++)
@@ -150,10 +124,10 @@ static void hb_parse_rooms_locations()
     }
 
     list_index = 0;
-    while ( !feof(rooms_file) || (list_index < rooms_amount) )
+    while ( !feof(rooms_file) || (list_index < hb_rooms_amount) )
     {
         // Get the next line from the file
-        if (fgets(read_buffer, READ_BUFFER_SIZE, rooms_file) == NULL)
+        if (fgets(read_buffer, STRUCT_LINE_BUFFER, rooms_file) == NULL)
         {
             // Break if no more data could be read from the file
             break;
@@ -215,11 +189,11 @@ static void hb_parse_rooms_locations()
     FILE *locations_file = fopen(PLACES_FILE_PATH, "rt");
 
     // Count the number of locations in the file
-    locations_amount = count_entries(locations_file, MAX_PLACE_AMOUNT);
-    location_list = calloc( locations_amount, sizeof(HeartboundLocation) );
+    hb_locations_amount = count_entries(locations_file, MAX_PLACE_AMOUNT);
+    location_list = calloc( hb_locations_amount, sizeof(HeartboundLocation) );
     
     // Skip the header line
-    fgets(read_buffer, READ_BUFFER_SIZE, locations_file);
+    fgets(read_buffer, STRUCT_LINE_BUFFER, locations_file);
 
     // Initialize all location map entries to NULL
     for (uint32_t i = 0; i < PLACE_MAP_SIZE; i++)
@@ -228,10 +202,10 @@ static void hb_parse_rooms_locations()
     }
 
     list_index = 0;
-    while ( !feof(locations_file) || (list_index < locations_amount) )
+    while ( !feof(locations_file) || (list_index < hb_locations_amount) )
     {
         // Get the next line from the file
-        if (fgets(read_buffer, READ_BUFFER_SIZE, locations_file) == NULL)
+        if (fgets(read_buffer, STRUCT_LINE_BUFFER, locations_file) == NULL)
         {
             // Break if no more data could be read from the file
             break;
@@ -337,5 +311,3 @@ void hb_unmap_rooms_locations()
     free(hb_room_list);
     free(location_list);
 }
-
-#endif
