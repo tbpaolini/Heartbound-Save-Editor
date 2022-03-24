@@ -18,9 +18,9 @@ HeartboundRoom* hb_room_map[ROOM_MAP_SIZE];    // Maps to an element of the tabl
 size_t hb_rooms_amount;                        // Number of rooms in the data structures
 
 // List of Room/Objects and their respective worlds
-HeartboundLocation* hb_location_list;                    // Lookup table for the rooms
-HeartboundLocation* hb_location_map[PLACE_MAP_SIZE];     // Maps to an element of the table by a hash function
-size_t hb_locations_amount;                           // Number of locations in the data structures
+HeartboundLocation* hb_location_list;                   // Lookup table for the rooms
+HeartboundLocation* hb_location_map[PLACE_MAP_SIZE];    // Maps to an element of the table by a hash function
+size_t hb_locations_amount;                             // Number of locations in the data structures
 
 
 // ********************************************************************

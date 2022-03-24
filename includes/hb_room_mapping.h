@@ -29,7 +29,7 @@ typedef struct HeartboundRoom
     char name[ROOM_NAME_SIZE];      // ID of the room
     double x;                       // x-axis coordinate
     double y;                       // y-axis coordinate
-    struct HeartboundRoom *next;   // Next entry on the linked list (for when there is a collision on the hashmap)
+    struct HeartboundRoom *next;    // Next entry on the linked list (for when there is a collision on the hashmap)
 } HeartboundRoom;
 
 extern HeartboundRoom* hb_room_list;                  // Lookup table for the rooms
@@ -39,8 +39,8 @@ extern size_t hb_rooms_amount;                        // Number of rooms in the 
 // List of Room/Objects and their respective worlds
 typedef struct HeartboundLocation
 {
-    char name[ROOM_NAME_SIZE];      // Value of the Room/Object column of the save structure file
-    uint8_t world;                  // Number of the world (0 - Global | 1 - Hometown | 2 - The Tower | 3 - Animus | 4 - Jotunheim | 5 - End)
+    char name[ROOM_NAME_SIZE];        // Value of the Room/Object column of the save structure file
+    uint8_t world;                    // Number of the world (0 - Global | 1 - Hometown | 2 - The Tower | 3 - Animus | 4 - Jotunheim | 5 - End)
     struct HeartboundLocation *next;  // Next entry on the linked list (for when there is a collision on the hashmap)
 } HeartboundLocation;
 
