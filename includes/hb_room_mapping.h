@@ -44,8 +44,8 @@ typedef struct HeartboundLocation
     struct HeartboundLocation *next;  // Next entry on the linked list (for when there is a collision on the hashmap)
 } HeartboundLocation;
 
-extern HeartboundLocation* location_list;                    // Lookup table for the rooms
-extern HeartboundLocation* location_map[PLACE_MAP_SIZE];     // Maps to an element of the table by a hash function
+extern HeartboundLocation* hb_location_list;                 // Lookup table for the rooms
+extern HeartboundLocation* hb_location_map[PLACE_MAP_SIZE];  // Maps to an element of the table by a hash function
 extern size_t hb_locations_amount;                           // Number of locations in the data structures
 
 

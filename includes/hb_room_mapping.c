@@ -18,8 +18,8 @@ HeartboundRoom* hb_room_map[ROOM_MAP_SIZE];    // Maps to an element of the tabl
 size_t hb_rooms_amount;                        // Number of rooms in the data structures
 
 // List of Room/Objects and their respective worlds
-HeartboundLocation* location_list;                    // Lookup table for the rooms
-HeartboundLocation* location_map[PLACE_MAP_SIZE];     // Maps to an element of the table by a hash function
+HeartboundLocation* hb_location_list;                    // Lookup table for the rooms
+HeartboundLocation* hb_location_map[PLACE_MAP_SIZE];     // Maps to an element of the table by a hash function
 size_t hb_locations_amount;                           // Number of locations in the data structures
 
 
@@ -190,7 +190,7 @@ void hb_parse_rooms_locations()
 
     // Count the number of locations in the file
     hb_locations_amount = count_entries(locations_file, MAX_PLACE_AMOUNT);
-    location_list = calloc( hb_locations_amount, sizeof(HeartboundLocation) );
+    hb_location_list = calloc( hb_locations_amount, sizeof(HeartboundLocation) );
     
     // Skip the header line
     fgets(read_buffer, STRUCT_LINE_BUFFER, locations_file);
@@ -198,7 +198,7 @@ void hb_parse_rooms_locations()
     // Initialize all location map entries to NULL
     for (uint32_t i = 0; i < PLACE_MAP_SIZE; i++)
     {
-        location_map[i] = NULL;
+        hb_location_map[i] = NULL;
     }
 
     list_index = 0;
@@ -221,26 +221,26 @@ void hb_parse_rooms_locations()
 
         // Get the location name
         token = strtok(NULL, "\t");
-        strcpy_s(location_list[list_index].name, ROOM_NAME_SIZE, token);
+        strcpy_s(hb_location_list[list_index].name, ROOM_NAME_SIZE, token);
 
         // Get the world number
         token = strtok(NULL, "\t");
-        location_list[list_index].world = atoi(token);
+        hb_location_list[list_index].world = atoi(token);
 
         // Pointer to the next element on the hashmap (in case a collision happens)
-        location_list[list_index].next = NULL;
+        hb_location_list[list_index].next = NULL;
 
         // Add the new location to the hashmap
-        map_index = hash(location_list[list_index].name, PLACE_MAP_SIZE);
+        map_index = hash(hb_location_list[list_index].name, PLACE_MAP_SIZE);
         
-        if (location_map[map_index] == NULL)    // No collision
+        if (hb_location_map[map_index] == NULL)    // No collision
         {
-            location_map[map_index] = &(location_list[list_index]);
+            hb_location_map[map_index] = &(hb_location_list[list_index]);
         }
         else    // Collision happened
         {
             // Place already on this spot
-            HeartboundLocation *location_ptr = location_map[map_index];
+            HeartboundLocation *location_ptr = hb_location_map[map_index];
             
             // Navigate through the linked list until the last element
             while (location_ptr->next != NULL)
@@ -249,7 +249,7 @@ void hb_parse_rooms_locations()
             }
 
             // Add the new location to the end of the linked list
-            location_ptr->next = &(location_list[list_index]);
+            location_ptr->next = &(hb_location_list[list_index]);
         }
 
         // Move to the next index
@@ -289,7 +289,7 @@ HeartboundLocation* hb_get_location(char *name)
 {
     // Calculate the index on the hashmap
     uint32_t map_index = hash(name, PLACE_MAP_SIZE);
-    HeartboundLocation *location_ptr = location_map[map_index];
+    HeartboundLocation *location_ptr = hb_location_map[map_index];
 
     // If there is nothing on that index, return NULL
     if (location_ptr == NULL) return NULL;
@@ -309,5 +309,5 @@ HeartboundLocation* hb_get_location(char *name)
 void hb_unmap_rooms_locations()
 {
     free(hb_room_list);
-    free(location_list);
+    free(hb_location_list);
 }
