@@ -72,12 +72,18 @@ static size_t count_entries(FILE *my_file, size_t max_entries)
 
     // Count the number of rooms
     size_t amount = 0;
+    char prev_character = '\0';
+    char cur_character = '\0';
+    
     while (!feof(my_file))
     {
-        char cur_character = fgetc(my_file);    // Get the next character
+        prev_character = cur_character;
+        cur_character = fgetc(my_file);    // Get the next character
         if (cur_character == '\n' || cur_character == EOF) amount++;    // Count line breaks or the end of file
         if (amount >= max_entries) break;       // Cap the count to the maximum value
     }
+
+    if (prev_character == '\n' && cur_character == EOF) amount--;
     
     // Return back to the initial position on the file
     fsetpos(my_file, &init_pos);
@@ -88,9 +94,8 @@ static size_t count_entries(FILE *my_file, size_t max_entries)
     /* NOTE:
         Since the function counts both the newline character and the end of file,
         then if the file ends with a newline then the amount returned will be 1
-        more than the actual amount. I do not find this a big issue, since this
-        value will be used to allocate enough memory to the array, and the size
-        of just one element isn't that big.
+        more than the actual amount. So the function subtracts 1 if the last two
+        charates are a New Line followed by an End of File.
         
         The end of file is counted in order to prevent a buffer overrun on the
         array, in case the file does not end in a newline.
