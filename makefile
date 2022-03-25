@@ -37,6 +37,7 @@ gtk3:
 assets:
 	xcopy "assets\icon.png" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I
 	xcopy "assets\icon.ico" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I
+	xcopy "assets\textures" "$(DIRECTORY)\$(TARGET)\lib\textures\" /D /Y /I
 	
 structure:
 	$(foreach file, $(STRUCT), xcopy "structure\$(file)" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I &)
