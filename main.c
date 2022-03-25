@@ -43,23 +43,19 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
     gtk_container_add(GTK_CONTAINER(window), notebook);
 
-    // Add the save entries to their respective page
-    for (size_t i = 0; i < NUM_STORY_VARS; i++)
+    // Create the groups of save entries on each page
+    for (size_t i = 0; i < hb_locations_amount; i++)
     {
-        if (hb_save_data[i].used)
-        {
-            /* Test of grid insertion (not the final layout)*/
-            GtkWidget *my_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-            GtkWidget *my_label = gtk_label_new(hb_save_data[i].name);
-            gtk_widget_set_halign(my_label, GTK_ALIGN_START);
-            HeartboundLocation *my_location = hb_get_location(hb_save_data[i].location);
-            if (my_location != NULL)
-            {
-                uint8_t my_chapter = my_location->world;
-                gtk_grid_attach(GTK_GRID(chapter_grid[my_chapter]), my_label, 1, i, 1, 1);
-            }
-            /* End of test */
-        }
+        HeartboundLocation my_location = hb_location_list[i];
+        size_t my_world = my_location.world;
+        size_t my_position = my_location.position * 2;
+        
+        GtkWidget *my_label = gtk_label_new(my_location.name);
+        gtk_widget_set_halign(my_label, GTK_ALIGN_START);
+
+        GtkWidget *my_image = gtk_image_new_from_file(my_location.image);
+        gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_label, 0, my_position, 2, 1);
+        gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_image, 0, my_position+1, 1, 1);
     }
     
     // Render the application window and all its children
