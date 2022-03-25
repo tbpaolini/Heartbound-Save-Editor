@@ -12,8 +12,12 @@
 #define WINDOW_TITLE "Heartbound Save Editor"
 #define WINDOW_ICON "..\\lib\\icon.png"
 
+#define PAGE_BORDER 10
+#define GRID_ROW_SPACING 15
+#define GRID_COLUMN_SPACING 5
 #define IMAGE_WIDTH 80
 #define IMAGE_HEIGHT 80
+#define IMAGE_MARGIN 10
 
 static void activate( GtkApplication* app, gpointer user_data )
 {
@@ -36,10 +40,14 @@ static void activate( GtkApplication* app, gpointer user_data )
     for (int i = 0; i < CHAPTER_AMOUNT; i++)
     {
         // Create chapter page
-        chapter_label[i] = gtk_label_new(hb_chapter[i]);           // Notebook tab for the chapter window
+        chapter_label[i] = gtk_label_new(hb_chapter[i]);        // Notebook tab for the chapter window
         chapter_page[i] = gtk_scrolled_window_new(NULL, NULL);  // Scrollable window for the grid
         chapter_grid[i] = gtk_grid_new();                       // Grid with the contents of the chapter
-        gtk_widget_set_margin_start(chapter_grid[i], 10);       // Add a margin to the left of the grid
+
+        // Add margins and spacing
+        gtk_container_set_border_width(GTK_CONTAINER(chapter_page[i]), PAGE_BORDER);    // Add a margin around the page
+        gtk_grid_set_column_spacing(GTK_GRID(chapter_grid[i]), GRID_COLUMN_SPACING);
+        gtk_grid_set_row_spacing(GTK_GRID(chapter_grid[i]), GRID_ROW_SPACING);
         
         // Add the grid to the scrollable window (chapter page)
         gtk_container_add(GTK_CONTAINER(chapter_page[i]), chapter_grid[i]);
@@ -96,6 +104,10 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Create an image from the texture
         GtkWidget *my_image = gtk_image_new_from_pixbuf(my_texture_resized);
         g_object_unref(my_texture_resized);
+
+        // Margin and alignment of the image
+        gtk_widget_set_margin_start(my_image, IMAGE_MARGIN);
+        gtk_widget_set_valign(my_image, GTK_ALIGN_START);
 
         // Add the image and labels to the window
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_label, 0, my_position, 2, 1);
