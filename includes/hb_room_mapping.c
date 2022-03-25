@@ -201,6 +201,9 @@ void hb_parse_rooms_locations()
         hb_location_map[i] = NULL;
     }
 
+    // Get the length of the textures' path
+    texture_path_size = strlen(TEXTURES_FOLDER);
+
     list_index = 0;
     while ( !feof(locations_file) || (list_index < hb_locations_amount) )
     {
@@ -225,7 +228,7 @@ void hb_parse_rooms_locations()
 
         // Get the world number
         token = strtok(NULL, "\t");
-        hb_location_list[list_index].world = atoi(token);
+        hb_location_list[list_index].world = atoll(token);
 
         // Get the position
         token = strtok(NULL, "\t");
@@ -233,12 +236,18 @@ void hb_parse_rooms_locations()
 
         // Get the image's file name
         token = strtok(NULL, "\t");
-        size_t filename_size = strnlen_s(token, STRUCT_LINE_BUFFER);
+        size_t filename_size = strnlen_s(token, STRUCT_LINE_BUFFER) + texture_path_size;
         if ( (filename_size > 0) && (filename_size < STRUCT_LINE_BUFFER) )
         {
             // Copy the file name
-            hb_location_list[list_index].image = malloc( filename_size * sizeof(char) + 1 );
-            strcpy_s(hb_location_list[list_index].image, filename_size + 1, token);
+            size_t filename_buffer_size = filename_size * sizeof(char) + 1;
+            hb_location_list[list_index].image = malloc( filename_buffer_size );
+            snprintf(
+                hb_location_list[list_index].image,     // Where to store the file path
+                filename_buffer_size, "%s%s",           // The pattern: folder + file name
+                TEXTURES_FOLDER,                        // Textures folder
+                token                                   // File name of the texture
+            );
             
             // Remove the line break at the end, if necessary
             if (hb_location_list[list_index].image[filename_size - 1] == '\n')
