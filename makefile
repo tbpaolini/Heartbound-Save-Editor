@@ -40,7 +40,7 @@ assets:
 	xcopy "assets\textures" "$(DIRECTORY)\$(TARGET)\lib\textures\" /D /Y /I
 	
 structure:
-	$(foreach file, $(STRUCT), xcopy "structure\$(file)" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I &)
+	$(foreach file, $(STRUCT), xcopy "structure\$(file)" "$(DIRECTORY)\$(TARGET)\lib\structure\" /D /Y /I &)
 
 icon.o: assets\$(ICON)
 	$(file > $*.rc,1 ICON assets\$(ICON))

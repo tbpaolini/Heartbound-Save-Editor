@@ -12,8 +12,8 @@
 #include <string.h>
 #include <hb_save_struct.h>
 
-#define ROOMS_FILE_PATH "..\\lib\\room_coordinates.tsv"     // File listing the player spawn point for each room
-#define PLACES_FILE_PATH "..\\lib\\places_list.tsv"         // File that correlates each Room/Object on the save structure to its world
+#define ROOMS_FILE_PATH "..\\lib\\structure\\room_coordinates.tsv"     // File listing the player spawn point for each room
+#define PLACES_FILE_PATH "..\\lib\\structure\\places_list.tsv"         // File that correlates each Room/Object on the save structure to its world
 #define TEXTURES_FOLDER "..\\lib\\textures\\"               // Folder of the textures used to illustrate the locations
 #define ROOM_MAP_SIZE (size_t)547                       // Number of slots on the hashmap for the Room File
 #define PLACE_MAP_SIZE (size_t)307                      // Number of slots on the hashmap for the Place File
