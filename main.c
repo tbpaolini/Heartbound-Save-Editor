@@ -47,7 +47,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         chapter_grid[i] = gtk_grid_new();                       // Grid with the contents of the chapter
 
         // Add margins and spacing
-        gtk_container_set_border_width(GTK_CONTAINER(chapter_page[i]), PAGE_BORDER);    // Add a margin around the page
+        // gtk_container_set_border_width(GTK_CONTAINER(chapter_page[i]), PAGE_BORDER);    // Add a margin around the page
+        gtk_widget_set_margin_start(chapter_grid[i], PAGE_BORDER);
+        gtk_widget_set_margin_end(chapter_grid[i], PAGE_BORDER);
         gtk_grid_set_column_spacing(GTK_GRID(chapter_grid[i]), GRID_COLUMN_SPACING);
         gtk_grid_set_row_spacing(GTK_GRID(chapter_grid[i]), GRID_ROW_SPACING);
         
