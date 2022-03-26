@@ -19,6 +19,8 @@
 #define IMAGE_HEIGHT 80
 #define IMAGE_MARGIN 10
 
+#define TEXT_BUFFER_SIZE 1024
+
 static void activate( GtkApplication* app, gpointer user_data )
 {
     GtkWidget *window;
@@ -60,6 +62,9 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
     gtk_container_add(GTK_CONTAINER(window), notebook);
 
+    // Allocate the buffer for the text
+    char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
+
     // Create the groups of save entries on each page
     for (size_t i = 0; i < hb_locations_amount; i++)
     {
@@ -76,8 +81,17 @@ static void activate( GtkApplication* app, gpointer user_data )
         */
         
         // Create label with the location's name
-        GtkWidget *my_label = gtk_label_new(my_location.name);
-        gtk_widget_set_halign(my_label, GTK_ALIGN_START);
+        GtkWidget *my_label = gtk_label_new(NULL);
+        snprintf(
+            text_buffer,        // Buffer where to copy the label text
+            TEXT_BUFFER_SIZE,
+            "<span size='140%' weight='bold' color='#3a6b7c'>"  // Format the location's name
+            "%s"
+            "</span>",
+            my_location.name    // Location's name
+        );
+        gtk_label_set_markup(GTK_LABEL(my_label), text_buffer);  // Set the label from the text with formatting markup
+        gtk_widget_set_halign(my_label, GTK_ALIGN_START);        // Align the label's text to the left
 
         // Load texture from file
         GdkPixbuf *my_texture = gdk_pixbuf_new_from_file(my_location.image, NULL);
@@ -113,6 +127,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_label, 0, my_position, 2, 1);
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_image, 0, my_position+1, 1, 1);
     }
+
+    // Deallocate the text buffer
+    free(text_buffer);
     
     // Render the application window and all its children
     gtk_widget_show_all(window);
