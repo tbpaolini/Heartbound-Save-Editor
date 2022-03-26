@@ -5,7 +5,7 @@
             "label": "C/C++: Release",
             "command": "C:/msys64/mingw64/bin/mingw32-make.exe",
             "args": [
-                "release",
+                "release"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -24,7 +24,7 @@
             "label": "C/C++: Debug",
             "command": "C:/msys64/mingw64/bin/mingw32-make.exe",
             "args": [
-                "debug",
+                "debug"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -32,10 +32,7 @@
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
+            "group": "build",
             "detail": "Shows a console window and has no compiler optimizations."
         }
     ],
