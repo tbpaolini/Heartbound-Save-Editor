@@ -1,15 +1,15 @@
 Index	Room/Object	World	Position	Image
 0	GLOBAL	0	0	spr_menu_heart_0.png
 1	INVENTORY	0	1	spr_artifact_closed_0.png
-2	Bedhead	0	2	spr_bedroom_bed_0.png
+2	Bedhead	0	2	spr_bedroom_bed_lore_sweater_0.png
 3	The Truth	0	3	spr_kitchen_toaster_1.png
 4	DEBUG	0	4	spr_servers_broken_2_0.png
 5	DEBUG VARIABLE	0	5	spr_servers_broken_1_0.png
 6	NOT USED	0	6	spr_portals_tome_eye_opening_6.png
 7	Home	1	0	spr_yard_homefront_0.png
-8	Home Bedroom	1	1	spr_bedroom_dresser_0.png
+8	Home Bedroom	1	1	spr_bedroom_bed_0.png
 9	Home Hallway	1	2	spr_hallway_painting_2_0.png
-10	Home Kitchen	1	3	spr_kitchen_dogbowl_0.png
+10	Home Kitchen	1	3	spr_kitchen_fridge_0.png
 11	Home Livingroom	1	4	spr_livingroom_couch_0.png
 12	Home Yard	1	5	spr_yard_tree_1_0.png
 13	Binder Bookhome	1	6	spr_binder_down_stand_0.png
@@ -46,7 +46,7 @@ Index	Room/Object	World	Position	Image
 44	Boss	2	24	spr_lobby_bossdoor_1.png
 45	Animus	3	0	spr_animus_tree_5_0.png
 46	Possum Home	3	1	spr_cirsi_mask_0.png
-47	Possum Yard	3	2	spr_possumyard_home_crop_0.png
+47	Possum Yard	3	2	spr_possumyard_home_tree_0.png
 48	Possum Store	3	3	spr_possumstore_potion_7_0.png
 49	Vaporcave	3	4	spr_vaporcave_palm_0.png
 50	Frog Pond	3	5	spr_animus_water_clutter_3_0.png
