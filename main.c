@@ -199,8 +199,9 @@ static void activate( GtkApplication* app, gpointer user_data )
 
             // Create a flow box for the options
             GtkWidget *my_options = gtk_flow_box_new();
-            gtk_widget_set_hexpand(my_options, TRUE);
+            // gtk_widget_set_hexpand(my_options, TRUE);
             gtk_widget_set_valign(my_options, GTK_ALIGN_START);
+            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_options), 2);
             // gtk_flow_box_set_column_spacing(GTK_FLOW_BOX(my_options), 0);
             // gtk_flow_box_set_homogeneous(GTK_FLOW_BOX(my_options), FALSE);
 
