@@ -134,8 +134,6 @@ static void activate( GtkApplication* app, gpointer user_data )
 
         // Create a box for the save entries of the location
         GtkWidget *my_contents = gtk_box_new(GTK_ORIENTATION_VERTICAL, ENTRY_VERTICAL_SPACING);
-        // gtk_widget_set_halign(my_contents, GTK_ALIGN_FILL);
-        // gtk_widget_set_valign(my_contents, GTK_ALIGN_START);
         gtk_widget_set_hexpand(my_contents, TRUE);
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_contents, 1, my_position+1, 1, 1);
     }
@@ -199,11 +197,8 @@ static void activate( GtkApplication* app, gpointer user_data )
 
             // Create a flow box for the options
             GtkWidget *my_options = gtk_flow_box_new();
-            // gtk_widget_set_hexpand(my_options, TRUE);
             gtk_widget_set_valign(my_options, GTK_ALIGN_START);
             gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_options), 2);
-            // gtk_flow_box_set_column_spacing(GTK_FLOW_BOX(my_options), 0);
-            // gtk_flow_box_set_homogeneous(GTK_FLOW_BOX(my_options), FALSE);
 
             // Add the flow box to the wrapper
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_options);
@@ -229,7 +224,6 @@ static void activate( GtkApplication* app, gpointer user_data )
                     char *my_text = my_alias != NULL ? my_alias : my_value;
                     
                     my_radio_button = gtk_radio_button_new_with_label(NULL, my_text);
-                    // gtk_widget_set_halign(my_radio_button, GTK_ALIGN_START);
                     gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
                     previous_button = my_radio_button;
 
