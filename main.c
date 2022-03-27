@@ -134,7 +134,7 @@ static void activate( GtkApplication* app, gpointer user_data )
 
         // Create a box for the save entries of the location
         GtkWidget *my_contents = gtk_box_new(GTK_ORIENTATION_VERTICAL, ENTRY_VERTICAL_SPACING);
-        // gtk_widget_set_halign(my_contents, GTK_ALIGN_START);
+        // gtk_widget_set_halign(my_contents, GTK_ALIGN_FILL);
         // gtk_widget_set_valign(my_contents, GTK_ALIGN_START);
         gtk_widget_set_hexpand(my_contents, TRUE);
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_contents, 1, my_position+1, 1, 1);
@@ -167,7 +167,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             GtkWidget *my_cell = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
 
             // Create the wrapper box to hold the entry's widgets (name label and options)
-            GtkWidget *my_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, ENTRY_HORIZONTAL_SPACING);
+            GtkWidget *my_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, ENTRY_VERTICAL_SPACING);
             gtk_widget_set_hexpand(my_wrapper, TRUE);
 
             // Add the wrapper to the cell
@@ -189,7 +189,10 @@ static void activate( GtkApplication* app, gpointer user_data )
             
             // Create a name label with the string on the text buffer
             GtkWidget *my_name_label = gtk_label_new(text_buffer);
-            gtk_widget_set_margin_end(my_name_label, ENTRY_VERTICAL_SPACING);
+            gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);
+            gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);
+            gtk_widget_set_margin_top(my_name_label, 8);    // Added some top margin so the label's text align with the options
+                                                            // (for whatever reason, just aligning both to the top was not enough)
 
             // Add the name label to the entry's box
             gtk_box_pack_start(
@@ -203,6 +206,9 @@ static void activate( GtkApplication* app, gpointer user_data )
             // Create a flow box for the options
             GtkWidget *my_options = gtk_flow_box_new();
             gtk_widget_set_hexpand(my_options, TRUE);
+            gtk_widget_set_valign(my_options, GTK_ALIGN_START);
+            // gtk_flow_box_set_column_spacing(GTK_FLOW_BOX(my_options), 0);
+            // gtk_flow_box_set_homogeneous(GTK_FLOW_BOX(my_options), FALSE);
 
             // Add the flow box to the wrapper
             gtk_box_pack_start(
@@ -234,6 +240,7 @@ static void activate( GtkApplication* app, gpointer user_data )
                     char *my_text = my_alias != NULL ? my_alias : my_value;
                     
                     my_radio_button = gtk_radio_button_new_with_label(NULL, my_text);
+                    // gtk_widget_set_halign(my_radio_button, GTK_ALIGN_START);
                     gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
                     previous_button = my_radio_button;
 
