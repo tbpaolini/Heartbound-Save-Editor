@@ -195,13 +195,7 @@ static void activate( GtkApplication* app, gpointer user_data )
                                                             // (for whatever reason, just aligning both to the top was not enough)
 
             // Add the name label to the entry's box
-            gtk_box_pack_start(
-                GTK_BOX(my_wrapper),    // Parent (the wrapping box)
-                my_name_label,          // Child (the name label)
-                FALSE,                  // Do not expand
-                FALSE,                  // Do not fill the remaining space
-                0                       // Padding
-            );
+            gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);
 
             // Create a flow box for the options
             GtkWidget *my_options = gtk_flow_box_new();
@@ -211,13 +205,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             // gtk_flow_box_set_homogeneous(GTK_FLOW_BOX(my_options), FALSE);
 
             // Add the flow box to the wrapper
-            gtk_box_pack_start(
-                GTK_BOX(my_wrapper),    // Parent (the wrapping box)
-                my_options,             // Child (the flow box for the options)
-                TRUE,                   // Expands to fill the remaining space
-                TRUE,                   // Makes the expanded space available to the flow box's contents
-                0                       // Padding
-            );
+            gtk_container_add(GTK_CONTAINER(my_wrapper), my_options);
             
             // The type of entry field
             /*  If the '.num_entries' attribute is set to 0, then it means that
