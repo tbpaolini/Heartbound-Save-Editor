@@ -19,6 +19,9 @@
 #define IMAGE_HEIGHT 80
 #define IMAGE_MARGIN 10
 
+#define ENTRY_VERTICAL_SPACING 0
+#define ENTRY_HORIZONTAL_SPACING 0
+
 #define TEXT_BUFFER_SIZE 1024
 
 static void activate( GtkApplication* app, gpointer user_data )
@@ -129,15 +132,27 @@ static void activate( GtkApplication* app, gpointer user_data )
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_label, 0, my_position, 2, 1);
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_image, 0, my_position+1, 1, 1);
 
-        // Add a flow box to the right of the image
-        GtkWidget *my_flowbox = gtk_flow_box_new();
-        gtk_orientable_set_orientation(GTK_ORIENTABLE(my_flowbox), GTK_ORIENTATION_HORIZONTAL);
-        gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_flowbox, 1, my_position+1, 1, 1);
+        // Create a box for the save entries of the location
+        GtkWidget *my_contents = gtk_box_new(GTK_ORIENTATION_VERTICAL, ENTRY_VERTICAL_SPACING);
+        // gtk_widget_set_halign(my_contents, GTK_ALIGN_START);
+        // gtk_widget_set_valign(my_contents, GTK_ALIGN_START);
+        gtk_widget_set_hexpand(my_contents, TRUE);
+        gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_contents, 1, my_position+1, 1, 1);
     }
 
     // Add the save entries to each page
     for (size_t i = 0; i < NUM_STORY_VARS; i++)
     {
+        /*
+            Each entry will be wrapped inside a box. This wrapper has a label to the left,
+            with the name of the entry, and a flow box to the right, with the options of
+            the entry.
+            
+            The wrapper is packed vertically on its grid cell, and the wrapper contents
+            are packed horizontally. The flow box with the options expands horizontally
+            to fill the remaining window space.
+        */
+        
         StorylineVars storyline_variable = hb_save_data[i];
         
         if (storyline_variable.used)
@@ -148,12 +163,15 @@ static void activate( GtkApplication* app, gpointer user_data )
             size_t my_chapter = my_location->world;
             size_t my_position = my_location->position * 2 + 1;
 
-            // Get the flow box where the entry should go
-            GtkWidget *my_flowbox = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
+            // Get the box on the grid cell where the entry should go
+            GtkWidget *my_cell = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
 
-            // Create a box to hold the entry's widgets (name label, text field, radio buttons)
-            GtkWidget *myself = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-            gtk_container_add(GTK_CONTAINER(my_flowbox), myself);     // Add to the flow box
+            // Create the wrapper box to hold the entry's widgets (name label and options)
+            GtkWidget *my_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, ENTRY_HORIZONTAL_SPACING);
+            gtk_widget_set_hexpand(my_wrapper, TRUE);
+
+            // Add the wrapper to the cell
+            gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper);
 
             // Copy the entry's name to the text buffer
             strcpy_s(text_buffer, TEXT_BUFFER_SIZE, storyline_variable.name);
@@ -165,13 +183,35 @@ static void activate( GtkApplication* app, gpointer user_data )
                 strcat_s(text_buffer, TEXT_BUFFER_SIZE, storyline_variable.info);
                 strcat_s(text_buffer, TEXT_BUFFER_SIZE, ")");
             }
+
+            // Append a colon to the label's text
+            strcat_s(text_buffer, TEXT_BUFFER_SIZE, ":");
             
             // Create a name label with the string on the text buffer
             GtkWidget *my_name_label = gtk_label_new(text_buffer);
+            gtk_widget_set_margin_end(my_name_label, ENTRY_VERTICAL_SPACING);
 
             // Add the name label to the entry's box
-            gtk_box_pack_start(GTK_BOX(myself), my_name_label, FALSE, FALSE, 0);
-            // gtk_container_add(GTK_CONTAINER(myself), my_name_label);
+            gtk_box_pack_start(
+                GTK_BOX(my_wrapper),    // Parent (the wrapping box)
+                my_name_label,          // Child (the name label)
+                FALSE,                  // Do not expand
+                FALSE,                  // Do not fill the remaining space
+                0                       // Padding
+            );
+
+            // Create a flow box for the options
+            GtkWidget *my_options = gtk_flow_box_new();
+            gtk_widget_set_hexpand(my_options, TRUE);
+
+            // Add the flow box to the wrapper
+            gtk_box_pack_start(
+                GTK_BOX(my_wrapper),    // Parent (the wrapping box)
+                my_options,             // Child (the flow box for the options)
+                TRUE,                   // Expands to fill the remaining space
+                TRUE,                   // Makes the expanded space available to the flow box's contents
+                0                       // Padding
+            );
             
             // The type of entry field
             /*  If the '.num_entries' attribute is set to 0, then it means that
@@ -202,7 +242,7 @@ static void activate( GtkApplication* app, gpointer user_data )
                         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
                     }
 
-                    gtk_box_pack_start(GTK_BOX(myself), my_radio_button, FALSE, FALSE, 0);
+                    gtk_container_add(GTK_CONTAINER(my_options), my_radio_button);
                 }
             }
         }
