@@ -10,7 +10,7 @@
 StorylineVars hb_save_data[NUM_STORY_VARS];
 
 // Headers of the save structure
-static char **save_headers;            // Names of the columns (array of strings)
+char **hb_save_headers;                // Names of the columns (array of strings)
 static size_t num_columns;             // Amount of columns in the structure
 static size_t num_data;                // Amount of data columns
 static size_t unit_column;             // Index of the column with the measurement unit's name
@@ -44,7 +44,7 @@ int hb_create_save_struct()
 
 
     // Store the column names in an array
-    save_headers = malloc(num_columns * sizeof(char*));                 // Allocate enough memory for one string pointer per column
+    hb_save_headers = malloc(num_columns * sizeof(char*));                 // Allocate enough memory for one string pointer per column
     char *restrict value_buffer = malloc(SAVE_STRUCT_BUFFER + (size_t)1); // Buffer for the column value
     
     size_t line_pos = (size_t)0;    // Current position of character on the line
@@ -65,13 +65,13 @@ int hb_create_save_struct()
         if ( (line_buffer[line_pos] == '\t') || (line_buffer[line_pos] == '\n') )
         {
             value_buffer[value_pos] = '\0';                 // Terminate the string (null terminator)
-            save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
-            strcpy(save_headers[column++], value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
+            hb_save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
+            strcpy(hb_save_headers[column++], value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
             if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
             value_pos = (size_t)0;                          // Return to the beginning of the value buffer
 
             // Check if this is the column of the measurement unit's name
-            if ( strcmp(save_headers[column - 1], "X") == 0 ) {unit_column = column - 1;}
+            if ( strcmp(hb_save_headers[column - 1], "X") == 0 ) {unit_column = column - 1;}
         }
     }
 
@@ -82,10 +82,15 @@ int hb_create_save_struct()
         fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);
     }
 
-    // Initialize the 'used' flags of the storyline variables to 'false'
+    // Initialize the 'used' flags of the storyline variables to 'false', and the pointers to NULL
     
     for (size_t i = 0; i < NUM_STORY_VARS; i++)
     {
+        hb_save_data[i].location = NULL;
+        hb_save_data[i].name = NULL;
+        hb_save_data[i].info = NULL;
+        hb_save_data[i].unit = NULL;
+        hb_save_data[i].aliases = NULL;
         hb_save_data[i].used = false;
     }
 
@@ -261,7 +266,7 @@ int hb_create_save_struct()
                             // Set the alias for the current value and move to the next value
                             // (The value's description is linked to the name of its respective column)
                             hb_save_data[var].aliases[var_pos++] = (ValueAlias){
-                                 .header = &(save_headers[column]), // Pointer to the name of the header (which is the value itself)
+                                 .header = &(hb_save_headers[column]), // Pointer to the name of the header (which is the value itself)
                                  .description = my_value            // What the value does (as a string)
                             };
                         }
@@ -314,9 +319,9 @@ void hb_destroy_save_struct()
     // Names of the columns of the save structure
     for (size_t i = 0; i < num_columns; i++)
     {
-        free(save_headers[i]);
+        free(hb_save_headers[i]);
     }
-    free(save_headers);
+    free(hb_save_headers);
 
     // Deallocate the values of the save structure for each storyline variable
     for (size_t var = 0; var <= max_var; var++)

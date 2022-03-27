@@ -128,6 +128,84 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Add the image and labels to the window
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_label, 0, my_position, 2, 1);
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_image, 0, my_position+1, 1, 1);
+
+        // Add a flow box to the right of the image
+        GtkWidget *my_flowbox = gtk_flow_box_new();
+        gtk_orientable_set_orientation(GTK_ORIENTABLE(my_flowbox), GTK_ORIENTATION_HORIZONTAL);
+        gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_flowbox, 1, my_position+1, 1, 1);
+    }
+
+    // Add the save entries to each page
+    for (size_t i = 0; i < NUM_STORY_VARS; i++)
+    {
+        StorylineVars storyline_variable = hb_save_data[i];
+        
+        if (storyline_variable.used)
+        {
+            // Get the chapter and window position
+            HeartboundLocation *my_location = hb_get_location(storyline_variable.location);
+            if (my_location == NULL) continue;  // Skip the entry if its location was not found
+            size_t my_chapter = my_location->world;
+            size_t my_position = my_location->position * 2 + 1;
+
+            // Get the flow box where the entry should go
+            GtkWidget *my_flowbox = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
+
+            // Create a box to hold the entry's widgets (name label, text field, radio buttons)
+            GtkWidget *myself = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+            gtk_container_add(GTK_CONTAINER(my_flowbox), myself);     // Add to the flow box
+
+            // Copy the entry's name to the text buffer
+            strcpy_s(text_buffer, TEXT_BUFFER_SIZE, storyline_variable.name);
+            
+            // If the entry has additional info, append it to the text buffer
+            if (storyline_variable.info != NULL)
+            {
+                strcat_s(text_buffer, TEXT_BUFFER_SIZE, " (");
+                strcat_s(text_buffer, TEXT_BUFFER_SIZE, storyline_variable.info);
+                strcat_s(text_buffer, TEXT_BUFFER_SIZE, ")");
+            }
+            
+            // Create a name label with the string on the text buffer
+            GtkWidget *my_name_label = gtk_label_new(text_buffer);
+
+            // Add the name label to the entry's box
+            gtk_box_pack_start(GTK_BOX(myself), my_name_label, FALSE, FALSE, 0);
+            // gtk_container_add(GTK_CONTAINER(myself), my_name_label);
+            
+            // The type of entry field
+            /*  If the '.num_entries' attribute is set to 0, then it means that
+                the field accept any value (a text field will be used).
+                If '.num_entries' is 2 or more, then the appropriate number of
+                radio buttons will be used. */
+            if (storyline_variable.num_entries == 0)
+            {
+                /* code */
+            }
+            else if (storyline_variable.num_entries >= 2)
+            {
+                GtkWidget *my_radio_button = NULL;
+                GtkWidget *previous_button = NULL;
+                
+                for (size_t j = 0; j < storyline_variable.num_entries; j++)
+                {
+                    char *my_alias = storyline_variable.aliases[j].description;
+                    char *my_value = storyline_variable.aliases[j].header != NULL ? *storyline_variable.aliases[j].header : hb_save_headers[COLUMN_OFFSET + j];
+                    char *my_text = my_alias != NULL ? my_alias : my_value;
+                    
+                    my_radio_button = gtk_radio_button_new_with_label(NULL, my_text);
+                    gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
+                    previous_button = my_radio_button;
+
+                    if (storyline_variable.value == atof(my_value))
+                    {
+                        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
+                    }
+
+                    gtk_box_pack_start(GTK_BOX(myself), my_radio_button, FALSE, FALSE, 0);
+                }
+            }
+        }
     }
 
     // Deallocate the text buffer

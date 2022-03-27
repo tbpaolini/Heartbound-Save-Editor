@@ -50,6 +50,9 @@ typedef struct StorylineVars
 // Lookup table of storyline variables
 extern StorylineVars hb_save_data[NUM_STORY_VARS];
 
+// Names of the columns (array of strings)
+extern char **hb_save_headers;
+
 // Create the data structure for the save file
 int hb_create_save_struct();
 
