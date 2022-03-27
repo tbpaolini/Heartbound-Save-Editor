@@ -217,21 +217,30 @@ static void activate( GtkApplication* app, gpointer user_data )
                 GtkWidget *my_radio_button = NULL;
                 GtkWidget *previous_button = NULL;
                 
+                // Create radio buttons for each possible value
                 for (size_t j = 0; j < storyline_variable.num_entries; j++)
                 {
+                    /*
+                        The value of the button is the actual numeric value (as a string) on the save file.
+                        The alias of the button is the user friendly name of the value.
+                        The text of the button will be the alias, if one is available, otherwise the value string.
+                    */
                     char *my_alias = storyline_variable.aliases[j].description;
                     char *my_value = storyline_variable.aliases[j].header != NULL ? *storyline_variable.aliases[j].header : hb_save_headers[COLUMN_OFFSET + j];
                     char *my_text = my_alias != NULL ? my_alias : my_value;
                     
+                    // Create a radio button with a text label on the group of the current storyline variable
                     my_radio_button = gtk_radio_button_new_with_label(NULL, my_text);
                     gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
                     previous_button = my_radio_button;
 
+                    // Set to active the radio button that corresponds to the variable's value on the save file
                     if (storyline_variable.value == atof(my_value))
                     {
                         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
                     }
 
+                    // Add the radio button to the flow box
                     gtk_container_add(GTK_CONTAINER(my_options), my_radio_button);
                 }
             }
