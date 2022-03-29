@@ -5,6 +5,7 @@
             "label": "C/C++: Release",
             "command": "C:/msys64/mingw64/bin/mingw32-make.exe",
             "args": [
+                "-B",
                 "release"
             ],
             "options": {
@@ -24,6 +25,7 @@
             "label": "C/C++: Debug",
             "command": "C:/msys64/mingw64/bin/mingw32-make.exe",
             "args": [
+                "-B",
                 "debug"
             ],
             "options": {
