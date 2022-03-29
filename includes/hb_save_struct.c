@@ -92,6 +92,7 @@ int hb_create_save_struct()
         hb_save_data[i].unit = NULL;
         hb_save_data[i].aliases = NULL;
         hb_save_data[i].used = false;
+        hb_save_data[i].maximum = 0.0;
     }
 
     // Read the structure of each storyline variable
@@ -176,6 +177,11 @@ int hb_create_save_struct()
                     case 4:
                         // Description 2 (more detail about the storyline variable)
                         hb_save_data[var].info = my_value;
+
+                        // If the description specifies the maximum, set it to the '.maximum attribute'
+                        char *max = strstr(my_value, "Max ");
+                        if (max != NULL) hb_save_data[var].maximum = atof(max+3);
+
                         break;
                     
                     case 5:
@@ -185,8 +191,10 @@ int hb_create_save_struct()
                             If the variable accepts some arbitrary number instead, then the value of this
                             column is either '0|X' or 'X'. In that case, there will be no aliases for the
                             values, just the measurement unit that the value represents (like seconds, tries..)
+                            Also if a maximum value is given, then the variable is also considered to accept
+                            any arbitrary value.
                         */
-                        if ( strcmp(my_value, "0|X") == 0 || strcmp(my_value, "X") == 0 )
+                        if ( strcmp(my_value, "0|X") == 0 || strcmp(my_value, "X") == 0 || hb_save_data[var].maximum > 0.0)
                         {
                             // Storyline variable accepts any value
                             hb_save_data[var].num_entries = (size_t)0;
@@ -347,7 +355,8 @@ void hb_destroy_save_struct()
         }
         
         // Set the statically allocated values to zero
-        hb_save_data[var].value = (size_t)0;
+        hb_save_data[var].value = 0.0;
+        hb_save_data[var].maximum = 0.0;
         hb_save_data[var].num_entries = (size_t)0;
     }
 

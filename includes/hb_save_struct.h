@@ -42,6 +42,7 @@ typedef struct StorylineVars
     char *name;                  // Description of the in-game feature this entry refers to
     char *info;                  // Further description of the feature
     char *unit;                  // Measurement unit of the value this entry represents
+    double maximum;              // Maximum value of the variable (0.0 if there is no maximum)
     size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
     ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
     bool used;                   // Wheter the variable has data on it
