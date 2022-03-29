@@ -22,6 +22,10 @@
 #define ENTRY_VERTICAL_SPACING 0
 #define ENTRY_HORIZONTAL_SPACING 0
 
+#define TEXT_FIELD_MARGIN 10
+#define TEXT_FIELD_WIDTH 5
+#define TEXT_FIELD_MAX_CHARS 14
+
 #define TEXT_BUFFER_SIZE 1024
 
 static void activate( GtkApplication* app, gpointer user_data )
@@ -212,7 +216,24 @@ static void activate( GtkApplication* app, gpointer user_data )
                 of values, then 'No' and 'Yes' radio buttons will be used. */
             if (storyline_variable.num_entries == 0 && (storyline_variable.unit != NULL || storyline_variable.maximum > 0.0))
             {
-                /* code */
+                // Create the text entry field
+                GtkWidget *my_entry_field = gtk_entry_new();
+                gtk_widget_set_margin_start(my_entry_field, TEXT_FIELD_MARGIN);
+                gtk_container_add(GTK_CONTAINER(my_options), my_entry_field);
+
+                // Set the properties of the text entry field
+                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", storyline_variable.value);  // Convert the variable's value to string
+                gtk_entry_set_text(GTK_ENTRY(my_entry_field), text_buffer);                 // Add the variable's value (as string) to the field
+                gtk_entry_set_width_chars(GTK_ENTRY(my_entry_field), TEXT_FIELD_WIDTH);     // Set the width of the field
+                gtk_entry_set_max_length(GTK_ENTRY(my_entry_field), TEXT_FIELD_MAX_CHARS);  // Maximum amount of characters the field can have
+                gtk_entry_set_placeholder_text(GTK_ENTRY(my_entry_field), "0");             // Display '0' if the field is empty and unfocused
+                
+                // Add the measurement unit to the left of the text field
+                if (storyline_variable.unit != NULL)
+                {
+                    GtkWidget *my_unit_label = gtk_label_new(storyline_variable.unit);
+                    gtk_container_add(GTK_CONTAINER(my_options), my_unit_label);
+                }
             }
             else if (storyline_variable.num_entries >= 2)
             {
