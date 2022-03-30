@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "*.h": "c"
+        "*.c": "c",
+        "*.h": "c",
+        "cmath": "c",
+        "limits": "c",
+        "*.tcc": "c",
+        "typeinfo": "c"
     }
 }
