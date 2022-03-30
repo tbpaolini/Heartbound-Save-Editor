@@ -199,6 +199,7 @@ static void activate( GtkApplication* app, gpointer user_data )
 
             // Create a flow box for the options
             GtkWidget *my_options = gtk_flow_box_new();
+            gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_options), GTK_SELECTION_NONE);  // Prevents the text inside from getting highlighted when you click on them
             gtk_widget_set_valign(my_options, GTK_ALIGN_START);
             gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_options), 2);
 
