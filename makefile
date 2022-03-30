@@ -17,7 +17,7 @@ release: $(DEPENDENCIES)
 	@echo Release build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 debug: TARGET = debug
-debug: CFLAGS += -g3
+debug: CFLAGS += -g3 -D_DEBUG
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
 	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mconsole

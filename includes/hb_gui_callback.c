@@ -18,7 +18,9 @@ void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
     {
         if ( gtk_toggle_button_get_active(current_button) )
         {
-            // g_message("Var %llu -> %s = %s (%s)", story_var->number, story_var->name, story_var->aliases[i].description, story_var->aliases[i].header[0]);
+            #ifdef _DEBUG
+            g_message("Var %llu -> %s = %s (%s)", story_var->number, story_var->name, story_var->aliases[i].description, story_var->aliases[i].header[0]);
+            #endif
             return;
         }
 
