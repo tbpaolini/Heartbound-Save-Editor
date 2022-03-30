@@ -1,26 +1,46 @@
-SOURCE := main.c $(wildcard includes/*.c)			# 'main.c' file and all '*.c' files on the 'includes' folder
-OBJECTS := $(addsuffix .o,$(basename $(SOURCE)))	# The above files but with a '.o' extension
-NAME := Heartbound Save Editor						# Name of the final executable
-DIRECTORY := build									# Folder where the build will go
-ICON := icon.ico									# Icon for the program executable
-STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv	# Files to dinamically build the user interface
-DEPENDENCIES := gtk3 structure assets icon.o $(OBJECTS)				# Files and foldes necessary for compiling the program
+# 'main.c' file and all '*.c' files on the 'includes' folder
+SOURCE := main.c $(wildcard includes/*.c)
+
+# The above files but with a '.o' extension
+
+OBJECTS := $(addsuffix .o,$(basename $(SOURCE)))
+# Name of the final executable
+NAME := Heartbound Save Editor
+
+# Folder where the build will go
+DIRECTORY := build
+
+# Icon for the program executable
+ICON := icon.ico
+
+# Files to dinamically build the user interface
+STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
+
+# Files and foldes necessary for compiling the program
+DEPENDENCIES := gtk3 structure assets icon.o $(OBJECTS)
+
+# Flags to pass to the compiler
 CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-color=always
-# Note: CFLAGS runs two shell commands to get the flags to pass to the compiler, they return the folders of the GTK 3 headers and libraries.
+# Note: Here we run two shell commands to get the flags to pass to the compiler, they return the folders of the GTK 3 headers and libraries.
 
-.PHONY: release debug clean		# Target parameters that 'make' can be run with on the tarminal
+# Target parameters that 'make' can be run with on the tarminal
+.PHONY: release debug clean
 
+# Subfolder where the release build will go
+release: TARGET = release
+# Activate compiler optimizations
+release: CFLAGS += -O2
 # Link together the compiled objects of the release build
-release: TARGET = release	# Subfolder where the release build will go
-release: CFLAGS += -O2		# Activate compiler optimizations
 release: $(DEPENDENCIES)
 	@echo Linking release build...
 	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mwindows
 	@echo Release build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
-# Link together the compiled objects of the release build
-debug: TARGET = debug			# Subfolder where the debug build will go
-debug: CFLAGS += -g3 -D_DEBUG	# Add debug symbols to the executable and define the '_DEBUG' macro
+# Subfolder where the debug build will go
+debug: TARGET = debug
+# Add debug symbols to the executable and define the '_DEBUG' macro
+debug: CFLAGS += -g3 -D_DEBUG
+# Link together the compiled objects of the debug build
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
 	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mconsole
