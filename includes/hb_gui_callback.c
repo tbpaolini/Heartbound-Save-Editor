@@ -46,7 +46,7 @@ void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
             #ifdef _DEBUG
             g_message(
                 "Var %llu -> %s = %s (%s)",
-                story_var->number,
+                story_var->index,
                 story_var->name,
                 story_var->aliases[i].description,
                 story_var->aliases[i].header[0]

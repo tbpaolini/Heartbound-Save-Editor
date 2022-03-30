@@ -37,6 +37,7 @@ typedef struct ValueAlias
 // The storyline variables
 typedef struct StorylineVars
 {
+    size_t index;                // Number of the storyline var (used for debugging)
     double value;                // Value of this entry on the save file
     char *location;              // In-game location that this entry applies to
     char *name;                  // Description of the in-game feature this entry refers to
@@ -46,7 +47,6 @@ typedef struct StorylineVars
     size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
     ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
     bool used;                   // Wheter the variable has data on it
-    size_t number;               // Number of the storyline var (used for debugging)
 } StorylineVars;
 
 // Lookup table of storyline variables
