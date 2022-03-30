@@ -46,6 +46,7 @@ typedef struct StorylineVars
     size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
     ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
     bool used;                   // Wheter the variable has data on it
+    size_t number;               // Number of the storyline var (used for debugging)
 } StorylineVars;
 
 // Lookup table of storyline variables

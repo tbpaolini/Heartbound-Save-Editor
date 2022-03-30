@@ -143,7 +143,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     }
 
     // Add the save entries to each page
-    for (size_t i = 0; i < NUM_STORY_VARS; i++)
+    for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         /*
             Each entry will be wrapped inside a box. This wrapper has a label to the left,
@@ -155,12 +155,10 @@ static void activate( GtkApplication* app, gpointer user_data )
             to fill the remaining window space.
         */
         
-        StorylineVars storyline_variable = hb_save_data[i];
-        
-        if (storyline_variable.used)
+        if (hb_save_data[var].used)
         {
             // Get the chapter and window position
-            HeartboundLocation *my_location = hb_get_location(storyline_variable.location);
+            HeartboundLocation *my_location = hb_get_location(hb_save_data[var].location);
             if (my_location == NULL) continue;  // Skip the entry if its location was not found
             size_t my_chapter = my_location->world;
             size_t my_position = my_location->position * 2 + 1;
@@ -176,13 +174,13 @@ static void activate( GtkApplication* app, gpointer user_data )
             gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper);
 
             // Copy the entry's name to the text buffer
-            strcpy_s(text_buffer, TEXT_BUFFER_SIZE, storyline_variable.name);
+            strcpy_s(text_buffer, TEXT_BUFFER_SIZE, hb_save_data[var].name);
             
             // If the entry has additional info, append it to the text buffer
-            if (storyline_variable.info != NULL)
+            if (hb_save_data[var].info != NULL)
             {
                 strcat_s(text_buffer, TEXT_BUFFER_SIZE, " (");
-                strcat_s(text_buffer, TEXT_BUFFER_SIZE, storyline_variable.info);
+                strcat_s(text_buffer, TEXT_BUFFER_SIZE, hb_save_data[var].info);
                 strcat_s(text_buffer, TEXT_BUFFER_SIZE, ")");
             }
 
@@ -214,7 +212,7 @@ static void activate( GtkApplication* app, gpointer user_data )
                 radio buttons will be used.
                 If the variable does not specify a measurement unit and a number
                 of values, then 'No' and 'Yes' radio buttons will be used. */
-            if (storyline_variable.num_entries == 0 && (storyline_variable.unit != NULL || storyline_variable.maximum > 0.0))
+            if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
             {
                 // Create the text entry field
                 GtkWidget *my_entry_field = gtk_entry_new();
@@ -222,34 +220,34 @@ static void activate( GtkApplication* app, gpointer user_data )
                 gtk_container_add(GTK_CONTAINER(my_options), my_entry_field);
 
                 // Set the properties of the text entry field
-                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", storyline_variable.value);  // Convert the variable's value to string
+                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_save_data[var].value);   // Convert the variable's value to string
                 gtk_entry_set_text(GTK_ENTRY(my_entry_field), text_buffer);                 // Add the variable's value (as string) to the field
                 gtk_entry_set_width_chars(GTK_ENTRY(my_entry_field), TEXT_FIELD_WIDTH);     // Set the width of the field
                 gtk_entry_set_max_length(GTK_ENTRY(my_entry_field), TEXT_FIELD_MAX_CHARS);  // Maximum amount of characters the field can have
                 gtk_entry_set_placeholder_text(GTK_ENTRY(my_entry_field), "0");             // Display '0' if the field is empty and unfocused
                 
                 // Add the measurement unit to the left of the text field
-                if (storyline_variable.unit != NULL)
+                if (hb_save_data[var].unit != NULL)
                 {
-                    GtkWidget *my_unit_label = gtk_label_new(storyline_variable.unit);
+                    GtkWidget *my_unit_label = gtk_label_new(hb_save_data[var].unit);
                     gtk_container_add(GTK_CONTAINER(my_options), my_unit_label);
                 }
             }
-            else if (storyline_variable.num_entries >= 2)
+            else if (hb_save_data[var].num_entries >= 2)
             {
                 GtkWidget *my_radio_button = NULL;
                 GtkWidget *previous_button = NULL;
                 
                 // Create radio buttons for each possible value
-                for (size_t j = 0; j < storyline_variable.num_entries; j++)
+                for (size_t j = 0; j < hb_save_data[var].num_entries; j++)
                 {
                     /*
                         The value of the button is the actual numeric value (as a string) on the save file.
                         The alias of the button is the user friendly name of the value.
                         The text of the button will be the alias, if one is available, otherwise the value string.
                     */
-                    char *my_alias = storyline_variable.aliases[j].description;
-                    char *my_value = storyline_variable.aliases[j].header != NULL ? *storyline_variable.aliases[j].header : hb_save_headers[COLUMN_OFFSET + j];
+                    char *my_alias = hb_save_data[var].aliases[j].description;
+                    char *my_value = hb_save_data[var].aliases[j].header != NULL ? *hb_save_data[var].aliases[j].header : hb_save_headers[COLUMN_OFFSET + j];
                     char *my_text = my_alias != NULL ? my_alias : my_value;
                     
                     // Create a radio button with a text label on the group of the current storyline variable
@@ -258,13 +256,21 @@ static void activate( GtkApplication* app, gpointer user_data )
                     previous_button = my_radio_button;
 
                     // Set to active the radio button that corresponds to the variable's value on the save file
-                    if (storyline_variable.value == atof(my_value))
+                    if (hb_save_data[var].value == atof(my_value))
                     {
                         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
                     }
 
                     // Add the radio button to the flow box
                     gtk_container_add(GTK_CONTAINER(my_options), my_radio_button);
+
+                    // Change the storyline variable value when the button is clicked
+                    g_signal_connect(
+                        my_radio_button,                        // The radio button
+                        "toggled",                              // Event to be listened
+                        G_CALLBACK(hb_setvar_radio_button),     // Function to change a variable value
+                        &hb_save_data[var]                      // Pointer to the storyline variable
+                    );
                 }
             }
             else    // If nothing else matches, just use No/Yes radio buttons
@@ -283,7 +289,7 @@ static void activate( GtkApplication* app, gpointer user_data )
                     previous_button = my_radio_button;
 
                     // Set to active the radio button that corresponds to the variable's value on the save file
-                    if (storyline_variable.value == my_value[i])
+                    if (hb_save_data[var].value == my_value[i])
                     {
                         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
                     }

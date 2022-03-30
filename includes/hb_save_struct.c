@@ -161,6 +161,7 @@ int hb_create_save_struct()
                         }
                         
                         hb_save_data[var].used = true;  // Flag the variable as 'used'
+                        hb_save_data[var].number = var; // Store the number of the variable (for debugging purposes)
                         free(my_value);
                         break;
                     
@@ -358,6 +359,7 @@ void hb_destroy_save_struct()
         hb_save_data[var].value = 0.0;
         hb_save_data[var].maximum = 0.0;
         hb_save_data[var].num_entries = (size_t)0;
+        hb_save_data[var].number = (size_t)0;
     }
 
     // Flag that the save structure is not parsed
