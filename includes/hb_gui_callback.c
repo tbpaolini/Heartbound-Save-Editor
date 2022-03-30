@@ -36,20 +36,22 @@ void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
         if ( gtk_toggle_button_get_active(current_button) )
         {
             // Change the storyline variable's value
-            story_var->value = atof(story_var->aliases[i].header[0]);
+            char **header = story_var->aliases[i].header;
+            story_var->value = header != NULL ? atof(header[0]) : (double)i;
             /*
                 The '.header' attribute is a list of the actual values (as strings)
                 that correspond to each alias (the user friendly name).
+                If there is no header, then the number of the value is used.
             */
             
             // Show a message on the console if this is the debug build
             #ifdef _DEBUG
             g_message(
-                "Var %llu -> %s = %s (%s)",
+                "Var %llu -> %s = %s (%.0f)",
                 story_var->index,
                 story_var->name,
                 story_var->aliases[i].description,
-                story_var->aliases[i].header[0]
+                story_var->value
             );
             #endif
             
