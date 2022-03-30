@@ -297,6 +297,14 @@ static void activate( GtkApplication* app, gpointer user_data )
 
                     // Add the radio button to the flow box
                     gtk_container_add(GTK_CONTAINER(my_options), my_radio_button);
+
+                    // Change the storyline variable value when the button is toggled on
+                    g_signal_connect(
+                        my_radio_button,                        // The radio button
+                        "toggled",                              // Event to be listened
+                        G_CALLBACK(hb_setvar_no_yes),           // Function to change a variable value
+                        &hb_save_data[var]                      // Pointer to the storyline variable
+                    );
                 }
             }
         }

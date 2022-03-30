@@ -62,3 +62,41 @@ void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
         current_button = GTK_TOGGLE_BUTTON(my_group->data);
     }
 }
+
+// Set a storyline variable's value when a No/Yes radio button was clicked
+// These kind of buttons are used as a fallback when the variable does not fall in the other types
+void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
+{
+    // Is the button that triggered the 'toggled' event active?
+    gboolean button_is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    if (!button_is_active) return;
+
+    // Get the group that the button is part of
+    GSList *my_group = gtk_radio_button_get_group(widget);
+    GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(my_group->data);
+
+    // Get whether the first button of the group is active
+    // (Since in this case the group has necessarily two buttons,
+    //  then we only need to check one of them.)
+    if ( gtk_toggle_button_get_active(current_button) )
+    {
+        // Set the storyline variable's value to "True"
+        story_var->value = 1.0;
+    }
+    else
+    {
+        // Set the storyline variable's value to "False"
+        story_var->value = 0.0;
+    }
+
+    // Show a message on the console if this is the debug build
+    #ifdef _DEBUG
+    g_message(
+        "Var %llu -> %s = %s (%.0f)",
+        story_var->index,
+        story_var->name,
+        (story_var->value == 1.0 ? "Yes" : "No"),
+        story_var->value
+    );
+    #endif
+}
