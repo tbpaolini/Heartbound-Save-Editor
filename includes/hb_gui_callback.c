@@ -3,8 +3,10 @@
     validate or modify the save data.
 */
 
+#include <string.h>
 #include <gtk\gtk.h>
 #include <hb_save.h>
+#include <hb_gui_callback.h>
 
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
@@ -101,4 +103,49 @@ void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
         story_var->value
     );
     #endif
+}
+
+// Set a storyline variable's value after its text box is edited
+void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
+{
+    // Get the text from the widget
+    char *my_text = gtk_entry_get_text(widget);
+
+    // Copy the text to the temporary buffer (since the widget's text should not be edited directly)
+    char *temp_buffer = text_entry_buffer[story_var->index];
+    strncpy(temp_buffer, my_text, TEXT_FIELD_MAX_CHARS + 1);
+
+    // Remove the non-digit characters
+    hb_text_filter_natural(temp_buffer, TEXT_FIELD_MAX_CHARS);
+    
+    // Set the filtered text to the widget
+    gtk_entry_set_text(widget, temp_buffer);
+
+    // Modify the storyline variable
+    story_var->value = atof(temp_buffer);
+}
+
+// Filter the non numeric characters out of a string.
+// In other words, ensure that the string represents a natural number (positive integer).
+void hb_text_filter_natural(char *text, size_t max_length)
+{
+    // Get the amount of characters on the string
+    size_t my_length = strnlen_s(text, max_length);
+    if (my_length < 0 || my_length > max_length) return;
+
+    // Position on the new string
+    size_t pos = 0;
+
+    // Copy the digits to the begining of the string
+    for (size_t i = 0; i < my_length; i++)
+    {
+        if ( isdigit(text[i]) )
+        {
+            // Advance the destination position if the character is a digit
+            text[pos++] = text[i];
+        }
+    }
+
+    // Add a null terminator to the string
+    text[pos] = '\0';
 }
