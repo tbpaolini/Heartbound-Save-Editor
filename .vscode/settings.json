@@ -5,6 +5,7 @@
         "cmath": "c",
         "limits": "c",
         "*.tcc": "c",
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "cctype": "c"
     }
 }
