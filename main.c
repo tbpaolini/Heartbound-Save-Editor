@@ -212,6 +212,15 @@ static void activate( GtkApplication* app, gpointer user_data )
                     GtkWidget *my_unit_label = gtk_label_new(hb_save_data[var].unit);
                     gtk_container_add(GTK_CONTAINER(my_options), my_unit_label);
                 }
+
+                // Filter the characters and update the storyline variable when the entry's content changes
+                // (Only digits from 0 to 9 are accepted)
+                g_signal_connect(
+                    GTK_ENTRY(my_entry_field),          // The entry field
+                    "changed",                          // Event to be listened
+                    G_CALLBACK(hb_setvar_text_entry),   // Function to remove non-digits characters and update the storyline variable
+                    &hb_save_data[var]                  // Pointer to the storyline variable
+                );
             }
             else if (hb_save_data[var].num_entries >= 2)
             {

@@ -10,7 +10,18 @@
 #include <hb_save.h>
 #include "..\config.h"
 
-static char text_entry_buffer[NUM_STORY_VARS][TEXT_FIELD_MAX_CHARS + 1];
+// Buffer for filtering the contents of the text entries
+static char text_entry_buffer[TEXT_FIELD_MAX_CHARS + 1];
+/* Note:
+    Accordig to the GTK's documentation (https://docs.gtk.org/gobject/func.signal_connect.html),
+    the callback functions are called synchronously. From that I infer that there is no issue
+    in having a single buffer for filtering all text fields, since only one entry is going
+    to use it at any given time.
+    
+    If somehow multiple text fields were edited at the same time, their callbacks would be
+    executed one after the other. Plus there isn't any means for an user to edit multiple
+    fields at once on this program.
+*/
 
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var);

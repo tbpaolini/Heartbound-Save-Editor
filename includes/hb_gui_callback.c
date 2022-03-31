@@ -112,17 +112,28 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
     const char *my_text = gtk_entry_get_text(widget);
 
     // Copy the text to the temporary buffer (since the widget's text should not be edited directly)
-    char *temp_buffer = text_entry_buffer[story_var->index];
-    strncpy(temp_buffer, my_text, TEXT_FIELD_MAX_CHARS + 1);
+    strncpy(text_entry_buffer, my_text, TEXT_FIELD_MAX_CHARS + 1);
 
     // Remove the non-digit characters
-    hb_text_filter_natural(temp_buffer, TEXT_FIELD_MAX_CHARS);
+    hb_text_filter_natural(text_entry_buffer, TEXT_FIELD_MAX_CHARS);
     
     // Set the filtered text to the widget
-    gtk_entry_set_text(widget, temp_buffer);
+    g_signal_handlers_block_by_func(widget, G_CALLBACK(hb_setvar_text_entry), story_var);   // Prevents the 'changed' signal from being emitted recursively
+    gtk_entry_set_text(widget, text_entry_buffer);
+    g_signal_handlers_unblock_by_func(widget, G_CALLBACK(hb_setvar_text_entry), story_var);
 
     // Modify the storyline variable
-    story_var->value = atof(temp_buffer);
+    story_var->value = atof(text_entry_buffer);
+
+    // Show a message on the console if this is the debug build
+    #ifdef _DEBUG
+    g_message(
+        "Var %llu -> %s = %.0f",
+        story_var->index,
+        story_var->name,
+        story_var->value
+    );
+    #endif
 }
 
 // Filter the non numeric characters out of a string.
