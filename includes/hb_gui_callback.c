@@ -116,6 +116,22 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
 
     // Remove the non-digit characters
     hb_text_filter_natural(text_entry_buffer, TEXT_FIELD_MAX_CHARS);
+
+    // Limit the value to the variable's maximum (if there is a maximum)
+    double new_value;
+    if (gtk_entry_get_text_length(widget) > 0)
+    {
+        new_value = atof(text_entry_buffer);
+        if (story_var->maximum > 0.0)
+        {
+            new_value = (new_value <= story_var->maximum) ? new_value : story_var->maximum;
+            snprintf(text_entry_buffer, TEXT_FIELD_MAX_CHARS + 1, "%.0f", new_value);
+        }
+    }
+    else
+    {
+        new_value = 0.0;
+    }
     
     // Set the filtered text to the widget
     g_signal_handlers_block_by_func(widget, G_CALLBACK(hb_setvar_text_entry), story_var);   // Prevents the 'changed' signal from being emitted recursively
@@ -123,7 +139,7 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
     g_signal_handlers_unblock_by_func(widget, G_CALLBACK(hb_setvar_text_entry), story_var);
 
     // Modify the storyline variable
-    story_var->value = atof(text_entry_buffer);
+    story_var->value = new_value;
 
     // Show a message on the console if this is the debug build
     #ifdef _DEBUG
