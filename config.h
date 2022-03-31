@@ -3,6 +3,9 @@
     This file defines the configurations of the main application window.
 */
 
+#ifndef _CONFIG
+#define _CONFIG
+
 // Window properties
 #define WINDOW_WIDTH 720
 #define WINDOW_HEIGHT 540
@@ -25,3 +28,5 @@
 #define TEXT_FIELD_WIDTH 5
 #define TEXT_FIELD_MAX_CHARS 14
 #define TEXT_BUFFER_SIZE 1024
+
+#endif

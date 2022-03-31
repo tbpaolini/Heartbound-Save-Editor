@@ -4,7 +4,7 @@
 #include <gtk\gtk.h>
 #include <unistd.h>
 #include <hb_save.h>
-#include <config.h>
+#include "config.h"
 // #include <windows.h>
 
 static void activate( GtkApplication* app, gpointer user_data )

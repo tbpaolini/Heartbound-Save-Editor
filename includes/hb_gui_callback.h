@@ -3,9 +3,12 @@
     validate or modify the save data.
 */
 
+#ifndef _HB_GUI_CALLBACK
+#define _HB_GUI_CALLBACK
+
 #include <gtk\gtk.h>
 #include <hb_save.h>
-#include <config.h>
+#include "..\config.h"
 
 static char text_entry_buffer[NUM_STORY_VARS][TEXT_FIELD_MAX_CHARS + 1];
 
@@ -26,3 +29,5 @@ void hb_text_filter_natural(char *text, size_t max_length);
 // Filter out from a string characters that aren't numbers, signs, or points.
 // That is, ensure the resulting string represents a real number.
 void hb_text_filter_real(char *text, size_t max_length);
+
+#endif

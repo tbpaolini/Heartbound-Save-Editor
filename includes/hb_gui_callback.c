@@ -3,7 +3,7 @@
     validate or modify the save data.
 */
 
-#include <string.h>
+#include <ctype.h>
 #include <gtk\gtk.h>
 #include <hb_save.h>
 #include <hb_gui_callback.h>
@@ -109,7 +109,7 @@ void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
 void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
 {
     // Get the text from the widget
-    char *my_text = gtk_entry_get_text(widget);
+    const char *my_text = gtk_entry_get_text(widget);
 
     // Copy the text to the temporary buffer (since the widget's text should not be edited directly)
     char *temp_buffer = text_entry_buffer[story_var->index];
