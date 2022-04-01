@@ -100,7 +100,8 @@ int hb_create_save_struct()
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         // Read the next line into the line buffer
-        fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);
+        char* read_status = fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);
+        if (read_status == NULL) break;     // Break if there were nothing else to be read (end of file)
 
         line_pos = (size_t)0;    // Current position of character on the line
         value_pos = (size_t)0;   // Current position of character on the value of the current column
@@ -244,23 +245,6 @@ int hb_create_save_struct()
                             If we are not on the unit column, then the cell counts as a regular value for
                             the storyline variable.
                         */
-
-                        // Break if the string is empty
-                        /*  
-                            In case the file does not end in a line break, the last column of the last line
-                            will return an empty string, which would lead the program to attempt writting an
-                            extra value to the 'hb_save_data' array beyond its allocated memory. This would
-                            happen because the program checks for a tabulation or line break in order to end
-                            parsing a cell.
-                            
-                            Adding this check for an empty string here seems simpler than reworking the
-                            entire file parsing system just for this case.
-                        */
-                        if (my_value[0] == '\0')
-                        {
-                            free(my_value);
-                            break;
-                        }
                         
                         // We are on the unit's column
                         if (column == unit_column)
@@ -300,12 +284,12 @@ int hb_create_save_struct()
             }
         }
 
+        // Keep track of the maximum index of the storyline variables
+        // (for the purpose of garbage collection)
+        max_var = var;
+
         // Break if the end of the file has been reached
-        if (feof(save_structure))
-        {
-            max_var = var;
-            break;
-        }
+        if (feof(save_structure)) break;
     }
 
     // Close the save structure file
