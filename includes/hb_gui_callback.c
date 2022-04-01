@@ -86,9 +86,6 @@ void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
     {
         // Set the storyline variable's value to "True"
         story_var->value = 1.0;
-
-        // Special case for the variable of the Heartbound ARG (Alternate Reality Game)
-        if (story_var->index == 238) story_var->value = 42;
     }
     else
     {

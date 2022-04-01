@@ -307,7 +307,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 306	299	Animus	Reme Storyline		X											Storyline Step	
 307	300	Animus	Phil Storyline		X											Storyline Step	
 308	301	Animus	Seto Storyline		X											Storyline Step	
-309	302	Animus	Carli Storyline		X												
+309	302	Animus	Carli Storyline		X											Storyline Step	
 310	303	Animus	Village State		0|1|2|3|4|5|100	Dillo	DilloFinished	Deer	Forest	Mole	Turtle						FullyUnlocked
 311	304	IronMines	Help Emelio?		0|1|2|3	NotYet	Yes	No	No								
 312	305	Animus	Twins Emelio Judgement		0|1|2	NotYet	Positive	Negative									
@@ -332,7 +332,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 331	324	IronMines	Mindworms		0|X	Nothing										NumberOfWorms	
 332	325	IronMines	Harvest Sunstone?		0|1	NotYet	Finished										
 333	326	IronMines2	Mindworms 1-2		0|X	Nothing										NumberOfWorms	
-334	327	GLOBAL	Worlds Finished														
+334	327	GLOBAL	Worlds Finished		0|X											NumberOfWorlds	
 335	328	DeerHome	Fern Talked To		0|1	No	Yes										
 336	329	DeerHome	Rhode Talked To		0|1	No	Yes										
 337	330	DeerHome	Rhode asked us out to lunch		0|1|2	NotYet	Yes	No									
@@ -387,7 +387,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 386	379	DeerJudge	Flowers Stepped On		0|1|2	13	14	15									
 387	380	RhodeJudge	Combat Outcome		0|1|2	NotYet	Victory	Defeat									
 388	381	RhodeJudge	Kill or Don't		0|1|2	NotYet	Killed	NotKilled									
-389	382	RhodeJudge	Number of Killing Blows		0|X	NotYet	NumberOfBlows										
+389	382	RhodeJudge	Number of Killing Blows		0|X	NotYet										NumberOfBlows	
 390	383	RhodeJudge	Moved In Combat		0|1	NotMoved	Moved										
 391	384	GLOBAL	Lores Polarity		0|1	Positive	Negative										
 392	385	RhodeJudge	Destroyed The Crown?		0|1|2	NotYet	Destroyed	Ignored									

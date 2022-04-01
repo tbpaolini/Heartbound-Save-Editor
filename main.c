@@ -283,12 +283,6 @@ static void activate( GtkApplication* app, gpointer user_data )
                         gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
                     }
 
-                    // Special case for the variable of the Heartbound ARG (Alternate Reality Game)
-                    if (var == 238 && hb_save_data[var].value == 42.0)
-                    {
-                        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
-                    }
-                    
                     // Add the radio button to the flow box
                     gtk_container_add(GTK_CONTAINER(my_options), my_radio_button);
 
