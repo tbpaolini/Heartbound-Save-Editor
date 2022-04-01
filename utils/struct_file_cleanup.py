@@ -62,7 +62,7 @@ with open("..\structure\Save File Structure - 1.0.9.55.tsv", "rt") as file:
         
         if line.startswith("386\t"):
             # That is such an oddball line that it deserves its very own special case :-)
-            line = "386\t379\tDeer Judge\tFlowers Stepped On\t\t0|X\t\t\t\t\t\t\t\t\t\t\tNumberOfFlowers\t\t\n"
+            line = "386\t379\tDeer Judge\tFlowers Stepped On\tMax 15\t0|X\t\t\t\t\t\t\t\t\t\t\tNumberOfFlowers\t\t\n"
 
         # Split the cells before the capital letters in the middle,
         # then join the parts by a space
