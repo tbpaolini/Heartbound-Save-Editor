@@ -188,16 +188,16 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 187	180	Middle	Salamurderer		0|1	No	Yes											
 188	181	Middle	Camera Uses		0|X	Not Yet										Number Of Uses		
 189	182	Middle	Stapler Taken		0|1|2	Not Yet	Taken	Left										
-190	183	Middle	Floppy 'Copied'		0|1|2	Not Yet		Taken	Left									
-191	184	Middle	Salamurderer Floor Ham	No	0|1		Yes											
-192	185	Middle	4B Shade	No	0|1		Yes											
-193	186	Middle	3A Shade Question	Nothing	0|1|2		No	Yes										
-194	187	Middle	1B Desk	Nothing	0|1|2		No	Yes										
-195	188	Middle	3A Quit	No	0|1		Yes											
-196	189	Middle	We read a sign about the Lost and Found	No	0|1		Yes											
-197	190	Middle	Talked to D4 Shade	No	0|1		Yes											
-198	191	Middle	Investigations Found	None	0|X													Amount
-199	192	Floor 2	Shortstack Location	Cafe	0|1|2		Gym Lift	Gym Bag										
+190	183	Middle	Floppy 'Copied'		0|1|2	Not Yet	Left	Taken										
+191	184	Middle	Salamurderer Floor Ham		0|1	No	Yes											
+192	185	Middle	4B Shade		0|1	No	Yes											
+193	186	Middle	3A Shade Question		0|1|2	Nothing	No	Yes										
+194	187	Middle	1B Desk		0|1|2	Nothing	No	Yes										
+195	188	Middle	3A Quit		0|1	No	Yes											
+196	189	Middle	We read a sign about the Lost and Found		0|1	No	Yes											
+197	190	Middle	Talked to D4 Shade		0|1	No	Yes											
+198	191	Middle	Investigations Found		0|X	None										Amount		
+199	192	Floor 2	Shortstack Location		0|1|2	Cafe	Gym Lift	Gym Bag										
 200	193	Noir	Object 1 Bracelet		0|1|2	None	Spawned	Taken										
 201	194	Noir	Object 2 Necklace		0|1|2	None	Spawned	Taken										
 202	195	Noir	Object 3 Key		0|1|2	None	Spawned	Taken										
@@ -248,16 +248,16 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 247	240	DEBUG	Early Access Cutscene		0|1	Not Yet	Finished											
 248	241	NOT USED																
 249	242	Timeroom	Manipulator		0|1	No	Yes											
-250	243	Timeroom	Day or Night	None	0|1|2		Day	Night										
-251	244	Animus	Clothing when we first met Ramul	Not Yet	0|1|2		Pajama	Sweater										
-252	245	Animus	Ramul knows our name	No	0|1		Yes											
-253	246	Animus	Ramul talked about our sweater	No	0|1		Yes											
-254	247	Turtle Home	Lightswitch State	Off	0|1		On											
-255	248	Breakroom 103	Red Papers Investigated	No	0|1|2		Yes	Completed										
-256	249	Techies	Talked to shirt guy	No	0|1		Yes											
-257	250	Techies	Talked to hat guy	No	0|1		Yes											
-258	251	Mole Home	Lightswitch State	Off	0|1		On											
-259	252	Techies	Ant chat	No	0|1		Yes											
+250	243	Timeroom	Day or Night		0|1|2	None	Day	Night										
+251	244	Animus	Clothing when we first met Ramul		0|1|2	Not Yet	Pajama	Sweater										
+252	245	Animus	Ramul knows our name		0|1	No	Yes											
+253	246	Animus	Ramul talked about our sweater		0|1	No	Yes											
+254	247	Turtle Home	Lightswitch State		0|1	Off	On											
+255	248	Breakroom 103	Red Papers Investigated		0|1|2	No	Yes	Completed										
+256	249	Techies	Talked to shirt guy		0|1	No	Yes											
+257	250	Techies	Talked to hat guy		0|1	No	Yes											
+258	251	Mole Home	Lightswitch State		0|1	Off	On											
+259	252	Techies	Ant chat		0|1	No	Yes											
 260	253	Mole Home	Ant chat		0|1	No	Yes											
 261	254	Mole Home	Frog chat		0|1	No	Yes											
 262	255	Mole Home	Spider chat		0|1	No	Yes											

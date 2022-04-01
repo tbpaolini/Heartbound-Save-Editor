@@ -35,24 +35,24 @@ with open("..\structure\Save File Structure - 1.0.9.55.tsv", "rt") as file:
 
         # Change the header 'X (Count)' to just 'X'
         # And add a column for the ARG's variable value
-        if line.startswith("Row"):
+        if line.startswith("Row\t"):
             line = line.replace("X (Count)", "X")
             line = line[:-1] + "\t42\n"
         else:
             line = line[:-1] + "\t\n"
 
         # Add the value to the ARG variable
-        if line.startswith("245"):
+        if line.startswith("245\t"):
             line = "245\t238\tThe Truth\t\t\t0|42\tNo\t\t\t\t\t\t\t\t\t\t\t\tYes\n"
 
         # Replace 'Rn_' by 'Round n '
         # (working only on lines 350 or 354 because it only happens there)
-        if line.startswith("350") or line.startswith("354"):
+        if line.startswith("350\t") or line.startswith("354\t"):
             line = round_n.sub(r"Round \1 ", line)
         
         # Format the lines that do not follow the pattern of the others
         for row in ("19", "25", "41", "42", "347", "353"):
-            if line.startswith(row):
+            if line.startswith(row + "\t"):
                 # Swap the 5th and 7th row
                 line = swap_5_7.sub(r"\1\4\3\2", line)
             
@@ -60,7 +60,7 @@ with open("..\structure\Save File Structure - 1.0.9.55.tsv", "rt") as file:
             if (row == "347"): line = line.replace("Baskets Filled\tBaskets Filled", "Baskets Filled\t", 1)
             if (row == "353"): line = line.replace("Cartons Filled\tCartons Filled", "Cartons Filled\t", 1)
         
-        if line.startswith("386"):
+        if line.startswith("386\t"):
             # That is such an oddball line that it deserves its very own special case :-)
             line = "386\t379\tDeer Judge\tFlowers Stepped On\t\t0|X\t\t\t\t\t\t\t\t\t\t\tNumberOfFlowers\t\t\n"
 
