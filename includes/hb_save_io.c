@@ -80,10 +80,10 @@ int hb_write_save()
     FILE *save_file = fopen(SAVE_PATH, "w");
 
     // Game seed
-    fprintf_s(save_file, "%s \n", hb_game_seed);
+    fprintf_s(save_file, "%s\n", hb_game_seed);
 
     // Current room
-    fprintf_s(save_file, "%s \n", hb_room_id);
+    fprintf_s(save_file, "%s\n", hb_room_id);
 
     // Coordinates on the room
     fprintf_s(save_file, "%.0f \n", hb_x_axis);
