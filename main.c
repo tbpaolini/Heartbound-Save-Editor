@@ -121,7 +121,10 @@ static void activate( GtkApplication* app, gpointer user_data )
         gtk_grid_attach(GTK_GRID(chapter_grid[my_world]), my_contents, 1, my_position+1, 1, 1);
     }
 
+    // *********************************
     // Add the save entries to each page
+    // *********************************
+
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         /*
@@ -296,6 +299,59 @@ static void activate( GtkApplication* app, gpointer user_data )
                 }
             }
         }
+    }
+
+    // ************************************************
+    // Add the player's attributes to the 'Global' page
+    // ************************************************
+
+    {
+        // Get the chapter and window position
+        HeartboundLocation *my_location = hb_get_location("Lore");
+        if (my_location == NULL) goto finish;
+        size_t my_chapter = my_location->world;
+        size_t my_position = my_location->position * 2 + 1;
+
+        GtkWidget *my_cell = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
+        GtkWidget *my_wrapper;
+        GtkWidget *my_name_label;
+
+        #define NEW_LABEL_BOX(text) my_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, ENTRY_VERTICAL_SPACING);\
+                                    gtk_widget_set_hexpand(my_wrapper, TRUE);\
+                                    my_name_label = gtk_label_new(text);\
+                                    gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);\
+                                    gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);\
+                                    gtk_widget_set_margin_top(my_name_label, 8);\
+                                    gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);\
+                                    gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper)
+        
+        // Create the wrapper box for the room
+        NEW_LABEL_BOX("Room:");
+        
+        // Create the dropdown list for the room names
+        GtkWidget *room_selection = gtk_combo_box_text_new();
+        gtk_widget_set_margin_start(room_selection, TEXT_FIELD_MARGIN);
+        gtk_container_add(GTK_CONTAINER(my_wrapper), room_selection);
+
+        // Add the rooms to the dropdown list
+        size_t current_room_index = 142;    // Default room: home_bedroom
+        for (size_t room = 0; room < hb_rooms_amount; room++)
+        {
+            // Append the room name to the list
+            gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(room_selection), hb_room_list[room].name);
+            if ( strncmp(hb_room_list[room].name, hb_room_id, ROOM_NAME_SIZE) == 0 )
+            {
+                // If the room is the current room in-game
+                current_room_index = room;
+            }
+        }
+
+        // Set the current room as selected in the list
+        gtk_combo_box_set_active(GTK_COMBO_BOX(room_selection), current_room_index);
+        
+
+        finish:
+        #undef NEW_LABEL_BOX
     }
 
     // Deallocate the text buffer
