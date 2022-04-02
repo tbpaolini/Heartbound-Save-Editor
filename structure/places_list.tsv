@@ -1,78 +1,79 @@
 Index	Room/Object	World	Position	Image
-0	GLOBAL	0	0	spr_menu_heart_0.png
-1	INVENTORY	0	1	spr_artifact_closed_0.png
-2	Bedhead	0	2	spr_bedroom_bed_lore_sweater_0.png
-3	The Truth	0	3	spr_kitchen_toaster_1.png
-4	DEBUG	0	4	spr_servers_broken_2_0.png
-5	DEBUG VARIABLE	0	5	spr_servers_broken_1_0.png
-6	NOT USED	0	6	spr_portals_tome_eye_opening_6.png
-7	Home	1	0	spr_yard_homefront_0.png
-8	Home Bedroom	1	1	spr_bedroom_bed_0.png
-9	Home Hallway	1	2	spr_hallway_painting_2_0.png
-10	Home Livingroom	1	3	spr_livingroom_couch_0.png
-11	Home Kitchen	1	4	spr_kitchen_fridge_0.png
-12	Home Yard	1	5	spr_yard_tree_1_0.png
-13	Binder Bookhome	1	6	spr_binder_down_stand_0.png
-14	Binder Booktrial 1	1	7	spr_booktrial_door_opening_0.png
-15	Forest Darkbough	1	8	spr_yard_tree_3_0.png
-16	Forest Treepuzzle	1	9	spr_treepuzzle_log_vertical_1_0.png
-17	Forest Barghest 1	1	10	spr_barghest_down_stand_0.png
-18	Falsepath	1	11	spr_lore_sweaterbook_right_stand_1.png
-19	Barghest 2	1	12	spr_barghest_down_stand_2.png
-20	Breakroom 103	2	0	spr_office_board_0.png
-21	Corridor 103	2	1	spr_dad_mask_0.png
-22	Darkworld 103	2	2	spr_darkworld103_altar_top_0.png
-23	Techies	2	3	spr_boss_screen_display_0.png
-24	Boardroom	2	4	spr_boardroom_whiteboard_0.png
-25	Servers	2	5	spr_phyish_stand_right_0.png
-26	Duck Finding	2	6	spr_servers_duck_3_0.png
-27	Goose Finding	2	7	spr_servers_duck_6_0.png
-28	Cafeteria	2	8	spr_cafeteria_tray_patron_1_2.png
-29	Mailshroom	2	9	spr_mailshroom_cart_small_full_0.png
-30	Void	2	10	spr_binder_down_stand_office_0.png
-31	The Tower	2	11	spr_bedhead_poster_0.png
-32	Records	2	12	spr_records_machine_0.png
-33	HR	2	13	spr_mycel_stand_left_0.png
-34	Storage	2	14	spr_storage_shelf_0.png
-35	Closet	2	15	spr_closet_shelves_0.png
-36	Middle	2	16	spr_floor2_computer_2_0.png
-37	Floor 2	2	17	spr_floor2_plant_1_0.png
-38	Pool	2	18	spr_joe_sitglasses_right_0.png
-39	Cafe	2	19	spr_cafe_sign_3_0.png
-40	Gym	2	20	spr_gym_weights_big_0.png
-41	Noir	2	21	spr_noir_tv_4.png
-42	Terminated	2	22	spr_office_oscar_monitor_0.png
-43	Nekane	2	23	spr_nekane_mask_0.png
-44	Boss	2	24	spr_lobby_bossdoor_1.png
-45	Animus	3	0	spr_animus_tree_5_0.png
-46	Possum Home	3	1	spr_cirsi_mask_0.png
-47	Possum Yard	3	2	spr_possumyard_home_tree_0.png
-48	Possum Store	3	3	spr_possumstore_potion_7_0.png
-49	Frog Pond	3	4	spr_animus_water_clutter_3_0.png
-50	Vaporcave	3	5	spr_vaporcave_palm_0.png
-51	Corridor	3	6	spr_ramul_mask_0.png
-52	Dillo Home	3	7	spr_emelio_mask_0.png
-53	Dillo Home Dark	3	8	spr_emelio_down_hurt_0.png
-54	Dillo Yard	3	9	spr_terry_happy_0.png
-55	Iron Mines	3	10	spr_ironmines1_whale_1_1.png
-56	Iron Mines 2	3	11	spr_ironmines1_pit_0.png
-57	Deer Yard	3	12	spr_deeryard_home_0.png
-58	Deer Home	3	13	spr_fern_down_stand_0.png
-59	Deer/Rhode	3	14	spr_rhode_mask_0.png
-60	Deer Forest	3	15	spr_deerforest_bush_1_0.png
-61	Deer Secret	3	16	spr_frog_mask_2.png
-62	Deer Field	3	17	spr_deerfield_ferngame_basket_3.png
-63	Rhode Game	3	18	spr_chicken_down_walk_0.png
-64	Rhode Field	3	19	spr_rhode_eggcatch_basket_3.png
-65	Rhode Field /Deer Field	3	20	spr_mania_down_head_0.png
-66	Deer Bridge	3	21	spr_deerbridge_crown_0.png
-67	Lake	3	22	spr_lake_monster_idle_0.png
-68	Mole Home	3	23	spr_avocado_mask_0.png
-69	Turtle Home	3	24	spr_shelly_mask_0.png
-70	Snake Home	3	25	spr_reme_mask_0.png
-71	Dillo Judge	3	26	spr_emelio_talky_sad_1.png
-72	Deer Judge	3	27	spr_fern_talky_sad_crown_0.png
-73	Rhode Judge	3	28	spr_rhode_talky_broken_0.png
-74	Judgement	3	29	spr_lore_talky_darksider_sweater_0.png
-75	Timeroom	3	30	spr_animus_watchback_3.png
-76	Firepipes	4	0	spr_firepipes_machine_1a_0.png
+0	Lore	0	0	spr_lore_mask_0.png
+1	GLOBAL	0	1	spr_menu_heart_0.png
+2	INVENTORY	0	2	spr_artifact_closed_0.png
+3	Bedhead	0	3	spr_bedroom_bed_lore_sweater_0.png
+4	The Truth	0	4	spr_kitchen_toaster_1.png
+5	DEBUG	0	5	spr_servers_broken_2_0.png
+6	DEBUG VARIABLE	0	6	spr_servers_broken_1_0.png
+7	NOT USED	0	7	spr_portals_tome_eye_opening_6.png
+8	Home	1	0	spr_yard_homefront_0.png
+9	Home Bedroom	1	1	spr_bedroom_bed_0.png
+10	Home Hallway	1	2	spr_hallway_painting_2_0.png
+11	Home Livingroom	1	3	spr_livingroom_couch_0.png
+12	Home Kitchen	1	4	spr_kitchen_fridge_0.png
+13	Home Yard	1	5	spr_yard_tree_1_0.png
+14	Binder Bookhome	1	6	spr_binder_down_stand_0.png
+15	Binder Booktrial 1	1	7	spr_booktrial_door_opening_0.png
+16	Forest Darkbough	1	8	spr_yard_tree_3_0.png
+17	Forest Treepuzzle	1	9	spr_treepuzzle_log_vertical_1_0.png
+18	Forest Barghest 1	1	10	spr_barghest_down_stand_0.png
+19	Falsepath	1	11	spr_lore_sweaterbook_right_stand_1.png
+20	Barghest 2	1	12	spr_barghest_down_stand_2.png
+21	Breakroom 103	2	0	spr_office_board_0.png
+22	Corridor 103	2	1	spr_dad_mask_0.png
+23	Darkworld 103	2	2	spr_darkworld103_altar_top_0.png
+24	Techies	2	3	spr_boss_screen_display_0.png
+25	Boardroom	2	4	spr_boardroom_whiteboard_0.png
+26	Servers	2	5	spr_phyish_stand_right_0.png
+27	Duck Finding	2	6	spr_servers_duck_3_0.png
+28	Goose Finding	2	7	spr_servers_duck_6_0.png
+29	Cafeteria	2	8	spr_cafeteria_tray_patron_1_2.png
+30	Mailshroom	2	9	spr_mailshroom_cart_small_full_0.png
+31	Void	2	10	spr_binder_down_stand_office_0.png
+32	The Tower	2	11	spr_bedhead_poster_0.png
+33	Records	2	12	spr_records_machine_0.png
+34	HR	2	13	spr_mycel_stand_left_0.png
+35	Storage	2	14	spr_storage_shelf_0.png
+36	Closet	2	15	spr_closet_shelves_0.png
+37	Middle	2	16	spr_floor2_computer_2_0.png
+38	Floor 2	2	17	spr_floor2_plant_1_0.png
+39	Pool	2	18	spr_joe_sitglasses_right_0.png
+40	Cafe	2	19	spr_cafe_sign_3_0.png
+41	Gym	2	20	spr_gym_weights_big_0.png
+42	Noir	2	21	spr_noir_tv_4.png
+43	Terminated	2	22	spr_office_oscar_monitor_0.png
+44	Nekane	2	23	spr_nekane_mask_0.png
+45	Boss	2	24	spr_lobby_bossdoor_1.png
+46	Animus	3	0	spr_animus_tree_5_0.png
+47	Possum Home	3	1	spr_cirsi_mask_0.png
+48	Possum Yard	3	2	spr_possumyard_home_tree_0.png
+49	Possum Store	3	3	spr_possumstore_potion_7_0.png
+50	Frog Pond	3	4	spr_animus_water_clutter_3_0.png
+51	Vaporcave	3	5	spr_vaporcave_palm_0.png
+52	Corridor	3	6	spr_ramul_mask_0.png
+53	Dillo Home	3	7	spr_emelio_mask_0.png
+54	Dillo Home Dark	3	8	spr_emelio_down_hurt_0.png
+55	Dillo Yard	3	9	spr_terry_happy_0.png
+56	Iron Mines	3	10	spr_ironmines1_whale_1_1.png
+57	Iron Mines 2	3	11	spr_ironmines1_pit_0.png
+58	Deer Yard	3	12	spr_deeryard_home_0.png
+59	Deer Home	3	13	spr_fern_down_stand_0.png
+60	Deer/Rhode	3	14	spr_rhode_mask_0.png
+61	Deer Forest	3	15	spr_deerforest_bush_1_0.png
+62	Deer Secret	3	16	spr_frog_mask_2.png
+63	Deer Field	3	17	spr_deerfield_ferngame_basket_3.png
+64	Rhode Game	3	18	spr_chicken_down_walk_0.png
+65	Rhode Field	3	19	spr_rhode_eggcatch_basket_3.png
+66	Rhode Field /Deer Field	3	20	spr_mania_down_head_0.png
+67	Deer Bridge	3	21	spr_deerbridge_crown_0.png
+68	Lake	3	22	spr_lake_monster_idle_0.png
+69	Mole Home	3	23	spr_avocado_mask_0.png
+70	Turtle Home	3	24	spr_shelly_mask_0.png
+71	Snake Home	3	25	spr_reme_mask_0.png
+72	Dillo Judge	3	26	spr_emelio_talky_sad_1.png
+73	Deer Judge	3	27	spr_fern_talky_sad_crown_0.png
+74	Rhode Judge	3	28	spr_rhode_talky_broken_0.png
+75	Judgement	3	29	spr_lore_talky_darksider_sweater_0.png
+76	Timeroom	3	30	spr_animus_watchback_3.png
+77	Firepipes	4	0	spr_firepipes_machine_1a_0.png
