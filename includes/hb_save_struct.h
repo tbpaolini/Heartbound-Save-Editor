@@ -9,7 +9,7 @@
 #include <stdbool.h>
 
 #define SAVE_STRUCT_LOC "..\\lib\\structure\\save_structure.tsv"   // Path to the file with the save structure
-#define SEED_SIZE (size_t)11                        // Amount of characters (plus one) of the game seed string
+#define SEED_SIZE (size_t)10                        // Amount of characters (plus one) of the game seed string
 #define ROOM_NAME_SIZE (size_t) 50                  // Maximum amount of characters (plus one) for the room name string
 #define SAVE_STRUCT_BUFFER (size_t)500              // Buffer size (in bytes) for each line of the structure file
 #define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
@@ -17,7 +17,7 @@
 #define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
 
 // Player attributes
-extern char hb_game_seed[SEED_SIZE];                       // Game seed (10 decimal characters long)
+extern char hb_game_seed[SEED_SIZE];                       // Game seed (9 decimal characters long)
 extern char hb_room_id[ROOM_NAME_SIZE];                    // The ID (as a string) of the room the player is
 extern double hb_x_axis, hb_y_axis;                        // Coordinates of the player in the room
 extern double hb_hitpoints_current, hb_hitpoints_maximum;  // Current and maximum hit points of the player
