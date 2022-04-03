@@ -197,3 +197,34 @@ void hb_dropdown_list_fix(GtkComboBox *widget)
     // Disconnect from this callback so it does not execute more than once
     g_signal_handlers_disconnect_by_func(widget, G_CALLBACK(hb_dropdown_list_fix), NULL);
 }
+
+// Store the pointers for the text entries of the player's coordinates,
+// so the dropdown list can change them when a room is selected.
+void hb_bind_xy_entries(GtkEntry *x, GtkEntry *y)
+{
+    if (x != NULL) x_entry = x;
+    if (y != NULL) y_entry = y;
+}
+
+// Update the coordinates field when the room is changed,
+// so the player do not end up stuck out of bounds or in a wall.
+void hb_set_coordinates_from_room(GtkComboBoxText *widget)
+{
+    char *room_name = gtk_combo_box_text_get_active_text(widget);
+    HeartboundRoom *my_room = hb_get_room(room_name);
+    
+    if (my_room != NULL)
+    {
+        // Get the XY coordinates for the room
+        double x_coord = my_room->x;
+        double y_coord = my_room->y;
+
+        // Set the X entry
+        snprintf(text_entry_buffer, sizeof(text_entry_buffer), "%.0f", x_coord);
+        gtk_entry_set_text(x_entry, text_entry_buffer);
+
+        // Set the Y entry
+        snprintf(text_entry_buffer, sizeof(text_entry_buffer), "%.0f", y_coord);
+        gtk_entry_set_text(y_entry, text_entry_buffer);
+    }
+}

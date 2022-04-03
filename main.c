@@ -369,6 +369,10 @@ static void activate( GtkApplication* app, gpointer user_data )
 
         // Workaround to get the dropdown list to show when the user clicks on it for the first time
         g_signal_connect_after(GTK_COMBO_BOX(room_selection), "draw", G_CALLBACK(hb_dropdown_list_fix), NULL);
+
+        // Update the coordinates entries when a room is selected
+        // (so the player do not spaw stuck out of bounds or in walls)
+        g_signal_connect(GTK_COMBO_BOX(room_selection), "changed", G_CALLBACK(hb_set_coordinates_from_room), NULL);
         
         // Create a wrapper box for the coordinates
         NEW_LABEL_BOX("Coordinates :");
@@ -378,9 +382,11 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_ENTRY("X =");
         snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_x_axis);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
+        hb_bind_xy_entries(GTK_ENTRY(my_entry), NULL);  // Bind the X entry to the room selection list
         NEW_ENTRY("Y =");
         snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_y_axis);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
+        hb_bind_xy_entries(NULL, GTK_ENTRY(my_entry));  // Bind the Y entry to the room selection list
 
         // Create a wrapper box for the Hit Points
         NEW_LABEL_BOX("Hit Points :");

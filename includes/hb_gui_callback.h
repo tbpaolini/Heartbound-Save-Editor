@@ -23,6 +23,9 @@ static char text_entry_buffer[TEXT_FIELD_MAX_CHARS + 1];
     fields at once on this program.
 */
 
+// Pointers to the entry fields that hold the player's coordinates
+static GtkEntry *x_entry, *y_entry;
+
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var);
 
@@ -46,5 +49,13 @@ void hb_text_filter_real(char *text, size_t max_length);
 // So this call function is called once after the first time the widget is drawn, to force the dropdown to open then close.
 // This way when the user click on the list, then it will show normally.
 void hb_dropdown_list_fix(GtkComboBox *widget);
+
+// Store the pointers for the text entries of the player's coordinates,
+// so the dropdown list can change them when a room is selected.
+void hb_bind_xy_entries(GtkEntry *x, GtkEntry *y);
+
+// Update the coordinates field when the room is changed,
+// so the player do not end up stuck out of bounds or in a wall.
+void hb_set_coordinates_from_room(GtkComboBoxText *widget);
 
 #endif
