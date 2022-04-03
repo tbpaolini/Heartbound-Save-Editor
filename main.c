@@ -426,6 +426,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         snprintf(text_buffer, sizeof(hb_game_seed), hb_game_seed);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
 
+        // Update the game seed variable when its field changes
+        g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_game_seed), &hb_game_seed);
+
         finish:
         #undef NEW_LABEL_BOX
         #undef NEW_ENTRY

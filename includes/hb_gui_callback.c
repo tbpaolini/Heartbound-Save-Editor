@@ -344,3 +344,29 @@ void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
 
     #endif
 }
+
+// Set the game seed's variable when its field changes
+void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed)
+{
+    // Get the text from the widget
+    const char *my_text = gtk_entry_get_text(widget);
+
+    // Copy the text to the buffer
+    strncpy(text_entry_buffer, my_text, sizeof(text_entry_buffer));
+
+    // Filter out the non-digits characters
+    hb_text_filter_natural(text_entry_buffer, SEED_SIZE - 2);
+
+    // Copy the text to the game seed variable
+    strncpy(game_seed, text_entry_buffer, SEED_SIZE - 1);
+
+    // Update the widget with the text
+    g_signal_handlers_block_by_func(widget, G_CALLBACK(hb_setvar_game_seed), game_seed);
+    gtk_entry_set_text(widget, text_entry_buffer);
+    g_signal_handlers_unblock_by_func(widget, G_CALLBACK(hb_setvar_game_seed), game_seed);
+
+    // Print a debug message when the variable changes
+    #ifdef _DEBUG
+    g_message("Game Seed = %s", game_seed);
+    #endif
+}
