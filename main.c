@@ -379,26 +379,38 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_FLOWBOX();
 
         // Create the entries for the coordinates
+        
         NEW_ENTRY("X =");
         snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_x_axis);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
-        hb_bind_xy_entries(GTK_ENTRY(my_entry), NULL);  // Bind the X entry to the room selection list
+        hb_bind_xy_entries(GTK_ENTRY(my_entry), NULL);  // Bind the X entry to the room selection list        
+        
+        // Update the variables for the X coordinate when its field change
+        g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_player_attribute), &hb_x_axis);
+      
         NEW_ENTRY("Y =");
         snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_y_axis);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
         hb_bind_xy_entries(NULL, GTK_ENTRY(my_entry));  // Bind the Y entry to the room selection list
+        
+        // Update the variables for the X coordinate when its field change
+        g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_player_attribute), &hb_y_axis);
 
         // Create a wrapper box for the Hit Points
         NEW_LABEL_BOX("Hit Points :");
         NEW_FLOWBOX();
         
         // Create the entries for the Hit Points
+        
         NEW_ENTRY("Current =");
         snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_current);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
+        g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_player_attribute), &hb_hitpoints_current);
+        
         NEW_ENTRY("Maximum =");
         snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_maximum);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
+        g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_player_attribute), &hb_hitpoints_maximum);
 
         // Create a wrapper for the Game Seed
         NEW_LABEL_BOX("Game Seed :");

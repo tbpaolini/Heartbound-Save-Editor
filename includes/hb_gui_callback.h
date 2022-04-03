@@ -58,4 +58,8 @@ void hb_bind_xy_entries(GtkEntry *x, GtkEntry *y);
 // so the player do not end up stuck out of bounds or in a wall.
 void hb_set_coordinates_from_room(GtkComboBoxText *widget);
 
+// Set one of the variables that hold the player's attributes
+// (coordinates or hitpoints)
+void hb_setvar_player_attribute(GtkEntry *widget, double *varriable);
+
 #endif

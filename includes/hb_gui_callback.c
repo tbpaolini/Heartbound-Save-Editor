@@ -228,3 +228,119 @@ void hb_set_coordinates_from_room(GtkComboBoxText *widget)
         gtk_entry_set_text(y_entry, text_entry_buffer);
     }
 }
+
+// Filter out from a string characters that aren't numbers or signs.
+// That is, ensure the resulting string represents a positive or negative integer.
+void hb_text_filter_integer(char *text, size_t max_length)
+{
+    // Get the amount of characters on the string
+    size_t my_length = strnlen_s(text, max_length);
+    if (my_length < 0 || my_length > max_length) return;
+
+    // Position on the new string
+    size_t pos = 0;
+
+    // Copy the digits to the begining of the string
+    for (size_t i = 0; i < my_length; i++)
+    {
+        if ( isdigit(text[i]) || text[i] == '+' || text[i] == '-' )
+        {
+            // Only accept a sign if it is the first character of the new string
+            if ( (text[i] == '+' || text[i] == '-') && (pos != 0) ) continue;
+            
+            // Advance the destination position if the character is a digit
+            text[pos++] = text[i];
+        }
+    }
+
+    // Add a null terminator to the string
+    text[pos] = '\0';
+}
+
+// Set one of the variables that hold the player's attributes
+// (coordinates or hitpoints)
+void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
+{
+    // Prevents the the current callback function from being called recursively when it changes the text entry
+    g_signal_handlers_block_by_func(widget, G_CALLBACK(hb_setvar_player_attribute), attribute);
+    
+    // Get the text from the widget
+    const char *my_text = gtk_entry_get_text(widget);
+
+    // Copy the text to the temporary buffer (since the widget's text should not be edited directly)
+    strncpy(text_entry_buffer, my_text, sizeof(text_entry_buffer));
+
+    // Remove the non-digit characters
+    if (attribute == &hb_x_axis || attribute == &hb_y_axis)
+    {
+        // Accept signs if it is one of the coordinates' fields
+        hb_text_filter_integer(text_entry_buffer, sizeof(text_entry_buffer) - 1);
+    }
+    else
+    {
+        // Only accepts digits for the other fields
+        hb_text_filter_natural(text_entry_buffer, sizeof(text_entry_buffer) - 1);
+    }
+
+    // Update the text entry with the filtered text
+    gtk_entry_set_text(widget, text_entry_buffer);
+
+    // Set the value of the attribute
+    if (gtk_entry_get_text_length(widget) > 0)
+    {
+        // Convert the text to float (if there is any text) and set it to the attribute
+        *attribute = atof(text_entry_buffer);
+
+        // In case the entry field is of the current HP
+        if (attribute == &hb_hitpoints_current)
+        {
+            // Check if the current HP is not bigger than the maximum HP
+            if (hb_hitpoints_current > hb_hitpoints_maximum)
+            {
+                // Set the current HP variable and its field to the maximum value
+                hb_hitpoints_current = hb_hitpoints_maximum;
+                snprintf(text_entry_buffer, sizeof(text_entry_buffer), "%.0f", hb_hitpoints_current);
+                gtk_entry_set_text(widget, text_entry_buffer);
+            }
+        }
+    }
+    else
+    {
+        // Set the attribute to zero if there is not any text
+        *attribute = 0.0;
+    }
+
+    // Re-enable the current callback function
+    g_signal_handlers_unblock_by_func(widget, G_CALLBACK(hb_setvar_player_attribute), attribute);
+
+    // Print a debug message when the attribute changes
+    #ifdef _DEBUG
+
+    char *attr_name;
+
+    if (attribute == &hb_x_axis)
+    {
+        attr_name = "X-axis";
+    }
+    else if (attribute == &hb_y_axis)
+    {
+        attr_name = "Y-axis";
+    }
+    else if (attribute == &hb_hitpoints_current)
+    {
+        attr_name = "Current Hit Points";
+    }
+    else if (attribute == &hb_hitpoints_maximum)
+    {
+        attr_name = "Maximum Hit Points";
+    }
+    else
+    {
+        g_message("No valid variable was associated to the field you are trying to change.");
+        return;
+    }
+
+    g_message("%s = %0.f", attr_name, *attribute);
+
+    #endif
+}
