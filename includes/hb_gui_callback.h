@@ -41,4 +41,10 @@ void hb_text_filter_natural(char *text, size_t max_length);
 // That is, ensure the resulting string represents a real number.
 void hb_text_filter_real(char *text, size_t max_length);
 
+// Make the dropdown list to show when clicked for the first time
+// For some reason, it only shows when clicked for the second time, perhaps because that it has several items.
+// So this call function is called once after the first time the widget is drawn, to force the dropdown to open then close.
+// This way when the user click on the list, then it will show normally.
+void hb_dropdown_list_fix(GtkComboBox *widget);
+
 #endif

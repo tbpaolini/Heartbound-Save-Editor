@@ -365,6 +365,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         {
             gtk_combo_box_set_active(GTK_COMBO_BOX(room_selection), current_room->index);
         }
+
+        // Workaround to get the dropdown list to show when the user clicks on it for the first time
+        g_signal_connect_after(GTK_COMBO_BOX(room_selection), "draw", G_CALLBACK(hb_dropdown_list_fix), NULL);
         
         // Create a wrapper box for the coordinates
         NEW_LABEL_BOX("Coordinates :");

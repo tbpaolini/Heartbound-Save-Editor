@@ -176,3 +176,24 @@ void hb_text_filter_natural(char *text, size_t max_length)
     // Add a null terminator to the string
     text[pos] = '\0';
 }
+
+// Make the dropdown list to show when clicked for the first time
+// For some reason, it only shows when clicked for the second time, perhaps because that it has several items.
+// So this call function is called once after the first time the widget is drawn, to force the dropdown to open then close.
+// This way when the user click on the list, then it will show normally.
+void hb_dropdown_list_fix(GtkComboBox *widget)
+{
+    gtk_combo_box_popup(widget);    // Display the dropdown list
+    gtk_combo_box_popdown(widget);  // Close the dropdown list
+    
+    // Note: An warning is shown on terminal when connecting to the 'draw' signal, but I found no way around that warning.
+    //       Fortunately, that warning does not prevent the program from working, and it does not show on the release build
+    //       (that does not have a terminal). I could not find a way of doing the workaround without connecting to 'draw'.
+    g_message(
+        "Please ignore the above warning. It is a product of a workaround that I, the developer, "
+        "had to do in order to get the dropdown list to display when clicked for the first time."
+    );
+    
+    // Disconnect from this callback so it does not execute more than once
+    g_signal_handlers_disconnect_by_func(widget, G_CALLBACK(hb_dropdown_list_fix), NULL);
+}
