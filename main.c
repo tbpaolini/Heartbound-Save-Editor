@@ -312,10 +312,10 @@ static void activate( GtkApplication* app, gpointer user_data )
         size_t my_chapter = my_location->world;
         size_t my_position = my_location->position * 2 + 1;
 
+        // Create and add a new box with a label (for the name of an option)
         GtkWidget *my_cell = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
         GtkWidget *my_wrapper;
         GtkWidget *my_name_label;
-
         #define NEW_LABEL_BOX(text) my_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, ENTRY_VERTICAL_SPACING);\
                                     gtk_widget_set_hexpand(my_wrapper, TRUE);\
                                     my_name_label = gtk_label_new(text);\
@@ -324,6 +324,25 @@ static void activate( GtkApplication* app, gpointer user_data )
                                     gtk_widget_set_margin_top(my_name_label, 8);\
                                     gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);\
                                     gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper)
+        
+        // Create and add flow box for the contents
+        GtkWidget *my_flowbox;
+        #define NEW_FLOWBOX()   my_flowbox = gtk_flow_box_new();\
+                                gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_flowbox), GTK_SELECTION_NONE);\
+                                gtk_widget_set_valign(my_flowbox, GTK_ALIGN_START);\
+                                gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), 2);\
+                                gtk_container_add(GTK_CONTAINER(my_wrapper), my_flowbox);
+        
+        // Create and add the entries for the attributes
+        GtkWidget *my_label;
+        GtkWidget *my_entry;
+        #define NEW_ENTRY(label)    my_label = gtk_label_new(label);\
+                                    my_entry = gtk_entry_new();\
+                                    gtk_widget_set_margin_start(my_label, TEXT_FIELD_MARGIN);\
+                                    gtk_entry_set_width_chars(GTK_ENTRY(my_entry), TEXT_FIELD_WIDTH);\
+                                    gtk_entry_set_max_length(GTK_ENTRY(my_entry), TEXT_FIELD_MAX_CHARS);\
+                                    gtk_container_add(GTK_CONTAINER(my_flowbox), my_label);\
+                                    gtk_container_add(GTK_CONTAINER(my_flowbox), my_entry)
         
         // Create the wrapper box for the room
         NEW_LABEL_BOX("Room :");
@@ -349,9 +368,47 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Set the current room as selected in the list
         gtk_combo_box_set_active(GTK_COMBO_BOX(room_selection), current_room_index);
         
+        // Create a wrapper box for the coordinates
+        NEW_LABEL_BOX("Coordinates :");
+        NEW_FLOWBOX();
+
+        // Create the entries for the coordinates
+        NEW_ENTRY("X =");
+        snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_x_axis);
+        gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
+        NEW_ENTRY("Y =");
+        snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_y_axis);
+        gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
+
+        // Create a wrapper box for the Hit Points
+        NEW_LABEL_BOX("Hit Points :");
+        NEW_FLOWBOX();
+        
+        // Create the entries for the Hit Points
+        NEW_ENTRY("Current =");
+        snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_current);
+        gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
+        NEW_ENTRY("Maximum =");
+        snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_maximum);
+        gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
+
+        // Create a wrapper for the Game Seed
+        NEW_LABEL_BOX("Game Seed :");
+        NEW_FLOWBOX();
+
+        // Create a text entry for the Game Seed
+        my_entry = gtk_entry_new();
+        gtk_widget_set_margin_start(my_entry, TEXT_FIELD_MARGIN);
+        gtk_entry_set_width_chars(GTK_ENTRY(my_entry), SEED_SIZE-1);
+        gtk_entry_set_max_length(GTK_ENTRY(my_entry), SEED_SIZE-1);
+        gtk_container_add(GTK_CONTAINER(my_flowbox), my_entry);
+        snprintf(text_buffer, sizeof(hb_game_seed), hb_game_seed);
+        gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
 
         finish:
         #undef NEW_LABEL_BOX
+        #undef NEW_ENTRY
+        #undef NEW_FLOWBOX
     }
 
     // Deallocate the text buffer

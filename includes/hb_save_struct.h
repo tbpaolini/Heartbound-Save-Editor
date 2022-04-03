@@ -9,7 +9,7 @@
 #include <stdbool.h>
 
 #define SAVE_STRUCT_LOC "..\\lib\\structure\\save_structure.tsv"   // Path to the file with the save structure
-#define SEED_SIZE (size_t)11                        // Amount of characters (plus one) of the game seed string
+#define SEED_SIZE (size_t)10                        // Amount of characters (plus one) of the game seed string
 #define ROOM_NAME_SIZE (size_t) 50                  // Maximum amount of characters (plus one) for the room name string
 #define SAVE_STRUCT_BUFFER (size_t)500              // Buffer size (in bytes) for each line of the structure file
 #define NUM_STORY_VARS (size_t)1000                 // Amount of storyline variables in the save file
