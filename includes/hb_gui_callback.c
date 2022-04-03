@@ -112,10 +112,10 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
     const char *my_text = gtk_entry_get_text(widget);
 
     // Copy the text to the temporary buffer (since the widget's text should not be edited directly)
-    strncpy(text_entry_buffer, my_text, TEXT_FIELD_MAX_CHARS + 1);
+    strncpy(text_entry_buffer, my_text, sizeof(text_entry_buffer));
 
     // Remove the non-digit characters
-    hb_text_filter_natural(text_entry_buffer, TEXT_FIELD_MAX_CHARS);
+    hb_text_filter_natural(text_entry_buffer, sizeof(text_entry_buffer) - 1);
 
     // Limit the value to the variable's maximum (if there is a maximum)
     double new_value;
@@ -125,7 +125,7 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
         if (story_var->maximum > 0.0)
         {
             new_value = (new_value <= story_var->maximum) ? new_value : story_var->maximum;
-            snprintf(text_entry_buffer, TEXT_FIELD_MAX_CHARS + 1, "%.0f", new_value);
+            snprintf(text_entry_buffer, sizeof(text_entry_buffer), "%.0f", new_value);
         }
     }
     else

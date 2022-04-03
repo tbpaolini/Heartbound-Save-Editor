@@ -40,9 +40,9 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var);
 // In other words, ensure that the string represents a natural number (positive integer).
 void hb_text_filter_natural(char *text, size_t max_length);
 
-// Filter out from a string characters that aren't numbers, signs, or points.
-// That is, ensure the resulting string represents a real number.
-void hb_text_filter_real(char *text, size_t max_length);
+// Filter out from a string characters that aren't numbers or signs.
+// That is, ensure the resulting string represents a positive or negative integer.
+void hb_text_filter_integer(char *text, size_t max_length);
 
 // Make the dropdown list to show when clicked for the first time
 // For some reason, it only shows when clicked for the second time, perhaps because that it has several items.
