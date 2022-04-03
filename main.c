@@ -320,17 +320,16 @@ static void activate( GtkApplication* app, gpointer user_data )
                                     gtk_widget_set_hexpand(my_wrapper, TRUE);\
                                     my_name_label = gtk_label_new(text);\
                                     gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);\
-                                    gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);\
+                                    gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING + TEXT_FIELD_MARGIN);\
                                     gtk_widget_set_margin_top(my_name_label, 8);\
                                     gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);\
                                     gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper)
         
         // Create the wrapper box for the room
-        NEW_LABEL_BOX("Room:");
+        NEW_LABEL_BOX("Room :");
         
         // Create the dropdown list for the room names
         GtkWidget *room_selection = gtk_combo_box_text_new();
-        gtk_widget_set_margin_start(room_selection, TEXT_FIELD_MARGIN);
         gtk_container_add(GTK_CONTAINER(my_wrapper), room_selection);
 
         // Add the rooms to the dropdown list
