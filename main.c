@@ -353,20 +353,18 @@ static void activate( GtkApplication* app, gpointer user_data )
         gtk_widget_set_margin_start(room_selection, TEXT_FIELD_MARGIN);
 
         // Add the rooms to the dropdown list
-        size_t current_room_index = 142;    // Default room: home_bedroom
         for (size_t room = 0; room < hb_rooms_amount; room++)
         {
             // Append the room name to the list
             gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(room_selection), hb_room_list[room].name);
-            if ( strncmp(hb_room_list[room].name, hb_room_id, ROOM_NAME_SIZE) == 0 )
-            {
-                // If the room is the current room in-game
-                current_room_index = room;
-            }
         }
 
         // Set the current room as selected in the list
-        gtk_combo_box_set_active(GTK_COMBO_BOX(room_selection), current_room_index);
+        HeartboundRoom *current_room = hb_get_room(hb_room_id);
+        if (current_room != NULL)
+        {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(room_selection), current_room->index);
+        }
         
         // Create a wrapper box for the coordinates
         NEW_LABEL_BOX("Coordinates :");

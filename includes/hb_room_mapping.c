@@ -145,6 +145,7 @@ void hb_parse_rooms_locations()
             exit(EXIT_FAILURE);
             // TO DO: Error handling
         }
+        hb_room_list[list_index].index = atoll(token);  // Store the index number
 
         // Get the room name
         token = strtok(NULL, "\t");

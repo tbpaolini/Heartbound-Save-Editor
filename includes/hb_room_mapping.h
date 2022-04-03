@@ -30,6 +30,7 @@ typedef struct HeartboundRoom
     char name[ROOM_NAME_SIZE];      // ID of the room
     double x;                       // x-axis coordinate
     double y;                       // y-axis coordinate
+    size_t index;                   // Index number of the room on the lookup table
     struct HeartboundRoom *next;    // Next entry on the linked list (for when there is a collision on the hashmap)
 } HeartboundRoom;
 
