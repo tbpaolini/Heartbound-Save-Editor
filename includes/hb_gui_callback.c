@@ -211,13 +211,23 @@ void hb_bind_xy_entries(GtkEntry *x, GtkEntry *y)
     if (y != NULL) y_entry = y;
 }
 
-// Update the coordinates field when the room is changed,
+// Update the Room ID variable, that stores the current room.
+// Also update the coordinates field when the room is changed,
 // so the player do not end up stuck out of bounds or in a wall.
 void hb_set_coordinates_from_room(GtkComboBoxText *widget)
 {
     char *room_name = gtk_combo_box_text_get_active_text(widget);
     HeartboundRoom *my_room = hb_get_room(room_name);
     
+    // Set the Room ID variable
+    snprintf(hb_room_id, ROOM_NAME_SIZE-1, room_name);
+
+    // Print a debug message when the Room ID changes
+    #ifdef _DEBUG
+    g_message("Room = %s", hb_room_id);
+    #endif
+
+    // Update the XY coordinates to the room's spaw point
     if (my_room != NULL)
     {
         // Get the XY coordinates for the room
