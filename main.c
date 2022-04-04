@@ -53,6 +53,17 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Allocate the buffer for the text
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
 
+    // Get whether the application prefers dark theme
+    gboolean prefers_dark_theme;
+    g_object_get(
+        gtk_settings_get_default(),
+        "gtk-application-prefer-dark-theme",
+        &prefers_dark_theme
+    );
+
+    // Set the title's color according to the theme
+    char *title_color = prefers_dark_theme ? "#59a5bf" : "#3a6b7c";
+
     // Create the groups of save entries on each page
     for (size_t i = 0; i < hb_locations_amount; i++)
     {
@@ -73,9 +84,10 @@ static void activate( GtkApplication* app, gpointer user_data )
         snprintf(
             text_buffer,        // Buffer where to copy the label text
             TEXT_BUFFER_SIZE,
-            "<span size='140%' weight='bold' color='#3a6b7c'>"  // Format the location's name
+            "<span size='140%' weight='bold' color='%s'>"  // Format the location's name
             "%s"
             "</span>",
+            title_color,        // Color of the label's text
             my_location.name    // Location's name
         );
         gtk_label_set_markup(GTK_LABEL(my_label), text_buffer);  // Set the label from the text with formatting markup
