@@ -78,7 +78,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             The image goes to the second row, first column.
             The remaining cell (second row of the second column) will be for for the save's variables.
         */
-        
+
         // Create label with the location's name
         GtkWidget *my_label = gtk_label_new(NULL);
         snprintf(
