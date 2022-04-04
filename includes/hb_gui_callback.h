@@ -26,6 +26,9 @@ static char text_entry_buffer[TEXT_FIELD_MAX_CHARS + 1];
 // Pointers to the entry fields that hold the player's coordinates
 static GtkEntry *x_entry, *y_entry;
 
+// Pointers to the entry fields that hold the player's hit points
+static GtkEntry *hp_cur_entry, *hp_max_entry;
+
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var);
 
@@ -53,6 +56,10 @@ void hb_dropdown_list_fix(GtkComboBox *widget);
 // Store the pointers for the text entries of the player's coordinates,
 // so the dropdown list can change them when a room is selected.
 void hb_bind_xy_entries(GtkEntry *x, GtkEntry *y);
+
+// Store the pointers for the text entries of the player's hit points,
+// so they can interact with each other (current HP capped to the maximum HP)
+void hb_bind_hp_entries(GtkEntry *current, GtkEntry *maximum);
 
 // Update the coordinates field when the room is changed,
 // so the player do not end up stuck out of bounds or in a wall.

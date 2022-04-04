@@ -406,11 +406,13 @@ static void activate( GtkApplication* app, gpointer user_data )
         snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_current);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
         g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_player_attribute), &hb_hitpoints_current);
+        hb_bind_hp_entries(GTK_ENTRY(my_entry), NULL);  // Bind the HP fields to each other so the current HP is capped by the maximum
         
         NEW_ENTRY("Maximum =");
         snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_maximum);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
         g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_player_attribute), &hb_hitpoints_maximum);
+        hb_bind_hp_entries(NULL, GTK_ENTRY(my_entry));  // Bind the HP fields to each other so the current HP is capped by the maximum
 
         // Create a wrapper for the Game Seed
         NEW_LABEL_BOX("Game Seed :");

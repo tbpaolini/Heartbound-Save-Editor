@@ -211,6 +211,14 @@ void hb_bind_xy_entries(GtkEntry *x, GtkEntry *y)
     if (y != NULL) y_entry = y;
 }
 
+// Store the pointers for the text entries of the player's hit points,
+// so they can interact with each other (current HP capped to the maximum HP)
+void hb_bind_hp_entries(GtkEntry *current, GtkEntry *maximum)
+{
+    if (current != NULL) hp_cur_entry = current;
+    if (maximum != NULL) hp_max_entry = maximum;
+}
+
 // Update the Room ID variable, that stores the current room.
 // Also update the coordinates field when the room is changed,
 // so the player do not end up stuck out of bounds or in a wall.
@@ -307,7 +315,7 @@ void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
         *attribute = atof(text_entry_buffer);
 
         // In case the entry field is of the current HP
-        if (attribute == &hb_hitpoints_current)
+        if ( attribute == &hb_hitpoints_current || attribute == &hb_hitpoints_maximum )
         {
             // Check if the current HP is not bigger than the maximum HP
             if (hb_hitpoints_current > hb_hitpoints_maximum)
@@ -315,7 +323,7 @@ void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
                 // Set the current HP variable and its field to the maximum value
                 hb_hitpoints_current = hb_hitpoints_maximum;
                 snprintf(text_entry_buffer, sizeof(text_entry_buffer), "%.0f", hb_hitpoints_current);
-                gtk_entry_set_text(widget, text_entry_buffer);
+                gtk_entry_set_text(hp_cur_entry, text_entry_buffer);
             }
         }
     }
@@ -323,6 +331,13 @@ void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
     {
         // Set the attribute to zero if there is not any text
         *attribute = 0.0;
+
+        // Set the current HP to zero when there is no text on the maximum HP field
+        if ( attribute == &hb_hitpoints_maximum )
+        {
+            hb_hitpoints_current = 0.0;
+            gtk_entry_set_text(hp_cur_entry, "");   // Erase the text on the current HP field
+        }
     }
 
     // Re-enable the current callback function
