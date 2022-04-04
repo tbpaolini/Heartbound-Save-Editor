@@ -367,10 +367,7 @@ void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed)
     const char *my_text = gtk_entry_get_text(widget);
 
     // Copy the text to the buffer
-    if (gtk_entry_get_text_length(widget) > 0)
-    {
-        strncpy(text_entry_buffer, my_text, sizeof(text_entry_buffer));
-    }
+    strncpy(text_entry_buffer, my_text, sizeof(text_entry_buffer));
 
     // Filter out the non-digits characters
     hb_text_filter_natural(text_entry_buffer, SEED_SIZE - 2);
