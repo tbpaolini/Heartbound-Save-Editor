@@ -421,7 +421,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         gtk_widget_set_margin_start(my_entry, TEXT_FIELD_MARGIN);
         gtk_entry_set_width_chars(GTK_ENTRY(my_entry), SEED_SIZE-2);
         gtk_entry_set_max_length(GTK_ENTRY(my_entry), SEED_SIZE-2);
-        gtk_entry_set_placeholder_text(GTK_ENTRY(my_entry), "0");
+        gtk_entry_set_placeholder_text(GTK_ENTRY(my_entry), "random");
         gtk_container_add(GTK_CONTAINER(my_flowbox), my_entry);
         snprintf(text_buffer, sizeof(hb_game_seed), hb_game_seed);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
