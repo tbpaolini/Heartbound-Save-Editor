@@ -65,4 +65,7 @@ void hb_setvar_player_attribute(GtkEntry *widget, double *varriable);
 // Set the game seed's variable when its field changes
 void hb_setvar_game_seed(GtkEntry *widget,  char *data);
 
+// Generate a random game seed (9 numeric digits)
+void hb_random_seed(char *game_seed);
+
 #endif
