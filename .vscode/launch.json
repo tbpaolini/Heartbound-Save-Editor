@@ -29,6 +29,27 @@
                 }
             ],
             "preLaunchTask": "C/C++: Debug"
+        },
+        {
+            "name": "(gdb) Anexar",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceFolder}\\build\\debug\\bin\\Heartbound Save Editor.exe",
+            "processId": "${command:pickProcess}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Habilitar a reformatação automática para gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description":  "Definir Tipo de Desmontagem como Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
         }
     ]
 }
