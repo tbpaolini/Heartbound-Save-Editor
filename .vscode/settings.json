@@ -6,6 +6,7 @@
         "limits": "c",
         "*.tcc": "c",
         "typeinfo": "c",
-        "cctype": "c"
+        "cctype": "c",
+        "new": "c"
     }
 }
