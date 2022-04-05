@@ -19,7 +19,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_container_set_border_width(GTK_CONTAINER(window), WINDOW_BORDER);
 
     // Create a wrapper for the window's contents
-    GtkWidget *window_wrapper = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    GtkWidget *window_wrapper = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
     gtk_container_add(GTK_CONTAINER(window), window_wrapper);
     
     // Create a notebook with tabs for each of the game's chapter
@@ -38,18 +38,18 @@ static void activate( GtkApplication* app, gpointer user_data )
     GtkWidget *box = gtk_button_new();
     gtk_container_add(GTK_CONTAINER(save_button), save_icon);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), save_button);
-    g_signal_connect(save_button, "enter-notify-event", G_CALLBACK(test_select), "Save");
-    g_signal_connect(save_button, "leave-notify-event", G_CALLBACK(test_select), "Save");
-    g_signal_connect(save_button, "button-press-event", G_CALLBACK(test_save), "Save");
+    g_signal_connect(GTK_MENU_ITEM(save_button), "enter-notify-event", G_CALLBACK(hb_menu_hover), "Save");
+    g_signal_connect(GTK_MENU_ITEM(save_button), "leave-notify-event", G_CALLBACK(hb_menu_hover), "Save");
+    g_signal_connect(GTK_MENU_ITEM(save_button), "button-press-event", G_CALLBACK(hb_save_file), "Save");
 
     // Add a open button to the menu bar
     GtkWidget *open_button = gtk_menu_item_new();
     GtkWidget *open_icon = gtk_image_new_from_icon_name("document-open", GTK_ICON_SIZE_MENU);
     gtk_container_add(GTK_CONTAINER(open_button), open_icon);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), open_button);
-    g_signal_connect(open_button, "enter-notify-event", G_CALLBACK(test_select), "Open");
-    g_signal_connect(open_button, "leave-notify-event", G_CALLBACK(test_select), "Open");
-    g_signal_connect(open_button, "button-press-event", G_CALLBACK(test_save), "Open");
+    g_signal_connect(GTK_MENU_ITEM(open_button), "enter-notify-event", G_CALLBACK(hb_menu_hover), "Open");
+    g_signal_connect(GTK_MENU_ITEM(open_button), "leave-notify-event", G_CALLBACK(hb_menu_hover), "Open");
+    g_signal_connect(GTK_MENU_ITEM(open_button), "button-press-event", G_CALLBACK(hb_save_file), "Open");
 
     // Add a separator to the right of the Save/Open buttons
     GtkWidget *buttons_separator = gtk_separator_menu_item_new();

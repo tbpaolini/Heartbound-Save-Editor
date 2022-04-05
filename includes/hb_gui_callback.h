@@ -75,8 +75,11 @@ void hb_setvar_game_seed(GtkEntry *widget,  char *data);
 // Generate a random game seed (9 numeric digits)
 void hb_random_seed(char *game_seed);
 
-void test_select(GtkWidget *widget, GdkEventCrossing event, char *data);
+// Highlight a menu item when the mouse pointer is over the item
+void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data);
 
-void test_save(GtkWidget *widget, GdkEventButton event, void *data);
+// A wrapper for the 'hb_write_save()' function from 'hb_gui_save_io.c'
+// This function is called when the save option is left-clicked on the interface.
+void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data);
 
 #endif

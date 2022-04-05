@@ -447,26 +447,35 @@ void hb_random_seed(char *game_seed)
     snprintf(game_seed, SEED_SIZE-1, "%llu", new_seed);
 }
 
-void test_select(GtkWidget *widget, GdkEventCrossing event, char *data)
+// Highlight a menu item when the mouse pointer is over the item
+void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data)
 {
     switch (event.type)
     {
     case GDK_ENTER_NOTIFY:
-        gtk_menu_item_select(GTK_MENU_ITEM(widget));
-        printf("Entered %s\n", data);
+        // Select when the mouse enters the item
+        gtk_menu_item_select(widget);
         break;
     
     case GDK_LEAVE_NOTIFY:
-        gtk_menu_item_deselect(GTK_MENU_ITEM(widget));
-        printf("Left %s\n", data);
+        // Select when the mouse leaves the item
+        gtk_menu_item_deselect(widget);
         break;
     }
 }
 
-void test_save(GtkWidget *widget, GdkEventButton event, void *data)
+// A wrapper for the 'hb_write_save()' function from 'hb_gui_save_io.c'
+// This function is called when the save option is left-clicked on the interface.
+void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data)
 {
-    if (event.type == GDK_BUTTON_PRESS)
+    // If the left mouse button was pressed
+    if ( event.type == GDK_BUTTON_PRESS && event.button == 1 )
     {
-        printf("Clicked %s\n", data);
+        // Save the file to disk
+        hb_write_save();
+
+        #ifdef _DEBUG
+        g_message("Saved: %s", SAVE_PATH);
+        #endif
     }
 }
