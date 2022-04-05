@@ -19,7 +19,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_container_set_border_width(GTK_CONTAINER(window), WINDOW_BORDER);
 
     // Create a wrapper for the window's contents
-    GtkWidget *window_wrapper = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    GtkWidget *window_wrapper = gtk_box_new(GTK_ORIENTATION_VERTICAL, MENUBAR_SPACING);
     gtk_container_add(GTK_CONTAINER(window), window_wrapper);
     
     // Create a notebook with tabs for each of the game's chapter

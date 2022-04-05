@@ -15,6 +15,7 @@
 
 // Page layout
 #define PAGE_BORDER 10
+#define MENUBAR_SPACING 2
 #define GRID_ROW_SPACING 15
 #define GRID_COLUMN_SPACING 5
 #define IMAGE_WIDTH 80
