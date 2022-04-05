@@ -52,8 +52,8 @@ static void activate( GtkApplication* app, gpointer user_data )
     g_signal_connect(open_button, "button-press-event", G_CALLBACK(test_save), "Open");
 
     // Add a separator to the right of the Save/Open buttons
-    GtkWidget *sep = gtk_separator_menu_item_new();
-    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), sep);
+    GtkWidget *buttons_separator = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), buttons_separator);
 
     // Create the chapters tabs and their respective pages
     for (int i = 0; i < CHAPTER_AMOUNT; i++)
