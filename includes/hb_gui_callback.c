@@ -479,3 +479,17 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data)
         #endif
     }
 }
+
+// Make the widgets on the notebook to be clickable after the menu items have been used.
+// Without this fix, if one clicks on the menu, then tries to click on something on
+// the notebook, it would be necessary to click twice to interact with the notebook.
+void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data)
+{
+    // When the mouse enters the notebook
+    if (event.type == GDK_ENTER_NOTIFY)
+    {
+        // "Switch" to the same page on the notebook to force it to get focus
+        gint page = gtk_notebook_get_current_page(widget);
+        gtk_notebook_set_current_page(widget, page);
+    }
+}

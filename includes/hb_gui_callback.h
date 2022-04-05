@@ -82,4 +82,9 @@ void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data);
 // This function is called when the save option is left-clicked on the interface.
 void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data);
 
+// Make the widgets on the notebook to be clickable after the menu items have been used.
+// Without this fix, if one clicks on the menu, then tries to click on something on
+// the notebook, it would be necessary to click twice to interact with the notebook.
+void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data);
+
 #endif

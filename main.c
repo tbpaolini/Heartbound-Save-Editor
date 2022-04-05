@@ -82,6 +82,9 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(notebook), TRUE);      // The tabs can be scrolled if they do not fit the window
     gtk_widget_set_vexpand(notebook, TRUE);                         // The notebook fills the remaining horizontal space on the window
     gtk_container_add(GTK_CONTAINER(window_wrapper), notebook);     // Add the notebook to the window wrapper
+    
+    // Fix so the user can always interact with the notebook's contents
+    g_signal_connect(GTK_NOTEBOOK(notebook), "enter-notify-event", G_CALLBACK(hb_notebook_fix), NULL);
 
     // Allocate the buffer for the text
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
