@@ -75,4 +75,8 @@ void hb_setvar_game_seed(GtkEntry *widget,  char *data);
 // Generate a random game seed (9 numeric digits)
 void hb_random_seed(char *game_seed);
 
+void test_select(GtkWidget *widget, GdkEventCrossing event, char *data);
+
+void test_save(GtkWidget *widget, GdkEventButton event, void *data);
+
 #endif

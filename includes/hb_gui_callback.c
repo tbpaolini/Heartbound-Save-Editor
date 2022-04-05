@@ -446,3 +446,27 @@ void hb_random_seed(char *game_seed)
     uint64_t new_seed = accumulator % (uint64_t)pow(10, SEED_SIZE - 1);
     snprintf(game_seed, SEED_SIZE-1, "%llu", new_seed);
 }
+
+void test_select(GtkWidget *widget, GdkEventCrossing event, char *data)
+{
+    switch (event.type)
+    {
+    case GDK_ENTER_NOTIFY:
+        gtk_menu_item_select(GTK_MENU_ITEM(widget));
+        printf("Entered %s\n", data);
+        break;
+    
+    case GDK_LEAVE_NOTIFY:
+        gtk_menu_item_deselect(GTK_MENU_ITEM(widget));
+        printf("Left %s\n", data);
+        break;
+    }
+}
+
+void test_save(GtkWidget *widget, GdkEventButton event, void *data)
+{
+    if (event.type == GDK_BUTTON_PRESS)
+    {
+        printf("Clicked %s\n", data);
+    }
+}
