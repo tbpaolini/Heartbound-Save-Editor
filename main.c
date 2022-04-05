@@ -17,12 +17,43 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_window_set_title( GTK_WINDOW(window), WINDOW_TITLE );
     gtk_window_set_default_size( GTK_WINDOW(window), WINDOW_WIDTH, WINDOW_HEIGHT );
     gtk_container_set_border_width(GTK_CONTAINER(window), WINDOW_BORDER);
+
+    // Create a wrapper for the window's contents
+    GtkWidget *window_wrapper = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_container_add(GTK_CONTAINER(window), window_wrapper);
     
     // Create a notebook with tabs for each of the game's chapter
     GtkWidget *notebook = gtk_notebook_new();
     GtkWidget *chapter_label[CHAPTER_AMOUNT];
     GtkWidget *chapter_page[CHAPTER_AMOUNT];
     GtkWidget *chapter_grid[CHAPTER_AMOUNT];
+
+    // Create menu bar
+    GtkWidget *menubar = gtk_menu_bar_new();
+    gtk_container_add(GTK_CONTAINER(window_wrapper), menubar);
+
+    // Add a save button to the menu bar
+    GtkWidget *save_button = gtk_menu_item_new();
+    GtkWidget *save_icon = gtk_image_new_from_icon_name("document-save", GTK_ICON_SIZE_MENU);
+    GtkWidget *box = gtk_button_new();
+    gtk_container_add(GTK_CONTAINER(save_button), save_icon);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), save_button);
+    g_signal_connect(save_button, "enter-notify-event", G_CALLBACK(test_select), "Save");
+    g_signal_connect(save_button, "leave-notify-event", G_CALLBACK(test_select), "Save");
+    g_signal_connect(save_button, "button-press-event", G_CALLBACK(test_save), "Save");
+
+    // Add a open button to the menu bar
+    GtkWidget *open_button = gtk_menu_item_new();
+    GtkWidget *open_icon = gtk_image_new_from_icon_name("document-open", GTK_ICON_SIZE_MENU);
+    gtk_container_add(GTK_CONTAINER(open_button), open_icon);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), open_button);
+    g_signal_connect(open_button, "enter-notify-event", G_CALLBACK(test_select), "Open");
+    g_signal_connect(open_button, "leave-notify-event", G_CALLBACK(test_select), "Open");
+    g_signal_connect(open_button, "button-press-event", G_CALLBACK(test_save), "Open");
+
+    // Add a separator to the right of the Save/Open buttons
+    GtkWidget *sep = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(menubar), sep);
 
     // Create the chapters tabs and their respective pages
     for (int i = 0; i < CHAPTER_AMOUNT; i++)
@@ -47,8 +78,10 @@ static void activate( GtkApplication* app, gpointer user_data )
     }
 
     // Add the notebook to the application window
-    gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);
-    gtk_container_add(GTK_CONTAINER(window), notebook);
+    gtk_notebook_set_tab_pos(GTK_NOTEBOOK(notebook), GTK_POS_TOP);  // The tabs are located at the top of the window
+    gtk_notebook_set_scrollable(GTK_NOTEBOOK(notebook), TRUE);      // The tabs can be scrolled if they do not fit the window
+    gtk_widget_set_vexpand(notebook, TRUE);                         // The notebook fills the remaining horizontal space on the window
+    gtk_container_add(GTK_CONTAINER(window_wrapper), notebook);     // Add the notebook to the window wrapper
 
     // Allocate the buffer for the text
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
