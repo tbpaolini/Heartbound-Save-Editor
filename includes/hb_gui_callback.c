@@ -480,6 +480,35 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data)
     }
 }
 
+void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
+{
+    // Create the file dialog
+    GtkFileChooserNative *file_chooser = gtk_file_chooser_native_new(
+        "Open another Heartbound save", // Title of the dialog
+        window,                         // Parent of the dialog (the main window)
+        GTK_FILE_CHOOSER_ACTION_OPEN,   // Open file action
+        NULL,                           // Text of the "Open" button
+        NULL                            // Text of the "Cancel" button
+    );
+
+    // Set the dialog to the folder where Heartbound saves the game
+    gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(file_chooser), SAVE_ROOT);
+
+    // Display the dialog
+    gint status = gtk_native_dialog_run(GTK_NATIVE_DIALOG(file_chooser));
+
+    // Handle the file, if the user chose one
+    if (status == GTK_RESPONSE_ACCEPT)
+    {
+        char *file_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser));
+        printf("Opened: %s", file_name);
+        g_free(file_name);
+    }
+
+    // Destroy the dialog
+    g_object_unref(file_chooser);
+}
+
 // Make the widgets on the notebook to be clickable after the menu items have been used.
 // Without this fix, if one clicks on the menu, then tries to click on something on
 // the notebook, it would be necessary to click twice to interact with the notebook.

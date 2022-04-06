@@ -15,6 +15,7 @@
 #define SAVE_LINE_BUFFER 50                     // Maximum number of characters on each line of the save file
 
 extern char SAVE_PATH[PATH_BUFFER];    // Absolute path to the save file
+extern char SAVE_ROOT[PATH_BUFFER];    // Absolute path to the folder where the save file is
 
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save();

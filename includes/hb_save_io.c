@@ -5,6 +5,7 @@
 #include <hb_save_io.h>
 
 char SAVE_PATH[PATH_BUFFER];
+char SAVE_ROOT[PATH_BUFFER];
 
 // Player attributes
 char hb_game_seed[SEED_SIZE];                       // Game seed (10 decimal characters long)
@@ -20,6 +21,7 @@ double hb_known_glyphs;
 int hb_find_save()
 {
     snprintf(SAVE_PATH, sizeof(SAVE_PATH), "%s\\%s\\%s", LOCAL_APP_DATA, SAVE_FOLDER, SAVE_FNAME);
+    snprintf(SAVE_ROOT, sizeof(SAVE_ROOT), "%s\\%s", LOCAL_APP_DATA, SAVE_FOLDER);
     return 0;
     // TO DO: Error handling
 }
