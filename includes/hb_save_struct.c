@@ -66,7 +66,7 @@ int hb_create_save_struct()
         {
             value_buffer[value_pos] = '\0';                 // Terminate the string (null terminator)
             hb_save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
-            strcpy(hb_save_headers[column++], value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
+            strcpy_s(hb_save_headers[column++], value_pos, value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
             if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
             value_pos = (size_t)0;                          // Return to the beginning of the value buffer
 
@@ -136,7 +136,7 @@ int hb_create_save_struct()
                 // Parse the value of the column
                 value_buffer[value_pos] = '\0';
                 char *my_value = malloc( ++value_pos );
-                strcpy(my_value, value_buffer);
+                strcpy_s(my_value, value_pos, value_buffer);
                 
                 // Store the corresponding column value on memory
                 switch (column)

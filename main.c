@@ -509,7 +509,7 @@ int main ( int argc, char **argv )
 
     // Change the current working directory to the executable directory
     char *path_dir = calloc(path_pos + 1, sizeof(char));
-    memcpy(path_dir, argv[0], path_pos);
+    memcpy_s(path_dir, path_pos, argv[0], path_pos);
     chdir(path_dir);
     free(path_dir);
 
