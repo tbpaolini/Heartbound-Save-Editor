@@ -24,7 +24,7 @@ CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --li
 # Note: Here we run two shell commands to get the flags to pass to the compiler, they return the folders of the GTK 3 headers and libraries.
 
 # Target parameters that 'make' can be run with on the tarminal
-.PHONY: release debug clean
+.PHONY: release debug clean analyze
 
 # Subfolder where the release build will go
 release: TARGET = release
@@ -74,6 +74,10 @@ structure:
 icon.o: assets\$(ICON)
 	$(file > $*.rc,1 ICON assets\$(ICON))
 	windres $*.rc $*.o
+
+analyze:
+	gcc $(SOURCE) $(CFLAGS) -fanalyzer
+	del a.exe
 
 # Remove the temporary files created during compilation
 clean:
