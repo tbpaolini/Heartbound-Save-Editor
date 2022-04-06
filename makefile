@@ -75,6 +75,7 @@ icon.o: assets\$(ICON)
 	$(file > $*.rc,1 ICON assets\$(ICON))
 	windres $*.rc $*.o
 
+# Perform some static code analysis
 analyze:
 	@gcc $(SOURCE) $(CFLAGS) -fanalyzer
 	@gcc $(SOURCE) $(CFLAGS) -fanalyzer -fanalyzer-checker=taint
