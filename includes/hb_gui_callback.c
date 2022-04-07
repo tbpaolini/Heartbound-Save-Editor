@@ -504,6 +504,21 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
     // Set the dialog to the folder where Heartbound saves the game
     gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(file_chooser), SAVE_ROOT);
 
+    // Create a filter for the file dialog to show "*.thor" files (the format of the Heartbound save)
+    GtkFileFilter *file_filter_thor = gtk_file_filter_new();
+    gtk_file_filter_add_pattern(file_filter_thor, "*.thor");
+    gtk_file_filter_set_name(file_filter_thor, "Heartbound save");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(file_chooser), file_filter_thor);
+
+    // Create a filter to show all files
+    GtkFileFilter *file_filter_all = gtk_file_filter_new();
+    gtk_file_filter_add_pattern(file_filter_all, "*");
+    gtk_file_filter_set_name(file_filter_all, "All files");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(file_chooser), file_filter_all);
+
+    // Set the "*.thor" filter as the default
+    gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(file_chooser), file_filter_thor);
+
     // Display the dialog
     gint status = gtk_native_dialog_run(GTK_NATIVE_DIALOG(file_chooser));
 
