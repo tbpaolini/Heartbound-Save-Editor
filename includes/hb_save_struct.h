@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <gtk\gtk.h>
 
 #define SAVE_STRUCT_LOC "..\\lib\\structure\\save_structure.tsv"   // Path to the file with the save structure
 #define SEED_SIZE (size_t)11                        // Amount of characters (plus null terminator and newline) of the game seed string
@@ -34,6 +35,13 @@ typedef struct ValueAlias
     char *description;  // What the value does in-game (as a string)
 } ValueAlias;
 
+// Store the pointer of the GTK widget used to store the value of a storyline variable
+typedef union VariableWidget
+{
+    GtkEntry *entry;
+    GSList *group;
+} VariableWidget;
+
 // The storyline variables
 typedef struct StorylineVars
 {
@@ -46,6 +54,7 @@ typedef struct StorylineVars
     double maximum;              // Maximum value of the variable (0.0 if there is no maximum)
     size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
     ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
+    VariableWidget widget;       // Pointer to the GTK entry or the radio buttons group used to display the variable's value
     bool used;                   // Wheter the variable has data on it
 } StorylineVars;
 

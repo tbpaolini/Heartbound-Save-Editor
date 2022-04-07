@@ -16,6 +16,9 @@
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
 {
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
     // Is the button that triggered the 'toggled' event active?
     gboolean button_is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     if (!button_is_active) return;
@@ -76,6 +79,9 @@ void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
 // These kind of buttons are used as a fallback when the variable does not fall in the other types
 void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
 {
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
     // Is the button that triggered the 'toggled' event active?
     gboolean button_is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
     if (!button_is_active) return;
@@ -113,6 +119,9 @@ void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
 // Set a storyline variable's value after its text box is edited
 void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
 {
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
     // Get the text from the widget
     const char *my_text = gtk_entry_get_text(widget);
 
@@ -480,6 +489,7 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data)
     }
 }
 
+// Load a Heartbound save file into the editor
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 {
     // Create the file dialog
@@ -501,7 +511,82 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
     if (status == GTK_RESPONSE_ACCEPT)
     {
         char *file_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser));
-        printf("Opened: %s", file_name);
+
+        int status = hb_read_save(file_name);
+
+        // Update the variable's widgets
+        if (status == 0)
+        {
+            is_loading_file = true;
+            char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
+            
+            for (size_t var = 0; var < NUM_STORY_VARS; var++)
+            {
+                if (!hb_save_data[var].used) continue;
+
+                if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
+                {
+                    // Text field
+                    GtkEntry *text_entry = hb_save_data[var].widget.entry;
+                    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_save_data[var].value);
+                    gtk_entry_set_text(text_entry, text_buffer);
+                }
+                else if (hb_save_data[var].num_entries >= 2)
+                {
+                    // Group of customized radio buttons
+                    GSList *group = hb_save_data[var].widget.group;
+                    GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
+
+                    // Loop through the buttons in the group
+                    for (size_t i = hb_save_data[var].num_entries - 1; i >= 0; i--)
+                    {
+                        // The header is a list of all possible values (as strings)
+                        // If there isn't a header, the number of the button is considered to be the value
+                        char **header = hb_save_data[var].aliases[i].header;
+                        double header_value = (header != NULL) ? atof(header[0]) : (double)i;
+
+                        // Check if the header's value correspond to the storyline variable's value
+                        if ( header_value == hb_save_data[var].value )
+                        {
+                            // Set the button to active and exit the loop
+                            gtk_toggle_button_set_active(current_button, TRUE);
+                            break;
+                        }
+
+                        // Go to the next button in the group
+                        group = group->next;
+                        if (group == NULL) break;
+                        current_button = GTK_TOGGLE_BUTTON(group->data);
+                    }
+                }
+                else
+                {
+                    // Group generic Yes/No radio buttons
+                    GSList *group = hb_save_data[var].widget.group;
+                    GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
+
+                    if (hb_save_data[var].value == 1)
+                    {
+                        gtk_toggle_button_set_active(current_button, TRUE);
+                    }
+                    else
+                    {
+                        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(group->next->data), TRUE);
+                    }
+                }
+            }
+            
+            // Deallocate the text buffer
+            free(text_buffer);
+
+            #ifdef _DEBUG
+            g_message("Loaded: %s", file_name);
+            #endif
+
+            is_loading_file = false;
+        }
+        
+        // Deallocate the memory of the file's name
         g_free(file_name);
     }
 

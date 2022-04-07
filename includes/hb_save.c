@@ -14,7 +14,7 @@ void hb_open_save()
 {
     hb_create_save_struct();
     hb_find_save();
-    hb_read_save();
+    hb_read_save(SAVE_PATH);
     hb_parse_rooms_locations();
 }
 

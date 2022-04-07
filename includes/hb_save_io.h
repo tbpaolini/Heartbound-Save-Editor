@@ -16,12 +16,13 @@
 
 extern char SAVE_PATH[PATH_BUFFER];    // Absolute path to the save file
 extern char SAVE_ROOT[PATH_BUFFER];    // Absolute path to the folder where the save file is
+extern char CURRENT_FILE[PATH_BUFFER]; // Absolute path to the save file that is currently opened
 
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save();
 
 // Get the contents of the save file and store them on memory
-int hb_read_save();
+int hb_read_save(char *path);
 
 // Save the contents back to the save file
 int hb_write_save();

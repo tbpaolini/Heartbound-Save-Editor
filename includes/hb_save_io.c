@@ -6,6 +6,7 @@
 
 char SAVE_PATH[PATH_BUFFER];
 char SAVE_ROOT[PATH_BUFFER];
+char CURRENT_FILE[PATH_BUFFER];
 
 // Player attributes
 char hb_game_seed[SEED_SIZE];                       // Game seed (10 decimal characters long)
@@ -27,9 +28,9 @@ int hb_find_save()
 }
 
 // Get the contents of the save file and store them on memory
-int hb_read_save()
+int hb_read_save(char *path)
 {
-    FILE *save_file = fopen(SAVE_PATH, "r");
+    FILE *save_file = fopen( (path != NULL ? path : SAVE_PATH), "r" );
     char *restrict line = malloc(SAVE_LINE_BUFFER);
 
     // Parse the player's attributes
@@ -71,6 +72,14 @@ int hb_read_save()
 
     free(line);         // Delete the line buffer from memory
     fclose(save_file);  // Close the save file
+
+    // Store the current open file
+    snprintf(
+        CURRENT_FILE,
+        sizeof(CURRENT_FILE),
+        (path != NULL ? path : SAVE_PATH)
+    );
+
     return 0;
     // TO DO: Error handling
 }

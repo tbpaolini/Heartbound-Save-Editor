@@ -29,6 +29,10 @@ static GtkEntry *x_entry, *y_entry;
 // Pointers to the entry fields that hold the player's hit points
 static GtkEntry *hp_cur_entry, *hp_max_entry;
 
+// Whether the editor is currently loading a save file
+// (used to prevent the callback functions to fire while the file is loaded)
+static bool is_loading_file = false;
+
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var);
 
@@ -82,6 +86,7 @@ void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data);
 // This function is called when the save option is left-clicked on the interface.
 void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data);
 
+// Load a Heartbound save file into the editor
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
 
 // Make the widgets on the notebook to be clickable after the menu items have been used.

@@ -272,6 +272,9 @@ static void activate( GtkApplication* app, gpointer user_data )
                     G_CALLBACK(hb_setvar_text_entry),   // Function to remove non-digits characters and update the storyline variable
                     &hb_save_data[var]                  // Pointer to the storyline variable
                 );
+
+                // Add a pointer to the entry field on the variable's data structure
+                hb_save_data[var].widget.entry = GTK_ENTRY(my_entry_field);
             }
             else if (hb_save_data[var].num_entries >= 2)
             {
@@ -312,6 +315,9 @@ static void activate( GtkApplication* app, gpointer user_data )
                         &hb_save_data[var]                      // Pointer to the storyline variable
                     );
                 }
+
+                // Add a pointer to the group of radio buttons to the variable's data structure
+                hb_save_data[var].widget.group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(previous_button));
             }
             else    // If nothing else matches, just use No/Yes radio buttons
             {
@@ -345,6 +351,9 @@ static void activate( GtkApplication* app, gpointer user_data )
                         &hb_save_data[var]                      // Pointer to the storyline variable
                     );
                 }
+
+                // Add a pointer to the group of radio buttons to the variable's data structure
+                hb_save_data[var].widget.group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(previous_button));
             }
         }
     }
