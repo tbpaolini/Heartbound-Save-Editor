@@ -585,6 +585,45 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 
             is_loading_file = false;
         }
+        else
+        {
+            // File loading failed
+
+            // Create the error dialog
+            GtkWidget *error_dialog = gtk_message_dialog_new(
+                window,
+                GTK_DIALOG_DESTROY_WITH_PARENT,
+                GTK_MESSAGE_ERROR,
+                GTK_BUTTONS_OK,
+                NULL
+            );
+
+            // Create an 'error' image to the dialok
+            GtkWidget *error_image = gtk_image_new_from_icon_name("dialog-error", GTK_ICON_SIZE_DIALOG);
+            gtk_widget_set_halign(error_image, GTK_ALIGN_START);
+
+            // Create the text of the dialog
+            char *buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
+            snprintf(buffer, TEXT_BUFFER_SIZE, "The file you tried to open is not a valid Heartbound save:\n\n%s", file_name);
+            GtkWidget *text = gtk_label_new(buffer);
+            gtk_widget_set_halign(text, GTK_ALIGN_START);
+            free(buffer);
+            
+            // Add the image and text to the dialog
+            // Note: I have to add them manually because GTK does not include an image on dialogs
+            GtkWidget *content_area = gtk_message_dialog_get_message_area(GTK_MESSAGE_DIALOG(error_dialog));
+            GtkWidget *wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+            gtk_container_add(GTK_CONTAINER(wrapper), error_image);
+            gtk_container_add(GTK_CONTAINER(wrapper), text);
+            gtk_container_add(GTK_CONTAINER(content_area), wrapper);
+            gtk_widget_show_all(error_dialog);
+
+            // Display the error dialog
+            gtk_dialog_run(GTK_DIALOG(error_dialog));
+
+            // Destroy the error dialog
+            gtk_widget_destroy(error_dialog);
+        }
         
         // Deallocate the memory of the file's name
         g_free(file_name);
