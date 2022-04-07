@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
 #include <hb_save_io.h>
 
 char SAVE_PATH[PATH_BUFFER];
@@ -30,7 +32,15 @@ int hb_find_save()
 // Get the contents of the save file and store them on memory
 int hb_read_save(char *path)
 {
+    // Open the file
     FILE *save_file = fopen( (path != NULL ? path : SAVE_PATH), "r" );
+    if (save_file == NULL) return SAVE_FILE_NOT_VALID;
+    
+    // Check if the file is valid
+    int status = hb_validate_save(save_file);
+    if (status != SAVE_FILE_IS_VALID) return status;
+
+    // Buffer for reading the file's lines
     char *restrict line = malloc(SAVE_LINE_BUFFER);
 
     // Parse the player's attributes
@@ -80,8 +90,91 @@ int hb_read_save(char *path)
         (path != NULL ? path : SAVE_PATH)
     );
 
-    return 0;
-    // TO DO: Error handling
+    return SAVE_FILE_IS_VALID;
+}
+
+// Validate if a file is a valid Heartbound save
+int hb_validate_save(FILE *save_file)
+{
+    // Remember the current read position on the file,
+    // so the position can be reset to it when the function returns.
+    fpos_t my_position;
+    fgetpos(save_file, &my_position);
+    rewind(save_file);
+
+    // Keep track of the characters and the line count
+    char current_character;
+    size_t line_count = 0;      // How many lines of text the file has
+    bool line_is_empty = true;  // If the line has not any characters (besides spaces or newlines)
+    size_t target_line_count = NUM_STORY_VARS + 6;  // How many lines the file should have
+
+    // Loop through all characters in the file
+    while (!feof(save_file))
+    {
+        current_character = fgetc(save_file);
+        
+        if (current_character == EOF) break;     // End of file
+        if (current_character == ' ') continue;  // Blank space
+        
+        if (current_character == '\n')  // Line break
+        {
+            // Increase the line count
+            line_count++;
+
+            // Check if the file went over the expected number of lines,
+            // and if the line has at least one character.
+            if (line_count > target_line_count || line_is_empty)
+            {
+                fsetpos(save_file, &my_position);
+                return SAVE_FILE_NOT_VALID;
+            }
+
+            // Move to the next line
+            line_is_empty = true;
+            continue;
+        }
+
+        if (line_count != 1)
+        {
+            // On all lines, except for the second, the characters can only be decimal digits
+            if ( !isdigit(current_character) )
+            {
+                fsetpos(save_file, &my_position);
+                return SAVE_FILE_NOT_VALID;
+            }
+        }
+        else
+        {
+            // We are on the second line, which has the room's name.
+            // The characters must be decimal digits, English letters, or underscores.
+            if ( !isalnum(current_character) && current_character != '_' )
+            {
+                fsetpos(save_file, &my_position);
+                return SAVE_FILE_NOT_VALID;
+            }
+        }
+
+        // When the character is not a blank space or a newline,
+        // the line is flagged as being 'not empty'
+        line_is_empty = false;
+    }
+    
+    // Check if the file has the expected number of lines
+    // (The program forgives a lack of newline at the end of the file)
+    if (line_count == target_line_count || line_count == target_line_count-1)
+    {
+        // If the program has the expected number of lines,
+        // and all characters have passed the test,
+        // then return that the save file is valid.
+        fsetpos(save_file, &my_position);
+        return SAVE_FILE_IS_VALID;
+    }
+    else
+    {
+        // The file is invalid if it has less lines than expected
+        fsetpos(save_file, &my_position);
+        return SAVE_FILE_NOT_VALID;
+    }
 }
 
 // Save the contents back to the save file

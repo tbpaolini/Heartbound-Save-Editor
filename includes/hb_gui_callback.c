@@ -515,7 +515,7 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
         int status = hb_read_save(file_name);
 
         // Update the variable's widgets
-        if (status == 0)
+        if (status == SAVE_FILE_IS_VALID)
         {
             is_loading_file = true;
             char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
