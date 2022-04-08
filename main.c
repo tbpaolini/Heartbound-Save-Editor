@@ -485,19 +485,28 @@ static void activate( GtkApplication* app, gpointer user_data )
             GtkWidget *my_radio_button = NULL;
             GtkWidget *previous_button = NULL;
             
-            for (size_t i = 0; i < 3; i++)
+            for (size_t value = 0; value < 3; value++)
             {
                 // Create a button with one of the labels
-                my_radio_button = gtk_radio_button_new_with_label(NULL, glyph_labels[i]);
+                my_radio_button = gtk_radio_button_new_with_label(NULL, glyph_labels[value]);
                 gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
                 previous_button = my_radio_button;
 
                 // Add the button to the same group as the other buttons
                 gtk_container_add(GTK_CONTAINER(my_flowbox), my_radio_button);
 
+                // Set the button as active if it corresponds to the current 'hb_known_glyphs' value
+                if (value == hb_known_glyphs)
+                {
+                    gtk_toggle_button_set_active(GTK_TOGGLE_ACTION(my_radio_button), TRUE);
+                }
+
                 // Update the 'hb_known_glyphs' variable when the button is toggled
                 g_signal_connect(GTK_RADIO_BUTTON(my_radio_button), "toggled", G_CALLBACK(hb_setvar_known_glyphs), &hb_known_glyphs);
             }
+
+            // The glyphs buttons get updated when another save file is loaded
+            hb_bind_widgets(NULL, gtk_radio_button_get_group(GTK_RADIO_BUTTON(my_radio_button)), NULL);
         }
 
         // Create a wrapper for the Game Seed
