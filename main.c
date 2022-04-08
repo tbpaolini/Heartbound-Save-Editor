@@ -47,6 +47,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Add a save button to the menu bar
     GtkWidget *save_button = gtk_menu_item_new();
     GtkWidget *save_icon = gtk_image_new_from_icon_name("document-save", GTK_ICON_SIZE_MENU);
+    gtk_widget_set_tooltip_text(save_button, "Save file");
     gtk_container_add(GTK_CONTAINER(save_button), save_icon);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), save_button);
     g_signal_connect(GTK_MENU_ITEM(save_button), "enter-notify-event", G_CALLBACK(hb_menu_hover), NULL);
@@ -56,6 +57,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Add a open button to the menu bar
     GtkWidget *open_button = gtk_menu_item_new();
     GtkWidget *open_icon = gtk_image_new_from_icon_name("document-open", GTK_ICON_SIZE_MENU);
+    gtk_widget_set_tooltip_text(open_button, "Open file");
     gtk_container_add(GTK_CONTAINER(open_button), open_icon);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), open_button);
     g_signal_connect(GTK_MENU_ITEM(open_button), "enter-notify-event", G_CALLBACK(hb_menu_hover), NULL);
@@ -238,6 +240,10 @@ static void activate( GtkApplication* app, gpointer user_data )
             // Add the name label to the entry's box
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);
 
+            // Add a tooltip to the name label with the variable's index
+            snprintf(text_buffer, TEXT_BUFFER_SIZE, "Story Variable #%llu", hb_save_data[var].index);
+            gtk_widget_set_tooltip_text(my_name_label, text_buffer);
+
             // Create a flow box for the options
             GtkWidget *my_options = gtk_flow_box_new();
             gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_options), GTK_SELECTION_NONE);  // Prevents the text inside from getting highlighted when you click on them
@@ -415,6 +421,12 @@ static void activate( GtkApplication* app, gpointer user_data )
         
         // Create the wrapper box for the room
         NEW_LABEL_BOX("Room :");
+        gtk_widget_set_tooltip_text(
+            my_name_label,
+            "The location where you will spaw.\n"
+            "Changing this automatically update the coordinates, "
+            "so you do not end up out of bounds or inside walls."
+        );
         
         // Create the dropdown list for the room names
         GtkWidget *room_selection = gtk_combo_box_text_new();
@@ -448,6 +460,12 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Create a wrapper box for the coordinates
         NEW_LABEL_BOX("Coordinates :");
         NEW_FLOWBOX();
+        gtk_widget_set_tooltip_text(
+            my_name_label,
+            "The point in the room where you will be spaw.\n"
+            "(0, 0) being the top left.\n"
+            "X grows towards the right, Y grow towards the bottom."
+        );
 
         // Create the entries for the coordinates
         
@@ -470,6 +488,11 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Create a wrapper box for the Hit Points
         NEW_LABEL_BOX("Hit Points :");
         NEW_FLOWBOX();
+        gtk_widget_set_tooltip_text(
+            my_name_label,
+            "Your health in combat.\n"
+            "Either by design or by bug, the game seems to ignore these values at some points."
+        );
         
         // Create the entries for the Hit Points
         
@@ -488,6 +511,11 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Create wrapper box for the known glyphs
         NEW_LABEL_BOX("Known glyphs :");
         NEW_FLOWBOX();
+        gtk_widget_set_tooltip_text(
+            my_name_label,
+            "Automatically translates the coded text.\n"
+            "For example, the conversation between Binder and Barghest."
+        );
 
         // Create the radio buttons for the known glyphs
 
@@ -526,6 +554,11 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Create a wrapper for the Game Seed
         NEW_LABEL_BOX("Game Seed :");
         NEW_FLOWBOX();
+        gtk_widget_set_tooltip_text(
+            my_name_label,
+            "Affects the patterns of vegetation and objects on the ground, some flavor texts, "
+            "and a few random events (like the notes you find)."
+        );
 
         // Create a text entry for the Game Seed
         my_entry = gtk_entry_new();
