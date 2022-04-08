@@ -29,6 +29,15 @@ static GtkEntry *x_entry, *y_entry;
 // Pointers to the entry fields that hold the player's hit points
 static GtkEntry *hp_cur_entry, *hp_max_entry;
 
+// Pointer to the room list
+static GtkComboBox *room_dropdown_list;
+
+// Pointer to the group of radio buttons of the known glyphs
+static GSList *known_glyphs_group;
+
+// Pointer to the game seed entry
+static GtkEntry *game_seed_entry;
+
 // Whether the editor is currently loading a save file
 // (used to prevent the callback functions to fire while the file is loaded)
 static bool is_loading_file = false;
@@ -64,6 +73,10 @@ void hb_bind_xy_entries(GtkEntry *x, GtkEntry *y);
 // Store the pointers for the text entries of the player's hit points,
 // so they can interact with each other (current HP capped to the maximum HP)
 void hb_bind_hp_entries(GtkEntry *current, GtkEntry *maximum);
+
+// Store the pointers to the Rooms List, Known Glyphs, and Game Seed,
+// so they can be updated when a new file is loaded.
+void hb_bind_widgets(GtkComboBox *room_widget, GSList *glyph_widget, GtkEntry *seed_widget);
 
 // Update the coordinates field when the room is changed,
 // so the player do not end up stuck out of bounds or in a wall.

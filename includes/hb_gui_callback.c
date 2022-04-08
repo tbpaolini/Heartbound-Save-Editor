@@ -228,6 +228,15 @@ void hb_bind_hp_entries(GtkEntry *current, GtkEntry *maximum)
     if (maximum != NULL) hp_max_entry = maximum;
 }
 
+// Store the pointers to the Rooms List, Known Glyphs, and Game Seed,
+// so they can be updated when a new file is loaded.
+void hb_bind_widgets(GtkComboBox *room_widget, GSList *glyph_widget, GtkEntry *seed_widget)
+{
+    if (room_widget != NULL) room_dropdown_list = room_widget;
+    if (glyph_widget != NULL) known_glyphs_group = glyph_widget;
+    if (seed_widget != NULL) game_seed_entry = seed_widget;
+}
+
 // Update the Room ID variable, that stores the current room.
 // Also update the coordinates field when the room is changed,
 // so the player do not end up stuck out of bounds or in a wall.
@@ -642,6 +651,45 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
                     }
                 }
             }
+
+            // Update the player attributes fields
+            
+            // Room selection list
+            HeartboundRoom *current_room = hb_get_room(hb_room_id);
+            if (current_room != NULL)
+            {
+                gtk_combo_box_set_active(room_dropdown_list, current_room->index);
+            }
+
+            // Coordinates fields
+            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_x_axis);
+            gtk_entry_set_text(x_entry, text_buffer);
+            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_y_axis);
+            gtk_entry_set_text(y_entry, text_buffer);
+
+            // Hit Points fields
+            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_current);
+            gtk_entry_set_text(hp_cur_entry, text_buffer);
+            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_maximum);
+            gtk_entry_set_text(hp_max_entry, text_buffer);
+
+            // Glyph radio buttons
+            size_t button_index = (size_t)(2.0 - hb_known_glyphs);
+            GSList *group = known_glyphs_group;
+            GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
+
+            for (size_t i = 0; i < button_index; i++)
+            {
+                // Navigate until the button that corresponds to the value of 'hb_known_glyphs'
+                group = group->next;
+                current_button = GTK_TOGGLE_BUTTON(group->data);
+            }
+            
+            gtk_toggle_button_set_active(current_button, TRUE);
+
+            // Game Seed field
+            strncpy(text_buffer, hb_game_seed, sizeof(hb_game_seed));
+            gtk_entry_set_text(game_seed_entry, text_buffer);
             
             // Deallocate the text buffer
             free(text_buffer);

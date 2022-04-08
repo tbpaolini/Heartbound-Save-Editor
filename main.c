@@ -430,6 +430,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Update the coordinates entries when a room is selected
         // (so the player do not spaw stuck out of bounds or in walls)
         g_signal_connect(GTK_COMBO_BOX(room_selection), "changed", G_CALLBACK(hb_set_coordinates_from_room), NULL);
+
+        // The list gets updated when another save file is loaded
+        hb_bind_widgets(GTK_COMBO_BOX(room_selection), NULL, NULL);
         
         // Create a wrapper box for the coordinates
         NEW_LABEL_BOX("Coordinates :");
@@ -498,7 +501,7 @@ static void activate( GtkApplication* app, gpointer user_data )
                 // Set the button as active if it corresponds to the current 'hb_known_glyphs' value
                 if (value == hb_known_glyphs)
                 {
-                    gtk_toggle_button_set_active(GTK_TOGGLE_ACTION(my_radio_button), TRUE);
+                    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
                 }
 
                 // Update the 'hb_known_glyphs' variable when the button is toggled
@@ -525,6 +528,9 @@ static void activate( GtkApplication* app, gpointer user_data )
 
         // Update the game seed variable when its field changes
         g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_game_seed), &hb_game_seed);
+
+        // The game seed entry gets updated when another save file is loaded
+        hb_bind_widgets(NULL, NULL, GTK_ENTRY(my_entry));
 
         finish:
         #undef NEW_LABEL_BOX
