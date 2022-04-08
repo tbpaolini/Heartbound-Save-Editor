@@ -384,6 +384,49 @@ void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
     #endif
 }
 
+// Set the radio button of the 'known glyphs' choice
+void hb_setvar_known_glyphs(GtkRadioButton *widget, double *known_glyphs)
+{
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
+    // Is the button that triggered the 'toggled' event active?
+    gboolean button_is_active = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
+    if (!button_is_active) return;
+
+    // Get the first button of the group
+    GSList *group = gtk_radio_button_get_group(widget);
+    GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
+
+    // Loop through the 3 buttons to fing which one is active
+    for (size_t value = 2; value >= 0; value--)
+    {
+        if (gtk_toggle_button_get_active(current_button) == TRUE)
+        {
+            // Set the known glyphs variable to the value
+            *known_glyphs = value;
+
+            // Print a message on the debug build
+            #ifdef _DEBUG
+            char *glyph_labels[3] = {"None", "Guardian", "Guardian and Darksider"};
+            g_message(
+                "Known glyphs = %s (%.0f)",
+                glyph_labels[(size_t)(*known_glyphs)],
+                *known_glyphs
+            );
+            #endif
+            
+            // Exit the function once the active button was found
+            return;
+        }
+        
+        // Move to the next button on the
+        group = group->next;
+        if (group == NULL) break;
+        current_button = GTK_TOGGLE_BUTTON(group->data);
+    }
+}
+
 // Set the game seed's variable when its field changes
 void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed)
 {

@@ -471,6 +471,35 @@ static void activate( GtkApplication* app, gpointer user_data )
         g_signal_connect(GTK_ENTRY(my_entry), "changed", G_CALLBACK(hb_setvar_player_attribute), &hb_hitpoints_maximum);
         hb_bind_hp_entries(NULL, GTK_ENTRY(my_entry));  // Bind the HP fields to each other so the current HP is capped by the maximum
 
+        // Create wrapper box for the known glyphs
+        NEW_LABEL_BOX("Known glyphs :");
+        NEW_FLOWBOX();
+
+        // Create the radio buttons for the known glyphs
+
+        {
+            // The 3 possible values of the buttons
+            char *glyph_labels[3] = {"None", "Guardian", "Guardian and Darksider"};
+            
+            // Create and add the 3 buttons
+            GtkWidget *my_radio_button = NULL;
+            GtkWidget *previous_button = NULL;
+            
+            for (size_t i = 0; i < 3; i++)
+            {
+                // Create a button with one of the labels
+                my_radio_button = gtk_radio_button_new_with_label(NULL, glyph_labels[i]);
+                gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
+                previous_button = my_radio_button;
+
+                // Add the button to the same group as the other buttons
+                gtk_container_add(GTK_CONTAINER(my_flowbox), my_radio_button);
+
+                // Update the 'hb_known_glyphs' variable when the button is toggled
+                g_signal_connect(GTK_RADIO_BUTTON(my_radio_button), "toggled", G_CALLBACK(hb_setvar_known_glyphs), &hb_known_glyphs);
+            }
+        }
+
         // Create a wrapper for the Game Seed
         NEW_LABEL_BOX("Game Seed :");
         NEW_FLOWBOX();

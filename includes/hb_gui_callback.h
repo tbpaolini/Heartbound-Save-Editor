@@ -73,6 +73,9 @@ void hb_set_coordinates_from_room(GtkComboBoxText *widget);
 // (coordinates or hitpoints)
 void hb_setvar_player_attribute(GtkEntry *widget, double *attribute);
 
+// Set the radio button of the 'known glyphs' choice
+void hb_setvar_known_glyphs(GtkRadioButton *widget, double *known_glyphs);
+
 // Set the game seed's variable when its field changes
 void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed);
 
