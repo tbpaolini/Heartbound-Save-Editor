@@ -106,7 +106,12 @@ int hb_validate_save(FILE *save_file)
     char current_character;
     size_t line_count = 0;      // How many lines of text the file has
     bool line_is_empty = true;  // If the line has not any characters (besides spaces or newlines)
-    size_t target_line_count = NUM_STORY_VARS + 6;  // How many lines the file should have
+    size_t target_line_count = NUM_STORY_VARS + ROW_OFFSET - 1;  // How many lines the file should have
+    /* Note:
+        The default save file has 1006 lines: 7 player attributes followed by 999 storyline variables.
+        Technically there are 1000 storyline variables, however the DEBUG VARIABLE (at index 0) is not
+        included on the save file.
+    */
 
     // Loop through all characters in the file
     while (!feof(save_file))
