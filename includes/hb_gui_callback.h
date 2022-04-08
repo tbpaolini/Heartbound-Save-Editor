@@ -71,10 +71,10 @@ void hb_set_coordinates_from_room(GtkComboBoxText *widget);
 
 // Set one of the variables that hold the player's attributes
 // (coordinates or hitpoints)
-void hb_setvar_player_attribute(GtkEntry *widget, double *varriable);
+void hb_setvar_player_attribute(GtkEntry *widget, double *attribute);
 
 // Set the game seed's variable when its field changes
-void hb_setvar_game_seed(GtkEntry *widget,  char *data);
+void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed);
 
 // Generate a random game seed (9 numeric digits)
 void hb_random_seed(char *game_seed);
