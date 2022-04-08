@@ -233,6 +233,9 @@ void hb_bind_hp_entries(GtkEntry *current, GtkEntry *maximum)
 // so the player do not end up stuck out of bounds or in a wall.
 void hb_set_coordinates_from_room(GtkComboBoxText *widget)
 {
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
     char *room_name = gtk_combo_box_text_get_active_text(widget);
     HeartboundRoom *my_room = hb_get_room(room_name);
     
@@ -293,6 +296,9 @@ void hb_text_filter_integer(char *text, size_t max_length)
 // (coordinates or hitpoints)
 void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
 {
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
     // Prevents the the current callback function from being called recursively when it changes the text entry
     g_signal_handlers_block_by_func(widget, G_CALLBACK(hb_setvar_player_attribute), attribute);
     
@@ -430,6 +436,9 @@ void hb_setvar_known_glyphs(GtkRadioButton *widget, double *known_glyphs)
 // Set the game seed's variable when its field changes
 void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed)
 {
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
     // Get the text from the widget
     const char *my_text = gtk_entry_get_text(widget);
 
