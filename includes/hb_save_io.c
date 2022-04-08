@@ -38,7 +38,11 @@ int hb_read_save(char *path)
     
     // Check if the file is valid
     int status = hb_validate_save(save_file);
-    if (status != SAVE_FILE_IS_VALID) return status;
+    if (status != SAVE_FILE_IS_VALID)
+    {
+        fclose(save_file);
+        return status;
+    }
 
     // Buffer for reading the file's lines
     char *restrict line = malloc(SAVE_LINE_BUFFER);
