@@ -604,42 +604,28 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
         {
             // File loading failed
 
-            // Create the error dialog
-            GtkWidget *error_dialog = gtk_message_dialog_new(
+            // Create the text of the error dialog
+            char *message = calloc(TEXT_BUFFER_SIZE, sizeof(char));
+            snprintf(message, TEXT_BUFFER_SIZE, "The file you tried to open is not a valid Heartbound save:\n\n%s", file_name);
+
+            // Display the error dialog
+            GtkWidget *error_dialog = hb_create_dialog_with_title_and_image(
                 window,
                 GTK_DIALOG_DESTROY_WITH_PARENT,
                 GTK_MESSAGE_ERROR,
                 GTK_BUTTONS_OK,
-                NULL
+                "File loading error",
+                "dialog-error",
+                message
             );
-
-            // Create an 'error' image to the dialok
-            GtkWidget *error_image = gtk_image_new_from_icon_name("dialog-error", GTK_ICON_SIZE_DIALOG);
-            gtk_widget_set_halign(error_image, GTK_ALIGN_START);
-
-            // Create the text of the dialog
-            char *buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
-            snprintf(buffer, TEXT_BUFFER_SIZE, "The file you tried to open is not a valid Heartbound save:\n\n%s", file_name);
-            GtkWidget *text = gtk_label_new(buffer);
-            gtk_widget_set_halign(text, GTK_ALIGN_START);
-            free(buffer);
             
-            // Add the image and text to the dialog
-            // Note: I have to add them manually because GTK does not include an image on dialogs
-            GtkWidget *content_area = gtk_message_dialog_get_message_area(GTK_MESSAGE_DIALOG(error_dialog));
-            GtkWidget *wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-            gtk_container_add(GTK_CONTAINER(wrapper), error_image);
-            gtk_container_add(GTK_CONTAINER(wrapper), text);
-            gtk_container_add(GTK_CONTAINER(content_area), wrapper);
-            gtk_widget_show_all(error_dialog);
+            // Deallocate the message buffer
+            free(message);
 
-            // Add title to the dialog
-            gtk_window_set_title(GTK_WINDOW(error_dialog), "File loading error");
-
-            // Display the error dialog
+            // Display the dialog
             gtk_dialog_run(GTK_DIALOG(error_dialog));
 
-            // Destroy the error dialog
+            // Destroy the dialog
             gtk_widget_destroy(error_dialog);
         }
         
@@ -647,8 +633,51 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
         g_free(file_name);
     }
 
-    // Destroy the dialog
+    // Destroy the file chooser dialog
     g_object_unref(file_chooser);
+}
+
+// Display a message dialog with a custom image and title
+GtkWidget *hb_create_dialog_with_title_and_image(
+    GtkWindow *parent,
+    GtkDialogFlags flags,
+    GtkMessageType type,
+    GtkButtonsType buttons, 
+    const char *title,
+    const char *image_icon_name,
+    const char *message
+)
+{
+    // Create the dialog
+    GtkWidget *dialog = gtk_message_dialog_new(
+        parent,
+        flags,
+        type,
+        buttons,
+        NULL
+    );
+
+    // Create an image to the dialok
+    GtkWidget *image = gtk_image_new_from_icon_name(image_icon_name, GTK_ICON_SIZE_DIALOG);
+    gtk_widget_set_halign(image, GTK_ALIGN_START);
+
+    // Create the text of the dialog
+    GtkWidget *text = gtk_label_new(message);
+    gtk_widget_set_halign(text, GTK_ALIGN_START);
+    
+    // Add the image and text to the dialog
+    // Note: I have to add them manually because GTK does not include an image on dialogs
+    GtkWidget *content_area = gtk_message_dialog_get_message_area(GTK_MESSAGE_DIALOG(dialog));
+    GtkWidget *wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+    gtk_container_add(GTK_CONTAINER(wrapper), image);
+    gtk_container_add(GTK_CONTAINER(wrapper), text);
+    gtk_container_add(GTK_CONTAINER(content_area), wrapper);
+    gtk_widget_show_all(dialog);
+
+    // Add title to the dialog
+    gtk_window_set_title(GTK_WINDOW(dialog), title);
+
+    return dialog;
 }
 
 // Make the widgets on the notebook to be clickable after the menu items have been used.

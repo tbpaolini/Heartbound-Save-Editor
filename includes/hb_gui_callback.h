@@ -89,6 +89,17 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data);
 // Load a Heartbound save file into the editor
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
 
+// Create a message dialog with a custom image and title
+GtkWidget *hb_create_dialog_with_title_and_image(
+    GtkWindow *parent,
+    GtkDialogFlags flags,
+    GtkMessageType type,
+    GtkButtonsType buttons, 
+    const char *message,
+    const char *title,
+    const char *image_icon_name
+);
+
 // Make the widgets on the notebook to be clickable after the menu items have been used.
 // Without this fix, if one clicks on the menu, then tries to click on something on
 // the notebook, it would be necessary to click twice to interact with the notebook.
