@@ -47,7 +47,6 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Add a save button to the menu bar
     GtkWidget *save_button = gtk_menu_item_new();
     GtkWidget *save_icon = gtk_image_new_from_icon_name("document-save", GTK_ICON_SIZE_MENU);
-    GtkWidget *box = gtk_button_new();
     gtk_container_add(GTK_CONTAINER(save_button), save_icon);
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), save_button);
     g_signal_connect(GTK_MENU_ITEM(save_button), "enter-notify-event", G_CALLBACK(hb_menu_hover), NULL);
