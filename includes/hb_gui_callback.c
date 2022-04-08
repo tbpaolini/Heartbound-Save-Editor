@@ -690,6 +690,17 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             // Game Seed field
             strncpy(text_buffer, hb_game_seed, sizeof(hb_game_seed));
             gtk_entry_set_text(game_seed_entry, text_buffer);
+
+            // Place the file name on the window title, if the file isn't the default save file
+            if (strncmp(SAVE_PATH, CURRENT_FILE, PATH_BUFFER) != 0)
+            {
+                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
+                gtk_window_set_title(window, text_buffer);
+            }
+            else
+            {
+                gtk_window_set_title(window, WINDOW_TITLE);
+            }
             
             // Deallocate the text buffer
             free(text_buffer);
