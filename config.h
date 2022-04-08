@@ -30,4 +30,7 @@
 #define TEXT_FIELD_MAX_CHARS 14
 #define TEXT_BUFFER_SIZE 1024
 
+// Duration (in milliseconds) of the "file loaded" indicator
+#define INDICATOR_TIMEOUT 2600
+
 #endif

@@ -28,9 +28,21 @@ static void activate( GtkApplication* app, gpointer user_data )
     GtkWidget *chapter_page[CHAPTER_AMOUNT];
     GtkWidget *chapter_grid[CHAPTER_AMOUNT];
 
+    // Create the wrapper for the menu and "file loaded" indicator, at the top of the window
+    GtkWidget *top_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_container_add(GTK_CONTAINER(window_wrapper), top_wrapper);
+
     // Create menu bar
     GtkWidget *menubar = gtk_menu_bar_new();
-    gtk_container_add(GTK_CONTAINER(window_wrapper), menubar);
+    gtk_widget_set_hexpand(menubar, TRUE);
+    gtk_container_add(GTK_CONTAINER(top_wrapper), menubar);
+
+    // Create indicator for when a file is loaded
+    GtkWidget *file_loaded_indicator = gtk_label_new("File loaded successfully!");
+    gtk_widget_set_no_show_all(file_loaded_indicator, TRUE);        // The widget is not shown by default
+    gtk_widget_set_halign(file_loaded_indicator, GTK_ALIGN_END);    // The widget goes to the right side
+    gtk_container_add(GTK_CONTAINER(top_wrapper), file_loaded_indicator);
+    hb_bind_file_indicator(file_loaded_indicator);
 
     // Add a save button to the menu bar
     GtkWidget *save_button = gtk_menu_item_new();

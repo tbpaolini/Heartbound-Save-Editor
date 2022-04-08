@@ -38,6 +38,9 @@ static GSList *known_glyphs_group;
 // Pointer to the game seed entry
 static GtkEntry *game_seed_entry;
 
+// Text that shows up temporarily when a file is loaded
+static GtkWidget *file_loaded_indicator;
+
 // Whether the editor is currently loading a save file
 // (used to prevent the callback functions to fire while the file is loaded)
 static bool is_loading_file = false;
@@ -115,6 +118,12 @@ GtkWidget *hb_create_dialog_with_title_and_image(
     const char *title,
     const char *image_icon_name
 );
+
+// Bind the pointer of the "file loaded" indicator, so it can be shown or hidden.
+void hb_bind_file_indicator(GtkWidget *widget);
+
+// Hide the "file loaded" indicator
+gboolean hb_hide_file_indicator();
 
 // Make the widgets on the notebook to be clickable after the menu items have been used.
 // Without this fix, if one clicks on the menu, then tries to click on something on

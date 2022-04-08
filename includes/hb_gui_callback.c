@@ -709,6 +709,10 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             g_message("Loaded: %s", file_name);
             #endif
 
+            // Show for 2.6 seconds the indicator that the file was loaded
+            gtk_widget_show(file_loaded_indicator);
+            g_timeout_add(INDICATOR_TIMEOUT, G_SOURCE_FUNC(hb_hide_file_indicator), NULL);
+
             is_loading_file = false;
         }
         else
@@ -789,6 +793,22 @@ GtkWidget *hb_create_dialog_with_title_and_image(
     gtk_window_set_title(GTK_WINDOW(dialog), title);
 
     return dialog;
+}
+
+// Bind the pointer of the "file loaded" indicator, so it can be shown or hidden.
+void hb_bind_file_indicator(GtkWidget *widget)
+{
+    if (widget != NULL) file_loaded_indicator = widget;
+}
+
+// Hide the "file loaded" indicator
+gboolean hb_hide_file_indicator()
+{
+    // Hide the widget from the window
+    gtk_widget_hide(file_loaded_indicator);
+    
+    // Returning this value makes the function to be called only once if called with a "g_timeout_add()"
+    return G_SOURCE_REMOVE;
 }
 
 // Make the widgets on the notebook to be clickable after the menu items have been used.
