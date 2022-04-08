@@ -633,6 +633,9 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             gtk_container_add(GTK_CONTAINER(content_area), wrapper);
             gtk_widget_show_all(error_dialog);
 
+            // Add title to the dialog
+            gtk_window_set_title(GTK_WINDOW(error_dialog), "File loading error");
+
             // Display the error dialog
             gtk_dialog_run(GTK_DIALOG(error_dialog));
 
