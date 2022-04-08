@@ -181,7 +181,7 @@ int hb_validate_save(FILE *save_file)
 int hb_write_save()
 {
     // Open save file for writting
-    FILE *save_file = fopen(SAVE_PATH, "w");
+    FILE *save_file = fopen(CURRENT_FILE, "w");
 
     // Game seed
     fprintf_s(save_file, "%s\n", hb_game_seed);

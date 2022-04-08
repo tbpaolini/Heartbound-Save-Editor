@@ -545,7 +545,7 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data)
         hb_write_save();
 
         #ifdef _DEBUG
-        g_message("Saved: %s", SAVE_PATH);
+        g_message("Saved: %s", CURRENT_FILE);
         #endif
     }
 }
