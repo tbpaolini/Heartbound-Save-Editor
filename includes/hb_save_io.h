@@ -8,15 +8,18 @@
 #include <string.h>
 #include <hb_save_struct.h>
 
+// Save file properties
 #define LOCAL_APP_DATA getenv("LocalAppData")   // Path to the local application data
 #define SAVE_FOLDER "Heartbound"                // Save folder on the local application data
 #define SAVE_FNAME "heartbound_save8.thor"      // Name of the save file
 #define PATH_BUFFER 512                         // Maximum number of characters of the absolute file path
 #define SAVE_LINE_BUFFER 50                     // Maximum number of characters on each line of the save file
 
+// Status codes for when the file is loaded or saved
 #define SAVE_FILE_IS_VALID 0
 #define SAVE_FILE_NOT_VALID -1
 
+// File system paths for the save file
 extern char SAVE_PATH[PATH_BUFFER];    // Absolute path to the save file
 extern char SAVE_ROOT[PATH_BUFFER];    // Absolute path to the folder where the save file is
 extern char CURRENT_FILE[PATH_BUFFER]; // Absolute path to the save file that is currently opened
