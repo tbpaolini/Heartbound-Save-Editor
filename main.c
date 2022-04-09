@@ -63,7 +63,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), open_button);
     g_signal_connect(GTK_MENU_ITEM(open_button), "enter-notify-event", G_CALLBACK(hb_menu_hover), NULL);
     g_signal_connect(GTK_MENU_ITEM(open_button), "leave-notify-event", G_CALLBACK(hb_menu_hover), NULL);
-    g_signal_connect(GTK_MENU_ITEM(open_button), "button-press-event", G_CALLBACK(hb_open_file), window);
+    g_signal_connect(GTK_MENU_ITEM(open_button), "button-press-event", G_CALLBACK(hb_open_file), GTK_WINDOW(window));
 
     // Add a separator to the right of the Save/Open buttons
     GtkWidget *buttons_separator = gtk_separator_menu_item_new();

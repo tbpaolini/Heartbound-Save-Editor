@@ -536,7 +536,7 @@ void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data)
 
 // A wrapper for the 'hb_write_save()' function from 'hb_gui_save_io.c'
 // This function is called when the save option is left-clicked on the interface.
-void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data)
+void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 {
     // If the left mouse button was pressed
     if ( event.type == GDK_BUTTON_PRESS && event.button == 1 )
@@ -550,11 +550,45 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data)
             gtk_label_set_text(GTK_LABEL(file_indicator), FILE_SAVED_MESSAGE);
             gtk_widget_show(file_indicator);
             g_timeout_add(INDICATOR_TIMEOUT, G_SOURCE_FUNC(hb_hide_file_indicator), NULL);
-        }
 
-        #ifdef _DEBUG
-        g_message("Saved: %s", CURRENT_FILE);
-        #endif
+            #ifdef _DEBUG
+            g_message("Saved: %s", CURRENT_FILE);
+            #endif
+        }
+        else
+        {
+            // File saving failed
+
+            // Create the text of the error dialog
+            char *message = calloc(TEXT_BUFFER_SIZE, sizeof(char));
+            snprintf(
+                message,
+                TEXT_BUFFER_SIZE,
+                "Coult not write to:\n%s\n\n"
+                "The file is already in use by another program.",
+                CURRENT_FILE
+            );
+
+            // Display the error dialog
+            GtkWidget *error_dialog = hb_create_dialog_with_title_and_image(
+                window,
+                GTK_DIALOG_DESTROY_WITH_PARENT,
+                GTK_MESSAGE_ERROR,
+                GTK_BUTTONS_OK,
+                "File saving error",
+                "dialog-error",
+                message
+            );
+            
+            // Deallocate the message buffer
+            free(message);
+
+            // Display the dialog
+            gtk_dialog_run(GTK_DIALOG(error_dialog));
+
+            // Destroy the dialog
+            gtk_widget_destroy(error_dialog);
+        }
     }
 }
 

@@ -18,6 +18,8 @@
 // Status codes for when the file is loaded or saved
 #define SAVE_FILE_IS_VALID 0
 #define SAVE_FILE_NOT_VALID -1
+#define FILE_SAVING_SUCCESS 0
+#define FILE_SAVING_FAILURE -1
 
 // File system paths for the save file
 extern char SAVE_PATH[PATH_BUFFER];    // Absolute path to the save file

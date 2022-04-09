@@ -192,6 +192,9 @@ int hb_write_save()
     // Open save file for writting
     FILE *save_file = fopen(CURRENT_FILE, "w");
 
+    // Return if the file could not be opened for writing
+    if (save_file == NULL) return FILE_SAVING_FAILURE;
+
     // Game seed
     fprintf_s(save_file, "%s\n", hb_game_seed);
 
@@ -217,6 +220,6 @@ int hb_write_save()
     
     // Close the save file
     fclose(save_file);
-    return 0;
-    // TO DO: Error handling and back up of the original save file
+    return FILE_SAVING_SUCCESS;
+    // TO DO: Backup of the original save file
 }

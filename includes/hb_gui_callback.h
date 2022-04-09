@@ -105,7 +105,7 @@ void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data);
 
 // A wrapper for the 'hb_write_save()' function from 'hb_gui_save_io.c'
 // This function is called when the save option is left-clicked on the interface.
-void hb_save_file(GtkMenuItem *widget, GdkEventButton event, void *data);
+void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
 
 // Load a Heartbound save file into the editor
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
