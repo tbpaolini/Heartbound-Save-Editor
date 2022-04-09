@@ -53,7 +53,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), save_button);
     g_signal_connect(GTK_MENU_ITEM(save_button), "enter-notify-event", G_CALLBACK(hb_menu_hover), NULL);
     g_signal_connect(GTK_MENU_ITEM(save_button), "leave-notify-event", G_CALLBACK(hb_menu_hover), NULL);
-    g_signal_connect(GTK_MENU_ITEM(save_button), "button-press-event", G_CALLBACK(hb_save_file), NULL);
+    g_signal_connect(GTK_MENU_ITEM(save_button), "button-press-event", G_CALLBACK(hb_save_file), GTK_WINDOW(window));
 
     // Add a open button to the menu bar
     GtkWidget *open_button = gtk_menu_item_new();
