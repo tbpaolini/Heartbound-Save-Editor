@@ -9,6 +9,8 @@
 // Window properties
 #define WINDOW_WIDTH 720
 #define WINDOW_HEIGHT 540
+#define WINDOW_MIN_WIDTH 570
+#define WINDOW_MIN_HEIGHT 320
 #define WINDOW_BORDER 10
 #define WINDOW_TITLE "Heartbound Save Editor"
 #define WINDOW_ICON "..\\lib\\icon.png"

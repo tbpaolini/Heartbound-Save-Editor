@@ -16,6 +16,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_window_set_icon_from_file(GTK_WINDOW(window), WINDOW_ICON, NULL);
     gtk_window_set_title( GTK_WINDOW(window), WINDOW_TITLE );
     gtk_window_set_default_size( GTK_WINDOW(window), WINDOW_WIDTH, WINDOW_HEIGHT );
+    gtk_widget_set_size_request(window, WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT);  // Minimum dimensions of the window
     gtk_container_set_border_width(GTK_CONTAINER(window), WINDOW_BORDER);
 
     // Create a wrapper for the window's contents
