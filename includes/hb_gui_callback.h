@@ -38,8 +38,10 @@ static GSList *known_glyphs_group;
 // Pointer to the game seed entry
 static GtkEntry *game_seed_entry;
 
-// Text that shows up temporarily when a file is loaded
-static GtkWidget *file_loaded_indicator;
+// Text that shows up temporarily when a file is saved or loaded
+static GtkWidget *file_indicator;
+static const char *FILE_LOADED_MESSAGE = "File loaded successfully!";
+static const char *FILE_SAVED_MESSAGE = "File saved successfully!";
 
 // Whether the editor is currently loading a save file
 // (used to prevent the callback functions to fire while the file is loaded)
