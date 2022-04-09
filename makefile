@@ -2,9 +2,12 @@
 SOURCE := main.c $(wildcard includes/*.c)
 
 # The above files but with a '.o' extension
-
 OBJECTS := $(addsuffix .o,$(basename $(SOURCE)))
-# Name of the final executable
+
+# Source code of the program's loader
+LOADER := loader.c
+
+# Name of the final executables
 NAME := Heartbound Save Editor
 
 # Folder where the build will go
@@ -17,7 +20,7 @@ ICON := icon.ico
 STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
 
 # Files and foldes necessary for compiling the program
-DEPENDENCIES := gtk3 structure assets icon.o $(OBJECTS)
+DEPENDENCIES := gtk3 structure assets icon.o $(OBJECTS) $(LOADER)
 
 # Flags to pass to the compiler
 CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-color=always
@@ -34,6 +37,7 @@ release: CFLAGS += -O2
 release: $(DEPENDENCIES)
 	@echo Linking release build...
 	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mwindows
+	gcc $(LOADER) icon.o -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mwindows -Os
 	@echo Release build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 # Subfolder where the debug build will go
@@ -44,6 +48,7 @@ debug: CFLAGS += -g3 -D_DEBUG
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
 	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mconsole
+	gcc $(LOADER) icon.o -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mconsole -Og
 	@echo Debug build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 # Compile 'main.c'
