@@ -875,8 +875,13 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
             break;
         
         case CLOSE_PROGRAM:
-            exit(EXIT_SUCCESS);  // Signaling as "success" because it comes from an user action
+            exit(EXIT_SUCCESS);  // Signaling as "success" because it comes from an user's choice
             break;
+        
+        default:
+            // Close the program if no choice was made
+            // (the user just closed the dialog window by clicking "X" at the top )
+            exit(EXIT_FAILURE);
     }
 
     #undef CREATE_NEW_SAVE
