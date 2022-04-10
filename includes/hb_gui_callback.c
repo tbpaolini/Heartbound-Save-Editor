@@ -847,6 +847,7 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
     switch (response_id)
     {
         case CREATE_NEW_SAVE:
+            g_mkdir_with_parents(SAVE_ROOT, 755);   // Create the save directory if it does not exist
             hb_create_default_save(SAVE_PATH);
             hb_open_save(SAVE_PATH);
             break;
