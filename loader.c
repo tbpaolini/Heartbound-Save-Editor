@@ -111,9 +111,9 @@ intptr_t main ( int argc, char **argv )
         NULL,
         "Failed to open Heartbound Save Editor.\n\n"
         "Tip: This file should be at the Editor's folder in order to be executed. "
-        "In case you copied the file to the Desktop, then you should have created "
-        "a shortcut to it instead (Right click > Send to > Desktop).\n\n"
-        "But in case the Save Editor is corrupted, then please download it again.",
+        "If you want to run the program from somewhere else, then you should create "
+        "a shortcut to it (Right click > Send to > Desktop), instead of copying this file.\n\n"
+        "But if the problem is that Save Editor is corrupted, then please download it again.",
         "Error",
         MB_ICONERROR | MB_OK
     );
