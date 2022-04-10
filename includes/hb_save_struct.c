@@ -92,6 +92,7 @@ int hb_create_save_struct()
         hb_save_data[i].unit = NULL;
         hb_save_data[i].aliases = NULL;
         hb_save_data[i].used = false;
+        hb_save_data[i].def = 0.0;
         hb_save_data[i].maximum = 0.0;
     }
 
@@ -183,6 +184,10 @@ int hb_create_save_struct()
                         // If the description specifies the maximum, set it to the '.maximum attribute'
                         char *max = strstr(my_value, "Max ");
                         if (max != NULL) hb_save_data[var].maximum = atof(max+3);
+
+                        // If the description specifies the default, set it to the '.def' attribute
+                        char *def = strstr(my_value, "Default ");
+                        if (def != NULL) hb_save_data[var].def = atof(def+7);
 
                         break;
                     
@@ -358,6 +363,7 @@ void hb_destroy_save_struct()
         
         // Set the statically allocated values to zero
         hb_save_data[var].value = 0.0;
+        hb_save_data[var].def = 0.0;
         hb_save_data[var].maximum = 0.0;
         hb_save_data[var].num_entries = (size_t)0;
         hb_save_data[var].index = (size_t)0;
