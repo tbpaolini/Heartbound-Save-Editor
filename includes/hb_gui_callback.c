@@ -10,6 +10,7 @@
 #include <time.h>
 #include <math.h>
 #include <gtk\gtk.h>
+#include <windows.h>
 #include <hb_save.h>
 #include <hb_gui_callback.h>
 
@@ -852,7 +853,9 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
             break;
         
         case DOWNLOAD_LATEST_VERSION:
-            /* code */
+            // Open a browser window to the download page, and exit the Save Editor
+            ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, 0);
+            exit(EXIT_SUCCESS);
             break;
         
         case CLOSE_PROGRAM:
