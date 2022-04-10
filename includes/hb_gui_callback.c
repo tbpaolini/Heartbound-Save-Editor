@@ -856,7 +856,7 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
             break;
         
         case CLOSE_PROGRAM:
-            /* code */
+            exit(EXIT_SUCCESS);  // Signaling as "success" because it comes from an user action
             break;
     }
 
