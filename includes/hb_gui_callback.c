@@ -843,7 +843,8 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
     switch (response_id)
     {
         case CREATE_NEW_SAVE:
-            /* code */
+            hb_create_default_save(SAVE_PATH);
+            hb_open_save(SAVE_PATH);
             break;
         
         case OPEN_ANOTHER_SAVE:
@@ -863,6 +864,32 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
     #undef OPEN_ANOTHER_SAVE
     #undef DOWNLOAD_LATEST_VERSION
     #undef CLOSE_PROGRAM
+}
+
+// Create a save file with the default values
+bool hb_create_default_save(char *path)
+{
+    FILE *save_file = fopen(path, "w");
+    if (save_file == NULL) return false;
+    
+    char random_seed[SEED_SIZE];
+    hb_random_seed(random_seed);
+
+    fprintf(save_file, "%s\n", random_seed);
+    fprintf(save_file, "home_bedroom\n");
+    fprintf(save_file, "%.0f \n", 0.0);
+    fprintf(save_file, "%.0f \n", 0.0);
+    fprintf(save_file, "%.0f \n", 10.0);
+    fprintf(save_file, "%.0f \n", 10.0);
+    fprintf(save_file, "%.0f \n", 0.0);
+
+    for (size_t var = 1; var < NUM_STORY_VARS; var++)
+    {
+        fprintf(save_file, "%.0f \n", hb_save_data[var].def);
+    }
+    
+    fclose(save_file);
+    return true;
 }
 
 // Display a message dialog with a custom image and title
