@@ -43,12 +43,12 @@ release: $(DEPENDENCIES)
 # Subfolder where the debug build will go
 debug: TARGET = debug
 # Add debug symbols to the executable and define the '_DEBUG' macro
-debug: CFLAGS += -g3 -D_DEBUG
+debug: CFLAGS += -g2 -Og -D_DEBUG
 # Link together the compiled objects of the debug build
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
 	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mconsole
-	gcc $(LOADER) icon.o -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mconsole -Og
+	gcc $(LOADER) icon.o -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mconsole -g2 -Og
 	@echo Debug build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 # Compile 'main.c'
