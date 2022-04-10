@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <hb_save_struct.h>
 
@@ -25,6 +26,9 @@
 extern char SAVE_PATH[PATH_BUFFER];    // Absolute path to the save file
 extern char SAVE_ROOT[PATH_BUFFER];    // Absolute path to the folder where the save file is
 extern char CURRENT_FILE[PATH_BUFFER]; // Absolute path to the save file that is currently opened
+
+// Whether a save file is currently open
+extern bool hb_save_is_open;
 
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save();

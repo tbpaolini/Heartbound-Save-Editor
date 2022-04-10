@@ -795,6 +795,76 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
     g_object_unref(file_chooser);
 }
 
+// Ask the user what to do if the program could not load the default save during startup
+void hb_failed_to_open_default_save(GtkWindow *main_window)
+{
+    #define CREATE_NEW_SAVE 0
+    #define OPEN_ANOTHER_SAVE 1
+    #define DOWNLOAD_LATEST_VERSION 2
+    #define CLOSE_PROGRAM 3
+    
+    GtkWidget *warning_dialog = hb_create_dialog_with_title_and_image(
+        main_window,
+        GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_MESSAGE_WARNING,
+        GTK_BUTTONS_NONE,
+        "Heartbound Save Editor",
+        "dialog-warning",
+        "Could not find a valid Heartbound save file at the default location.\n\n"
+        "Maybe you have not played the game yet or this program is outdated.\n\n"
+        "What do you want to do?"
+    );
+
+    gtk_dialog_add_buttons(
+        GTK_DIALOG(warning_dialog),
+        "Create a new save",
+        CREATE_NEW_SAVE,
+        "Open another save",
+        OPEN_ANOTHER_SAVE,
+        "Download the latest version",
+        DOWNLOAD_LATEST_VERSION,
+        "Close program",
+        CLOSE_PROGRAM,
+        NULL
+    );
+
+    g_signal_connect(GTK_DIALOG(warning_dialog), "response", G_CALLBACK(hb_failed_to_open_default_save_response), NULL);
+
+    // Display the dialog
+    gtk_dialog_run(GTK_DIALOG(warning_dialog));
+
+    // Destroy the dialog
+    gtk_widget_destroy(warning_dialog);
+}
+
+// Handle the user's response to 'hb_failed_to_open_default_save()'
+void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, gpointer user_data)
+{
+    switch (response_id)
+    {
+        case CREATE_NEW_SAVE:
+            /* code */
+            break;
+        
+        case OPEN_ANOTHER_SAVE:
+            /* code */
+            break;
+        
+        case DOWNLOAD_LATEST_VERSION:
+            /* code */
+            break;
+        
+        case CLOSE_PROGRAM:
+            /* code */
+            break;
+    }
+
+    #undef CREATE_NEW_SAVE
+    #undef OPEN_ANOTHER_SAVE
+    #undef DOWNLOAD_LATEST_VERSION
+    #undef CLOSE_PROGRAM
+}
+
 // Display a message dialog with a custom image and title
 GtkWidget *hb_create_dialog_with_title_and_image(
     GtkWindow *parent,

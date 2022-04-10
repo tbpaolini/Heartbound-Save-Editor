@@ -20,6 +20,9 @@ double hb_hitpoints_current, hb_hitpoints_maximum;  // Current and maximum hit p
 // 0 = None; 1 = Lightbringer; 2 = Lightbringer and Darksider
 double hb_known_glyphs;
 
+// Whether a save file is currently open
+bool hb_save_is_open = false;
+
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save()
 {
@@ -94,6 +97,7 @@ int hb_read_save(char *path)
         (path != NULL ? path : SAVE_PATH)
     );
 
+    hb_save_is_open = true;
     return SAVE_FILE_IS_VALID;
 }
 

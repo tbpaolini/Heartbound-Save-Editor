@@ -110,6 +110,12 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
 // Load a Heartbound save file into the editor
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
 
+// Ask the user what to do if the program could not load the default save during startup
+void hb_failed_to_open_default_save(GtkWindow *main_window);
+
+// Handle the user's response to 'hb_failed_to_open_default_save()'
+void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, gpointer user_data);
+
 // Create a message dialog with a custom image and title
 GtkWidget *hb_create_dialog_with_title_and_image(
     GtkWindow *parent,

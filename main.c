@@ -19,6 +19,9 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_widget_set_size_request(window, WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT);  // Minimum dimensions of the window
     gtk_container_set_border_width(GTK_CONTAINER(window), WINDOW_BORDER);
 
+    // Ask the user what to do if the save file could not be opened during the program's startup
+    if (!hb_save_is_open) hb_failed_to_open_default_save(GTK_WINDOW(window));
+
     // Create a wrapper for the window's contents
     GtkWidget *window_wrapper = gtk_box_new(GTK_ORIENTATION_VERTICAL, MENUBAR_SPACING);
     gtk_container_add(GTK_CONTAINER(window), window_wrapper);
