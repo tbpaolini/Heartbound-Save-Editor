@@ -594,6 +594,8 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 }
 
 // Load a Heartbound save file into the editor
+// If a NULL pointer is provided as the "widget", then the main window contents are not updated.
+// (That is the case when the program failed to find a save on startup, and ask if the user wants to open another save.)
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 {
     // Create the file dialog
@@ -634,7 +636,8 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
         int status = hb_read_save(file_name);
 
         // Update the variable's widgets
-        if (status == SAVE_FILE_IS_VALID)
+        // (if the file is valid and the action is coming from the main window)
+        if (status == SAVE_FILE_IS_VALID && widget != NULL)
         {
             is_loading_file = true;
             char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
@@ -759,7 +762,7 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 
             is_loading_file = false;
         }
-        else
+        else if (status != SAVE_FILE_IS_VALID)
         {
             // File loading failed
 
@@ -829,7 +832,7 @@ void hb_failed_to_open_default_save(GtkWindow *main_window)
         NULL
     );
 
-    g_signal_connect(GTK_DIALOG(warning_dialog), "response", G_CALLBACK(hb_failed_to_open_default_save_response), NULL);
+    g_signal_connect(GTK_DIALOG(warning_dialog), "response", G_CALLBACK(hb_failed_to_open_default_save_response), main_window);
 
     // Display the dialog
     gtk_dialog_run(GTK_DIALOG(warning_dialog));
@@ -839,7 +842,7 @@ void hb_failed_to_open_default_save(GtkWindow *main_window)
 }
 
 // Handle the user's response to 'hb_failed_to_open_default_save()'
-void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, gpointer user_data)
+void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, GtkWindow *main_window)
 {
     switch (response_id)
     {
@@ -849,7 +852,20 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
             break;
         
         case OPEN_ANOTHER_SAVE:
-            /* code */
+            // Open the file chooser to select another save file
+            hb_open_file(NULL, (GdkEventButton){}, main_window);
+            if (!hb_save_is_open) break;
+            
+            // Update the name of the main window if the save file is not the default one
+            char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
+            if (strncmp(SAVE_PATH, CURRENT_FILE, PATH_BUFFER) != 0)
+            {
+                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
+                gtk_window_set_title(main_window, text_buffer);
+            }
+            else {gtk_window_set_title(main_window, WINDOW_TITLE);}
+            free(text_buffer);
+
             break;
         
         case DOWNLOAD_LATEST_VERSION:

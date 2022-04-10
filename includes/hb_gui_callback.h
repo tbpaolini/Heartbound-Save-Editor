@@ -114,7 +114,7 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
 void hb_failed_to_open_default_save(GtkWindow *main_window);
 
 // Handle the user's response to 'hb_failed_to_open_default_save()'
-void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, gpointer user_data);
+void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, GtkWindow *main_window);
 
 // Create a save file with the default values
 bool hb_create_default_save(char *path);
