@@ -871,7 +871,7 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
         
         case DOWNLOAD_LATEST_VERSION:
             // Open a browser window to the download page, and exit the Save Editor
-            ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, 0);
+            ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, SW_SHOWNORMAL);
             exit(EXIT_SUCCESS);
             break;
         
