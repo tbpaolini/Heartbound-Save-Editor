@@ -992,7 +992,31 @@ void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data)
     }
 }
 
+// ***********************
+// Options of the menu bar
+// ***********************
+
 void placeholder(void* widget, void* data)
 {
     printf("Clicked: %s\n", gtk_menu_item_get_label(GTK_MENU_ITEM(widget)));
+}
+
+// File > Open
+void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window)
+{
+    hb_open_file(
+        widget,
+        (GdkEventButton){.type = GDK_BUTTON_PRESS, .button = 1},
+        window
+    );
+}
+
+// File > Save
+void hb_menu_file_save(GtkMenuItem *widget, GtkWindow *window)
+{
+    hb_save_file(
+        widget,
+        (GdkEventButton){.type = GDK_BUTTON_PRESS, .button = 1},
+        window
+    );
 }
