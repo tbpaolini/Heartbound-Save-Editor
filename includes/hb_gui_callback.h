@@ -141,4 +141,6 @@ gboolean hb_hide_file_indicator();
 // the notebook, it would be necessary to click twice to interact with the notebook.
 void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data);
 
+void placeholder(void* widget, void* data);
+
 #endif

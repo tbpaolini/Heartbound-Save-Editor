@@ -36,7 +36,10 @@ static void activate( GtkApplication* app, gpointer user_data )
     GtkWidget *top_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_add(GTK_CONTAINER(window_wrapper), top_wrapper);
 
+    // ******************************************
     // Create menu bar
+    // ******************************************
+
     GtkWidget *menubar = gtk_menu_bar_new();
     gtk_widget_set_hexpand(menubar, TRUE);
     gtk_container_add(GTK_CONTAINER(top_wrapper), menubar);
@@ -74,21 +77,70 @@ static void activate( GtkApplication* app, gpointer user_data )
 
     // Create top level menus
 
-    GtkWidget *file_menu = gtk_menu_item_new_with_mnemonic("_File");
-    GtkWidget *edit_menu = gtk_menu_item_new_with_mnemonic("_Edit");
-    GtkWidget *help_menu = gtk_menu_item_new_with_mnemonic("_Help");
+    // Menus at the top of the window
+    GtkWidget *file_top = gtk_menu_item_new_with_mnemonic("_File");
+    GtkWidget *edit_top = gtk_menu_item_new_with_mnemonic("_Edit");
+    GtkWidget *help_top = gtk_menu_item_new_with_mnemonic("_Help");
 
+    // Submenus that popup when the top menus are clicked
+    GtkWidget *file_menu = gtk_menu_new();
+    GtkWidget *edit_menu = gtk_menu_new();
+    GtkWidget *help_menu = gtk_menu_new();
+
+    // Add the submenus to their respective menus
     {
-        GtkWidget *top_level[3] = {file_menu, edit_menu, help_menu};
+        GtkWidget *top_level[3] = {file_top, edit_top, help_top};
+        GtkWidget *menu[3] = {file_menu, edit_menu, help_menu};
         for (size_t i = 0; i < 3; i++)
         {
-            GtkWidget *menu = top_level[i];
             gtk_menu_shell_append(GTK_MENU_SHELL(menubar), top_level[i]);
-            g_signal_connect(GTK_MENU_ITEM(top_level[i]), "enter-notify-event", G_CALLBACK(hb_menu_hover), NULL);
-            g_signal_connect(GTK_MENU_ITEM(top_level[i]), "leave-notify-event", G_CALLBACK(hb_menu_hover), NULL);
+            gtk_menu_item_set_submenu(GTK_MENU_ITEM(top_level[i]), menu[i]);
         }
     }
-    
+
+    // Add the options to the submenus
+    {
+        GtkWidget *menu_item, *menu_separator;
+
+        #define NEW_OPTION(name, menu, function) \
+            menu_item = gtk_menu_item_new_with_mnemonic(name);\
+            gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);\
+            g_signal_connect(GTK_MENU_ITEM(menu_item), "activate", G_CALLBACK(function), GTK_WINDOW(window))
+        
+        #define NEW_SEPARATOR(menu) \
+            menu_separator = gtk_separator_menu_item_new();\
+            gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_separator)
+
+        // File menu
+        NEW_OPTION("_New...", file_menu, placeholder);
+        NEW_OPTION("_Open...", file_menu, placeholder);
+        NEW_OPTION("Open _default file", file_menu, placeholder);
+        NEW_SEPARATOR(file_menu);
+        NEW_OPTION("_Save", file_menu, placeholder);
+        NEW_OPTION("Save _as...", file_menu, placeholder);
+        NEW_OPTION("Save to default _file", file_menu, placeholder);
+        NEW_SEPARATOR(file_menu);
+        NEW_OPTION("_Backup and restore", file_menu, placeholder);
+        NEW_SEPARATOR(file_menu);
+        NEW_OPTION("E_xit", file_menu, placeholder);
+
+        // Edit menu
+        NEW_OPTION("_Reload current saved data", edit_menu, placeholder);
+        NEW_OPTION("_Clear current saved data", edit_menu, placeholder);
+        NEW_SEPARATOR(edit_menu);
+        menu_item = gtk_check_menu_item_new_with_mnemonic("_Dark mode");
+        gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
+        g_signal_connect(GTK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(placeholder), GTK_WINDOW(window));
+
+        // Help menu
+        NEW_OPTION("_Help...", help_menu, placeholder);
+        NEW_OPTION("_Download page...", help_menu, placeholder);
+        NEW_SEPARATOR(help_menu);
+        NEW_OPTION("_About...", help_menu, placeholder);
+
+        #undef NEW_OPTION
+        #undef NEW_SEPARATOR
+    }
 
     // ***************************************************
     // Create the chapters tabs and their respective pages

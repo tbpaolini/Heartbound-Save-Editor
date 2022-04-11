@@ -991,3 +991,8 @@ void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data)
         gtk_notebook_set_current_page(widget, page);
     }
 }
+
+void placeholder(void* widget, void* data)
+{
+    printf("Clicked: %s\n", gtk_menu_item_get_label(GTK_MENU_ITEM(widget)));
+}
