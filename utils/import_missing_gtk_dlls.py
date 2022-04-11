@@ -12,7 +12,7 @@ Now you may close both programs and run this script.
 
 import re
 from pathlib import Path
-from shutil import copyfile
+from shutil import copy2
 
 # Read the file into memory
 with open("Process Explorer - Heartbound Save Editor.exe.txt", "rt", encoding="utf-8") as process_file:
@@ -27,5 +27,5 @@ for dll in dll_list:
     dll_path = Path(dll)
     dll_name = dll_path.name
     dll_destination = Path(r"..\gtk3\bin") / dll_name
-    copyfile(dll_path, dll_destination)
+    copy2(dll_path, dll_destination)
     print("Imported:", dll_destination)
