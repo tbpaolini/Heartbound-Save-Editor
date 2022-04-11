@@ -110,6 +110,9 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
 // Load a Heartbound save file into the editor
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window);
 
+// Updates the user interface with the values on the data structure of the save file
+void hb_load_data_into_interface(GtkWindow *window);
+
 // Ask the user what to do if the program could not load the default save during startup
 void hb_failed_to_open_default_save(GtkWindow *main_window);
 

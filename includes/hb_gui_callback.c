@@ -641,128 +641,11 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
         // (if the file is valid and the action is coming from the main window)
         if (status == SAVE_FILE_IS_VALID && widget != NULL)
         {
-            is_loading_file = true;
-            char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
+            hb_load_data_into_interface(window);
             
-            for (size_t var = 0; var < NUM_STORY_VARS; var++)
-            {
-                if (!hb_save_data[var].used) continue;
-
-                if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
-                {
-                    // Text field
-                    GtkEntry *text_entry = hb_save_data[var].widget.entry;
-                    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_save_data[var].value);
-                    gtk_entry_set_text(text_entry, text_buffer);
-                }
-                else if (hb_save_data[var].num_entries >= 2)
-                {
-                    // Group of customized radio buttons
-                    GSList *group = hb_save_data[var].widget.group;
-                    GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
-
-                    // Loop through the buttons in the group
-                    for (size_t i = hb_save_data[var].num_entries - 1; i >= 0; i--)
-                    {
-                        // The header is a list of all possible values (as strings)
-                        // If there isn't a header, the number of the button is considered to be the value
-                        char **header = hb_save_data[var].aliases[i].header;
-                        double header_value = (header != NULL) ? atof(header[0]) : (double)i;
-
-                        // Check if the header's value correspond to the storyline variable's value
-                        if ( header_value == hb_save_data[var].value )
-                        {
-                            // Set the button to active and exit the loop
-                            gtk_toggle_button_set_active(current_button, TRUE);
-                            break;
-                        }
-
-                        // Go to the next button in the group
-                        group = group->next;
-                        if (group == NULL) break;
-                        current_button = GTK_TOGGLE_BUTTON(group->data);
-                    }
-                }
-                else
-                {
-                    // Group generic Yes/No radio buttons
-                    GSList *group = hb_save_data[var].widget.group;
-                    GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
-
-                    if (hb_save_data[var].value == 1)
-                    {
-                        gtk_toggle_button_set_active(current_button, TRUE);
-                    }
-                    else
-                    {
-                        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(group->next->data), TRUE);
-                    }
-                }
-            }
-
-            // Update the player attributes fields
-            
-            // Room selection list
-            HeartboundRoom *current_room = hb_get_room(hb_room_id);
-            if (current_room != NULL)
-            {
-                gtk_combo_box_set_active(room_dropdown_list, current_room->index);
-            }
-
-            // Coordinates fields
-            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_x_axis);
-            gtk_entry_set_text(x_entry, text_buffer);
-            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_y_axis);
-            gtk_entry_set_text(y_entry, text_buffer);
-
-            // Hit Points fields
-            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_current);
-            gtk_entry_set_text(hp_cur_entry, text_buffer);
-            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_maximum);
-            gtk_entry_set_text(hp_max_entry, text_buffer);
-
-            // Glyph radio buttons
-            size_t button_index = (size_t)(2.0 - hb_known_glyphs);
-            GSList *group = known_glyphs_group;
-            GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
-
-            for (size_t i = 0; i < button_index; i++)
-            {
-                // Navigate until the button that corresponds to the value of 'hb_known_glyphs'
-                group = group->next;
-                current_button = GTK_TOGGLE_BUTTON(group->data);
-            }
-            
-            gtk_toggle_button_set_active(current_button, TRUE);
-
-            // Game Seed field
-            strncpy(text_buffer, hb_game_seed, sizeof(hb_game_seed));
-            gtk_entry_set_text(game_seed_entry, text_buffer);
-
-            // Place the file name on the window title, if the file isn't the default save file
-            if (strncmp(SAVE_PATH, CURRENT_FILE, PATH_BUFFER) != 0)
-            {
-                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
-                gtk_window_set_title(window, text_buffer);
-            }
-            else
-            {
-                gtk_window_set_title(window, WINDOW_TITLE);
-            }
-            
-            // Deallocate the text buffer
-            free(text_buffer);
-
             #ifdef _DEBUG
             g_message("Loaded: %s", file_name);
             #endif
-
-            // Show for 2.6 seconds the indicator that the file was loaded
-            gtk_label_set_text(GTK_LABEL(file_indicator), FILE_LOADED_MESSAGE);
-            gtk_widget_show(file_indicator);
-            g_timeout_add(INDICATOR_TIMEOUT, G_SOURCE_FUNC(hb_hide_file_indicator), NULL);
-
-            is_loading_file = false;
         }
         else if (status != SAVE_FILE_IS_VALID)
         {
@@ -799,6 +682,129 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 
     // Destroy the file chooser dialog
     g_object_unref(file_chooser);
+}
+
+// Updates the user interface with the values on the data structure of the save file
+void hb_load_data_into_interface(GtkWindow *window)
+{
+    is_loading_file = true;
+    char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
+    
+    for (size_t var = 0; var < NUM_STORY_VARS; var++)
+    {
+        if (!hb_save_data[var].used) continue;
+
+        if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
+        {
+            // Text field
+            GtkEntry *text_entry = hb_save_data[var].widget.entry;
+            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_save_data[var].value);
+            gtk_entry_set_text(text_entry, text_buffer);
+        }
+        else if (hb_save_data[var].num_entries >= 2)
+        {
+            // Group of customized radio buttons
+            GSList *group = hb_save_data[var].widget.group;
+            GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
+
+            // Loop through the buttons in the group
+            for (size_t i = hb_save_data[var].num_entries - 1; i >= 0; i--)
+            {
+                // The header is a list of all possible values (as strings)
+                // If there isn't a header, the number of the button is considered to be the value
+                char **header = hb_save_data[var].aliases[i].header;
+                double header_value = (header != NULL) ? atof(header[0]) : (double)i;
+
+                // Check if the header's value correspond to the storyline variable's value
+                if ( header_value == hb_save_data[var].value )
+                {
+                    // Set the button to active and exit the loop
+                    gtk_toggle_button_set_active(current_button, TRUE);
+                    break;
+                }
+
+                // Go to the next button in the group
+                group = group->next;
+                if (group == NULL) break;
+                current_button = GTK_TOGGLE_BUTTON(group->data);
+            }
+        }
+        else
+        {
+            // Group generic Yes/No radio buttons
+            GSList *group = hb_save_data[var].widget.group;
+            GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
+
+            if (hb_save_data[var].value == 1)
+            {
+                gtk_toggle_button_set_active(current_button, TRUE);
+            }
+            else
+            {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(group->next->data), TRUE);
+            }
+        }
+    }
+
+    // Update the player attributes fields
+    
+    // Room selection list
+    HeartboundRoom *current_room = hb_get_room(hb_room_id);
+    if (current_room != NULL)
+    {
+        gtk_combo_box_set_active(room_dropdown_list, current_room->index);
+    }
+
+    // Coordinates fields
+    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_x_axis);
+    gtk_entry_set_text(x_entry, text_buffer);
+    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_y_axis);
+    gtk_entry_set_text(y_entry, text_buffer);
+
+    // Hit Points fields
+    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_current);
+    gtk_entry_set_text(hp_cur_entry, text_buffer);
+    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%.0f", hb_hitpoints_maximum);
+    gtk_entry_set_text(hp_max_entry, text_buffer);
+
+    // Glyph radio buttons
+    size_t button_index = (size_t)(2.0 - hb_known_glyphs);
+    GSList *group = known_glyphs_group;
+    GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(group->data);
+
+    for (size_t i = 0; i < button_index; i++)
+    {
+        // Navigate until the button that corresponds to the value of 'hb_known_glyphs'
+        group = group->next;
+        current_button = GTK_TOGGLE_BUTTON(group->data);
+    }
+    
+    gtk_toggle_button_set_active(current_button, TRUE);
+
+    // Game Seed field
+    strncpy(text_buffer, hb_game_seed, sizeof(hb_game_seed));
+    gtk_entry_set_text(game_seed_entry, text_buffer);
+
+    // Place the file name on the window title, if the file isn't the default save file
+    if (strncmp(SAVE_PATH, CURRENT_FILE, PATH_BUFFER) != 0)
+    {
+        snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
+        gtk_window_set_title(window, text_buffer);
+    }
+    else
+    {
+        gtk_window_set_title(window, WINDOW_TITLE);
+    }
+    
+    // Deallocate the text buffer
+    free(text_buffer);
+
+    // Show for 2.6 seconds the indicator that the file was loaded
+    gtk_label_set_text(GTK_LABEL(file_indicator), FILE_LOADED_MESSAGE);
+    gtk_widget_show(file_indicator);
+    g_timeout_add(INDICATOR_TIMEOUT, G_SOURCE_FUNC(hb_hide_file_indicator), NULL);
+
+    is_loading_file = false;
 }
 
 // Ask the user what to do if the program could not load the default save during startup
