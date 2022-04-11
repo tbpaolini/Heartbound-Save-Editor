@@ -598,6 +598,8 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 // (That is the case when the program failed to find a save on startup, and ask if the user wants to open another save.)
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 {
+    if (event.button != 1) return;    // Return if the pressed button is not the left mouse button
+    
     // Create the file dialog
     GtkFileChooserNative *file_chooser = gtk_file_chooser_native_new(
         "Open another Heartbound save", // Title of the dialog
