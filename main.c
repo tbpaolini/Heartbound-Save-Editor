@@ -72,7 +72,28 @@ static void activate( GtkApplication* app, gpointer user_data )
     GtkWidget *buttons_separator = gtk_separator_menu_item_new();
     gtk_menu_shell_append(GTK_MENU_SHELL(menubar), buttons_separator);
 
+    // Create top level menus
+
+    GtkWidget *file_menu = gtk_menu_item_new_with_mnemonic("_File");
+    GtkWidget *edit_menu = gtk_menu_item_new_with_mnemonic("_Edit");
+    GtkWidget *help_menu = gtk_menu_item_new_with_mnemonic("_Help");
+
+    {
+        GtkWidget *top_level[3] = {file_menu, edit_menu, help_menu};
+        for (size_t i = 0; i < 3; i++)
+        {
+            GtkWidget *menu = top_level[i];
+            gtk_menu_shell_append(GTK_MENU_SHELL(menubar), top_level[i]);
+            g_signal_connect(GTK_MENU_ITEM(top_level[i]), "enter-notify-event", G_CALLBACK(hb_menu_hover), NULL);
+            g_signal_connect(GTK_MENU_ITEM(top_level[i]), "leave-notify-event", G_CALLBACK(hb_menu_hover), NULL);
+        }
+    }
+    
+
+    // ***************************************************
     // Create the chapters tabs and their respective pages
+    // ***************************************************
+
     for (int i = 0; i < CHAPTER_AMOUNT; i++)
     {
         // Create chapter page
