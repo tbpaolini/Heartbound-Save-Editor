@@ -652,7 +652,7 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             // File loading failed
 
             // Create the text of the error dialog
-            char *message = calloc(TEXT_BUFFER_SIZE, sizeof(char));
+            char *restrict message = calloc(TEXT_BUFFER_SIZE, sizeof(char));
             snprintf(message, TEXT_BUFFER_SIZE, "The file you tried to open is not a valid Heartbound save:\n\n%s", file_name);
 
             // Display the error dialog
