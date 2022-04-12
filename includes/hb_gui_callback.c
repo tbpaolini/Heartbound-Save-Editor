@@ -676,6 +676,16 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             gtk_widget_destroy(error_dialog);
         }
         
+        // Update the name of the main window if the save file is not the default one
+        char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
+        if (strncmp(SAVE_PATH, CURRENT_FILE, PATH_BUFFER) != 0)
+        {
+            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
+            gtk_window_set_title(window, text_buffer);
+        }
+        else {gtk_window_set_title(window, WINDOW_TITLE);}
+        free(text_buffer);
+        
         // Deallocate the memory of the file's name
         g_free(file_name);
     }
@@ -784,17 +794,6 @@ void hb_load_data_into_interface(GtkWindow *window)
     // Game Seed field
     strncpy(text_buffer, hb_game_seed, sizeof(hb_game_seed));
     gtk_entry_set_text(game_seed_entry, text_buffer);
-
-    // Place the file name on the window title, if the file isn't the default save file
-    if (strncmp(SAVE_PATH, CURRENT_FILE, PATH_BUFFER) != 0)
-    {
-        snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
-        gtk_window_set_title(window, text_buffer);
-    }
-    else
-    {
-        gtk_window_set_title(window, WINDOW_TITLE);
-    }
     
     // Deallocate the text buffer
     free(text_buffer);
@@ -864,17 +863,6 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
             // Open the file chooser to select another save file
             hb_open_file(NULL, (GdkEventButton){.type = GDK_BUTTON_PRESS, .button = 1}, main_window);
             if (!hb_save_is_open) break;
-            
-            // Update the name of the main window if the save file is not the default one
-            char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
-            if (strncmp(SAVE_PATH, CURRENT_FILE, PATH_BUFFER) != 0)
-            {
-                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
-                gtk_window_set_title(main_window, text_buffer);
-            }
-            else {gtk_window_set_title(main_window, WINDOW_TITLE);}
-            free(text_buffer);
-
             break;
         
         case DOWNLOAD_LATEST_VERSION:
