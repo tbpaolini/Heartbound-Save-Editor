@@ -676,14 +676,10 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             gtk_widget_destroy(error_dialog);
         }
         
-        // Update the name of the main window if the save file is not the default one
+        // Update the name of the main window with the path of the save file
         char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
-        if (strncmp(SAVE_PATH, CURRENT_FILE, PATH_BUFFER) != 0)
-        {
-            snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
-            gtk_window_set_title(window, text_buffer);
-        }
-        else {gtk_window_set_title(window, WINDOW_TITLE);}
+        snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
+        gtk_window_set_title(window, text_buffer);
         free(text_buffer);
         
         // Deallocate the memory of the file's name
