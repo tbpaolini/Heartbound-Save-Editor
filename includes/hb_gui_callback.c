@@ -862,7 +862,7 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
         
         case OPEN_ANOTHER_SAVE:
             // Open the file chooser to select another save file
-            hb_open_file(NULL, (GdkEventButton){}, main_window);
+            hb_open_file(NULL, (GdkEventButton){.type = GDK_BUTTON_PRESS, .button = 1}, main_window);
             if (!hb_save_is_open) break;
             
             // Update the name of the main window if the save file is not the default one
