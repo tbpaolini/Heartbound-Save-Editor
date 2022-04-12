@@ -156,4 +156,13 @@ void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window);
 // File > Save
 void hb_menu_file_save(GtkMenuItem *widget, GtkWindow *window);
 
+// Create a dialog to choose where to save a file
+bool hb_save_as_dialog(char *dialog_title, GtkWindow *window, char *path_output);
+
+// File > Save as...
+void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window);
+
+// Confirmation to overwite an existing file
+bool hb_save_as_confirmation(char *dialog_title, GtkWindow *main_window);
+
 #endif

@@ -1026,3 +1026,116 @@ void hb_menu_file_save(GtkMenuItem *widget, GtkWindow *window)
         window
     );
 }
+
+bool hb_save_as_dialog(char *dialog_title, GtkWindow *window, char *path_output)
+{
+    // Create the file dialog
+    GtkFileChooserNative *file_chooser = gtk_file_chooser_native_new(
+        dialog_title,                   // Title of the dialog
+        window,                         // Parent of the dialog (the main window)
+        GTK_FILE_CHOOSER_ACTION_SAVE,   // Open file action
+        NULL,                           // Text of the "Open" button
+        NULL                            // Text of the "Cancel" button
+    );
+
+    // Set the dialog to the folder where Heartbound saves the game
+    gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(file_chooser), SAVE_ROOT);
+
+    // Create a filter for the file dialog to show "*.thor" files (the format of the Heartbound save)
+    GtkFileFilter *file_filter_thor = gtk_file_filter_new();
+    gtk_file_filter_add_pattern(file_filter_thor, "*.thor");
+    gtk_file_filter_set_name(file_filter_thor, "Heartbound save");
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(file_chooser), file_filter_thor);
+    gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(file_chooser), file_filter_thor);
+
+    // Display the dialog
+    gint status = gtk_native_dialog_run(GTK_NATIVE_DIALOG(file_chooser));
+
+    // Check if the user has chosen a file
+    if (status != GTK_RESPONSE_ACCEPT) return false;
+
+    // Get the path where the user chose to save
+    char *file_name = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_chooser));
+
+    // Copy the file name to the output
+    strncpy(path_output, file_name, PATH_BUFFER);
+    
+    // If the file filter is ".thor", append that suffix to the path if it does not have already
+    if (!g_str_has_suffix(file_name, ".thor"))
+    {
+        strncat(path_output, ".thor", PATH_BUFFER);
+    }
+    
+    // Free the memory used by the dialog
+    g_free(file_name);
+    g_object_unref(file_chooser);
+
+    return true;
+}
+
+// File > Save as...
+void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
+{
+    // Buffer to store the path
+    char *my_path = calloc(PATH_BUFFER, sizeof(char));
+
+    // Ask the user where to save
+    bool user_saved = hb_save_as_dialog(NULL, window, my_path);
+
+    // If the user has chosen to save
+    if (user_saved)
+    {
+        // Check if the file exists
+        FILE *save_file = fopen(my_path, "r+");
+        if (save_file != NULL)
+        {
+            // If the file exists, ask the user to confirm whether to overwrite the file
+            bool user_confirmed = hb_save_as_confirmation("Confirm save as", window);
+            fclose(save_file);
+            if (!user_confirmed) return;
+        }
+        
+        // Set the current file to the saved file
+        snprintf(
+            CURRENT_FILE,
+            sizeof(CURRENT_FILE),
+            my_path
+        );
+
+        // Write to the file
+        hb_save_file(
+            widget,
+            (GdkEventButton){.type = GDK_BUTTON_PRESS, .button = 1},
+            window
+        );
+    }
+    
+    // Free the memory of the buffer
+    free(my_path);
+}
+
+// Confirmation to overwite an existing file
+bool hb_save_as_confirmation(char *dialog_title, GtkWindow *main_window)
+{
+    // Create an "Yes / No" dialog
+    GtkWidget *warning_dialog = hb_create_dialog_with_title_and_image(
+        main_window,
+        GTK_DIALOG_DESTROY_WITH_PARENT,
+        GTK_MESSAGE_WARNING,
+        GTK_BUTTONS_YES_NO,
+        dialog_title,
+        "dialog-warning",
+        "The file already exists.\n"
+        "Do you want to overwrite it?"
+    );
+
+    // Set the "No" button as selected by default
+    GtkWidget *no_button = gtk_dialog_get_widget_for_response(GTK_DIALOG(warning_dialog), GTK_RESPONSE_NO);
+    gtk_widget_grab_focus(no_button);
+
+    // Display the dialog and get the user's response
+    gint response = gtk_dialog_run(GTK_DIALOG(warning_dialog));
+    gtk_widget_destroy(warning_dialog);
+    
+    if (response == GTK_RESPONSE_YES) return true; else return false;
+}
