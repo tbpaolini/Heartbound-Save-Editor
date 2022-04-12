@@ -14,7 +14,7 @@
 #define SAVE_FOLDER "Heartbound"                // Save folder on the local application data
 #define SAVE_FNAME "heartbound_save8.thor"      // Name of the save file
 #define PATH_BUFFER 512                         // Maximum number of characters of the absolute file path
-#define SAVE_LINE_BUFFER 50                     // Maximum number of characters on each line of the save file
+#define SAVE_LINE_BUFFER 100                    // Maximum number of characters on each line of the save file
 
 // Status codes for when the file is loaded or saved
 #define SAVE_FILE_IS_VALID 0

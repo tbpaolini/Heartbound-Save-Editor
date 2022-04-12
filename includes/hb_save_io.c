@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <gtk\gtk.h>
 #include <hb_save_io.h>
 
 char SAVE_PATH[PATH_BUFFER];
@@ -194,36 +195,61 @@ int hb_validate_save(FILE *save_file)
 int hb_write_save()
 {
     // Open save file for writting
-    FILE *save_file = fopen(CURRENT_FILE, "w");
+    GFile *save_file = g_file_new_for_path(CURRENT_FILE);
+    GOutputStream *output = G_OUTPUT_STREAM(g_file_replace(save_file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, NULL));
+    /* Note:
+        We are not using the standard "fopen()" function because it does not
+        support the Unicode characters that originate from the GTK functions.
+        So we are using the GIO functions that come from the GTK headers.
+        This way a file with non-English characters on its path is displayed
+        and works properly.
+    */
 
     // Return if the file could not be opened for writing
-    if (save_file == NULL) return FILE_SAVING_FAILURE;
+    if (output == NULL)
+    {
+        g_object_unref(save_file);
+        return FILE_SAVING_FAILURE;
+    }
+
+    char *restrict line_buffer = calloc(SAVE_LINE_BUFFER, sizeof(char));
 
     // Game seed
-    fprintf_s(save_file, "%s\n", hb_game_seed);
+    snprintf(line_buffer, SAVE_LINE_BUFFER, "%s\n", hb_game_seed);
+    g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL);
 
     // Current room
-    fprintf_s(save_file, "%s\n", hb_room_id);
+    snprintf(line_buffer, SAVE_LINE_BUFFER, "%s\n", hb_room_id);
+    g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL);
 
     // Coordinates on the room
-    fprintf_s(save_file, "%.0f \n", hb_x_axis);
-    fprintf_s(save_file, "%.0f \n", hb_y_axis);
+    snprintf(line_buffer, SAVE_LINE_BUFFER, "%.0f \n", hb_x_axis);
+    g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL);
+    snprintf(line_buffer, SAVE_LINE_BUFFER, "%.0f \n", hb_y_axis);
+    g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL);
 
     // Hit points
-    fprintf_s(save_file, "%.0f \n", hb_hitpoints_current);
-    fprintf_s(save_file, "%.0f \n", hb_hitpoints_maximum);
+    snprintf(line_buffer, SAVE_LINE_BUFFER, "%.0f \n", hb_hitpoints_current);
+    g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL);
+    snprintf(line_buffer, SAVE_LINE_BUFFER, "%.0f \n", hb_hitpoints_maximum);
+    g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL);
 
     // Known languages
-    fprintf_s(save_file, "%.0f \n", hb_known_glyphs);
+    snprintf(line_buffer, SAVE_LINE_BUFFER, "%.0f \n", hb_known_glyphs);
+    g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL);
 
     // Storyline variables
     for (size_t i = 1; i < NUM_STORY_VARS; i++)
     {
-        fprintf_s(save_file, "%.0f \n", hb_save_data[i].value);
+        snprintf(line_buffer, SAVE_LINE_BUFFER, "%.0f \n", hb_save_data[i].value);
+        g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL);
     }
     
     // Close the save file
-    fclose(save_file);
+    free(line_buffer);
+    g_output_stream_close(output, NULL, NULL);
+    g_object_unref(output);
+    g_object_unref(save_file);
     return FILE_SAVING_SUCCESS;
     // TO DO: Backup of the original save file
 }
