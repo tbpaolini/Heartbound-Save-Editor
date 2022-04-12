@@ -36,8 +36,14 @@ int hb_find_save();
 // Get the contents of the save file and store them on memory
 int hb_read_save(char *path);
 
+// Read until the end of the line of a file stream, and store the read data on the 'destination' buffer.
+// (newline characters not included on the output)
+// Note: Unicode characters are not supported in the file's contents. But that should be fine, since the
+//       save file never includes any.
+gssize hb_read_line(GInputStream *save_file, char *destination, size_t max_size);
+
 // Validate if a file is a valid Heartbound save
-int hb_validate_save(FILE *save_file);
+int hb_validate_save(GInputStream *save_file);
 
 // Save the contents back to the save file
 int hb_write_save();

@@ -37,59 +37,77 @@ int hb_find_save()
 int hb_read_save(char *path)
 {
     // Open the file
-    FILE *save_file = fopen( (path != NULL ? path : SAVE_PATH), "r" );
-    if (save_file == NULL) return SAVE_FILE_NOT_VALID;
+    GFile *save_file = g_file_new_for_path( (path != NULL ? path : SAVE_PATH) );
+    GInputStream *input = G_INPUT_STREAM(g_file_read(save_file, NULL, NULL));
+    if (input == NULL)
+    {
+        g_object_unref(save_file);
+        return SAVE_FILE_NOT_VALID;
+    }
+
+    /* Note:
+        We are not using the standard "fopen()" function because it does not
+        support the Unicode characters that originate from the GTK functions.
+        So we are using the GIO functions that come from the GTK headers.
+        This way a file with non-English characters on its path is displayed
+        and works properly.
+    */
     
     // Check if the file is valid
-    int status = hb_validate_save(save_file);
+    int status = hb_validate_save(input);
     if (status != SAVE_FILE_IS_VALID)
     {
-        fclose(save_file);
+        g_object_unref(save_file);
         return status;
     }
 
     // Buffer for reading the file's lines
-    char *restrict line = malloc(SAVE_LINE_BUFFER);
+    char *restrict line = malloc(SAVE_LINE_BUFFER * sizeof(char));
 
     // Parse the player's attributes
     
     // Game seed
-    fgets(line, SAVE_LINE_BUFFER, save_file);
+    hb_read_line(input, line, SAVE_LINE_BUFFER);
     snprintf(hb_game_seed, sizeof(hb_game_seed), "%s", line);     // Store the seed as a string
-    hb_game_seed[strlen(hb_game_seed) - 1] = '\0';                // Remove the line break at the end
 
     // Current room
-    fgets(line, SAVE_LINE_BUFFER, save_file);
+    hb_read_line(input, line, SAVE_LINE_BUFFER);
     snprintf(hb_room_id, sizeof(hb_room_id), "%s", line);     // Store the room name as a string
-    hb_room_id[strlen(hb_room_id) - 1] = '\0';                // Remove the line break at the end
 
     // Coordinates on the room
-    fgets(line, SAVE_LINE_BUFFER, save_file);
+    hb_read_line(input, line, SAVE_LINE_BUFFER);
     hb_x_axis = atof(line);
-    fgets(line, SAVE_LINE_BUFFER, save_file);
+    hb_read_line(input, line, SAVE_LINE_BUFFER);
     hb_y_axis = atof(line);
 
     // Hit points
-    fgets(line, SAVE_LINE_BUFFER, save_file);
+    hb_read_line(input, line, SAVE_LINE_BUFFER);
     hb_hitpoints_current = atof(line);
-    fgets(line, SAVE_LINE_BUFFER, save_file);
+    hb_read_line(input, line, SAVE_LINE_BUFFER);
     hb_hitpoints_maximum = atof(line);
 
     // Known languages
-    fgets(line, SAVE_LINE_BUFFER, save_file);
+    hb_read_line(input, line, SAVE_LINE_BUFFER);
     hb_known_glyphs = atof(line);
 
     // Parse the storyline variables
     size_t var = 1;
-    while (!feof(save_file))    // Stop if we have arrived at the end of the file
+    gssize line_status = 1;
+    while (true)
     {
-        fgets(line, SAVE_LINE_BUFFER, save_file);   // Read the storyline variable from the save file
+        line_status = hb_read_line(input, line, SAVE_LINE_BUFFER);   // Read the storyline variable from the save file
+        if (line_status <= 0) break;    // Stop if we have arrived at the end of the file
+        
         hb_save_data[var++].value = atof(line);        // Store the current value and move to the next variable
         if (var >= NUM_STORY_VARS) break;           // Stop if we have arrived to the end of the storyline array
     }
 
     free(line);         // Delete the line buffer from memory
-    fclose(save_file);  // Close the save file
+
+    // Close the save file
+    g_input_stream_close(input, NULL, NULL);
+    g_object_unref(input);
+    g_object_unref(save_file);
 
     // Store the current open file
     snprintf(
@@ -103,13 +121,12 @@ int hb_read_save(char *path)
 }
 
 // Validate if a file is a valid Heartbound save
-int hb_validate_save(FILE *save_file)
+int hb_validate_save(GInputStream *save_file)
 {
     // Remember the current read position on the file,
     // so the position can be reset to it when the function returns.
-    fpos_t my_position;
-    fgetpos(save_file, &my_position);
-    rewind(save_file);
+    goffset my_position;
+    my_position = g_seekable_tell(G_SEEKABLE(save_file));
 
     // Keep track of the characters and the line count
     char current_character;
@@ -123,11 +140,13 @@ int hb_validate_save(FILE *save_file)
     */
 
     // Loop through all characters in the file
-    while (!feof(save_file))
+    gssize status;
+    while (true)
     {
-        current_character = fgetc(save_file);
+        status = g_input_stream_read(save_file, &current_character, sizeof(char), NULL, NULL);
         
-        if (current_character == EOF) break;     // End of file
+        if (status <= 0) break;                  // End of file
+        if (current_character == '\r') continue; // Carriage return
         if (current_character == ' ') continue;  // Blank space
         
         if (current_character == '\n')  // Line break
@@ -139,7 +158,7 @@ int hb_validate_save(FILE *save_file)
             // and if the line has at least one character.
             if (line_count > target_line_count || line_is_empty)
             {
-                fsetpos(save_file, &my_position);
+                g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
                 return SAVE_FILE_NOT_VALID;
             }
 
@@ -153,7 +172,7 @@ int hb_validate_save(FILE *save_file)
             // On all lines, except for the second, the characters can only be decimal digits
             if ( !isdigit(current_character) )
             {
-                fsetpos(save_file, &my_position);
+                g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
                 return SAVE_FILE_NOT_VALID;
             }
         }
@@ -163,7 +182,7 @@ int hb_validate_save(FILE *save_file)
             // The characters must be decimal digits, English letters, or underscores.
             if ( !isalnum(current_character) && current_character != '_' )
             {
-                fsetpos(save_file, &my_position);
+                g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
                 return SAVE_FILE_NOT_VALID;
             }
         }
@@ -180,15 +199,59 @@ int hb_validate_save(FILE *save_file)
         // If the program has the expected number of lines,
         // and all characters have passed the test,
         // then return that the save file is valid.
-        fsetpos(save_file, &my_position);
+        g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
         return SAVE_FILE_IS_VALID;
     }
     else
     {
         // The file is invalid if it has less lines than expected
-        fsetpos(save_file, &my_position);
+        g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
         return SAVE_FILE_NOT_VALID;
     }
+}
+
+// Read until the end of the line of a file stream, and store the read data on the 'destination' buffer.
+// (newline characters not included on the output)
+// Note: Unicode characters are not supported in the file's contents. But that should be fine, since the
+//       save file never includes any.
+gssize hb_read_line(GInputStream *save_file, char *destination, size_t max_size)
+{
+    #define READ_CHAR() g_input_stream_read(save_file, &current_character, sizeof(char), NULL, NULL)
+    #define IS_NEWLINE() ( (current_character == '\n') || (current_character == '\r') )
+    
+    char current_character;
+
+    // Read the first character
+    gssize status = READ_CHAR();
+    size_t pos = 0;
+
+    // Keep reading until a non-control character is found
+    while( iscntrl(current_character) )
+    {
+        status = READ_CHAR();
+        if (status <= 0) return status;
+    }
+
+    // Store the first character
+    destination[pos++] = current_character;
+
+    // Keep reading while we did not reach the end of the file or the size limit
+    while( (status > 0) && (pos < max_size - 1) )
+    {
+        status = READ_CHAR();       // Read the next character
+        if ( IS_NEWLINE() ) break;  // Stop if we reached the end of the line
+        
+        if ( !iscntrl(current_character) )  // Store the character if it isn't a control character
+        {
+            destination[pos++] = current_character;
+        }
+    }
+
+    destination[pos] = '\0';    // Add a null terminator to the string
+    return status;
+
+    #undef READ_CHAR
+    #undef IS_NEWLINE
 }
 
 // Save the contents back to the save file
