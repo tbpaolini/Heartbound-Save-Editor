@@ -1062,6 +1062,7 @@ void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
 {
     // Buffer to store the path
     char *my_path = calloc(PATH_BUFFER, sizeof(char));
+    if (my_path == NULL) return;
 
     // Ask the user where to save
     bool user_saved = hb_save_as_dialog(NULL, window, my_path);
