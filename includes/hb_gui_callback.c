@@ -1104,12 +1104,11 @@ void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
     if (user_saved)
     {
         // Check if the file exists
-        FILE *save_file = fopen(my_path, "r+");
-        if (save_file != NULL)
+        gboolean file_exists = g_file_test(my_path, G_FILE_TEST_EXISTS);
+        if (file_exists)
         {
             // If the file exists, ask the user to confirm whether to overwrite the file
             bool user_confirmed = hb_save_as_confirmation("Confirm save as", window);
-            fclose(save_file);
             if (!user_confirmed) return;
         }
         
