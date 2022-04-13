@@ -886,26 +886,50 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
 // Create a save file with the default values
 bool hb_create_default_save(char *path)
 {
-    FILE *save_file = fopen(path, "w");
-    if (save_file == NULL) return false;
+    // Open the file for writing
+    GFile *save_file = g_file_new_for_path(path);
+    GOutputStream *output = G_OUTPUT_STREAM(g_file_replace(save_file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, NULL));
+    if (output == NULL)
+    {
+        // Failed to save file
+        g_object_unref(save_file);
+        return false;
+    }
     
+    // Generate a random game seed
     char random_seed[SEED_SIZE];
     hb_random_seed(random_seed);
 
-    fprintf(save_file, "%s\n", random_seed);
-    fprintf(save_file, "home_bedroom\n");
-    fprintf(save_file, "%.0f \n", 0.0);
-    fprintf(save_file, "%.0f \n", 0.0);
-    fprintf(save_file, "%.0f \n", 10.0);
-    fprintf(save_file, "%.0f \n", 10.0);
-    fprintf(save_file, "%.0f \n", 0.0);
+    // Buffer for writing the lines of the save file
+    char *restrict line_buffer = calloc(SAVE_LINE_BUFFER, sizeof(char));
+    #define WRITE_LINE(format, value) \
+        snprintf(line_buffer, SAVE_LINE_BUFFER, format, value);\
+        g_output_stream_write(output, line_buffer, strlen(line_buffer), NULL, NULL)
 
+    // Write the player's attributes to file
+    WRITE_LINE("%s\n", random_seed);    // Game seed
+    WRITE_LINE("%s\n", "home_bedroom"); // Starting room
+    WRITE_LINE("%.0f \n", 0.0);         // X coordinate
+    WRITE_LINE("%.0f \n", 0.0);         // Y coordinate
+    WRITE_LINE("%.0f \n", 10.0);        // Current HP
+    WRITE_LINE("%.0f \n", 10.0);        // Maximum HP
+    WRITE_LINE("%.0f \n", 0.0);         // Known glyphs
+
+    // Write the storyline variables
     for (size_t var = 1; var < NUM_STORY_VARS; var++)
     {
-        fprintf(save_file, "%.0f \n", hb_save_data[var].def);
+        WRITE_LINE("%.0f \n", hb_save_data[var].def);
     }
     
-    fclose(save_file);
+    // Close the save file
+    free(line_buffer);
+    g_output_stream_close(output, NULL, NULL);
+    g_object_unref(output);
+    g_object_unref(save_file);
+
+    #undef WRITE_LINE
+    
+    // File saved successfully
     return true;
 }
 
