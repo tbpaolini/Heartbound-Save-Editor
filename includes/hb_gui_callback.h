@@ -160,6 +160,9 @@ void placeholder(void* widget, void* data);
 // File > Open
 void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window);
 
+// File > Open default file
+void hb_menu_file_open_default(GtkMenuItem *widget, GtkWindow *window);
+
 // File > Save
 void hb_menu_file_save(GtkMenuItem *widget, GtkWindow *window);
 

@@ -117,7 +117,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         // File menu
         NEW_OPTION("_New...", file_menu, placeholder);
         NEW_OPTION("_Open...", file_menu, hb_menu_file_open);
-        NEW_OPTION("Open _default file", file_menu, placeholder);
+        NEW_OPTION("Open _default file", file_menu, hb_menu_file_open_default);
         NEW_SEPARATOR(file_menu);
         NEW_OPTION("_Save", file_menu, hb_menu_file_save);
         NEW_OPTION("Save _as...", file_menu, hb_menu_file_save_as);

@@ -1058,6 +1058,21 @@ void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window)
     );
 }
 
+// File > Open default file
+void hb_menu_file_open_default(GtkMenuItem *widget, GtkWindow *window)
+{
+    // Do nothing if the default file is already open
+    if (strncmp(CURRENT_FILE, SAVE_PATH, PATH_BUFFER) == 0) return;
+    
+    // Check if the data has changed
+    bool proceed = hb_check_if_data_changed("Confirm opening a file", window);
+    if (!proceed) return;   // Return if the user has chosen to cancel
+
+    // Read the default save file and update the interface
+    hb_read_save(SAVE_PATH);
+    hb_load_data_into_interface(window);
+}
+
 // File > Save
 void hb_menu_file_save(GtkMenuItem *widget, GtkWindow *window)
 {
