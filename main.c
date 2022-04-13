@@ -121,7 +121,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_SEPARATOR(file_menu);
         NEW_OPTION("_Save", file_menu, hb_menu_file_save);
         NEW_OPTION("Save _as...", file_menu, hb_menu_file_save_as);
-        NEW_OPTION("Save to default _file", file_menu, placeholder);
+        NEW_OPTION("Save to default _file", file_menu, hb_menu_file_save_to_default);
         NEW_SEPARATOR(file_menu);
         NEW_OPTION("_Backup and restore", file_menu, placeholder);
         NEW_SEPARATOR(file_menu);

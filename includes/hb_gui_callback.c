@@ -1114,6 +1114,18 @@ void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
     free(my_path);
 }
 
+// File > Save to default file
+void *hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window)
+{
+    snprintf(CURRENT_FILE, PATH_BUFFER, SAVE_PATH);
+    
+    hb_save_file(
+        widget,
+        (GdkEventButton){.type = GDK_BUTTON_PRESS, .button = 1},
+        window
+    );
+}
+
 // ****************
 // Helper functions
 // ****************
