@@ -467,23 +467,25 @@ static void activate( GtkApplication* app, gpointer user_data )
         GtkWidget *my_cell = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
         GtkWidget *my_wrapper;
         GtkWidget *my_name_label;
-        #define NEW_LABEL_BOX(text) my_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, ENTRY_VERTICAL_SPACING);\
-                                    gtk_widget_set_hexpand(my_wrapper, TRUE);\
-                                    my_name_label = gtk_label_new(text);\
-                                    gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);\
-                                    gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);\
-                                    gtk_widget_set_margin_top(my_name_label, 8);\
-                                    gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);\
-                                    gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper)
+        #define NEW_LABEL_BOX(text) \
+            my_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, ENTRY_VERTICAL_SPACING);\
+            gtk_widget_set_hexpand(my_wrapper, TRUE);\
+            my_name_label = gtk_label_new(text);\
+            gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);\
+            gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);\
+            gtk_widget_set_margin_top(my_name_label, 8);\
+            gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);\
+            gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper)
         
         // Create and add flow box for the contents
         GtkWidget *my_flowbox;
-        #define NEW_FLOWBOX()   my_flowbox = gtk_flow_box_new();\
-                                gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_flowbox), GTK_SELECTION_NONE);\
-                                gtk_widget_set_valign(my_flowbox, GTK_ALIGN_START);\
-                                gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), 2);\
-                                gtk_container_add(GTK_CONTAINER(my_wrapper), my_flowbox);
-        
+        #define NEW_FLOWBOX() \
+            my_flowbox = gtk_flow_box_new();\
+            gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_flowbox), GTK_SELECTION_NONE);\
+            gtk_widget_set_valign(my_flowbox, GTK_ALIGN_START);\
+            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), 2);\
+            gtk_container_add(GTK_CONTAINER(my_wrapper), my_flowbox);
+
         // Create and add the entries for the attributes
         GtkWidget *my_label;
         GtkWidget *my_entry;
