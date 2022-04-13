@@ -19,6 +19,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_widget_set_size_request(window, WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT);  // Minimum dimensions of the window
     gtk_container_set_border_width(GTK_CONTAINER(window), WINDOW_BORDER);
 
+    // Confirm if the user wants to close the editor when there is unsaved data
     g_signal_connect(GTK_WINDOW(window), "delete-event", G_CALLBACK(hb_confirm_close), NULL);
 
     // Ask the user what to do if the save file could not be opened during the program's startup

@@ -1209,7 +1209,7 @@ bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window)
     return user_response;
 }
 
-// Confirms if the user wants to close the editor when there is unsaved data
+// Confirm if the user wants to close the editor when there is unsaved data
 void hb_confirm_close(GtkWindow *window)
 {
     bool proceed = hb_check_if_data_changed("Confirm exit", window);
