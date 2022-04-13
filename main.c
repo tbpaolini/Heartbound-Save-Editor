@@ -115,7 +115,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_separator)
 
         // File menu
-        NEW_OPTION("_New...", file_menu, placeholder);
+        NEW_OPTION("_New...", file_menu, hb_menu_file_new);
         NEW_OPTION("_Open...", file_menu, hb_menu_file_open);
         NEW_OPTION("Open _default file", file_menu, hb_menu_file_open_default);
         NEW_SEPARATOR(file_menu);
@@ -123,7 +123,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_OPTION("Save _as...", file_menu, hb_menu_file_save_as);
         NEW_OPTION("Save to default _file", file_menu, hb_menu_file_save_to_default);
         NEW_SEPARATOR(file_menu);
-        NEW_OPTION("_Backup and restore", file_menu, placeholder);
+        NEW_OPTION("_Backup and restore...", file_menu, placeholder);
         NEW_SEPARATOR(file_menu);
         NEW_OPTION("E_xit", file_menu, placeholder);
 

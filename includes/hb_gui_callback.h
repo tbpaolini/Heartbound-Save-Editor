@@ -42,6 +42,7 @@ static GtkEntry *game_seed_entry;
 static GtkWidget *file_indicator;
 static const char *FILE_LOADED_MESSAGE = "File loaded successfully!";
 static const char *FILE_SAVED_MESSAGE = "File saved successfully!";
+static const char *FILE_CREATED_MESSAGE = "File created successfully!";
 
 // Whether the editor is currently loading a save file
 // (used to prevent the callback functions to fire while the file is loaded)
@@ -157,6 +158,9 @@ void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data);
 
 void placeholder(void* widget, void* data);
 
+// File > New
+void hb_menu_file_new(GtkMenuItem *widget, GtkWindow *window);
+
 // File > Open
 void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window);
 
@@ -176,7 +180,9 @@ void *hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window);
 // Helper functions
 // ****************
 
-// Create a dialog to choose where to save a file
+// Display a file chooser dialog for where to save a file.
+// Returns 'true' if the user has chosen to save,
+// and writes the the path to 'path_output' buffer.
 bool hb_save_dialog(char *dialog_title, GtkWindow *window, char *path_output);
 
 // Confirmation dialog to proceed or not with an action

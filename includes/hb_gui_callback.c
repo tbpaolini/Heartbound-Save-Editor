@@ -1083,6 +1083,47 @@ void placeholder(void* widget, void* data)
     printf("Clicked: %s\n", gtk_menu_item_get_label(GTK_MENU_ITEM(widget)));
 }
 
+// File > New
+void hb_menu_file_new(GtkMenuItem *widget, GtkWindow *window)
+{
+    // Buffer to store the path
+    char *new_path = calloc(PATH_BUFFER, sizeof(char));
+    if (new_path == NULL) return;
+
+    bool create_new_file = hb_save_dialog("Create a new Heartbound save", window, new_path);
+
+    if (create_new_file)
+    {
+        // Check if the file exists
+        gboolean file_exists = g_file_test(new_path, G_FILE_TEST_EXISTS);
+        bool file_can_be_created = true;
+        if (file_exists)
+        {
+            // If the file exists, ask the user to confirm whether to overwrite the file
+            file_can_be_created = hb_confirmation(
+                "Confirm new file",
+                "There is already a file on that location.\n"
+                "Do you want to overwrite it with the new file?",
+                window
+            );
+        }
+
+        // User has confirmed to overwrite or there isn't another file there
+        if (file_can_be_created)
+        {
+            hb_create_default_save(new_path, window);   // Create the new file
+            hb_read_save(new_path);                     // Load the file into memory
+            hb_load_data_into_interface(window);        // Load the file's data to the editor
+            
+            // Display a "file created" message
+            // Note: The 'hb_read_save()' function already set the timeout for the file indicator
+            gtk_label_set_text(GTK_LABEL(file_indicator), FILE_CREATED_MESSAGE);
+        }
+    }
+
+    free(new_path);
+}
+
 // File > Open
 void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window)
 {
@@ -1209,6 +1250,9 @@ void *hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window)
 // Helper functions
 // ****************
 
+// Display a file chooser dialog for where to save a file.
+// Returns 'true' if the user has chosen to save,
+// and writes the the path to 'path_output' buffer.
 bool hb_save_dialog(char *dialog_title, GtkWindow *window, char *path_output)
 {
     // Create the file dialog
