@@ -47,6 +47,10 @@ static const char *FILE_SAVED_MESSAGE = "File saved successfully!";
 // (used to prevent the callback functions to fire while the file is loaded)
 static bool is_loading_file = false;
 
+// Whether the save data has been changed by the editor
+// (used to ask whether the user wants to save when exiting or loading another file)
+static bool has_unsaved_data = false;
+
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var);
 
@@ -159,13 +163,22 @@ void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window);
 // File > Save
 void hb_menu_file_save(GtkMenuItem *widget, GtkWindow *window);
 
-// Create a dialog to choose where to save a file
-bool hb_save_as_dialog(char *dialog_title, GtkWindow *window, char *path_output);
-
 // File > Save as...
 void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window);
 
-// Confirmation to overwite an existing file
-bool hb_save_as_confirmation(char *dialog_title, GtkWindow *main_window);
+// ****************
+// Helper functions
+// ****************
+
+// Create a dialog to choose where to save a file
+bool hb_save_dialog(char *dialog_title, GtkWindow *window, char *path_output);
+
+// Confirmation dialog to proceed or not with an action
+bool hb_confirmation(char *dialog_title, char *dialog_message, GtkWindow *main_window);
+
+// Checks whether the save data has been changed in the editor,
+// so it may ask the user to save the unsaved data.
+// The function returns 'true' if it is OK to proceed, otherwise 'false'.
+bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window);
 
 #endif

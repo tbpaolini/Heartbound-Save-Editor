@@ -67,6 +67,7 @@ void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
             #endif
             
             // Exit the function when the active button of the group was found
+            has_unsaved_data = true;    // Flag the editor's data as unsaved
             return;
         }
 
@@ -104,6 +105,9 @@ void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
         // Set the storyline variable's value to "False"
         story_var->value = 0.0;
     }
+
+    // Flag the editor's data as unsaved
+    has_unsaved_data = true;
 
     // Show a message on the console if this is the debug build
     #ifdef _DEBUG
@@ -155,6 +159,9 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
 
     // Modify the storyline variable
     story_var->value = new_value;
+
+    // Flag the editor's data as unsaved
+    has_unsaved_data = true;
 
     // Show a message on the console if this is the debug build
     #ifdef _DEBUG
@@ -368,6 +375,9 @@ void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
     // Re-enable the current callback function
     g_signal_handlers_unblock_by_func(widget, G_CALLBACK(hb_setvar_player_attribute), attribute);
 
+    // Flag the editor's data as unsaved
+    has_unsaved_data = true;
+
     // Print a debug message when the attribute changes
     #ifdef _DEBUG
 
@@ -433,6 +443,7 @@ void hb_setvar_known_glyphs(GtkRadioButton *widget, double *known_glyphs)
             #endif
             
             // Exit the function once the active button was found
+            has_unsaved_data = true;    // Flag the editor's data as unsaved
             return;
         }
         
@@ -472,6 +483,9 @@ void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed)
     g_signal_handlers_block_by_func(widget, G_CALLBACK(hb_setvar_game_seed), game_seed);
     gtk_entry_set_text(widget, text_entry_buffer);
     g_signal_handlers_unblock_by_func(widget, G_CALLBACK(hb_setvar_game_seed), game_seed);
+
+    // Flag the editor's data as unsaved
+    has_unsaved_data = true;
 
     // Print a debug message when the variable changes
     #ifdef _DEBUG
@@ -545,7 +559,7 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
         // Save the file to disk
         int status = hb_write_save();
 
-        if (status == 0)
+        if (status == FILE_SAVING_SUCCESS)
         {
             // Show for 2.6 seconds the indicator that the file was saved
             gtk_label_set_text(GTK_LABEL(file_indicator), FILE_SAVED_MESSAGE);
@@ -554,6 +568,9 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 
             // Update the window's title with the path of the saved file
             hb_update_window_title(window);
+
+            // Flag the editor's data as saved
+            has_unsaved_data = false;
 
             #ifdef _DEBUG
             g_message("Saved: %s", CURRENT_FILE);
@@ -602,6 +619,10 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 {
     if (event.button != 1) return;    // Return if the pressed button is not the left mouse button
+
+    // Check if the data has changed
+    bool proceed = hb_check_if_data_changed("Confirm opening a file", window);
+    if (!proceed) return;   // Return if the user has chosen to cancel
     
     // Create the file dialog
     GtkFileChooserNative *file_chooser = gtk_file_chooser_native_new(
@@ -798,6 +819,9 @@ void hb_load_data_into_interface(GtkWindow *window)
     gtk_label_set_text(GTK_LABEL(file_indicator), FILE_LOADED_MESSAGE);
     gtk_widget_show(file_indicator);
     g_timeout_add(INDICATOR_TIMEOUT, G_SOURCE_FUNC(hb_hide_file_indicator), NULL);
+
+    // Flag the editor's data as saved
+    has_unsaved_data = false;
 
     is_loading_file = false;
 }
@@ -1044,7 +1068,57 @@ void hb_menu_file_save(GtkMenuItem *widget, GtkWindow *window)
     );
 }
 
-bool hb_save_as_dialog(char *dialog_title, GtkWindow *window, char *path_output)
+// File > Save as...
+void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
+{
+    // Buffer to store the path
+    char *my_path = calloc(PATH_BUFFER, sizeof(char));
+    if (my_path == NULL) return;
+
+    // Ask the user where to save
+    bool user_saved = hb_save_dialog(NULL, window, my_path);
+
+    // If the user has chosen to save
+    if (user_saved)
+    {
+        // Check if the file exists
+        gboolean file_exists = g_file_test(my_path, G_FILE_TEST_EXISTS);
+        if (file_exists)
+        {
+            // If the file exists, ask the user to confirm whether to overwrite the file
+            bool user_confirmed = hb_confirmation(
+                "Confirm save as",
+                "The file already exists.\n"
+                "Do you want to overwrite it?",
+                window
+            );
+            if (!user_confirmed) return;
+        }
+        
+        // Set the current file to the saved file
+        snprintf(
+            CURRENT_FILE,
+            sizeof(CURRENT_FILE),
+            my_path
+        );
+
+        // Write to the file
+        hb_save_file(
+            widget,
+            (GdkEventButton){.type = GDK_BUTTON_PRESS, .button = 1},
+            window
+        );
+    }
+    
+    // Free the memory of the buffer
+    free(my_path);
+}
+
+// ****************
+// Helper functions
+// ****************
+
+bool hb_save_dialog(char *dialog_title, GtkWindow *window, char *path_output)
 {
     // Create the file dialog
     GtkFileChooserNative *file_chooser = gtk_file_chooser_native_new(
@@ -1090,49 +1164,8 @@ bool hb_save_as_dialog(char *dialog_title, GtkWindow *window, char *path_output)
     return true;
 }
 
-// File > Save as...
-void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
-{
-    // Buffer to store the path
-    char *my_path = calloc(PATH_BUFFER, sizeof(char));
-    if (my_path == NULL) return;
-
-    // Ask the user where to save
-    bool user_saved = hb_save_as_dialog(NULL, window, my_path);
-
-    // If the user has chosen to save
-    if (user_saved)
-    {
-        // Check if the file exists
-        gboolean file_exists = g_file_test(my_path, G_FILE_TEST_EXISTS);
-        if (file_exists)
-        {
-            // If the file exists, ask the user to confirm whether to overwrite the file
-            bool user_confirmed = hb_save_as_confirmation("Confirm save as", window);
-            if (!user_confirmed) return;
-        }
-        
-        // Set the current file to the saved file
-        snprintf(
-            CURRENT_FILE,
-            sizeof(CURRENT_FILE),
-            my_path
-        );
-
-        // Write to the file
-        hb_save_file(
-            widget,
-            (GdkEventButton){.type = GDK_BUTTON_PRESS, .button = 1},
-            window
-        );
-    }
-    
-    // Free the memory of the buffer
-    free(my_path);
-}
-
-// Confirmation to overwite an existing file
-bool hb_save_as_confirmation(char *dialog_title, GtkWindow *main_window)
+// Confirmation dialog to proceed or not with an action
+bool hb_confirmation(char *dialog_title, char *dialog_message, GtkWindow *main_window)
 {
     // Create an "Yes / No" dialog
     GtkWidget *warning_dialog = hb_create_dialog_with_title_and_image(
@@ -1142,8 +1175,7 @@ bool hb_save_as_confirmation(char *dialog_title, GtkWindow *main_window)
         GTK_BUTTONS_YES_NO,
         dialog_title,
         "dialog-warning",
-        "The file already exists.\n"
-        "Do you want to overwrite it?"
+        dialog_message
     );
 
     // Set the "No" button as selected by default
@@ -1155,4 +1187,24 @@ bool hb_save_as_confirmation(char *dialog_title, GtkWindow *main_window)
     gtk_widget_destroy(warning_dialog);
     
     if (response == GTK_RESPONSE_YES) return true; else return false;
+}
+
+// Checks whether the save data has been changed in the editor,
+// so it may ask the user to save the unsaved data.
+// The function returns 'true' if it is OK to proceed, otherwise 'false'.
+bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window)
+{
+    // Return 'true' if the data has not changed
+    if (!has_unsaved_data) return true;
+
+    // Ask the user what to do if the data has changed
+    bool user_response = hb_confirmation(
+        dialog_title,
+        "Unsaved data will be lost.\n"
+        "Proceed?",
+        window
+    );
+
+    // Return the user's response
+    return user_response;
 }
