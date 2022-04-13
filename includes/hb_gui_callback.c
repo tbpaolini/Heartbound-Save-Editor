@@ -1246,6 +1246,19 @@ void hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window)
     );
 }
 
+// File > Exit
+void hb_menu_file_exit(GtkMenuItem *widget, GtkWindow *window)
+{
+    // Display a confirmation dialog if there is unsaved changes
+    bool can_exit = hb_check_if_data_changed("Confirm exit", window);
+    
+    // Close the program if there isn't any changes or the user chose to close anyways
+    if (can_exit)
+    {
+        gtk_window_close(window);
+    }
+}
+
 // ****************
 // Helper functions
 // ****************

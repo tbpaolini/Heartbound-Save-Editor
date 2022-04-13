@@ -125,7 +125,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_SEPARATOR(file_menu);
         NEW_OPTION("_Backup and restore...", file_menu, placeholder);
         NEW_SEPARATOR(file_menu);
-        NEW_OPTION("E_xit", file_menu, placeholder);
+        NEW_OPTION("E_xit", file_menu, hb_menu_file_exit);
 
         // Edit menu
         NEW_OPTION("_Reload current saved data", edit_menu, placeholder);

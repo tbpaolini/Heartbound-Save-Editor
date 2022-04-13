@@ -176,6 +176,9 @@ void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window);
 // File > Save to default file
 void hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window);
 
+// File > Exit
+void hb_menu_file_exit(GtkMenuItem *widget, GtkWindow *window);
+
 // ****************
 // Helper functions
 // ****************
