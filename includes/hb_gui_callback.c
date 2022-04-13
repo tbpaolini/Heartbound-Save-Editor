@@ -1200,11 +1200,28 @@ bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window)
     // Ask the user what to do if the data has changed
     bool user_response = hb_confirmation(
         dialog_title,
-        "Unsaved data will be lost.\n"
+        "Unsaved changes will be lost.\n"
         "Proceed?",
         window
     );
 
     // Return the user's response
     return user_response;
+}
+
+// Confirms if the user wants to close the editor when there is unsaved data
+void hb_confirm_close(GtkWindow *window)
+{
+    bool proceed = hb_check_if_data_changed("Confirm exit", window);
+    if (proceed)
+    {
+        // Close the window if the there is no unsaved changes
+        // or if the user has chosen to leave
+        gtk_window_close(window);
+    }
+    else
+    {
+        // Keep showing the window if the user has chosen to stay
+        gtk_window_present(window);
+    }
 }

@@ -181,4 +181,7 @@ bool hb_confirmation(char *dialog_title, char *dialog_message, GtkWindow *main_w
 // The function returns 'true' if it is OK to proceed, otherwise 'false'.
 bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window);
 
+// Confirms if the user wants to close the editor when there is unsaved data
+void hb_confirm_close(GtkWindow *window);
+
 #endif
