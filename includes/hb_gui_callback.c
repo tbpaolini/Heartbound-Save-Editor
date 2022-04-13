@@ -875,7 +875,7 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
     {
         case CREATE_NEW_SAVE:
             g_mkdir_with_parents(SAVE_ROOT, 755);   // Create the save directory if it does not exist
-            hb_create_default_save(SAVE_PATH);
+            hb_create_default_save(SAVE_PATH, main_window);
             hb_open_save(SAVE_PATH);
             break;
         
@@ -908,7 +908,7 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
 }
 
 // Create a save file with the default values
-bool hb_create_default_save(char *path)
+bool hb_create_default_save(char *path, GtkWindow *window)
 {
     // Open the file for writing
     GFile *save_file = g_file_new_for_path(path);
@@ -917,6 +917,38 @@ bool hb_create_default_save(char *path)
     {
         // Failed to save file
         g_object_unref(save_file);
+
+        // Display an error dialog
+
+        char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
+        if (text_buffer == NULL) return false;
+
+        // Create the error message using the file path
+        snprintf(
+            text_buffer,
+            TEXT_BUFFER_SIZE,
+            "Could not create a new save file at:\n%s\n\n"
+            "Maybe you do not have permission to write there or some other program already has that file open.",
+            path
+        );
+        
+        // Create and display the error dialog
+        GtkWidget *error_dialog = hb_create_dialog_with_title_and_image(
+            window,
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_ERROR,
+            GTK_BUTTONS_OK,
+            "File creation error",
+            "dialog-error",
+            text_buffer
+        );
+
+        gtk_dialog_run(GTK_DIALOG(error_dialog));
+
+        // Garbage collection
+        gtk_widget_destroy(error_dialog);
+        free(text_buffer);
+
         return false;
     }
     
@@ -954,6 +986,9 @@ bool hb_create_default_save(char *path)
     #undef WRITE_LINE
     
     // File saved successfully
+    #ifdef _DEBUG
+    g_message("Created: %s", path);
+    #endif
     return true;
 }
 
@@ -1069,8 +1104,37 @@ void hb_menu_file_open_default(GtkMenuItem *widget, GtkWindow *window)
     if (!proceed) return;   // Return if the user has chosen to cancel
 
     // Read the default save file and update the interface
-    hb_read_save(SAVE_PATH);
-    hb_load_data_into_interface(window);
+    int status = hb_read_save(SAVE_PATH);
+
+    if (status == SAVE_FILE_IS_VALID)
+    {
+        hb_load_data_into_interface(window);
+        hb_update_window_title(window);
+
+        #ifdef _DEBUG
+        g_message("Loaded: %s", SAVE_PATH);
+        #endif
+    }
+    else
+    {
+        bool create_save = hb_confirmation(
+            "File opening error",
+            "There is not a valid Heartbound save file at the default location.\n\n"
+            "Do you want to create a new Heartbound save there?",
+            window
+        );
+
+        if (create_save)
+        {
+            bool success = hb_create_default_save(SAVE_PATH, window);
+
+            if (success)
+            {
+                hb_load_data_into_interface(window);
+                hb_update_window_title(window);
+            }
+        }
+    }
 }
 
 // File > Save

@@ -124,7 +124,7 @@ void hb_failed_to_open_default_save(GtkWindow *main_window);
 void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, GtkWindow *main_window);
 
 // Create a save file with the default values
-bool hb_create_default_save(char *path);
+bool hb_create_default_save(char *path, GtkWindow *window);
 
 // Create a message dialog with a custom image and title
 GtkWidget *hb_create_dialog_with_title_and_image(
