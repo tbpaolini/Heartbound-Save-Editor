@@ -552,6 +552,9 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             gtk_widget_show(file_indicator);
             g_timeout_add(INDICATOR_TIMEOUT, G_SOURCE_FUNC(hb_hide_file_indicator), NULL);
 
+            // Update the window's title with the path of the saved file
+            hb_update_window_title(window);
+
             #ifdef _DEBUG
             g_message("Saved: %s", CURRENT_FILE);
             #endif
@@ -676,11 +679,8 @@ void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             gtk_widget_destroy(error_dialog);
         }
         
-        // Update the name of the main window with the path of the save file
-        char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
-        snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
-        gtk_window_set_title(window, text_buffer);
-        free(text_buffer);
+        // Add the path of the loaded file to the window's title
+        if (status == SAVE_FILE_IS_VALID) hb_update_window_title(window);
         
         // Deallocate the memory of the file's name
         g_free(file_name);
@@ -966,6 +966,15 @@ gboolean hb_hide_file_indicator()
     
     // Returning this value makes the function to be called only once if called with a "g_timeout_add()"
     return G_SOURCE_REMOVE;
+}
+
+// Update the title of the window with the path of the save file
+void hb_update_window_title(GtkWindow *window)
+{
+    char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
+    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
+    gtk_window_set_title(window, text_buffer);
+    free(text_buffer);
 }
 
 // Make the widgets on the notebook to be clickable after the menu items have been used.

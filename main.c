@@ -660,8 +660,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     }
 
     // Update the title of the window with the path of the save file
-    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
-    gtk_window_set_title(GTK_WINDOW(window), text_buffer);
+    hb_update_window_title(GTK_WINDOW(window));
 
     // Deallocate the text buffer
     free(text_buffer);

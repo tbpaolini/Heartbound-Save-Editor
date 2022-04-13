@@ -139,6 +139,9 @@ void hb_bind_file_indicator(GtkWidget *widget);
 // Hide the "file loaded" indicator
 gboolean hb_hide_file_indicator();
 
+// Update the title of the window with the path of the save file
+void hb_update_window_title(GtkWindow *window);
+
 // Make the widgets on the notebook to be clickable after the menu items have been used.
 // Without this fix, if one clicks on the menu, then tries to click on something on
 // the notebook, it would be necessary to click twice to interact with the notebook.
