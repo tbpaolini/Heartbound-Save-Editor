@@ -21,7 +21,7 @@ static size_t max_var;                 // Index of the last storyline variable o
 static bool save_is_initialized = false;
 
 // Create the data structure for the save file
-int hb_create_save_struct()
+bool hb_create_save_struct()
 {
     // Return if the save structure file has already been parsed
     if (save_is_initialized == true) return 0;
