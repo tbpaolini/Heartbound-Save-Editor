@@ -67,7 +67,7 @@ void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
             #endif
             
             // Exit the function when the active button of the group was found
-            has_unsaved_data = true;    // Flag the editor's data as unsaved
+            hb_flag_data_as_changed(GTK_WIDGET(widget));    // Flag the editor's data as unsaved
             return;
         }
 
@@ -107,7 +107,7 @@ void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
     }
 
     // Flag the editor's data as unsaved
-    has_unsaved_data = true;
+    hb_flag_data_as_changed(GTK_WIDGET(widget));
 
     // Show a message on the console if this is the debug build
     #ifdef _DEBUG
@@ -161,7 +161,7 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
     story_var->value = new_value;
 
     // Flag the editor's data as unsaved
-    has_unsaved_data = true;
+    hb_flag_data_as_changed(GTK_WIDGET(widget));
 
     // Show a message on the console if this is the debug build
     #ifdef _DEBUG
@@ -376,7 +376,7 @@ void hb_setvar_player_attribute(GtkEntry *widget, double *attribute)
     g_signal_handlers_unblock_by_func(widget, G_CALLBACK(hb_setvar_player_attribute), attribute);
 
     // Flag the editor's data as unsaved
-    has_unsaved_data = true;
+    hb_flag_data_as_changed(GTK_WIDGET(widget));
 
     // Print a debug message when the attribute changes
     #ifdef _DEBUG
@@ -443,7 +443,7 @@ void hb_setvar_known_glyphs(GtkRadioButton *widget, double *known_glyphs)
             #endif
             
             // Exit the function once the active button was found
-            has_unsaved_data = true;    // Flag the editor's data as unsaved
+            hb_flag_data_as_changed(GTK_WIDGET(widget));    // Flag the editor's data as unsaved
             return;
         }
         
@@ -485,7 +485,7 @@ void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed)
     g_signal_handlers_unblock_by_func(widget, G_CALLBACK(hb_setvar_game_seed), game_seed);
 
     // Flag the editor's data as unsaved
-    has_unsaved_data = true;
+    hb_flag_data_as_changed(GTK_WIDGET(widget));
 
     // Print a debug message when the variable changes
     #ifdef _DEBUG
@@ -1355,6 +1355,30 @@ bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window)
 
     // Return the user's response
     return user_response;
+}
+
+// Marks the data as "changed"
+// Note: The open/save functions already set the data as "unchanged".
+//       This function exists for also adding an asterisk to the window
+//       title, in order to indicate that the file is unsaved.
+void hb_flag_data_as_changed(GtkWidget *widget)
+{
+    // Flag data as "unsaved"
+    has_unsaved_data = true;
+
+    // Allocate buffer for the changed window title
+    char *restrict title = calloc(PATH_BUFFER, sizeof(char));
+    if (title == NULL) return;
+
+    // Place an asterisk at the beginning of the window title
+    snprintf(title, PATH_BUFFER, "*%s - %s", CURRENT_FILE, WINDOW_TITLE);
+    GtkWidget *my_window = gtk_widget_get_toplevel(widget);
+    if (GTK_IS_WINDOW(my_window)) gtk_window_set_title(GTK_WINDOW(my_window), title);
+
+    // Note: The open/save functions already remove the asterisk.
+
+    // Deallocate the buffer's memory
+    free(title);
 }
 
 // Confirm if the user wants to close the editor when there is unsaved data
