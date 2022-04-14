@@ -1115,6 +1115,9 @@ void hb_menu_file_new(GtkMenuItem *widget, GtkWindow *window)
             hb_read_save(new_path);                     // Load the file into memory
             hb_load_data_into_interface(window);        // Load the file's data to the editor
             
+            // Update the window's title with the new file's path
+            hb_update_window_title(window);
+
             // Display a "file created" message
             // Note: The 'hb_read_save()' function already set the timeout for the file indicator
             gtk_label_set_text(GTK_LABEL(file_indicator), FILE_CREATED_MESSAGE);
