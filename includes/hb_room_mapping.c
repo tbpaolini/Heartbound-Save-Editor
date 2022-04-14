@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include "..\config.h"
 #include <hb_room_mapping.h>
 
 // Array of chapter names (as strings)
@@ -115,6 +116,16 @@ void hb_parse_rooms_locations()
     // Open the Room File
     FILE *rooms_file = fopen(ROOMS_FILE_PATH, "rt");
 
+    // Display error dialog and exit if the rooms file is missing
+    if (rooms_file == NULL)
+    {
+        NATIVE_ERROR(
+            "File %s could not be found.\nPlease download Heartbound Save Editor again.",
+            ROOMS_FILE_PATH,
+            1024
+        );
+    }
+
     // Count the number of rooms in the file
     hb_rooms_amount = count_entries(rooms_file, MAX_ROOM_AMOUNT);
     hb_room_list = calloc( hb_rooms_amount, sizeof(HeartboundRoom) );
@@ -142,8 +153,12 @@ void hb_parse_rooms_locations()
         token = strtok(read_buffer, "\t");
         if (atoll(token) != list_index)
         {
-            exit(EXIT_FAILURE);
-            // TO DO: Error handling
+            // Display error dialog and exit if the rooms file fails the consistency check
+            NATIVE_ERROR(
+                "File %s is corrupted.\nPlease download Heartbound Save Editor again.",
+                ROOMS_FILE_PATH,
+                1024
+            );
         }
         hb_room_list[list_index].index = atoll(token);  // Store the index number
 
@@ -194,6 +209,16 @@ void hb_parse_rooms_locations()
     // Open the Place File
     FILE *locations_file = fopen(PLACES_FILE_PATH, "rt");
 
+    // Display error dialog and exit if the places file is missing
+    if (locations_file == NULL)
+    {
+        NATIVE_ERROR(
+            "File %s could not be found.\nPlease download Heartbound Save Editor again.",
+            PLACES_FILE_PATH,
+            1024
+        );
+    }
+
     // Count the number of locations in the file
     hb_locations_amount = count_entries(locations_file, MAX_PLACE_AMOUNT);
     hb_location_list = calloc( hb_locations_amount, sizeof(HeartboundLocation) );
@@ -224,8 +249,12 @@ void hb_parse_rooms_locations()
         token = strtok(read_buffer, "\t");
         if (atoll(token) != list_index)
         {
-            exit(EXIT_FAILURE);
-            // TO DO: Error handling
+            // Display error dialog and exit if the places file fails the consistency check
+            NATIVE_ERROR(
+                "File %s is corrupted.\nPlease download Heartbound Save Editor again.",
+                PLACES_FILE_PATH,
+                1024
+            );
         }
 
         // Get the location name
