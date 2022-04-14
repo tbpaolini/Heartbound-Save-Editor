@@ -16,7 +16,7 @@
 #include <hb_gui_callback.h>    // Callback funtions for the user interface
 
 // Initialize the data structures and parse the save file
-void hb_open_save();
+void hb_open_save(char *path);
 
 // Free the memory allocated by the functions on 'hb_open_save()'
 void hb_close_save();

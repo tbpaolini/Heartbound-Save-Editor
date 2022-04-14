@@ -695,14 +695,42 @@ int main ( int argc, char **argv )
     chdir(path_dir);
     free(path_dir);
 
-    hb_open_save();
+    // Check if a file to be opened has been provided as an argument
+    char *open_path;
+    if (argc >= 2)
+    {
+        // Use the first command line argument as the file path, if there is one
+        open_path = argv[1];
+    }
+    else
+    {
+        // Use the default file path, otherwise
+        open_path = SAVE_PATH;
+    }
+    
+    // Open the save file
+    hb_open_save(open_path);
 
     GtkApplication *app;
     int status;
 
     app = gtk_application_new( "com.github.tbpaolini.hbsaveedit", G_APPLICATION_FLAGS_NONE );
     g_signal_connect( app, "activate", G_CALLBACK(activate), NULL );
-    status = g_application_run( G_APPLICATION(app), argc, argv );
+
+    status = g_application_run( G_APPLICATION(app), 1, argv );
+    /* Note:
+        The value 1 is being passed to the 'argc' argument of 'g_application_run'
+        in order to prevent GTK from throwing an error in case there is a command
+        line argument given to the application.
+
+        There are proper ways to set up GTK to handle command lines arguments, but
+        I found them overly complicated, since all that I want is to use argv[1] as
+        the path of the file to be opened (which is handled by my code, not GTK).
+
+        For me it is far simpler to make GTK to "think" that there are no additional
+        arguments, than going through a complex chain of callback functions for just
+        making GTK to play nice with an argument that it will not use to begin with.
+    */
     g_object_unref(app);
     hb_close_save();
 
