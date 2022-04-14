@@ -27,12 +27,16 @@ static char HB_SAVE_EDITOR_PATH_QUOTED[BUFFER_SIZE];
 intptr_t main ( int argc, char **argv )
 {
     // Find the directory of the loader
-    size_t path_len = strnlen_s(argv[0], BUFFER_SIZE);  // Length of the loader's path
-    size_t path_pos = 0;
-    for (size_t i = path_len - 1; i >= 0; i--)
+
+    char *loader_path = calloc(BUFFER_SIZE, sizeof(char));
+    GetModuleFileNameA(NULL, loader_path, BUFFER_SIZE);
+
+    int path_len = strnlen_s(loader_path, BUFFER_SIZE);  // Length of the loader's path
+    int path_pos = 0;
+    for (int i = path_len - 1; i >= 0; i--)
     {
         // Move backwards from the end of the path until a backslash or slash character is found
-        if ( (argv[0][i] == '\\') || (argv[0][i] == '/') )
+        if ( (loader_path[i] == '\\') || (loader_path[i] == '/') )
         {
             path_pos = i;   // The position on the string where the loader's directory ends
             break;
@@ -41,7 +45,8 @@ intptr_t main ( int argc, char **argv )
 
     // Store the loader directory
     char *path_dir = calloc(path_pos + 1, sizeof(char));
-    memcpy_s(path_dir, path_pos, argv[0], path_pos);
+    memcpy_s(path_dir, path_pos, loader_path, path_pos);
+    free(loader_path);
 
     // Absolute path of the Heartbound Save Editor
 
@@ -67,7 +72,7 @@ intptr_t main ( int argc, char **argv )
 
     // Allocate enough memory for an array of strings that has one more element
     // than the 'argv[]' of this loader. The additional element will be a NULL.
-    char **hb_args = malloc( (argc + 1) * sizeof(char*) );
+    char **hb_args = malloc( (argc + 2) * sizeof(char*) );
     if (hb_args == NULL) exit(EXIT_FAILURE);
 
     for (size_t i = 0; i < argc; i++)
@@ -83,12 +88,14 @@ intptr_t main ( int argc, char **argv )
     // Set the next arguments to the arguments passed to the loader
     for (size_t i = 1; i < argc; i++)
     {
-        strncpy_s(hb_args[i], BUFFER_SIZE, argv[i], BUFFER_SIZE);
+        snprintf(hb_args[i], BUFFER_SIZE, "\"%s\"", argv[i], BUFFER_SIZE);
     }
+
+    hb_args[argc] = "--loader";
     
     // Set the last argument to NULL
     // (Windows needs this to know that we are done with passing arguments)
-    hb_args[argc] = NULL;
+    hb_args[argc+1] = NULL;
 
     // *************************************************
     // Execute the Save Editor with the passed arguments
