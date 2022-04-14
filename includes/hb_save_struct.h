@@ -66,7 +66,7 @@ extern StorylineVars hb_save_data[NUM_STORY_VARS];
 extern char **hb_save_headers;
 
 // Create the data structure for the save file
-int hb_create_save_struct();
+bool hb_create_save_struct();
 
 // Free the used memory by the save data structure
 void hb_destroy_save_struct();
