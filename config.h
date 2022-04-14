@@ -38,24 +38,23 @@
 // Macro function to display a native error dialog for fatal errors about missing or corrupted editor files
 // Note: Requires the 'windows.h' header
 #include <windows.h>
-#define NATIVE_ERROR(message, file, buffer_size) \
-    char *text = calloc(buffer_size, sizeof(char));\
-    snprintf(text, buffer_size, message, file);\
+#define NATIVE_ERROR(message, file, buffer_size) {\
+    char *err_text = calloc(buffer_size, sizeof(char));\
+    snprintf(err_text, buffer_size, message, file);\
     \
     int button = MessageBoxA(\
         NULL,\
-        text,\
+        err_text,\
         "Heartbound Save Editor - error",\
         MB_ICONERROR | MB_OK\
     );\
     \
-    free(text);\
+    free(err_text);\
     \
     if (button = IDOK)\
     {\
         ShellExecute(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, SW_SHOWNORMAL);\
     }\
     \
-    exit(EXIT_FAILURE)
-
+    exit(EXIT_FAILURE);}
 #endif
