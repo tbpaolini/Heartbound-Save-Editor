@@ -61,7 +61,7 @@ includes/%.o: includes/%.c
 
 # Compile the loader
 $(LOADER_O): $(LOADER_C)
-	gcc -c $< -o $@ -mconsole -Os
+	gcc -c $< -o $@ -mwindows -Os
 	gcc $(LOADER_O) icon.o -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mwindows -Os
 
 # Copy the GTK 3 files to the build destination
