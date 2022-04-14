@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "..\config.h"
 #include <hb_save_struct.h>
 
 // Lookup table of storyline variables
@@ -24,10 +25,20 @@ static bool save_is_initialized = false;
 bool hb_create_save_struct()
 {
     // Return if the save structure file has already been parsed
-    if (save_is_initialized == true) return 0;
+    if (save_is_initialized == true) return false;
     
     // Open the save structure file
     FILE *save_structure = fopen(SAVE_STRUCT_LOC, "r");
+
+    // Display error and exit the program if the structure file is missing
+    if (save_structure == NULL)
+    {
+        NATIVE_ERROR(
+            "File %s could not be found.\nPlease download Heartbound Save Editor again.",
+            SAVE_STRUCT_LOC,
+            1024
+        );
+    }
 
     // Buffer for reading the lines of the file
     char *restrict line_buffer = malloc(SAVE_STRUCT_BUFFER);
@@ -158,8 +169,12 @@ bool hb_create_save_struct()
                         if (atoll(my_value) != var)
                         {
                             // Consistency checking: Is the program on the variable  where it is expected to be?
-                            // TO DO: Show some error dialog instead of just exiting
-                            exit(EXIT_FAILURE);
+                            // Show an error and exit if the file failed the consistency check
+                            NATIVE_ERROR(
+                                "File %s is corrupted.\nPlease download Heartbound Save Editor again.",
+                                SAVE_STRUCT_LOC,
+                                1024
+                            );
                         }
                         
                         hb_save_data[var].used = true;  // Flag the variable as 'used'
@@ -324,8 +339,6 @@ bool hb_create_save_struct()
     // Flag that the structure file has been parsed
     save_is_initialized = true;
     return true;
-
-    // TO DO: Error handling
 }
 
 // Free the used memory by the save data structure
