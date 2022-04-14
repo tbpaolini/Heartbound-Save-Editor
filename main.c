@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <gtk\gtk.h>
 #include <unistd.h>
 #include <hb_save.h>
@@ -677,39 +678,61 @@ static void activate( GtkApplication* app, gpointer user_data )
 int main ( int argc, char **argv )
 {
     // Find the directory of our executable
-    size_t path_len = strnlen_s(argv[0], 1024);  // Length of the program's path
-    size_t path_pos = 0;
-    for (size_t i = path_len - 1; i >= 0; i--)
+    char *editor_path = calloc(PATH_BUFFER, sizeof(char));  // Full path including the executable itself
+    GetModuleFileNameA(NULL, editor_path, PATH_BUFFER);
+
+    // Strip the executable name from the path in order to get its directory
+    int path_len = strnlen_s(editor_path, PATH_BUFFER);  // Length of the program's path
+    for (int i = path_len - 1; i >= 0; i--)
     {
         // Move backwards from the end of the path until a backslash or slash character is found
-        if ( (argv[0][i] == '\\') || (argv[0][i] == '/') )
+        if ( (editor_path[i] == '\\') || (editor_path[i] == '/') )
         {
-            path_pos = i;   // The position on the string where the program's directory ends
+            editor_path[i] = '\0';
             break;
         }
     }
 
     // Change the current working directory to the executable directory
-    char *path_dir = calloc(path_pos + 1, sizeof(char));
-    memcpy_s(path_dir, path_pos, argv[0], path_pos);
-    chdir(path_dir);
-    free(path_dir);
+    chdir(editor_path);
+    free(editor_path);
 
     // Check if a file to be opened has been provided as an argument
     char *open_path;
+    bool using_loader = false;  // Whether we are using the loader to open the application
     if (argc >= 2)
     {
+        // Check if we are using the loader
+        if (argc >= 3)
+        {
+            // The loader appends the "--loader" to the arguments
+            if (strncmp(argv[argc-1], "--loader", 9) == 0)
+            {
+                // If the last argument is "--loader", then it is flagged as being used
+                using_loader = true;
+            }
+        }
+
         // Use the first command line argument as the file path, if there is one
-        open_path = argv[1];
+        if (strncmp(argv[1], "--loader", 9) != 0)
+        {
+            // If the first argument is not "--loader", use it as the path
+            open_path = argv[1];
+        }
+        else
+        {
+            // Otherwise use the default path
+            open_path = SAVE_PATH;
+        }
     }
     else
     {
-        // Use the default file path, otherwise
+        // Use the default file path, if no path was provided
         open_path = SAVE_PATH;
     }
     
     // Open the save file
-    hb_open_save(open_path);
+    hb_open_save(open_path, using_loader);
 
     GtkApplication *app;
     int status;
