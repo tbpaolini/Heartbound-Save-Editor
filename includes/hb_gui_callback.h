@@ -196,6 +196,12 @@ bool hb_confirmation(char *dialog_title, char *dialog_message, GtkWindow *main_w
 // The function returns 'true' if it is OK to proceed, otherwise 'false'.
 bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window);
 
+// Marks the data as "changed"
+// Note: the open/save functions already set the data as "unchanged".
+//       This function exists for also adding an asterisk to the window
+//       title, in order to indicate that the file is unsaved.
+void hb_flag_data_as_changed(GtkWidget *widget);
+
 // Confirm if the user wants to close the editor when there is unsaved data
 void hb_confirm_close(GtkWindow *window);
 
