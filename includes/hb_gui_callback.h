@@ -179,6 +179,9 @@ void hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window);
 // File > Exit
 void hb_menu_file_exit(GtkMenuItem *widget, GtkWindow *window);
 
+// Edit > Reload
+void hb_menu_edit_reload(GtkMenuItem *widget, GtkWindow *window);
+
 // ****************
 // Helper functions
 // ****************
