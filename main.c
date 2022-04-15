@@ -740,7 +740,11 @@ int main ( int argc, char **argv )
     GtkApplication *app;
     int status;
 
-    app = gtk_application_new( "com.github.tbpaolini.hbsaveedit", G_APPLICATION_FLAGS_NONE );
+    // Start and register a new instance of Heartbound Save Editor
+    // Note: New instances of the application can be opened by just running it
+    //       Each instance works independently from each other and has its own memory.
+    app = gtk_application_new( "com.github.tbpaolini.hbsaveedit", G_APPLICATION_NON_UNIQUE );
+    g_application_register(G_APPLICATION(app), NULL, NULL);
     g_signal_connect( app, "activate", G_CALLBACK(activate), NULL );
 
     status = g_application_run( G_APPLICATION(app), 1, argv );
@@ -756,7 +760,13 @@ int main ( int argc, char **argv )
         For me it is far simpler to make GTK to "think" that there are no additional
         arguments, than going through a complex chain of callback functions for just
         making GTK to play nice with an argument that it will not use to begin with.
+
+        P.S.: At a futute update I might go through GTK's own system of arguments
+        handling, if the program happens to need handling arguments other than the
+        file path.
     */
+
+    // Do garbage collection and then exit gracefully :)
     g_object_unref(app);
     hb_close_save();
 
