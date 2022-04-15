@@ -496,14 +496,15 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Create and add the entries for the attributes
         GtkWidget *my_label;
         GtkWidget *my_entry;
-        #define NEW_ENTRY(label)    my_label = gtk_label_new(label);\
-                                    my_entry = gtk_entry_new();\
-                                    gtk_widget_set_margin_start(my_label, TEXT_FIELD_MARGIN);\
-                                    gtk_entry_set_width_chars(GTK_ENTRY(my_entry), TEXT_FIELD_WIDTH);\
-                                    gtk_entry_set_max_length(GTK_ENTRY(my_entry), TEXT_FIELD_MAX_CHARS);\
-                                    gtk_entry_set_placeholder_text(GTK_ENTRY(my_entry), "0");\
-                                    gtk_container_add(GTK_CONTAINER(my_flowbox), my_label);\
-                                    gtk_container_add(GTK_CONTAINER(my_flowbox), my_entry)
+        #define NEW_ENTRY(label) \
+            my_label = gtk_label_new(label);\
+            my_entry = gtk_entry_new();\
+            gtk_widget_set_margin_start(my_label, TEXT_FIELD_MARGIN);\
+            gtk_entry_set_width_chars(GTK_ENTRY(my_entry), TEXT_FIELD_WIDTH);\
+            gtk_entry_set_max_length(GTK_ENTRY(my_entry), TEXT_FIELD_MAX_CHARS);\
+            gtk_entry_set_placeholder_text(GTK_ENTRY(my_entry), "0");\
+            gtk_container_add(GTK_CONTAINER(my_flowbox), my_label);\
+            gtk_container_add(GTK_CONTAINER(my_flowbox), my_entry)
         
         // Create the wrapper box for the room
         NEW_LABEL_BOX("Room :");
