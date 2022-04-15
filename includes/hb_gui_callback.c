@@ -1266,6 +1266,41 @@ void hb_menu_file_exit(GtkMenuItem *widget, GtkWindow *window)
     }
 }
 
+// Edit > Reload
+void hb_menu_edit_reload(GtkMenuItem *widget, GtkWindow *window)
+{
+    // Check if there is unsaved changes
+    bool can_proceed = hb_check_if_data_changed("Confirm reload", window);
+    if (!can_proceed) return;
+
+    // Read from the currently open file
+    int status = hb_read_save(CURRENT_FILE);
+    
+    // Check if the file could be read from
+    if (status == SAVE_FILE_IS_VALID)
+    {
+        // Load the file's data into the interface
+        hb_load_data_into_interface(window);
+    }
+    else
+    {
+        // Display an error dialog if the file could not be read from
+        GtkWidget *error_dialog = hb_create_dialog_with_title_and_image(
+            window,
+            GTK_DIALOG_DESTROY_WITH_PARENT,
+            GTK_MESSAGE_ERROR,
+            GTK_BUTTONS_OK,
+            "File loading error",
+            "dialog-error",
+            "Could not read from the file.\n"
+            "It might be that the file was deleted after it was opened by this program."
+        );
+
+        gtk_dialog_run(GTK_DIALOG(error_dialog));
+        gtk_widget_destroy(error_dialog);
+    }
+}
+
 // ****************
 // Helper functions
 // ****************
