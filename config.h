@@ -6,6 +6,9 @@
 #ifndef _CONFIG
 #define _CONFIG
 
+#include <stdbool.h>
+#include <windows.h>
+
 // Window properties
 #define WINDOW_WIDTH 720
 #define WINDOW_HEIGHT 540
@@ -37,7 +40,6 @@
 
 // Macro function to display a native error dialog for fatal errors about missing or corrupted editor files
 // Note: Requires the 'windows.h' header
-#include <windows.h>
 #define NATIVE_ERROR(message, file, buffer_size) {\
     char *err_text = calloc(buffer_size, sizeof(char));\
     snprintf(err_text, buffer_size, message, file);\
@@ -57,4 +59,8 @@
     }\
     \
     exit(EXIT_FAILURE);}
+
+// Whether we are using the loader to open the application
+extern bool using_loader;
+
 #endif

@@ -572,6 +572,10 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             // Flag the editor's data as saved
             has_unsaved_data = false;
 
+            // After a new file was saved, we can be sure that the path is absolute
+            // So no need to take the loader into consideration
+            using_loader = false;
+
             #ifdef _DEBUG
             g_message("Saved: %s", CURRENT_FILE);
             #endif
@@ -876,7 +880,7 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
         case CREATE_NEW_SAVE:
             g_mkdir_with_parents(SAVE_ROOT, 755);   // Create the save directory if it does not exist
             hb_create_default_save(SAVE_PATH, main_window);
-            hb_open_save(SAVE_PATH, false);
+            hb_open_save(SAVE_PATH);
             break;
         
         case OPEN_ANOTHER_SAVE:
