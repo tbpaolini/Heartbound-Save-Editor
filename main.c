@@ -8,6 +8,9 @@
 #include "config.h"
 // #include <windows.h>
 
+// Whether we are using the loader to open the application
+bool using_loader;
+
 static void activate( GtkApplication* app, gpointer user_data )
 {
     GtkWidget *window;
@@ -699,7 +702,7 @@ int main ( int argc, char **argv )
 
     // Check if a file to be opened has been provided as an argument
     char *open_path;
-    bool using_loader = false;  // Whether we are using the loader to open the application
+    using_loader = false;  // Whether we are using the loader to open the application
     if (argc >= 2)
     {
         // Check if we are using the loader
@@ -732,7 +735,7 @@ int main ( int argc, char **argv )
     }
     
     // Open the save file
-    hb_open_save(open_path, using_loader);
+    hb_open_save(open_path);
 
     GtkApplication *app;
     int status;

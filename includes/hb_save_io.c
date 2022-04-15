@@ -4,8 +4,10 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <unistd.h>
 #include <gtk\gtk.h>
 #include <hb_save_io.h>
+#include "..\config.h"
 
 char SAVE_PATH[PATH_BUFFER];
 char SAVE_ROOT[PATH_BUFFER];
@@ -37,7 +39,16 @@ int hb_find_save()
 int hb_read_save(char *path)
 {
     // Open the file
+    if (using_loader) chdir("..\\");
     GFile *save_file = g_file_new_for_path( (path != NULL ? path : SAVE_PATH) );
+    if (using_loader) chdir("bin");
+
+    /* Note:
+        We are switching between directories in order to take the loader into consideration,
+        because it is on the directory above of the main executable. Relative paths opened
+        through the loader are relative to the loader itself.
+    */
+    
     GInputStream *input = G_INPUT_STREAM(g_file_read(save_file, NULL, NULL));
     if (input == NULL)
     {
@@ -258,7 +269,16 @@ gssize hb_read_line(GInputStream *save_file, char *destination, size_t max_size)
 int hb_write_save()
 {
     // Open save file for writting
+    if (using_loader) chdir("..\\");
     GFile *save_file = g_file_new_for_path(CURRENT_FILE);
+    if (using_loader) chdir("bin");
+    
+    /* Note:
+        We are switching between directories in order to take the loader into consideration,
+        because it is on the directory above of the main executable. Relative paths opened
+        through the loader are relative to the loader itself.
+    */
+    
     GOutputStream *output = G_OUTPUT_STREAM(g_file_replace(save_file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, NULL));
     /* Note:
         We are not using the standard "fopen()" function because it does not

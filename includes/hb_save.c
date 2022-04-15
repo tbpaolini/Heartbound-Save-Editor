@@ -13,7 +13,7 @@
 #include <windows.h>
 
 // Initialize the data structures and parse the save file
-void hb_open_save(char *path, bool using_loader)
+void hb_open_save(char *path)
 {
     if (hb_save_is_open) return;
     hb_create_save_struct();
@@ -26,14 +26,7 @@ void hb_open_save(char *path, bool using_loader)
     }
     else
     {
-        if (using_loader) chdir("..\\");
         int status = hb_read_save(path);    // This function sets 'hb_save_is_open' to 'true' if successful
-        if (using_loader) chdir("bin");
-
-        /* Note:
-            We are switching between directories in order to take the loader into consideration,
-            because it is on the directory above of the main executable.
-        */
     
         // Check if the file loadind was successful
         if (status == SAVE_FILE_NOT_VALID)
@@ -43,8 +36,8 @@ void hb_open_save(char *path, bool using_loader)
             snprintf(
                 message,
                 TEXT_BUFFER_SIZE,
-                "Coult not open:\n%s\n\n"
-                "The default Heartbound save is going to be opened instead.",
+                "Coult not open '%s'.\n\n"
+                "The default Heartbound save is going to be opened instead...",
                 path
             );
 
@@ -52,7 +45,7 @@ void hb_open_save(char *path, bool using_loader)
                 NULL,
                 message,
                 "Heartbound Save Editor - error",
-                MB_ICONERROR | MB_OK
+                MB_ICONWARNING | MB_OK
             );
             
             // Deallocate the message buffer
