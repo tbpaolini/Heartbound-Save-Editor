@@ -1,0 +1,33 @@
+#include <winver.h>   // Macros for specifying the version of Windows programs
+
+// Icon of the executable
+1 ICON assets\icon.ico
+
+// Metadata of the executable
+VS_VERSION_INFO VERSIONINFO 
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+FILETYPE        VFT_APP
+FILESUBTYPE     0
+{
+    BLOCK "StringFileInfo"
+    {
+        BLOCK "040904E4" // U.S. English - multilingual charset
+        {
+            VALUE "CompanyName",      "Tiago Becerra Paolini\0"
+            VALUE "FileDescription",  "Heartbound Save Editor\0"
+            VALUE "FileVersion",      "1.0.0.0\0"
+            VALUE "InternalName",     "Heartbound Save Editor\0"
+            VALUE "LegalCopyright",   "Copyright 2022 by Tiago Becerra Paolini\0"   // The Copyright refers to the Source Code and its compiled Executable
+            VALUE "OriginalFilename", "Heartbound Save Editor.exe\0"
+            VALUE "ProductName",      "Heartbound Save Editor\0"
+            VALUE "ProductVersion",   "1.0.0.0\0"
+            VALUE "Comments",         "Programming and design by Tiago Becerra Paolini. Save File Structure by Steets. A few Heartbound graphics were used for illustrative purposes, which we believe to fall in Fair Use, and were made by Bradie Shaye Rehmel.\0"
+        }    
+    }
+
+    BLOCK "VarFileInfo"
+    {
+        VALUE "Translation", 0x409, 0x4E4   // English, multilingual
+    }
+}

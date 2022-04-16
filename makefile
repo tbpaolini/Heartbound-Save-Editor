@@ -14,14 +14,16 @@ NAME := Heartbound Save Editor
 # Folder where the build will go
 DIRECTORY := build
 
-# Icon for the program executable
+# Icon and metadata for the program executable
+RESOURCES := resources.rc
+RESOURCES_O := $(addsuffix .o,$(basename $(RESOURCES)))
 ICON := icon.ico
 
 # Files to dinamically build the user interface
 STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
 
 # Files and foldes necessary for compiling the program
-DEPENDENCIES := gtk3 structure assets icon.o $(OBJECTS) $(LOADER_O)
+DEPENDENCIES := gtk3 structure assets $(RESOURCES_O) $(OBJECTS) $(LOADER_O)
 
 # Flags to pass to the compiler
 CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-color=always
@@ -37,7 +39,7 @@ release: CFLAGS += -O2
 # Link together the compiled objects of the release build
 release: $(DEPENDENCIES)
 	@echo Linking release build...
-	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mwindows
+	gcc $(OBJECTS) $(RESOURCES_O) -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mwindows
 	@echo Release build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 # Subfolder where the debug build will go
@@ -47,7 +49,7 @@ debug: CFLAGS += -g2 -Og -D_DEBUG
 # Link together the compiled objects of the debug build
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
-	gcc $(OBJECTS) icon.o -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mconsole
+	gcc $(OBJECTS) $(RESOURCES_O) -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mconsole
 	@echo Debug build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
 
 # Compile 'main.c'
@@ -62,7 +64,7 @@ includes/%.o: includes/%.c
 # Compile the loader
 $(LOADER_O): $(LOADER_C)
 	gcc -c $< -o $@ -mwindows -Os
-	gcc $(LOADER_O) icon.o -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mwindows -Os
+	gcc $(LOADER_O) $(RESOURCES_O) -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mwindows -Os
 
 # Copy the GTK 3 files to the build destination
 gtk3:
@@ -80,8 +82,7 @@ structure:
 	$(foreach file, $(STRUCT), xcopy "structure\$(file)" "$(DIRECTORY)\$(TARGET)\lib\structure\" /D /Y /I &)
 
 # Compile the executable icon
-icon.o: assets\$(ICON)
-	$(file > $*.rc,1 ICON assets\$(ICON))
+$(RESOURCES_O): assets\$(ICON) $(RESOURCES)
 	windres $*.rc $*.o
 
 # Perform some static code analysis
@@ -94,4 +95,3 @@ analyze:
 clean:
 	del *.o
 	del includes\*.o
-	del icon.rc
