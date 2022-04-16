@@ -133,7 +133,7 @@ static void activate( GtkApplication* app, gpointer user_data )
 
         // Edit menu
         NEW_OPTION("_Reload current saved data", edit_menu, hb_menu_edit_reload);
-        NEW_OPTION("_Clear current saved data", edit_menu, placeholder);
+        NEW_OPTION("_Clear current saved data", edit_menu, hb_menu_edit_clear);
         NEW_SEPARATOR(edit_menu);
         menu_item = gtk_check_menu_item_new_with_mnemonic("_Dark mode");
         gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
