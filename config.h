@@ -38,6 +38,22 @@
 // Duration (in milliseconds) of the "file loaded" indicator
 #define INDICATOR_TIMEOUT 2600
 
+// Styles for the titles (for Light and Dark themes)
+
+#define CSS_TITLE_LIGHT \
+    "label#title-label {"\
+    "font-size: 140%;"\
+    "font-weight: bold;"\
+    "color: #3a6b7c"\
+    "}"
+
+#define CSS_TITLE_DARK \
+    "label#title-label {"\
+    "font-size: 140%;"\
+    "font-weight: bold;"\
+    "color: #59a5bf"\
+    "}"
+
 // Macro function to display a native error dialog for fatal errors about missing or corrupted editor files
 // Note: Requires the 'windows.h' header
 #define NATIVE_ERROR(message, file, buffer_size) {\
