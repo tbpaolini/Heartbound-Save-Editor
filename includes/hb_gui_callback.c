@@ -1301,6 +1301,34 @@ void hb_menu_edit_reload(GtkMenuItem *widget, GtkWindow *window)
     }
 }
 
+// Reset the save values to their default
+void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window)
+{
+    // Check if there are unsaved changes before continuing
+    bool can_proceed = hb_check_if_data_changed("Confirm reset", window);
+    if (!can_proceed) return;
+
+    //  Player attributes
+    hb_random_seed(hb_game_seed);   // Generate a new random seed
+    snprintf(hb_room_id, ROOM_NAME_SIZE, "home_bedroom");
+    hb_x_axis = 0.0;
+    hb_y_axis = 0.0;
+    hb_hitpoints_current = 10.0;
+    hb_hitpoints_maximum = 10.0;
+    hb_known_glyphs = 0.0;
+
+    // Storyline variables
+    for (size_t var = 0; var < NUM_STORY_VARS; var++)
+    {
+        hb_save_data[var].value = hb_save_data[var].def;
+    }
+    
+    // Load the values into the interface
+    hb_load_data_into_interface(window);
+    hb_flag_data_as_changed(GTK_WIDGET(window));
+    gtk_label_set_text(GTK_LABEL(file_indicator), "Save data cleared!");
+}
+
 // ****************
 // Helper functions
 // ****************
