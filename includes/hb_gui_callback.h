@@ -182,8 +182,12 @@ void hb_menu_file_exit(GtkMenuItem *widget, GtkWindow *window);
 // Edit > Reload
 void hb_menu_edit_reload(GtkMenuItem *widget, GtkWindow *window);
 
+// Edit > Clear
 // Reset the save values to their default
 void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window);
+
+// Edit > Dark mode
+void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style);
 
 // ****************
 // Helper functions

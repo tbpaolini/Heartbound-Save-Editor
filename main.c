@@ -43,6 +43,27 @@ static void activate( GtkApplication* app, gpointer user_data )
     GtkWidget *top_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_add(GTK_CONTAINER(window_wrapper), top_wrapper);
 
+    // Get whether the application prefers dark theme
+    gboolean prefers_dark_theme;
+    g_object_get(
+        gtk_settings_get_default(),
+        "gtk-application-prefer-dark-theme",
+        &prefers_dark_theme
+    );
+
+    // Set the style of the titles according to the theme
+    char *title_style = prefers_dark_theme ? CSS_TITLE_DARK : CSS_TITLE_LIGHT;
+    GtkCssProvider *custom_css = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(
+        custom_css,
+        title_style,
+        -1,
+        NULL
+    );
+    
+    GdkScreen *screen = gdk_screen_get_default();
+    gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(custom_css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
     // ******************************************
     // Create menu bar
     // ******************************************
@@ -137,7 +158,8 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_SEPARATOR(edit_menu);
         menu_item = gtk_check_menu_item_new_with_mnemonic("_Dark mode");
         gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
-        g_signal_connect(GTK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(placeholder), GTK_WINDOW(window));
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), prefers_dark_theme);
+        g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_menu_edit_dark_mode), custom_css);
 
         // Help menu
         NEW_OPTION("_Help...", help_menu, placeholder);
@@ -186,17 +208,6 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Allocate the buffer for the text
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
 
-    // Get whether the application prefers dark theme
-    gboolean prefers_dark_theme;
-    g_object_get(
-        gtk_settings_get_default(),
-        "gtk-application-prefer-dark-theme",
-        &prefers_dark_theme
-    );
-
-    // Set the title's color according to the theme
-    char *title_color = prefers_dark_theme ? "#59a5bf" : "#3a6b7c";
-
     // Create the groups of save entries on each page
     for (size_t i = 0; i < hb_locations_amount; i++)
     {
@@ -213,17 +224,8 @@ static void activate( GtkApplication* app, gpointer user_data )
         */
 
         // Create label with the location's name
-        GtkWidget *my_label = gtk_label_new(NULL);
-        snprintf(
-            text_buffer,        // Buffer where to copy the label text
-            TEXT_BUFFER_SIZE,
-            "<span size='140%' weight='bold' color='%s'>"  // Format the location's name
-            "%s"
-            "</span>",
-            title_color,        // Color of the label's text
-            my_location.name    // Location's name
-        );
-        gtk_label_set_markup(GTK_LABEL(my_label), text_buffer);  // Set the label from the text with formatting markup
+        GtkWidget *my_label = gtk_label_new(my_location.name);
+        gtk_widget_set_name(my_label, "title-label");            // CSS name for styling the title
         gtk_widget_set_halign(my_label, GTK_ALIGN_START);        // Align the label's text to the left
 
         // Load texture from file

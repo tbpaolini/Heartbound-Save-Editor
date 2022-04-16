@@ -1301,6 +1301,7 @@ void hb_menu_edit_reload(GtkMenuItem *widget, GtkWindow *window)
     }
 }
 
+// Edit > Clear
 // Reset the save values to their default
 void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window)
 {
@@ -1327,6 +1328,80 @@ void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window)
     hb_load_data_into_interface(window);
     hb_flag_data_as_changed(GTK_WIDGET(window));
     gtk_label_set_text(GTK_LABEL(file_indicator), "Save data cleared!");
+}
+
+void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
+{
+    // Get whether the user prefers the dark theme
+    gboolean prefers_dark_theme = gtk_check_menu_item_get_active(widget);
+    
+    // Change the corresponding application's settings
+    g_object_set(
+        gtk_settings_get_default(),
+        "gtk-application-prefer-dark-theme",
+        prefers_dark_theme
+    );
+
+    // Change the color of the titles
+    char *title_theme = prefers_dark_theme ? CSS_TITLE_DARK : CSS_TITLE_LIGHT;
+    gtk_css_provider_load_from_data(style, title_theme, -1, NULL);
+
+    // Open the settings file
+    FILE *settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "r+");
+    
+    // Get the size of the file
+    fseek(settings_ini, 0, SEEK_END); 
+    long file_size = ftell(settings_ini);
+    if (file_size > 10000000)
+    {
+        // Just a sanity check to prevent a huge file from being loaded
+        // Maximum size: 10 MB
+        fclose(settings_ini);
+        return;
+    }
+    rewind(settings_ini);   // Return to the start of the file
+
+    // Allocate a buffer big enough for the file
+    char *settings_buffer = malloc(file_size);
+    if (settings_buffer == NULL)
+    {
+        // Return if there isn't enough memory
+        fclose(settings_ini);
+        return;
+    }
+    
+    // Read the file into the buffer
+    fread(settings_buffer, file_size, 1, settings_ini);
+
+    // Find the dark mode setting
+    char *dark_theme = strstr(settings_buffer, "gtk-application-prefer-dark-theme=");
+
+    if (dark_theme != NULL)
+    {
+        // If the setting was found, update its value
+        dark_theme[34] = prefers_dark_theme ? '1' : '0';
+        /* Note:
+            The substrig to search for the setting is 35 characters long.
+            The 'strstr()' function returns a pointer to the first character of that substring.
+            So we need to move forward 34 characters in order to get to the setting's value.
+            That's why we are modifying dark_theme[34]
+        */
+
+        // Write the buffer into the file
+        rewind(settings_ini);
+        fprintf(settings_ini, settings_buffer);
+    }
+    else
+    {
+        // If the setting was not found, append it to the file
+        fclose(settings_ini);
+        settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "a");
+        fprintf(settings_ini, "\ngtk-application-prefer-dark-theme=%d", prefers_dark_theme);
+    }
+
+    // Deallocate the buffer and close the file
+    free(settings_buffer);
+    fclose(settings_ini);
 }
 
 // ****************
