@@ -182,7 +182,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         // Help menu
         NEW_OPTION("_Help...", help_menu, placeholder);
         NEW_SHORTCUT(GDK_KEY_F1, 0);
-        NEW_OPTION("_Download page...", help_menu, placeholder);
+        NEW_OPTION("_Download page...", help_menu, hb_menu_help_download);
         NEW_SEPARATOR(help_menu);
         NEW_OPTION("_About...", help_menu, placeholder);
 
