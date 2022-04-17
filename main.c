@@ -703,6 +703,20 @@ int main ( int argc, char **argv )
     chdir(editor_path);
     free(editor_path);
 
+    // Check if the settings file exists, then create it if it does not
+    gboolean settings_ini_exists = g_file_test("..\\etc\\gtk-3.0\\settings.ini", G_FILE_TEST_EXISTS);
+
+    if (!settings_ini_exists)
+    {
+        FILE *settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "w");
+        
+        if (settings_ini != NULL)
+        {
+            fprintf(settings_ini, DEFAULT_SETTINGS_INI);
+            fclose(settings_ini);
+        }
+    }
+
     // Check if a file to be opened has been provided as an argument
     char *open_path;
     using_loader = false;  // Whether we are using the loader to open the application
