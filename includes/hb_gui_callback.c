@@ -1282,6 +1282,9 @@ void hb_menu_edit_reload(GtkMenuItem *widget, GtkWindow *window)
     {
         // Load the file's data into the interface
         hb_load_data_into_interface(window);
+
+        // Update the window title to remove the asterisk that means "unsaved"
+        hb_update_window_title(window);
     }
     else
     {
