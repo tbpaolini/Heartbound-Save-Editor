@@ -1410,6 +1410,12 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     fclose(settings_ini);
 }
 
+// Help > Download page
+void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
+{
+    ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, SW_SHOWNORMAL);
+}
+
 // ****************
 // Helper functions
 // ****************
