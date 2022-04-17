@@ -1262,6 +1262,7 @@ void hb_menu_file_exit(GtkMenuItem *widget, GtkWindow *window)
     // Close the program if there isn't any changes or the user chose to close anyways
     if (can_exit)
     {
+        has_unsaved_data = false;   // Prevents the confirmation dialog from also showing because of 'gtk_window_close(window)'
         gtk_window_close(window);
     }
 }
