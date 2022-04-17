@@ -64,6 +64,11 @@ static void activate( GtkApplication* app, gpointer user_data )
     GdkScreen *screen = gdk_screen_get_default();
     gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(custom_css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
+    // Create the accelerator group and add it to the window
+    // (accelerators are the shortcut keys you press to use a feature)
+    GtkAccelGroup *accel_group = gtk_accel_group_new();
+    gtk_window_add_accel_group(GTK_WINDOW (window), accel_group);
+
     // ******************************************
     // Create menu bar
     // ******************************************
@@ -135,34 +140,48 @@ static void activate( GtkApplication* app, gpointer user_data )
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);\
             g_signal_connect(GTK_MENU_ITEM(menu_item), "activate", G_CALLBACK(function), GTK_WINDOW(window))
         
+        #define NEW_SHORTCUT(key, modifier) \
+            gtk_widget_add_accelerator(menu_item, "activate", accel_group, key, modifier, GTK_ACCEL_VISIBLE)
+        
         #define NEW_SEPARATOR(menu) \
             menu_separator = gtk_separator_menu_item_new();\
             gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_separator)
 
         // File menu
         NEW_OPTION("_New...", file_menu, hb_menu_file_new);
+        NEW_SHORTCUT(GDK_KEY_n, GDK_CONTROL_MASK);
         NEW_OPTION("_Open...", file_menu, hb_menu_file_open);
+        NEW_SHORTCUT(GDK_KEY_o, GDK_CONTROL_MASK);
         NEW_OPTION("Open _default file", file_menu, hb_menu_file_open_default);
+        NEW_SHORTCUT(GDK_KEY_o, GDK_CONTROL_MASK | GDK_SHIFT_MASK);
         NEW_SEPARATOR(file_menu);
         NEW_OPTION("_Save", file_menu, hb_menu_file_save);
+        NEW_SHORTCUT(GDK_KEY_s, GDK_CONTROL_MASK);
         NEW_OPTION("Save _as...", file_menu, hb_menu_file_save_as);
+        NEW_SHORTCUT(GDK_KEY_a, GDK_CONTROL_MASK);
         NEW_OPTION("Save to default _file", file_menu, hb_menu_file_save_to_default);
+        NEW_SHORTCUT(GDK_KEY_s, GDK_CONTROL_MASK | GDK_SHIFT_MASK);
         NEW_SEPARATOR(file_menu);
         NEW_OPTION("_Backup and restore...", file_menu, placeholder);
         NEW_SEPARATOR(file_menu);
         NEW_OPTION("E_xit", file_menu, hb_menu_file_exit);
+        NEW_SHORTCUT(GDK_KEY_F4, GDK_MOD1_MASK);
 
         // Edit menu
         NEW_OPTION("_Reload current saved data", edit_menu, hb_menu_edit_reload);
+        NEW_SHORTCUT(GDK_KEY_F5, 0);
         NEW_OPTION("_Clear current saved data", edit_menu, hb_menu_edit_clear);
+        NEW_SHORTCUT(GDK_KEY_Delete, GDK_SHIFT_MASK);
         NEW_SEPARATOR(edit_menu);
         menu_item = gtk_check_menu_item_new_with_mnemonic("_Dark mode");
         gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), prefers_dark_theme);
         g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_menu_edit_dark_mode), custom_css);
+        NEW_SHORTCUT(GDK_KEY_F2, 0);
 
         // Help menu
         NEW_OPTION("_Help...", help_menu, placeholder);
+        NEW_SHORTCUT(GDK_KEY_F1, 0);
         NEW_OPTION("_Download page...", help_menu, placeholder);
         NEW_SEPARATOR(help_menu);
         NEW_OPTION("_About...", help_menu, placeholder);
