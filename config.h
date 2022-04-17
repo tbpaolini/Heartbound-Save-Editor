@@ -54,6 +54,14 @@
     "color: #59a5bf"\
     "}"
 
+// Default settings of GTK
+#define DEFAULT_SETTINGS_INI \
+    "[Settings]\n"\
+    "gtk-theme-name=Windows10\n"\
+    "gtk-icon-theme-name=Windows10\n"\
+    "gtk-font-name=Segoe UI 9\n"\
+    "gtk-application-prefer-dark-theme=0"\
+
 // Macro function to display a native error dialog for fatal errors about missing or corrupted editor files
 // Note: Requires the 'windows.h' header
 #define NATIVE_ERROR(message, file, buffer_size) {\
