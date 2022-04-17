@@ -1366,7 +1366,9 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     rewind(settings_ini);   // Return to the start of the file
 
     // Allocate a buffer big enough for the file
-    char *settings_buffer = malloc(file_size);
+    // Note: Buffer is being initialized to all null bytes in order to prevent
+    //       garbage data from being written back to the file.
+    char *settings_buffer = calloc(file_size, sizeof(char));
     if (settings_buffer == NULL)
     {
         // Return if there isn't enough memory
