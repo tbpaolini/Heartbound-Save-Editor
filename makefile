@@ -62,7 +62,7 @@ includes/%.o: includes/%.c
 	gcc -c $< -o $@ $(CFLAGS)
 
 # Compile the loader
-$(LOADER_O): $(LOADER_C)
+$(LOADER_O): $(LOADER_C) $(RESOURCES_O)
 	gcc -c $< -o $@ -mwindows -Os
 	gcc $(LOADER_O) $(RESOURCES_O) -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mwindows -Os
 
@@ -81,7 +81,7 @@ assets:
 structure:
 	$(foreach file, $(STRUCT), xcopy "structure\$(file)" "$(DIRECTORY)\$(TARGET)\lib\structure\" /D /Y /I &)
 
-# Compile the executable icon
+# Compile the executable icon and metadata
 $(RESOURCES_O): assets\$(ICON) $(RESOURCES)
 	windres $*.rc $*.o
 
