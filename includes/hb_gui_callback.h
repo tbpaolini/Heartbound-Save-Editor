@@ -159,27 +159,35 @@ void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data);
 void placeholder(void* widget, void* data);
 
 // File > New
+// Create a new Heartbound save with the default values
 void hb_menu_file_new(GtkMenuItem *widget, GtkWindow *window);
 
 // File > Open
+// Choose a Heartbound save to open
 void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window);
 
 // File > Open default file
+// Open the default Heartbound save
 void hb_menu_file_open_default(GtkMenuItem *widget, GtkWindow *window);
 
 // File > Save
+// Save the values to the current file
 void hb_menu_file_save(GtkMenuItem *widget, GtkWindow *window);
 
 // File > Save as...
+// Create a new Heartbound save with the current data
 void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window);
 
 // File > Save to default file
+// Write the values to the default Heartbound save
 void hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window);
 
 // File > Exit
+// Close the program
 void hb_menu_file_exit(GtkMenuItem *widget, GtkWindow *window);
 
 // Edit > Reload
+// Load the save values from the save file, replacing the unsaved ones
 void hb_menu_edit_reload(GtkMenuItem *widget, GtkWindow *window);
 
 // Edit > Clear
@@ -187,12 +195,15 @@ void hb_menu_edit_reload(GtkMenuItem *widget, GtkWindow *window);
 void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window);
 
 // Edit > Dark mode
+// Switch between dark and light mode
 void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style);
 
 // Help > Download page
+// Open the page for downloading the Heartbound Save Editor
 void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window);
 
 // Help > About
+// Show a dialog with credits and info about the program
 void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window);
 
 // ****************
