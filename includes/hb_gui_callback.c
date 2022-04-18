@@ -1416,6 +1416,27 @@ void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
     ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, SW_SHOWNORMAL);
 }
 
+// Help > About
+void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
+{
+    GdkPixbuf *logo = gdk_pixbuf_new_from_file("..\\lib\\icon.png", NULL);
+    char *authors[] = {"Tiago Becerra Paolini https://github.com/tbpaolini", NULL};
+    char *documenters[] = {"Steets https://steets.tech/", NULL};
+    gtk_show_about_dialog(
+        window,
+        "logo", logo,
+        "program-name", "Heartbound Save Editor",
+        "version", "Version 1.0.0.0",
+        "authors", authors,
+        "documenters", documenters,
+        "copyright", "Copyright 2022 by Tiago Becerra Paolini",
+        "license-type", GTK_LICENSE_MIT_X11,
+        "website", "https://github.com/tbpaolini/Heartbound-Save-Editor",
+        "website-label", "Source Code",
+        NULL
+    );
+}
+
 // ****************
 // Helper functions
 // ****************
