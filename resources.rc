@@ -18,11 +18,7 @@ FILESUBTYPE     0
             VALUE "FileDescription",  "Heartbound Save Editor\0"
             VALUE "FileVersion",      "1.0.0.0\0"
             VALUE "InternalName",     "Heartbound Save Editor\0"
-<<<<<<< HEAD
             VALUE "LegalCopyright",   "(C) 2022 by Tiago Becerra Paolini\0"   // The Copyright refers to the Source Code and its compiled Executable
-=======
-            VALUE "LegalCopyright",   "Copyright 2022 by Tiago Becerra Paolini\0"   // The Copyright refers to the Source Code and its compiled Executable
->>>>>>> 2bafaf1 (Added version metadata to the executables)
             VALUE "OriginalFilename", "Heartbound Save Editor.exe\0"
             VALUE "ProductName",      "Heartbound Save Editor\0"
             VALUE "ProductVersion",   "1.0.0.0\0"

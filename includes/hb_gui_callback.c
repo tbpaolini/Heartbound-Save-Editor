@@ -1445,6 +1445,7 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         "license-type", GTK_LICENSE_MIT_X11,
         "website", "https://github.com/tbpaolini/Heartbound-Save-Editor",
         "website-label", "Source Code",
+        "comments", "Disclaimer:\nThis program was not made by the developers of Heartbound.",
         NULL
     );
 }
@@ -1553,12 +1554,9 @@ bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window)
 //       title, in order to indicate that the file is unsaved.
 void hb_flag_data_as_changed(GtkWidget *widget)
 {
-<<<<<<< HEAD
     // Do nothing if the data is already flagged as "changed"
     if (has_unsaved_data) return;
     
-=======
->>>>>>> 87423c7 (Added an asterisk to the window title to indicate when there are unsaved changes)
     // Flag data as "unsaved"
     has_unsaved_data = true;
 
