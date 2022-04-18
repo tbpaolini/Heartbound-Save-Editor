@@ -1445,6 +1445,7 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         "license-type", GTK_LICENSE_MIT_X11,
         "website", "https://github.com/tbpaolini/Heartbound-Save-Editor",
         "website-label", "Source Code",
+        "comments", "Disclaimer:\nThis program was not made by the developers of Heartbound.",
         NULL
     );
 }
