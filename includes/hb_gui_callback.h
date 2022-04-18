@@ -192,6 +192,9 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style);
 // Help > Download page
 void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window);
 
+// Help > About
+void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window);
+
 // ****************
 // Helper functions
 // ****************
