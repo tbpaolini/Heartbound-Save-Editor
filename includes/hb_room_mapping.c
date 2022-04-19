@@ -42,9 +42,9 @@ static uint32_t hash(char *key, uint32_t slots)
     uint32_t my_hash = 0xA5A5A5A5;
 
     // Length of the key
-    size_t size = strnlen_s(key, ROOM_NAME_SIZE);
+    size_t size = strnlen_s(key, SAVE_STRUCT_BUFFER);
 
-    if ( (size > 0) && (size < ROOM_NAME_SIZE) )
+    if ( (size > 0) && (size < SAVE_STRUCT_BUFFER) )
     {
         // Loop through each byte of the string
         for (size_t i = 0; i < size; i++)
@@ -271,8 +271,8 @@ void hb_parse_rooms_locations()
 
         // Get the image's file name
         token = strtok(NULL, "\t");
-        size_t filename_size = strnlen_s(token, ROOM_NAME_SIZE) + texture_path_size;
-        if ( (filename_size > 0) && (filename_size < ROOM_NAME_SIZE) )
+        size_t filename_size = strnlen_s(token, STRUCT_LINE_BUFFER) + texture_path_size;
+        if ( (filename_size > 0) && (filename_size < STRUCT_LINE_BUFFER) )
         {
             // Copy the file name
             size_t filename_buffer_size = filename_size * sizeof(char) + 1;
