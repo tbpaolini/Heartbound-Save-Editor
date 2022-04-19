@@ -1420,6 +1420,137 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     fclose(settings_ini);
 }
 
+// Help > Help
+// Display the program's help text
+void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
+{
+    // Pointer to the current help window (NULL, if there's none).
+    // This pointer is remembered between different function calls.
+    static GtkWidget *current_help_window = NULL;
+
+    // Check if a help window already exists
+    if (current_help_window != NULL)
+    {
+        // If there is a help window already,
+        // just bring it to the front instead of creating a new one.
+        gtk_window_present(GTK_WINDOW(current_help_window));
+        return;
+    }
+    
+    // Create the help window
+    GtkApplication *app = gtk_window_get_application(parent_window);
+    GtkWidget *help_window = gtk_application_window_new(app);
+    gtk_window_set_title(GTK_WINDOW(help_window), "Help - Heartbound Save Editor");
+    gtk_window_set_default_size(GTK_WINDOW(help_window), WINDOW_WIDTH * 0.9, WINDOW_HEIGHT * 0.96);
+    
+    // The 'current_help_window' is set to NULL when the help window is closed
+    current_help_window = help_window;
+    g_signal_connect(help_window, "destroy", G_CALLBACK(hb_help_window_destroyed), &current_help_window);
+
+    // Close the help window when the main window is closed
+    g_signal_connect_swapped(parent_window, "destroy", G_CALLBACK(gtk_widget_destroy), help_window);
+
+    /* Note:
+        I am aware that it would be better to just have this text to be generated
+        automatically. But for the time being, it should suffice to have it hardcoded.
+        TO DO for a future update.
+    */
+
+    char *help_text = (
+        "The program opens the default Heartbound Save automatically, since the"
+        " game only aloows one save file. However you can open and save to other"
+        " locations using this program (click the Open button, or drag the save"
+        " file into the executable of the editor). This way you can create backups.\n\n"
+        "Your default Heartbound Save is located at:\n<tt>%s</tt>\n\n"
+        "This version of the editor supports Heartbound until its version <b>1.0.9.55.</b>"
+        " Whenever Heartbound gets updated, this editor will be updated as soon"
+        " as possible to support it. So feel free to check our "
+        "<a href='https://github.com/tbpaolini/Heartbound-Save-Editor/releases'>download page</a>"
+        " for the newest version of the editor.\n\n"
+        "The editor is divided in tabs, one for each chapter of the game. And"
+        " their contents are divided by locations, which contains the values"
+        " that the game keep track of. You can edit those values, and the changes"
+        " are saved to the file <i>after</i> you click the save button.\n\n"
+        "Options of the menu:\n"
+        "<b>File > New</b> (<i>Ctrl+N</i>): Create a new save file with the default values.\n"
+        "<b>File > Open</b> (<i>Ctrl+O</i>): Open another save file.\n"
+        "<b>File > Open default file</b> (<i>Shift+Ctrl+O</i>): Open the default Heartbound save.\n"
+        "<b>File > Save</b> (<i>Ctrl+S</i>): Save the currently opened file.\n"
+        "<b>File > Save as</b> (<i>Ctrl+A</i>): Save the opened file to a different location.\n"
+        "<b>File > Save to default file</b> (<i>Shift+Ctrl+S</i>): Save to the default Heartbound file.\n"
+        "<b>File > Exit</b> (<i>Alt+F4</i>): Close the editor.\n"
+        "<b>Edit > Reload current saved data</b> (<i>F5</i>): Load the data again from the current file, replacing your unsaved changes.\n"
+        "<b>Edit > Clear current saved data</b> (<i>Shift+Delete</i>): Reset all values on the editor as if you were starting the game anew.\n"
+        "<b>Edit > Dark mode</b> (<i>F2</i>): Switch between the Dark and Light themes of the editor.\n"
+        "<b>Help > Help</b> (<i>F1</i>): Shows this help text.\n"
+        "<b>Help > Download page</b>: Open a browser window with the official download page of this editor.\n"
+        "<b>Help > About</b>: Show information and credits for the program.\n"
+    );
+
+    // Add the default Heartbound save location to the help text
+    // (Yes, I still know that automatically generating the whole text would be better.)
+    // (Please, just bear with be for the time being. It is coming in a later update ^_^)
+    const size_t buffer_size = strlen(help_text) + PATH_BUFFER;
+    char *help_text_format = calloc(buffer_size, sizeof(char));
+    if (help_text_format == NULL) return;
+    snprintf(help_text_format, buffer_size, help_text, SAVE_PATH);
+
+    // Create the label to display the text
+    GtkWidget *help_label = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(help_label), help_text_format);
+    free(help_text_format);
+
+    // Text layout of the label
+    gtk_label_set_line_wrap(GTK_LABEL(help_label), TRUE);   // Wrap text to the next line
+    gtk_label_set_line_wrap_mode(GTK_LABEL(help_label), PANGO_WRAP_WORD_CHAR);  // Wrap at word boundaries, break words if there's no room for them
+    gtk_widget_set_halign(help_label, GTK_ALIGN_FILL);      // Fill the available horizontal space, while aligning to the left
+    gtk_widget_set_valign(help_label, GTK_ALIGN_START);     // Align text to the top
+
+    // Set the label's text as selectable
+    // (because the user might want to copy the default save file's path)
+    gtk_label_set_selectable(GTK_LABEL(help_label), TRUE);
+    g_signal_connect(GTK_LABEL(help_label), "draw", G_CALLBACK(hb_help_window_fix), NULL);
+    /* Note:
+        All the label's text becomes selected when it is set as selectable.
+        So I am connecting to a callback function that unselects it.
+        That callback runs once (and only once) when the text is drawn for the first time.
+    */
+
+    // Create a container for the label
+    GtkWidget *help_label_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_container_set_border_width(GTK_CONTAINER(help_label_box), WINDOW_BORDER);
+    gtk_container_add(GTK_CONTAINER(help_label_box), help_label);
+
+    // Create the scrollbar for the label box
+    GtkWidget *help_scrollbar = gtk_scrolled_window_new(NULL, NULL);
+    gtk_widget_set_hexpand(help_scrollbar, TRUE);
+    gtk_container_add(GTK_CONTAINER(help_scrollbar), help_label_box);;
+
+    // Add the text with the scrollbar to the help window
+    gtk_container_add(GTK_CONTAINER(help_window), help_scrollbar);
+
+    // Display the help window
+    gtk_widget_show_all(help_window);
+}
+
+// Set the "current help window" to NULL, when it is destroyed
+void hb_help_window_destroyed(GtkWidget *help_window, GtkWidget **current_help_window)
+{
+    *current_help_window = NULL;
+}
+
+// Unselect the help text when it is drawn for the first time
+void hb_help_window_fix(GtkLabel *help_label)
+{
+    // Set the selection region from character 0 to character 0
+    // (so nothing is selected)
+    gtk_label_select_region(help_label, 0, 0);
+
+    // Disconnect from this callback function after it is run
+    // (so it does not runs continuously, which would prevent the user from selecting text)
+    g_signal_handlers_disconnect_by_func(help_label, G_CALLBACK(hb_help_window_fix), NULL);
+}
+
 // Help > Download page
 // Open the page for downloading the Heartbound Save Editor
 void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
