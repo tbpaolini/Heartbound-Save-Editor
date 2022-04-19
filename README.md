@@ -1,7 +1,11 @@
 # Heartbound Save Editor
 This program allows you to change everything on the save file of [Heartbound](https://store.steampowered.com/app/567380/Heartbound/), like where you are and what you did or didn't.
 
-**Download:** (to be added)
+**Download:** [Heartbound Save Editor - v1.0.0 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0/Heartbound_Save_Editor-v1.0.0-Windows_10.zip)
+
+The program does not need installation. Just extract the zip file to any place you want, then you can just run the Heartbound Save Editor :)
+
+The editor works with latest version of Heartbound (1.0.9.55). Once the game gets updated, you might need to download a new version of the save editor.
 
 ## Screenshots
 <img src="https://user-images.githubusercontent.com/85261542/164076804-5d3bc2bb-d81e-4bbe-9340-1562f7648225.png" width=325 /> <img src="https://user-images.githubusercontent.com/85261542/164076838-c28a40d4-5c64-4902-8a79-a7dba8a7cc99.png" width=325 />
@@ -31,7 +35,7 @@ If you haven't downloaded the source code of Heartbound Save Editor, it can be [
 
 The debug build is almost the same as the release build, with two differences:
 * It prints errors and messages to a terminal window.
-* It can be used with GDB, or another similar debugging tool, in order to debug the source code line by line.
+* It can be used with [GDB](https://www.sourceware.org/gdb/), or another similar debugging tool, in order to debug the source code line by line.
 
 The source code can be edited with [Visual Studio Code](https://code.visualstudio.com/), or another code editor of your preference.
 
