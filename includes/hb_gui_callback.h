@@ -198,9 +198,19 @@ void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window);
 // Switch between dark and light mode
 void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style);
 
+// Help > Help
+// Display the program's help text
+void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window);
+
 // Help > Download page
 // Open the page for downloading the Heartbound Save Editor
 void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window);
+
+// Set the "current help window" to NULL, when it is destroyed
+void hb_help_window_destroyed(GtkWidget *help_window, GtkWidget **current_help_window);
+
+// Unselect the help text when it is drawn for the first time
+void hb_help_window_fix(GtkLabel *help_label);
 
 // Help > About
 // Show a dialog with credits and info about the program

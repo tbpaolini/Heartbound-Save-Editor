@@ -162,8 +162,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_OPTION("Save to default _file", file_menu, hb_menu_file_save_to_default);
         NEW_SHORTCUT(GDK_KEY_s, GDK_CONTROL_MASK | GDK_SHIFT_MASK);
         NEW_SEPARATOR(file_menu);
-        NEW_OPTION("_Backup and restore...", file_menu, placeholder);
-        NEW_SEPARATOR(file_menu);
+        // TO DO for a future update:
+        // NEW_OPTION("_Backup and restore...", file_menu, placeholder);
+        // NEW_SEPARATOR(file_menu);
         NEW_OPTION("E_xit", file_menu, hb_menu_file_exit);
         NEW_SHORTCUT(GDK_KEY_F4, GDK_MOD1_MASK);
 
@@ -180,7 +181,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_SHORTCUT(GDK_KEY_F2, 0);
 
         // Help menu
-        NEW_OPTION("_Help...", help_menu, placeholder);
+        NEW_OPTION("_Help...", help_menu, hb_menu_help_help);
         NEW_SHORTCUT(GDK_KEY_F1, 0);
         NEW_OPTION("_Download page...", help_menu, hb_menu_help_download);
         NEW_SEPARATOR(help_menu);
