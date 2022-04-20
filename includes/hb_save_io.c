@@ -178,24 +178,37 @@ int hb_validate_save(GInputStream *save_file)
             continue;
         }
 
-        if (line_count != 1)
+        switch (line_count)
         {
-            // On all lines, except for the second, the characters can only be decimal digits
-            if ( !isdigit(current_character) )
-            {
-                g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
-                return SAVE_FILE_NOT_VALID;
-            }
-        }
-        else
-        {
-            // We are on the second line, which has the room's name.
-            // The characters must be decimal digits, English letters, or underscores.
-            if ( !isalnum(current_character) && current_character != '_' )
-            {
-                g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
-                return SAVE_FILE_NOT_VALID;
-            }
+            case 1:
+                // We are on the second line, which has the room's name.
+                // The characters must be decimal digits, English letters, or underscores.
+                if ( !isalnum(current_character) && current_character != '_' )
+                {
+                    g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
+                    return SAVE_FILE_NOT_VALID;
+                }
+                break;
+            
+            case 2:
+            case 3:
+                // Third and fourth lines, the X and Y coordinates
+                // The characters must me decimal digits, or positive/negative signs, or a periods
+                if ( !isdigit(current_character) && current_character != '+' && current_character != '-' && current_character != '.')
+                {
+                    g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
+                    return SAVE_FILE_NOT_VALID;
+                }
+                break;
+            
+            default:
+                // On all lines, except for lines 2 to 4, the characters can only be decimal digits
+                if ( !isdigit(current_character) )
+                {
+                    g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
+                    return SAVE_FILE_NOT_VALID;
+                }
+                break;
         }
 
         // When the character is not a blank space or a newline,
