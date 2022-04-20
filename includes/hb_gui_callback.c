@@ -1569,7 +1569,7 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         window,
         "logo", logo,
         "program-name", "Heartbound Save Editor",
-        "version", "Version 1.0.0.0",
+        "version", "Version 1.0.0.1",
         "authors", authors,
         "documenters", documenters,
         "copyright", "Copyright 2022 by Tiago Becerra Paolini",
