@@ -152,6 +152,18 @@ void hb_update_window_title(GtkWindow *window);
 // the notebook, it would be necessary to click twice to interact with the notebook.
 void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data);
 
+// Open a file that was dragged into the window
+void hb_drag_and_drop_file(
+    GtkWindow *window,
+    GdkDragContext *context,
+    gint x,
+    gint y,
+    GtkSelectionData *data,
+    guint info,
+    guint time,
+    gpointer user_data
+);
+
 // ***********************
 // Options of the menu bar
 // ***********************

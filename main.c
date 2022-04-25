@@ -29,6 +29,33 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Ask the user what to do if the save file could not be opened during the program's startup
     while (!hb_save_is_open) hb_failed_to_open_default_save(GTK_WINDOW(window));
 
+    // ******************************************************************
+    // Open a Heartbound save that is dragged into the application window
+    // ******************************************************************
+
+    // Set the main window as a target for dropped items
+    GtkTargetEntry drop_target[1];
+    drop_target[0] = *gtk_target_entry_new("main-window", GTK_TARGET_OTHER_APP, 0);
+    /* Note: the first and last arguments are just arbitrary identifiers,
+             what really matters is the second argument (the target). */
+    
+    // Give the window the ability to receive dropped items
+    gtk_drag_dest_set(
+        window,
+        GTK_DEST_DEFAULT_DROP | GTK_DEST_DEFAULT_HIGHLIGHT,
+        drop_target,
+        1,
+        GDK_ACTION_COPY
+    );
+
+    // Give the window the ability to receive file paths as the dropped items
+    gtk_drag_dest_add_uri_targets(window);
+    g_signal_connect(GTK_WINDOW(window), "drag-data-received", G_CALLBACK(hb_drag_and_drop_file), NULL);
+
+    // **********************
+    // Contents of the window
+    // **********************
+
     // Create a wrapper for the window's contents
     GtkWidget *window_wrapper = gtk_box_new(GTK_ORIENTATION_VERTICAL, MENUBAR_SPACING);
     gtk_container_add(GTK_CONTAINER(window), window_wrapper);

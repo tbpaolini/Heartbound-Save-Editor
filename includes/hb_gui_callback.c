@@ -1078,6 +1078,77 @@ void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data)
     }
 }
 
+// Open a file that was dragged into the window
+void hb_drag_and_drop_file(
+    GtkWindow *window,
+    GdkDragContext *context,
+    gint x,
+    gint y,
+    GtkSelectionData *data,
+    guint info,
+    guint time,
+    gpointer user_data
+)
+{
+    // Get the file's URI from the selection data
+    char **file_paths = gtk_selection_data_get_uris(data);
+    
+    // Return if there are no paths
+    if (file_paths == NULL) return;
+
+    // Strip the 'file:///' prefix and unescape the URI (notably, '%20' gets replaced by an actual space)
+    char *file_name_raw = g_str_has_prefix(file_paths[0], "file:///") ? file_paths[0] + 8 : file_paths[0];
+    char *file_name = g_uri_unescape_string(file_name_raw, NULL);
+
+    // Check if there is unsaved data before proceeding
+    bool can_proceed = hb_check_if_data_changed("Confirm opening a dropped file", window);
+    if (can_proceed)
+    {
+        // Attempt to read the data from the file
+        int status = hb_read_save(file_name);
+
+        if (status == SAVE_FILE_IS_VALID)
+        {
+            // If the file is valid, load the data into the interface and update the window's title
+            hb_load_data_into_interface(window);
+            hb_update_window_title(window);
+                    
+            #ifdef _DEBUG
+            g_message("Loaded: %s", file_name);
+            #endif
+        }
+        else
+        {
+            // Display an error dialog if the file could not be read from
+
+            char error_message[TEXT_BUFFER_SIZE];
+            snprintf(
+                error_message,
+                sizeof(error_message),
+                "The file you dropped into the window is not a valid Heartbound save:\n%s",
+                file_name
+            );
+
+            GtkWidget *error_dialog = hb_create_dialog_with_title_and_image(
+                window,
+                GTK_DIALOG_DESTROY_WITH_PARENT,
+                GTK_MESSAGE_ERROR,
+                GTK_BUTTONS_OK,
+                "File loading error",
+                "dialog-error",
+                error_message
+            );
+
+            gtk_dialog_run(GTK_DIALOG(error_dialog));
+            gtk_widget_destroy(error_dialog);
+        }
+    }
+
+    // Garbage collection
+    g_free(file_name);      // Delete a string
+    g_strfreev(file_paths); // Delete an array of strings
+}
+
 // ***********************
 // Options of the menu bar
 // ***********************
@@ -1460,7 +1531,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         "The program opens the default Heartbound Save automatically, since the"
         " game only aloows one save file. However you can open and save to other"
         " locations using this program (click the Open button, or drag the save"
-        " file into the executable of the editor). This way you can create backups.\n\n"
+        " file into the window or the executable). This way you can create backups.\n\n"
         "Your default Heartbound Save is located at:\n<tt>%s</tt>\n\n"
         "This version of the editor supports Heartbound until its version <b>1.0.9.55.</b>"
         " Whenever Heartbound gets updated, this editor will be updated as soon"
