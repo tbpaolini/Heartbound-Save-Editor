@@ -1149,6 +1149,32 @@ void hb_drag_and_drop_file(
     g_strfreev(file_paths); // Delete an array of strings
 }
 
+// Detect if the open file has been changed by another program.
+// This function is triggered when the window loses or regains focus.
+void hb_file_has_changed(GtkWindow self, GdkEventFocus event, void *user_data)
+{
+    static gint64 last_known_modified_time = 0;
+    
+    if (event.in)
+    {
+        // Window got focus
+        hb_save_get_modified_time();
+        if (last_known_modified_time < hb_save_modification_time)
+        {
+            // printf("Changed\n");
+        }
+        else
+        {
+            // printf("Not changed\n");
+        }
+    }
+    else
+    {
+        // Window lost focus
+        last_known_modified_time = hb_save_modification_time;
+    }
+}
+
 // ***********************
 // Options of the menu bar
 // ***********************

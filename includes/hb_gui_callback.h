@@ -164,6 +164,10 @@ void hb_drag_and_drop_file(
     gpointer user_data
 );
 
+// Detect if the open file has been changed by another program.
+// This function is triggered when the window loses or regains focus.
+void hb_file_has_changed(GtkWindow self, GdkEventFocus event, void *user_data);
+
 // ***********************
 // Options of the menu bar
 // ***********************

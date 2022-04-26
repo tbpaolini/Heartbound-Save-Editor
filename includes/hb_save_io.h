@@ -30,6 +30,9 @@ extern char CURRENT_FILE[PATH_BUFFER]; // Absolute path to the save file that is
 // Whether a save file is currently open
 extern bool hb_save_is_open;
 
+// Last modification date of the save file
+extern gint64 hb_save_modification_time;
+
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save();
 
@@ -47,5 +50,8 @@ int hb_validate_save(GInputStream *save_file);
 
 // Save the contents back to the save file
 int hb_write_save();
+
+// Store the file's last modification time on the variable 'hb_save_modification_time'
+void hb_save_get_modified_time();
 
 #endif
