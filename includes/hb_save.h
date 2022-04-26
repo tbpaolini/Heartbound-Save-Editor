@@ -15,6 +15,7 @@
 #include <hb_save_io.h>         // Reading and saving to the save file
 #include <hb_room_mapping.h>    // Hashmaps for the game's rooms
 #include <hb_gui_callback.h>    // Callback funtions for the user interface
+#include <hb_editor_options.h>  // Store and retrieve the configurations of the editor
 
 // Initialize the data structures and parse the save file
 void hb_open_save(char *path);
