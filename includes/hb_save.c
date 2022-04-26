@@ -16,6 +16,7 @@
 void hb_open_save(char *path)
 {
     if (hb_save_is_open) return;
+    hb_config_init();
     hb_create_save_struct();
     hb_find_save();
     
@@ -65,4 +66,5 @@ void hb_close_save()
     hb_save_is_open = false;
     hb_destroy_save_struct();
     hb_unmap_rooms_locations();
+    hb_config_close();
 }
