@@ -178,6 +178,7 @@ void hb_config_set(char *key, char *value)
                     // Store the new value and delete the old one
                     strncpy_s(current->value, EDITOR_CFG_BUFFER, value, EDITOR_CFG_BUFFER);
                     free(old_value);
+                    config_write();
                 }
                 else
                 {
@@ -196,6 +197,7 @@ void hb_config_set(char *key, char *value)
     
     // Create the key if it does not exist
     config_add(key, value);
+    config_write();
 }
 
 // Retrieve the key/value pair of a setting
@@ -315,6 +317,7 @@ void hb_config_remove(char *key)
         // Delete the setting from memory, once its links have been removed from the linked list and the hash map
         free(to_delete);
         --config_count;     // Decrement the count of configurations
+        config_write();     // Save the remaining settings to file
     }
 }
 
