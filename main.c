@@ -30,8 +30,8 @@ static void activate( GtkApplication* app, gpointer user_data )
     while (!hb_save_is_open) hb_failed_to_open_default_save(GTK_WINDOW(window));
 
     // Check if the current save file has been changed by another program
-    g_signal_connect(GTK_WINDOW(window), "focus-out-event", G_CALLBACK(hb_file_has_changed), GTK_WINDOW(window));
-    g_signal_connect(GTK_WINDOW(window), "focus-in-event", G_CALLBACK(hb_file_has_changed), GTK_WINDOW(window));
+    g_signal_connect_after(GTK_WINDOW(window), "focus-out-event", G_CALLBACK(hb_file_has_changed), GTK_WINDOW(window));
+    g_signal_connect_after(GTK_WINDOW(window), "focus-in-event", G_CALLBACK(hb_file_has_changed), GTK_WINDOW(window));
 
     // ******************************************************************
     // Open a Heartbound save that is dragged into the application window
