@@ -14,6 +14,9 @@
 #include <hb_save.h>
 #include <hb_gui_callback.h>
 
+// If the editor is configured for automatically reloading the save file
+bool hb_automatic_reloading = false;
+
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
 {
@@ -1151,26 +1154,29 @@ void hb_drag_and_drop_file(
 
 // Detect if the open file has been changed by another program.
 // This function is triggered when the window loses or regains focus.
-void hb_file_has_changed(GtkWindow self, GdkEventFocus event, void *user_data)
+void hb_file_has_changed(GtkWindow self, GdkEventFocus event, GtkWindow *window)
 {
     static gint64 last_known_modified_time = 0;
+
+    // Do nothing if automatic reloading is disabled
+    if (!hb_automatic_reloading) return;
     
+    // Is the window getting or losing focus?
     if (event.in)
     {
         // Window got focus
+        // Check if the current modification time is newer than the last known one
         hb_save_get_modified_time();
         if (last_known_modified_time < hb_save_modification_time)
         {
-            // printf("Changed\n");
-        }
-        else
-        {
-            // printf("Not changed\n");
+            // Reload if the file has been modified
+            hb_menu_edit_reload(NULL, window);
         }
     }
     else
     {
         // Window lost focus
+        // Update the last known modified time
         last_known_modified_time = hb_save_modification_time;
     }
 }
@@ -1517,6 +1523,25 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     fclose(settings_ini);
 }
 
+// Edit > Automatic reloading
+// Toggle on/off the automatic reloading of the save file
+void hb_edit_automatic_reloading(GtkCheckMenuItem *widget, gpointer user_data)
+{
+    // Get the current value from the check button
+    hb_automatic_reloading = (bool)gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+    
+    // Store the value to the configurations
+    char value_string[2];
+    snprintf(value_string, sizeof(value_string), "%d", hb_automatic_reloading);
+    hb_config_set("automatic_reloading", value_string);
+
+    // Show for 2.6 seconds the indicator that the setting was changed
+    char *message = hb_automatic_reloading ? "Automatic reloading enabled" : "Automatic reloading disabled";
+    gtk_label_set_text(GTK_LABEL(file_indicator), message);
+    gtk_widget_show(file_indicator);
+    g_timeout_add(INDICATOR_TIMEOUT, G_SOURCE_FUNC(hb_hide_file_indicator), NULL);
+}
+
 // Help > Help
 // Display the program's help text
 void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
@@ -1579,6 +1604,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         "<b>Edit > Reload current saved data</b> (<i>F5</i>): Load the data again from the current file, replacing your unsaved changes.\n"
         "<b>Edit > Clear current saved data</b> (<i>Shift+Delete</i>): Reset all values on the editor as if you were starting the game anew.\n"
         "<b>Edit > Dark mode</b> (<i>F2</i>): Switch between the Dark and Light themes of the editor.\n"
+        "<b>Edit > Automatic reloading</b> (<i>F2</i>): Reload the save file if it has been changed by another program.\n"
         "<b>Help > Help</b> (<i>F1</i>): Shows this help text.\n"
         "<b>Help > Download page</b>: Open a browser window with the official download page of this editor.\n"
         "<b>Help > About</b>: Show information and credits for the program.\n"

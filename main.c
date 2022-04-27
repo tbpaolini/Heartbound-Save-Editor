@@ -30,8 +30,8 @@ static void activate( GtkApplication* app, gpointer user_data )
     while (!hb_save_is_open) hb_failed_to_open_default_save(GTK_WINDOW(window));
 
     // Check if the current save file has been changed by another program
-    g_signal_connect(GTK_WINDOW(window), "focus-out-event", G_CALLBACK(hb_file_has_changed), NULL);
-    g_signal_connect(GTK_WINDOW(window), "focus-in-event", G_CALLBACK(hb_file_has_changed), NULL);
+    g_signal_connect(GTK_WINDOW(window), "focus-out-event", G_CALLBACK(hb_file_has_changed), GTK_WINDOW(window));
+    g_signal_connect(GTK_WINDOW(window), "focus-in-event", G_CALLBACK(hb_file_has_changed), GTK_WINDOW(window));
 
     // ******************************************************************
     // Open a Heartbound save that is dragged into the application window
@@ -205,11 +205,19 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_OPTION("_Clear current saved data", edit_menu, hb_menu_edit_clear);
         NEW_SHORTCUT(GDK_KEY_Delete, GDK_SHIFT_MASK);
         NEW_SEPARATOR(edit_menu);
+
         menu_item = gtk_check_menu_item_new_with_mnemonic("_Dark mode");
         gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), prefers_dark_theme);
         g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_menu_edit_dark_mode), custom_css);
         NEW_SHORTCUT(GDK_KEY_F2, 0);
+        
+        menu_item = gtk_check_menu_item_new_with_mnemonic("_Automatic reloading");
+        hb_automatic_reloading = atoi(hb_config_get("automatic_reloading", CFG_AUTOMATIC_RELOADING));
+        gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), hb_automatic_reloading);
+        g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_edit_automatic_reloading), NULL);
+        NEW_SHORTCUT(GDK_KEY_F3, 0);
 
         // Help menu
         NEW_OPTION("_Help...", help_menu, hb_menu_help_help);
