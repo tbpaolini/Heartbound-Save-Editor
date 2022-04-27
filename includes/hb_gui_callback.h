@@ -52,6 +52,9 @@ static bool is_loading_file = false;
 // (used to ask whether the user wants to save when exiting or loading another file)
 static bool has_unsaved_data = false;
 
+// If the editor is configured for automatically reloading the save file
+extern bool hb_automatic_reloading;
+
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var);
 
@@ -166,7 +169,7 @@ void hb_drag_and_drop_file(
 
 // Detect if the open file has been changed by another program.
 // This function is triggered when the window loses or regains focus.
-void hb_file_has_changed(GtkWindow self, GdkEventFocus event, void *user_data);
+void hb_file_has_changed(GtkWindow self, GdkEventFocus event, GtkWindow *window);
 
 // ***********************
 // Options of the menu bar
@@ -213,6 +216,10 @@ void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window);
 // Edit > Dark mode
 // Switch between dark and light mode
 void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style);
+
+// Edit > Automatic reloading
+// Toggle on/off the automatic reloading of the save file
+void hb_edit_automatic_reloading(GtkCheckMenuItem *widget, gpointer user_data);
 
 // Help > Help
 // Display the program's help text
