@@ -1081,6 +1081,44 @@ void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data)
     }
 }
 
+// Scroll the notebook's contents with the keyboard (Page Up/Down and arrows)
+void hb_notebook_keyboard_scrolling(GtkScrolledWindow *widget, GdkEventKey event, GtkAdjustment *adjustment)
+{
+    // Get the vertical position of the page
+    gdouble position = gtk_adjustment_get_value(adjustment);
+
+    // Get the scrolling increments
+    gdouble step = gtk_adjustment_get_step_increment(adjustment);  // Amount to be scrolled by the arrows (roughly a line)
+    gdouble page = gtk_adjustment_get_page_increment(adjustment);  // Amount to be scrolled by the Page keys (roughly the visible area)
+
+    // Check which key was pressed
+    switch (event.keyval)
+    {
+        case GDK_KEY_Page_Down:
+            // Scroll down a page
+            gtk_adjustment_set_value(adjustment, position + page);
+            break;
+        
+        case GDK_KEY_Page_Up:
+            // Scroll up a page
+            gtk_adjustment_set_value(adjustment, position - page);
+            break;
+        
+        case GDK_KEY_Down:
+            // Scroll down a line
+            gtk_adjustment_set_value(adjustment, position + step);
+            break;
+        
+        case GDK_KEY_Up:
+            // Scroll up a line
+            gtk_adjustment_set_value(adjustment, position - step);
+            break;
+        
+        default:
+            break;
+    }
+}
+
 // Open a file that was dragged into the window
 void hb_drag_and_drop_file(
     GtkWindow *window,

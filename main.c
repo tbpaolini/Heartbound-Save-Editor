@@ -253,6 +253,15 @@ static void activate( GtkApplication* app, gpointer user_data )
 
         // Add the chapter page to the notebook
         gtk_notebook_append_page(GTK_NOTEBOOK(notebook), chapter_page[i], chapter_label[i]);
+
+        // Make possible to scroll the page with the keyboard (Page Up/Down, or arrows)
+        GtkAdjustment *page_vertical_adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chapter_page[i]));
+        g_signal_connect(
+            GTK_SCROLLED_WINDOW(chapter_page[i]),
+            "key-press-event",
+            G_CALLBACK(hb_notebook_keyboard_scrolling),
+            page_vertical_adjustment
+        );
     }
 
     // Add the notebook to the application window

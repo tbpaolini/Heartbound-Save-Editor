@@ -155,6 +155,9 @@ void hb_update_window_title(GtkWindow *window);
 // the notebook, it would be necessary to click twice to interact with the notebook.
 void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data);
 
+// Scroll the notebook's contents with the keyboard (Page Up/Down and arrows)
+void hb_notebook_keyboard_scrolling(GtkScrolledWindow *widget, GdkEventKey event, GtkAdjustment *adjustment);
+
 // Open a file that was dragged into the window
 void hb_drag_and_drop_file(
     GtkWindow *window,
