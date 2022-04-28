@@ -29,6 +29,37 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Ask the user what to do if the save file could not be opened during the program's startup
     while (!hb_save_is_open) hb_failed_to_open_default_save(GTK_WINDOW(window));
 
+    // Check if the current save file has been changed by another program
+    g_signal_connect_after(GTK_WINDOW(window), "focus-out-event", G_CALLBACK(hb_file_has_changed), GTK_WINDOW(window));
+    g_signal_connect_after(GTK_WINDOW(window), "focus-in-event", G_CALLBACK(hb_file_has_changed), GTK_WINDOW(window));
+
+    // ******************************************************************
+    // Open a Heartbound save that is dragged into the application window
+    // ******************************************************************
+
+    // Set the main window as a target for dropped items
+    GtkTargetEntry drop_target[1];
+    drop_target[0] = *gtk_target_entry_new("main-window", GTK_TARGET_OTHER_APP, 0);
+    /* Note: the first and last arguments are just arbitrary identifiers,
+             what really matters is the second argument (the target). */
+    
+    // Give the window the ability to receive dropped items
+    gtk_drag_dest_set(
+        window,
+        GTK_DEST_DEFAULT_DROP | GTK_DEST_DEFAULT_HIGHLIGHT,
+        drop_target,
+        1,
+        GDK_ACTION_COPY
+    );
+
+    // Give the window the ability to receive file paths as the dropped items
+    gtk_drag_dest_add_uri_targets(window);
+    g_signal_connect(GTK_WINDOW(window), "drag-data-received", G_CALLBACK(hb_drag_and_drop_file), NULL);
+
+    // **********************
+    // Contents of the window
+    // **********************
+
     // Create a wrapper for the window's contents
     GtkWidget *window_wrapper = gtk_box_new(GTK_ORIENTATION_VERTICAL, MENUBAR_SPACING);
     gtk_container_add(GTK_CONTAINER(window), window_wrapper);
@@ -174,11 +205,19 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_OPTION("_Clear current saved data", edit_menu, hb_menu_edit_clear);
         NEW_SHORTCUT(GDK_KEY_Delete, GDK_SHIFT_MASK);
         NEW_SEPARATOR(edit_menu);
+
         menu_item = gtk_check_menu_item_new_with_mnemonic("_Dark mode");
         gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), prefers_dark_theme);
         g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_menu_edit_dark_mode), custom_css);
         NEW_SHORTCUT(GDK_KEY_F2, 0);
+        
+        menu_item = gtk_check_menu_item_new_with_mnemonic("_Automatic reloading");
+        hb_automatic_reloading = atoi(hb_config_get("automatic_reloading", CFG_AUTOMATIC_RELOADING));
+        gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), hb_automatic_reloading);
+        g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_edit_automatic_reloading), NULL);
+        NEW_SHORTCUT(GDK_KEY_F3, 0);
 
         // Help menu
         NEW_OPTION("_Help...", help_menu, hb_menu_help_help);
@@ -214,6 +253,15 @@ static void activate( GtkApplication* app, gpointer user_data )
 
         // Add the chapter page to the notebook
         gtk_notebook_append_page(GTK_NOTEBOOK(notebook), chapter_page[i], chapter_label[i]);
+
+        // Make possible to scroll the page with the keyboard (Page Up/Down, or arrows)
+        GtkAdjustment *page_vertical_adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chapter_page[i]));
+        g_signal_connect(
+            GTK_SCROLLED_WINDOW(chapter_page[i]),
+            "key-press-event",
+            G_CALLBACK(hb_notebook_keyboard_scrolling),
+            page_vertical_adjustment
+        );
     }
 
     // Add the notebook to the application window

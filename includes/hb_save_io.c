@@ -26,6 +26,9 @@ double hb_known_glyphs;
 // Whether a save file is currently open
 bool hb_save_is_open = false;
 
+// Whether the currently open file has been changed by another program
+gint64 hb_save_modification_time = 0;
+
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save()
 {
@@ -127,6 +130,7 @@ int hb_read_save(char *path)
         (path != NULL ? path : SAVE_PATH)
     );
 
+    hb_save_get_modified_time();
     hb_save_is_open = true;
     return SAVE_FILE_IS_VALID;
 }
@@ -346,6 +350,30 @@ int hb_write_save()
     g_output_stream_close(output, NULL, NULL);
     g_object_unref(output);
     g_object_unref(save_file);
+    
+    hb_save_get_modified_time(); 
     return FILE_SAVING_SUCCESS;
     // TO DO: Backup of the original save file
+}
+
+// Store the file's last modification time on the variable 'hb_save_modification_time'
+void hb_save_get_modified_time()
+{
+    // Open the file
+    if (using_loader) chdir("..\\");
+    GFile *save_file = g_file_new_for_path(CURRENT_FILE);
+    if (using_loader) chdir("bin");
+
+    GFileInfo *file_info = NULL;        // File's medatada
+    GDateTime *modified_time = NULL;    // Last write time of the file
+
+    // Get and store the file's last modified time
+    file_info = g_file_query_info(save_file, G_FILE_ATTRIBUTE_TIME_MODIFIED, 0, NULL, NULL);
+    if (file_info != NULL) modified_time = g_file_info_get_modification_date_time(file_info);
+    if (modified_time != NULL) hb_save_modification_time = g_date_time_to_unix(modified_time);
+
+    // Perform garbage collection and close the file
+    if (modified_time != NULL) g_date_time_unref(modified_time);    // For some reason, 'GDateTime' requires its own unref function
+    if (file_info != NULL) g_object_unref(file_info);
+    g_object_unref(save_file);
 }

@@ -5,8 +5,8 @@
 
 // Metadata of the executable
 VS_VERSION_INFO VERSIONINFO 
-FILEVERSION     1,0,0,1
-PRODUCTVERSION  1,0,0,1
+FILEVERSION     1,0,0,2
+PRODUCTVERSION  1,0,0,2
 FILETYPE        VFT_APP
 FILESUBTYPE     0
 {
@@ -16,12 +16,12 @@ FILESUBTYPE     0
         {
             VALUE "CompanyName",      "Tiago Becerra Paolini\0"
             VALUE "FileDescription",  "Heartbound Save Editor\0"
-            VALUE "FileVersion",      "1.0.0.1\0"
+            VALUE "FileVersion",      "1.0.0.2\0"
             VALUE "InternalName",     "Heartbound Save Editor\0"
             VALUE "LegalCopyright",   "(c) 2022 by Tiago Becerra Paolini\0"   // The Copyright refers to the Source Code and its compiled Executable
             VALUE "OriginalFilename", "Heartbound Save Editor.exe\0"
             VALUE "ProductName",      "Heartbound Save Editor\0"
-            VALUE "ProductVersion",   "1.0.0.1\0"
+            VALUE "ProductVersion",   "1.0.0.2\0"
             VALUE "Comments",         "Programming and design by Tiago Becerra Paolini. Save File Structure by Steets. A few Heartbound graphics were used for illustrative purposes, which we believe to fall in Fair Use, and were made by Bradie Shaye Rehmel.\0"
         }    
     }

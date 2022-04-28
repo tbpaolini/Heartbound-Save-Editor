@@ -14,6 +14,9 @@
 #include <hb_save.h>
 #include <hb_gui_callback.h>
 
+// If the editor is configured for automatically reloading the save file
+bool hb_automatic_reloading = false;
+
 // Set a storyline variable's value when one of its radio buttons is clicked
 void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
 {
@@ -1078,6 +1081,144 @@ void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data)
     }
 }
 
+// Scroll the notebook's contents with the keyboard (Page Up/Down and arrows)
+void hb_notebook_keyboard_scrolling(GtkScrolledWindow *widget, GdkEventKey event, GtkAdjustment *adjustment)
+{
+    // Get the vertical position of the page
+    gdouble position = gtk_adjustment_get_value(adjustment);
+
+    // Get the scrolling increments
+    gdouble step = gtk_adjustment_get_step_increment(adjustment);  // Amount to be scrolled by the arrows (roughly a line)
+    gdouble page = gtk_adjustment_get_page_increment(adjustment);  // Amount to be scrolled by the Page keys (roughly the visible area)
+
+    // Check which key was pressed
+    switch (event.keyval)
+    {
+        case GDK_KEY_Page_Down:
+            // Scroll down a page
+            gtk_adjustment_set_value(adjustment, position + page);
+            break;
+        
+        case GDK_KEY_Page_Up:
+            // Scroll up a page
+            gtk_adjustment_set_value(adjustment, position - page);
+            break;
+        
+        case GDK_KEY_Down:
+            // Scroll down a line
+            gtk_adjustment_set_value(adjustment, position + step);
+            break;
+        
+        case GDK_KEY_Up:
+            // Scroll up a line
+            gtk_adjustment_set_value(adjustment, position - step);
+            break;
+        
+        default:
+            break;
+    }
+}
+
+// Open a file that was dragged into the window
+void hb_drag_and_drop_file(
+    GtkWindow *window,
+    GdkDragContext *context,
+    gint x,
+    gint y,
+    GtkSelectionData *data,
+    guint info,
+    guint time,
+    gpointer user_data
+)
+{
+    // Get the file's URI from the selection data
+    char **file_paths = gtk_selection_data_get_uris(data);
+    
+    // Return if there are no paths
+    if (file_paths == NULL) return;
+
+    // Strip the 'file:///' prefix and unescape the URI (notably, '%20' gets replaced by an actual space)
+    char *file_name_raw = g_str_has_prefix(file_paths[0], "file:///") ? file_paths[0] + 8 : file_paths[0];
+    char *file_name = g_uri_unescape_string(file_name_raw, NULL);
+
+    // Check if there is unsaved data before proceeding
+    bool can_proceed = hb_check_if_data_changed("Confirm opening a dropped file", window);
+    if (can_proceed)
+    {
+        // Attempt to read the data from the file
+        int status = hb_read_save(file_name);
+
+        if (status == SAVE_FILE_IS_VALID)
+        {
+            // If the file is valid, load the data into the interface and update the window's title
+            hb_load_data_into_interface(window);
+            hb_update_window_title(window);
+                    
+            #ifdef _DEBUG
+            g_message("Loaded: %s", file_name);
+            #endif
+        }
+        else
+        {
+            // Display an error dialog if the file could not be read from
+
+            char error_message[TEXT_BUFFER_SIZE];
+            snprintf(
+                error_message,
+                sizeof(error_message),
+                "The file you dropped into the window is not a valid Heartbound save:\n%s",
+                file_name
+            );
+
+            GtkWidget *error_dialog = hb_create_dialog_with_title_and_image(
+                window,
+                GTK_DIALOG_DESTROY_WITH_PARENT,
+                GTK_MESSAGE_ERROR,
+                GTK_BUTTONS_OK,
+                "File loading error",
+                "dialog-error",
+                error_message
+            );
+
+            gtk_dialog_run(GTK_DIALOG(error_dialog));
+            gtk_widget_destroy(error_dialog);
+        }
+    }
+
+    // Garbage collection
+    g_free(file_name);      // Delete a string
+    g_strfreev(file_paths); // Delete an array of strings
+}
+
+// Detect if the open file has been changed by another program.
+// This function is triggered when the window loses or regains focus.
+void hb_file_has_changed(GtkWindow self, GdkEventFocus event, GtkWindow *window)
+{
+    static gint64 last_known_modified_time = 0;
+
+    // Do nothing if automatic reloading is disabled
+    if (!hb_automatic_reloading) return;
+    
+    // Is the window getting or losing focus?
+    if (event.in)
+    {
+        // Window got focus
+        // Check if the current modification time is newer than the last known one
+        hb_save_get_modified_time();
+        if (last_known_modified_time < hb_save_modification_time)
+        {
+            // Reload if the file has been modified
+            hb_menu_edit_reload(NULL, window);
+        }
+    }
+    else
+    {
+        // Window lost focus
+        // Update the last known modified time
+        last_known_modified_time = hb_save_modification_time;
+    }
+}
+
 // ***********************
 // Options of the menu bar
 // ***********************
@@ -1420,6 +1561,25 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     fclose(settings_ini);
 }
 
+// Edit > Automatic reloading
+// Toggle on/off the automatic reloading of the save file
+void hb_edit_automatic_reloading(GtkCheckMenuItem *widget, gpointer user_data)
+{
+    // Get the current value from the check button
+    hb_automatic_reloading = (bool)gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+    
+    // Store the value to the configurations
+    char value_string[2];
+    snprintf(value_string, sizeof(value_string), "%d", hb_automatic_reloading);
+    hb_config_set("automatic_reloading", value_string);
+
+    // Show for 2.6 seconds the indicator that the setting was changed
+    char *message = hb_automatic_reloading ? "Automatic reloading enabled" : "Automatic reloading disabled";
+    gtk_label_set_text(GTK_LABEL(file_indicator), message);
+    gtk_widget_show(file_indicator);
+    g_timeout_add(INDICATOR_TIMEOUT, G_SOURCE_FUNC(hb_hide_file_indicator), NULL);
+}
+
 // Help > Help
 // Display the program's help text
 void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
@@ -1460,7 +1620,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         "The program opens the default Heartbound Save automatically, since the"
         " game only aloows one save file. However you can open and save to other"
         " locations using this program (click the Open button, or drag the save"
-        " file into the executable of the editor). This way you can create backups.\n\n"
+        " file into the window or the executable). This way you can create backups.\n\n"
         "Your default Heartbound Save is located at:\n<tt>%s</tt>\n\n"
         "This version of the editor supports Heartbound until its version <b>1.0.9.55.</b>"
         " Whenever Heartbound gets updated, this editor will be updated as soon"
@@ -1482,6 +1642,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         "<b>Edit > Reload current saved data</b> (<i>F5</i>): Load the data again from the current file, replacing your unsaved changes.\n"
         "<b>Edit > Clear current saved data</b> (<i>Shift+Delete</i>): Reset all values on the editor as if you were starting the game anew.\n"
         "<b>Edit > Dark mode</b> (<i>F2</i>): Switch between the Dark and Light themes of the editor.\n"
+        "<b>Edit > Automatic reloading</b> (<i>F3</i>): Reload the save file if it has been changed by another program.\n"
         "<b>Help > Help</b> (<i>F1</i>): Shows this help text.\n"
         "<b>Help > Download page</b>: Open a browser window with the official download page of this editor.\n"
         "<b>Help > About</b>: Show information and credits for the program.\n"
@@ -1569,7 +1730,7 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         window,
         "logo", logo,
         "program-name", "Heartbound Save Editor",
-        "version", "Version 1.0.0.1",
+        "version", "Version 1.0.0.2",
         "authors", authors,
         "documenters", documenters,
         "copyright", "Copyright 2022 by Tiago Becerra Paolini",
