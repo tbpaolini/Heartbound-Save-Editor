@@ -5,9 +5,9 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include <unistd.h>
-#include <gtk\gtk.h>
+#include <gtk/gtk.h>
 #include <hb_save_io.h>
-#include "..\config.h"
+#include "../config.h"
 
 char SAVE_PATH[PATH_BUFFER];
 char SAVE_ROOT[PATH_BUFFER];

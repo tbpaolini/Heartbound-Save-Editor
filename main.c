@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <gtk\gtk.h>
+#include <gtk/gtk.h>
 #include <unistd.h>
 #include <hb_save.h>
 #include "config.h"

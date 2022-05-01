@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
-#include "..\config.h"
+#include "../config.h"
 #include <hb_room_mapping.h>
 
 // Array of chapter names (as strings)

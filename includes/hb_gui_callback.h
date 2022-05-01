@@ -6,9 +6,9 @@
 #ifndef _HB_GUI_CALLBACK
 #define _HB_GUI_CALLBACK
 
-#include <gtk\gtk.h>
+#include <gtk/gtk.h>
 #include <hb_save.h>
-#include "..\config.h"
+#include "../config.h"
 
 // Buffer for filtering the contents of the text entries
 static char text_entry_buffer[TEXT_FIELD_MAX_CHARS + 1];

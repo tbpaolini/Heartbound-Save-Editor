@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <time.h>
 #include <math.h>
-#include <gtk\gtk.h>
+#include <gtk/gtk.h>
 #include <windows.h>
 #include <hb_save.h>
 #include <hb_gui_callback.h>

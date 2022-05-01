@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <gtk\gtk.h>
+#include <gtk/gtk.h>
 
 #define SAVE_STRUCT_LOC "..\\lib\\structure\\save_structure.tsv"   // Path to the file with the save structure
 #define SEED_SIZE (size_t)11                        // Amount of characters (plus null terminator and newline) of the game seed string
