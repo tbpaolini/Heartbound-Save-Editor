@@ -36,7 +36,7 @@ intptr_t main ( int argc, char **argv )
     for (int i = path_len - 1; i >= 0; i--)
     {
         // Move backwards from the end of the path until a backslash or slash character is found
-        if ( (loader_path[i] == '\\') || (loader_path[i] == '/') )
+        if ( (loader_path[i] == '/') || (loader_path[i] == '/') )
         {
             path_pos = i;   // The position on the string where the loader's directory ends
             break;
@@ -53,7 +53,7 @@ intptr_t main ( int argc, char **argv )
     snprintf(
         HB_SAVE_EDITOR_PATH,
         BUFFER_SIZE,
-        "%s\\%s\\%s",
+        "%s/%s/%s",
         path_dir,
         HB_SAVE_EDITOR_FOLDER,
         HB_SAVE_EDITOR_NAME
@@ -62,7 +62,7 @@ intptr_t main ( int argc, char **argv )
     snprintf(
         HB_SAVE_EDITOR_PATH_QUOTED,
         BUFFER_SIZE,
-        "\"%s\\%s\\%s\"",   // The path is enclosed with quotes in order to handle the blank spaces when used as an argument
+        "\"%s/%s/%s\"",   // The path is enclosed with quotes in order to handle the blank spaces when used as an argument
         path_dir,
         HB_SAVE_EDITOR_FOLDER,
         HB_SAVE_EDITOR_NAME

@@ -7,7 +7,6 @@
 #define _CONFIG
 
 #include <stdbool.h>
-#include <windows.h>
 
 // Window properties
 #define WINDOW_WIDTH 720
@@ -16,7 +15,7 @@
 #define WINDOW_MIN_HEIGHT 320
 #define WINDOW_BORDER 10
 #define WINDOW_TITLE "Heartbound Save Editor"
-#define WINDOW_ICON "..\\lib\\icon.png"
+#define WINDOW_ICON "../lib/icon.png"
 
 // Page layout
 #define PAGE_BORDER 10

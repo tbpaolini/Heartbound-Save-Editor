@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <gtk/gtk.h>
 
-#define SAVE_STRUCT_LOC "..\\lib\\structure\\save_structure.tsv"   // Path to the file with the save structure
+#define SAVE_STRUCT_LOC "../lib/structure/save_structure.tsv"   // Path to the file with the save structure
 #define SEED_SIZE (size_t)11                        // Amount of characters (plus null terminator and newline) of the game seed string
 #define ROOM_NAME_SIZE (size_t) 50                  // Maximum amount of characters (plus null terminator and newline) for the room name string
 #define SAVE_STRUCT_BUFFER (size_t)500              // Buffer size (in bytes) for each line of the structure file

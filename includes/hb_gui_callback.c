@@ -1502,7 +1502,7 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     gtk_css_provider_load_from_data(style, title_theme, -1, NULL);
 
     // Open the settings file
-    FILE *settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "r+");
+    FILE *settings_ini = fopen("../etc/gtk-3.0/settings.ini", "r+");
     
     // Get the size of the file
     fseek(settings_ini, 0, SEEK_END); 
@@ -1552,7 +1552,7 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     {
         // If the setting was not found, append it to the file
         fclose(settings_ini);
-        settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "a");
+        settings_ini = fopen("../etc/gtk-3.0/settings.ini", "a");
         fprintf(settings_ini, "\ngtk-application-prefer-dark-theme=%d", prefers_dark_theme);
     }
 
@@ -1723,7 +1723,7 @@ void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
 // Show a dialog with credits and info about the program
 void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
 {
-    GdkPixbuf *logo = gdk_pixbuf_new_from_file("..\\lib\\icon.png", NULL);
+    GdkPixbuf *logo = gdk_pixbuf_new_from_file("../lib/icon.png", NULL);
     char *authors[] = {"Tiago Becerra Paolini https://github.com/tbpaolini", NULL};
     char *documenters[] = {"Steets https://steets.tech/", NULL};
     gtk_show_about_dialog(

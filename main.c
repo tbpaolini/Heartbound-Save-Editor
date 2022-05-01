@@ -760,7 +760,7 @@ int main ( int argc, char **argv )
     for (int i = path_len - 1; i >= 0; i--)
     {
         // Move backwards from the end of the path until a backslash or slash character is found
-        if ( (editor_path[i] == '\\') || (editor_path[i] == '/') )
+        if ( (editor_path[i] == '/') || (editor_path[i] == '/') )
         {
             editor_path[i] = '\0';
             break;
@@ -772,11 +772,11 @@ int main ( int argc, char **argv )
     free(editor_path);
 
     // Check if the settings file exists, then create it if it does not
-    gboolean settings_ini_exists = g_file_test("..\\etc\\gtk-3.0\\settings.ini", G_FILE_TEST_EXISTS);
+    gboolean settings_ini_exists = g_file_test("../etc/gtk-3.0/settings.ini", G_FILE_TEST_EXISTS);
 
     if (!settings_ini_exists)
     {
-        FILE *settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "w");
+        FILE *settings_ini = fopen("../etc/gtk-3.0/settings.ini", "w");
         
         if (settings_ini != NULL)
         {

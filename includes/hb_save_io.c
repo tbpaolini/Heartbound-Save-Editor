@@ -32,8 +32,8 @@ gint64 hb_save_modification_time = 0;
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save()
 {
-    snprintf(SAVE_PATH, sizeof(SAVE_PATH), "%s\\%s\\%s", LOCAL_APP_DATA, SAVE_FOLDER, SAVE_FNAME);
-    snprintf(SAVE_ROOT, sizeof(SAVE_ROOT), "%s\\%s", LOCAL_APP_DATA, SAVE_FOLDER);
+    snprintf(SAVE_PATH, sizeof(SAVE_PATH), "%s/%s/%s", LOCAL_APP_DATA, SAVE_FOLDER, SAVE_FNAME);
+    snprintf(SAVE_ROOT, sizeof(SAVE_ROOT), "%s/%s", LOCAL_APP_DATA, SAVE_FOLDER);
     return 0;
     // TO DO: Error handling
 }
@@ -42,7 +42,7 @@ int hb_find_save()
 int hb_read_save(char *path)
 {
     // Open the file
-    if (using_loader) chdir("..\\");
+    if (using_loader) chdir("../");
     GFile *save_file = g_file_new_for_path( (path != NULL ? path : SAVE_PATH) );
     if (using_loader) chdir("bin");
 
@@ -286,7 +286,7 @@ gssize hb_read_line(GInputStream *save_file, char *destination, size_t max_size)
 int hb_write_save()
 {
     // Open save file for writting
-    if (using_loader) chdir("..\\");
+    if (using_loader) chdir("../");
     GFile *save_file = g_file_new_for_path(CURRENT_FILE);
     if (using_loader) chdir("bin");
     
@@ -360,7 +360,7 @@ int hb_write_save()
 void hb_save_get_modified_time()
 {
     // Open the file
-    if (using_loader) chdir("..\\");
+    if (using_loader) chdir("../");
     GFile *save_file = g_file_new_for_path(CURRENT_FILE);
     if (using_loader) chdir("bin");
 
