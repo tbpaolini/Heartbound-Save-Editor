@@ -5,17 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gcc.exe - Criar e depurar o arquivo ativo",
+            "name": "(gdb) Iniciar",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\build\\debug\\bin\\Heartbound Save Editor.exe",
+            "program": "insira o nome do programa, por exemplo ${workspaceFolder}/a.out",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "C:/msys64/mingw64/bin",
+            "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
                 {
                     "description": "Habilitar a reformatação automática para gdb",
@@ -23,21 +23,20 @@
                     "ignoreFailures": true
                 },
                 {
-                    "description": "Definir Tipo de Desmontagem como Intel",
+                    "description":  "Definir Tipo de Desmontagem como Intel",
                     "text": "-gdb-set disassembly-flavor intel",
                     "ignoreFailures": true
                 }
-            ],
-            "preLaunchTask": "C/C++: Debug"
+            ]
         },
         {
             "name": "(gdb) Anexar",
             "type": "cppdbg",
             "request": "attach",
-            "program": "${workspaceFolder}\\build\\debug\\bin\\Heartbound Save Editor.exe",
+            "program": "insira o nome do programa, por exemplo ${workspaceFolder}/a.out",
             "processId": "${command:pickProcess}",
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [
                 {
                     "description": "Habilitar a reformatação automática para gdb",
