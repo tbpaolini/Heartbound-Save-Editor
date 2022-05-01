@@ -7,7 +7,6 @@
 #include <unistd.h>
 #include <hb_save.h>
 #include "config.h"
-// #include <windows.h>
 
 // Whether we are using the loader to open the application
 bool using_loader;
@@ -80,7 +79,8 @@ static void activate( GtkApplication* app, gpointer user_data )
     g_object_get(
         gtk_settings_get_default(),
         "gtk-application-prefer-dark-theme",
-        &prefers_dark_theme
+        &prefers_dark_theme,
+        NULL
     );
 
     // Set the style of the titles according to the theme
@@ -276,6 +276,11 @@ static void activate( GtkApplication* app, gpointer user_data )
 
     // Allocate the buffer for the text
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
+    if (text_buffer == NULL)
+    {
+        fprintf(stderr, "Not enough memory to run Heartbound Save Editor.");
+        exit(EXIT_FAILURE);
+    }
 
     // Create the groups of save entries on each page
     for (size_t i = 0; i < hb_locations_amount; i++)
@@ -372,18 +377,18 @@ static void activate( GtkApplication* app, gpointer user_data )
             gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper);
 
             // Copy the entry's name to the text buffer
-            strcpy_s(text_buffer, TEXT_BUFFER_SIZE, hb_save_data[var].name);
+            strncpy(text_buffer, hb_save_data[var].name, TEXT_BUFFER_SIZE);
             
             // If the entry has additional info, append it to the text buffer
             if (hb_save_data[var].info != NULL)
             {
-                strcat_s(text_buffer, TEXT_BUFFER_SIZE, " (");
-                strcat_s(text_buffer, TEXT_BUFFER_SIZE, hb_save_data[var].info);
-                strcat_s(text_buffer, TEXT_BUFFER_SIZE, ")");
+                strncat(text_buffer, " (", TEXT_BUFFER_SIZE-1);
+                strncat(text_buffer, hb_save_data[var].info, TEXT_BUFFER_SIZE-1);
+                strncat(text_buffer, ")", TEXT_BUFFER_SIZE-1);
             }
 
             // Append a colon to the label's text
-            strcat_s(text_buffer, TEXT_BUFFER_SIZE, ":");
+            strncat(text_buffer, ":", TEXT_BUFFER_SIZE-1);
             
             // Create a name label with the string on the text buffer
             GtkWidget *my_name_label = gtk_label_new(text_buffer);
@@ -396,7 +401,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);
 
             // Add a tooltip to the name label with the variable's index
-            snprintf(text_buffer, TEXT_BUFFER_SIZE, "Story Variable #%llu", hb_save_data[var].index);
+            snprintf(text_buffer, TEXT_BUFFER_SIZE, "Story Variable #%lu", hb_save_data[var].index);
             gtk_widget_set_tooltip_text(my_name_label, text_buffer);
 
             // Create a flow box for the options
@@ -725,7 +730,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         gtk_entry_set_max_length(GTK_ENTRY(my_entry), SEED_SIZE-2);
         gtk_entry_set_placeholder_text(GTK_ENTRY(my_entry), "random");
         gtk_container_add(GTK_CONTAINER(my_flowbox), my_entry);
-        snprintf(text_buffer, sizeof(hb_game_seed), hb_game_seed);
+        snprintf(text_buffer, sizeof(hb_game_seed), "%s", hb_game_seed);
         gtk_entry_set_text(GTK_ENTRY(my_entry), text_buffer);
 
         // Update the game seed variable when its field changes
@@ -735,6 +740,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         hb_bind_widgets(NULL, NULL, GTK_ENTRY(my_entry));
 
         finish:
+        NULL;
         #undef NEW_LABEL_BOX
         #undef NEW_ENTRY
         #undef NEW_FLOWBOX
@@ -756,7 +762,7 @@ int main ( int argc, char **argv )
     char *editor_path = realpath(argv[0], NULL);  // Full path including the executable itself
 
     // Strip the executable name from the path in order to get its directory
-    int path_len = strnlen_s(editor_path, PATH_BUFFER);  // Length of the program's path
+    int path_len = strnlen(editor_path, PATH_BUFFER);  // Length of the program's path
     for (int i = path_len - 1; i >= 0; i--)
     {
         // Move backwards from the end of the path until a backslash or slash character is found
@@ -768,7 +774,7 @@ int main ( int argc, char **argv )
     }
 
     // Change the current working directory to the executable directory
-    chdir(editor_path);
+    int chdir_status = chdir(editor_path);
     free(editor_path);
 
     // Check if the settings file exists, then create it if it does not

@@ -42,9 +42,10 @@ int hb_find_save()
 int hb_read_save(char *path)
 {
     // Open the file
-    if (using_loader) chdir("../");
+    int chdir_status;
+    if (using_loader) chdir_status = chdir("../");
     GFile *save_file = g_file_new_for_path( (path != NULL ? path : SAVE_PATH) );
-    if (using_loader) chdir("bin");
+    if (using_loader) chdir_status = chdir("bin");
 
     /* Note:
         We are switching between directories in order to take the loader into consideration,
@@ -127,6 +128,7 @@ int hb_read_save(char *path)
     snprintf(
         CURRENT_FILE,
         sizeof(CURRENT_FILE),
+        "%s",
         (path != NULL ? path : SAVE_PATH)
     );
 
@@ -286,9 +288,10 @@ gssize hb_read_line(GInputStream *save_file, char *destination, size_t max_size)
 int hb_write_save()
 {
     // Open save file for writting
-    if (using_loader) chdir("../");
+    int chdir_status;
+    if (using_loader) chdir_status = chdir("../");
     GFile *save_file = g_file_new_for_path(CURRENT_FILE);
-    if (using_loader) chdir("bin");
+    if (using_loader) chdir_status = chdir("bin");
     
     /* Note:
         We are switching between directories in order to take the loader into consideration,
@@ -360,9 +363,10 @@ int hb_write_save()
 void hb_save_get_modified_time()
 {
     // Open the file
-    if (using_loader) chdir("../");
+    int chdir_status;
+    if (using_loader) chdir_status = chdir("../");
     GFile *save_file = g_file_new_for_path(CURRENT_FILE);
-    if (using_loader) chdir("bin");
+    if (using_loader) chdir_status = chdir("bin");
 
     GFileInfo *file_info = NULL;        // File's medatada
     GDateTime *modified_time = NULL;    // Last write time of the file

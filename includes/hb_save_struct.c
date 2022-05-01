@@ -44,7 +44,7 @@ bool hb_create_save_struct()
     char *restrict line_buffer = malloc(SAVE_STRUCT_BUFFER);
 
     // Get the table header and amount of columns
-    fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);    // Read the first line
+    char *fgets_status = fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);    // Read the first line
     num_columns = 1;
     for (size_t i = 0; i < SAVE_STRUCT_BUFFER; i++)
     {
@@ -77,7 +77,7 @@ bool hb_create_save_struct()
         {
             value_buffer[value_pos] = '\0';                 // Terminate the string (null terminator)
             hb_save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
-            strcpy_s(hb_save_headers[column++], value_pos, value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
+            strncpy(hb_save_headers[column++], value_buffer, value_pos);   // Copy the string from the buffer until the terminator (inclusive)
             if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
             value_pos = (size_t)0;                          // Return to the beginning of the value buffer
 
@@ -90,7 +90,7 @@ bool hb_create_save_struct()
     
     for (size_t i = 0; i < 7; i++)
     {
-        fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);
+        char *fgets_status = fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);
     }
 
     // Initialize the 'used' flags of the storyline variables to 'false', and the pointers to NULL
@@ -148,7 +148,7 @@ bool hb_create_save_struct()
                 // Parse the value of the column
                 value_buffer[value_pos] = '\0';
                 char *my_value = malloc( ++value_pos );
-                strcpy_s(my_value, value_pos, value_buffer);
+                strncpy(my_value, value_buffer, value_pos);
                 
                 // Store the corresponding column value on memory
                 switch (column)

@@ -12,6 +12,10 @@
 #include <string.h>
 #include <hb_editor_options.h>
 
+#ifndef __USE_XOPEN2K8
+#define __USE_XOPEN2K8          // Enable the 'strnlen()' function
+#endif
+
 // Amount of options currently stored in memory
 static size_t config_count = 0;
 
@@ -31,7 +35,7 @@ static uint32_t config_hash(char *key)
     uint32_t my_hash = 0xA5A5A5A5;
 
     // Length of the key
-    size_t size = strnlen_s(key, EDITOR_CFG_BUFFER);
+    size_t size = strnlen(key, EDITOR_CFG_BUFFER);
 
     if ( (size > 0) && (size < EDITOR_CFG_BUFFER) )
     {
@@ -59,11 +63,11 @@ static bool config_add(char *key, char *value)
     if (my_setting == NULL) return false;  // Stop if there's no available memory
     
     // Store the key/value pair on the struct
-    my_setting->key   = malloc( strnlen_s(key  , EDITOR_CFG_BUFFER) + 1 );
-    my_setting->value = malloc( strnlen_s(value, EDITOR_CFG_BUFFER) + 1 );
+    my_setting->key   = malloc( strnlen(key  , EDITOR_CFG_BUFFER) + 1 );
+    my_setting->value = malloc( strnlen(value, EDITOR_CFG_BUFFER) + 1 );
 
-    strncpy_s(my_setting->key  , EDITOR_CFG_BUFFER, key  , EDITOR_CFG_BUFFER);
-    strncpy_s(my_setting->value, EDITOR_CFG_BUFFER, value, EDITOR_CFG_BUFFER);
+    strncpy(my_setting->key  , key  , EDITOR_CFG_BUFFER);
+    strncpy(my_setting->value, value, EDITOR_CFG_BUFFER);
 
     my_setting->list_next = NULL;
     my_setting->map_next  = NULL;
@@ -172,11 +176,11 @@ void hb_config_set(char *key, char *value)
                 char *old_value = current->value;
 
                 // Try to replace the old value
-                current->value = malloc(strnlen_s(value, EDITOR_CFG_BUFFER) + 1);
+                current->value = malloc(strnlen(value, EDITOR_CFG_BUFFER) + 1);
                 if (current->value != NULL)
                 {
                     // Store the new value and delete the old one
-                    strncpy_s(current->value, EDITOR_CFG_BUFFER, value, EDITOR_CFG_BUFFER);
+                    strncpy(current->value, value, EDITOR_CFG_BUFFER);
                     free(old_value);
                     config_write();
                 }

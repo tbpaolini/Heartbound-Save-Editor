@@ -10,7 +10,7 @@
 #include <hb_save_struct.h>
 
 // Save file properties
-#define LOCAL_APP_DATA getenv("LocalAppData")   // Path to the local application data
+#define LOCAL_APP_DATA "~/.config"              // Path to the user's programs configurations folder
 #define SAVE_FOLDER "Heartbound"                // Save folder on the local application data
 #define SAVE_FNAME "heartbound_save8.thor"      // Name of the save file
 #define PATH_BUFFER 512                         // Maximum number of characters of the absolute file path

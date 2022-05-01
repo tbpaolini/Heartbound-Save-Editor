@@ -10,6 +10,10 @@
 #include "../config.h"
 #include <hb_room_mapping.h>
 
+#ifndef __USE_XOPEN2K8
+#define __USE_XOPEN2K8          // Enable the 'strnlen()' function
+#endif
+
 // Array of chapter names (as strings)
 char *hb_chapter[CHAPTER_AMOUNT] = {"Global", "Hometown", "The Tower", "Animus", "Jotunheim", "REDACTED"};
 
@@ -42,7 +46,7 @@ static uint32_t hash(char *key, uint32_t slots)
     uint32_t my_hash = 0xA5A5A5A5;
 
     // Length of the key
-    size_t size = strnlen_s(key, SAVE_STRUCT_BUFFER);
+    size_t size = strnlen(key, SAVE_STRUCT_BUFFER);
 
     if ( (size > 0) && (size < SAVE_STRUCT_BUFFER) )
     {
@@ -131,7 +135,7 @@ void hb_parse_rooms_locations()
     hb_room_list = calloc( hb_rooms_amount, sizeof(HeartboundRoom) );
     
     // Skip the header line
-    fgets(read_buffer, STRUCT_LINE_BUFFER, rooms_file);
+    {char *fgets_status = fgets(read_buffer, STRUCT_LINE_BUFFER, rooms_file);}
 
     // Initialize all room map entries to NULL
     for (uint32_t i = 0; i < ROOM_MAP_SIZE; i++)
@@ -164,7 +168,7 @@ void hb_parse_rooms_locations()
 
         // Get the room name
         token = strtok(NULL, "\t");
-        strcpy_s(hb_room_list[list_index].name, ROOM_NAME_SIZE, token);
+        strncpy(hb_room_list[list_index].name, token, ROOM_NAME_SIZE);
 
         // Get (x,y) coordinates
         token = strtok(NULL, "\t");
@@ -224,7 +228,7 @@ void hb_parse_rooms_locations()
     hb_location_list = calloc( hb_locations_amount, sizeof(HeartboundLocation) );
     
     // Skip the header line
-    fgets(read_buffer, STRUCT_LINE_BUFFER, locations_file);
+    {char *fgets_status = fgets(read_buffer, STRUCT_LINE_BUFFER, locations_file);}
 
     // Initialize all location map entries to NULL
     for (uint32_t i = 0; i < PLACE_MAP_SIZE; i++)
@@ -259,7 +263,7 @@ void hb_parse_rooms_locations()
 
         // Get the location name
         token = strtok(NULL, "\t");
-        strcpy_s(hb_location_list[list_index].name, ROOM_NAME_SIZE, token);
+        strncpy(hb_location_list[list_index].name, token, ROOM_NAME_SIZE);
 
         // Get the world number
         token = strtok(NULL, "\t");
@@ -271,7 +275,7 @@ void hb_parse_rooms_locations()
 
         // Get the image's file name
         token = strtok(NULL, "\t");
-        size_t filename_size = strnlen_s(token, STRUCT_LINE_BUFFER) + texture_path_size;
+        size_t filename_size = strnlen(token, STRUCT_LINE_BUFFER) + texture_path_size;
         if ( (filename_size > 0) && (filename_size < STRUCT_LINE_BUFFER) )
         {
             // Copy the file name

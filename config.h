@@ -8,6 +8,14 @@
 
 #include <stdbool.h>
 
+#ifndef __USE_XOPEN_EXTENDED
+#define __USE_XOPEN_EXTENDED    // Enable the 'realpath()' function
+#endif
+
+#ifndef __USE_XOPEN2K8
+#define __USE_XOPEN2K8          // Enable the 'strnlen()' function
+#endif
+
 // Window properties
 #define WINDOW_WIDTH 720
 #define WINDOW_HEIGHT 540
@@ -76,6 +84,7 @@
         GTK_DIALOG_DESTROY_WITH_PARENT,\
         GTK_MESSAGE_ERROR,\
         GTK_BUTTONS_OK,\
+        "%s",\
         err_text\
     );\
     if (error_dialog != NULL)\
@@ -87,7 +96,7 @@
     \
     free(err_text);\
     \
-    system("https://github.com/tbpaolini/Heartbound-Save-Editor/releases");\
+    int sys_status = system("https://github.com/tbpaolini/Heartbound-Save-Editor/releases");\
     \
     exit(EXIT_FAILURE);}
 

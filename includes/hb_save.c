@@ -50,6 +50,7 @@ void hb_open_save(char *path)
                 GTK_DIALOG_DESTROY_WITH_PARENT,
                 GTK_MESSAGE_ERROR,
                 GTK_BUTTONS_OK,
+                "%s",
                 message
             );
             if (error_dialog != NULL)\

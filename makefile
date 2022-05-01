@@ -4,29 +4,17 @@ SOURCE := main.c $(wildcard includes/*.c)
 # The above files but with a '.o' extension
 OBJECTS := $(addsuffix .o,$(basename $(SOURCE)))
 
-# Source code of the program's loader
-LOADER_C := loader.c
-LOADER_O := $(addsuffix .o,$(basename $(LOADER_C)))
-
 # Name of the final executables
 NAME := Heartbound Save Editor
 
 # Folder where the build will go
-DIRECTORY := build
-
-# Icon and metadata for the program executable
-RESOURCES := resources.rc
-RESOURCES_O := $(addsuffix .o,$(basename $(RESOURCES)))
-ICON := icon.ico
-
-# Names of the GTK icons used inside the program (comma-separated)
-GTK_ICONS := document-save,document-open,dialog-error,dialog-warning,image-loading,image-missing,pan-down-symbolic,pan-up-symbolic
+DIRECTORY := build/linux
 
 # Files to dynamically build the user interface
 STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
 
 # Files and folders necessary for compiling the program
-DEPENDENCIES := gtk3 structure assets $(RESOURCES_O) $(OBJECTS) $(LOADER_O)
+DEPENDENCIES := structure assets $(OBJECTS)
 
 # Flags to pass to the compiler
 CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-color=always
@@ -42,8 +30,9 @@ release: CFLAGS += -O2
 # Link together the compiled objects of the release build
 release: $(DEPENDENCIES)
 	@echo Linking release build...
-	gcc $(OBJECTS) $(RESOURCES_O) -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mwindows
-	@echo Release build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
+	mkdir -p "$(DIRECTORY)/$(TARGET)/bin/"
+	gcc $(OBJECTS) -o "$(DIRECTORY)/$(TARGET)/bin/$(NAME)" $(CFLAGS)
+	@echo Release build saved to the folder: $(DIRECTORY)/$(TARGET)/ 
 
 # Subfolder where the debug build will go
 debug: TARGET = debug
@@ -52,8 +41,9 @@ debug: CFLAGS += -g2 -Og -D_DEBUG
 # Link together the compiled objects of the debug build
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
-	gcc $(OBJECTS) $(RESOURCES_O) -o "$(DIRECTORY)\$(TARGET)\bin\$(NAME).exe" $(CFLAGS) -mconsole
-	@echo Debug build saved to the folder: $(DIRECTORY)\$(TARGET)\ 
+	mkdir -p "$(DIRECTORY)/$(TARGET)/bin/"
+	gcc $(OBJECTS) -o "$(DIRECTORY)/$(TARGET)/bin/$(NAME).exe" $(CFLAGS)
+	@echo Debug build saved to the folder: $(DIRECTORY)/$(TARGET)/ 
 
 # Compile 'main.c'
 main.o: main.c
@@ -64,30 +54,17 @@ main.o: main.c
 includes/%.o: includes/%.c
 	gcc -c $< -o $@ $(CFLAGS)
 
-# Compile the loader
-$(LOADER_O): $(LOADER_C) $(RESOURCES_O)
-	gcc -c $< -o $@ -mwindows -Os
-	gcc $(LOADER_O) $(RESOURCES_O) -o "$(DIRECTORY)\$(TARGET)\$(NAME).exe" -mwindows -Os
-
-# Copy the GTK 3 files to the build destination
-gtk3:
-	@echo Copying GTK files into the build...
-	python utils\gtk_copy.py src="$@" dst="$(DIRECTORY)\$(TARGET)" icons="$(GTK_ICONS)"
-	glib-compile-schemas.exe $(DIRECTORY)\$(TARGET)\share\glib-2.0\schemas
-	
 # Copy the program's images to the build destination
 assets:
-	xcopy "assets\icon.png" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I
-	xcopy "assets\icon.ico" "$(DIRECTORY)\$(TARGET)\lib\" /D /Y /I
-	xcopy "assets\textures" "$(DIRECTORY)\$(TARGET)\lib\textures\" /D /Y /I
+	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/"
+	cp -u  "assets/icon.png" "$(DIRECTORY)/$(TARGET)/lib/"
+	cp -u  "assets/icon.ico" "$(DIRECTORY)/$(TARGET)/lib/"
+	cp -ru  "assets/textures" "$(DIRECTORY)/$(TARGET)/lib/textures/"
 	
 # Copy the structure files to the build destination
 structure:
-	$(foreach file, $(STRUCT), xcopy "structure\$(file)" "$(DIRECTORY)\$(TARGET)\lib\structure\" /D /Y /I &)
-
-# Compile the executable icon and metadata
-$(RESOURCES_O): assets\$(ICON) $(RESOURCES)
-	windres $*.rc $*.o
+	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/structure/"
+	$(foreach file, $(STRUCT), cp -ru "structure/$(file)" "$(DIRECTORY)/$(TARGET)/lib/structure/" &)
 
 # Perform some static code analysis
 analyze:
@@ -97,5 +74,5 @@ analyze:
 
 # Remove the temporary files created during compilation
 clean:
-	del *.o
-	del includes\*.o
+	rm *.o
+	rm includes/*.o

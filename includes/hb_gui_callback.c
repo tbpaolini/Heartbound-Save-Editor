@@ -181,7 +181,7 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
 void hb_text_filter_natural(char *text, size_t max_length)
 {
     // Get the amount of characters on the string
-    size_t my_length = strnlen_s(text, max_length);
+    size_t my_length = strnlen(text, max_length);
     if (my_length < 0 || my_length > max_length) return;
 
     // Position on the new string
@@ -259,7 +259,7 @@ void hb_set_coordinates_from_room(GtkComboBoxText *widget)
     HeartboundRoom *my_room = hb_get_room(room_name);
     
     // Set the Room ID variable
-    snprintf(hb_room_id, ROOM_NAME_SIZE-1, room_name);
+    snprintf(hb_room_id, ROOM_NAME_SIZE-1, "%s", room_name);
 
     // Print a debug message when the Room ID changes
     #ifdef _DEBUG
@@ -288,7 +288,7 @@ void hb_set_coordinates_from_room(GtkComboBoxText *widget)
 void hb_text_filter_integer(char *text, size_t max_length)
 {
     // Get the amount of characters on the string
-    size_t my_length = strnlen_s(text, max_length);
+    size_t my_length = strnlen(text, max_length);
     if (my_length < 0 || my_length > max_length) return;
 
     // Position on the new string
@@ -531,7 +531,7 @@ void hb_random_seed(char *game_seed)
     
     // Get the last 9 decimal digits of our 64-bit number and use them as the game seed
     uint64_t new_seed = accumulator % (uint64_t)pow(10, SEED_SIZE - 1);
-    snprintf(game_seed, SEED_SIZE-1, "%llu", new_seed);
+    snprintf(game_seed, SEED_SIZE, "%lu", new_seed);
 }
 
 // Highlight a menu item when the mouse pointer is over the item
@@ -1372,6 +1372,7 @@ void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
         snprintf(
             CURRENT_FILE,
             sizeof(CURRENT_FILE),
+            "%s",
             my_path
         );
 
@@ -1391,7 +1392,7 @@ void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
 // Write the values to the default Heartbound save
 void hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window)
 {
-    snprintf(CURRENT_FILE, PATH_BUFFER, SAVE_PATH);
+    snprintf(CURRENT_FILE, PATH_BUFFER, "%s", SAVE_PATH);
     
     hb_save_file(
         widget,
@@ -1494,7 +1495,8 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     g_object_set(
         gtk_settings_get_default(),
         "gtk-application-prefer-dark-theme",
-        prefers_dark_theme
+        prefers_dark_theme,
+        NULL
     );
 
     // Change the color of the titles
@@ -1528,7 +1530,7 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     }
     
     // Read the file into the buffer
-    fread(settings_buffer, file_size, 1, settings_ini);
+    size_t fread_count = fread(settings_buffer, file_size, 1, settings_ini);
 
     // Find the dark mode setting
     char *dark_theme = strstr(settings_buffer, "gtk-application-prefer-dark-theme=");
@@ -1546,7 +1548,7 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
 
         // Write the buffer into the file
         rewind(settings_ini);
-        fprintf(settings_ini, settings_buffer);
+        fprintf(settings_ini, "%s", settings_buffer);
     }
     else
     {
