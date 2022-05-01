@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
@@ -752,8 +753,7 @@ static void activate( GtkApplication* app, gpointer user_data )
 int main ( int argc, char **argv )
 {
     // Find the directory of our executable
-    char *editor_path = calloc(PATH_BUFFER, sizeof(char));  // Full path including the executable itself
-    GetModuleFileNameA(NULL, editor_path, PATH_BUFFER);
+    char *editor_path = realpath(argv[0], NULL);  // Full path including the executable itself
 
     // Strip the executable name from the path in order to get its directory
     int path_len = strnlen_s(editor_path, PATH_BUFFER);  // Length of the program's path

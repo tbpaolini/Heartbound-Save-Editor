@@ -10,7 +10,6 @@
 #include <time.h>
 #include <math.h>
 #include <gtk/gtk.h>
-#include <windows.h>
 #include <hb_save.h>
 #include <hb_gui_callback.h>
 
@@ -894,7 +893,7 @@ void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id,
         
         case DOWNLOAD_LATEST_VERSION:
             // Open a browser window to the download page, and exit the Save Editor
-            ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, SW_SHOWNORMAL);
+            gtk_show_uri_on_window(main_window, "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", GDK_CURRENT_TIME, NULL);
             exit(EXIT_SUCCESS);
             break;
         
@@ -1716,7 +1715,7 @@ void hb_help_window_fix(GtkLabel *help_label)
 // Open the page for downloading the Heartbound Save Editor
 void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
 {
-    ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, SW_SHOWNORMAL);
+    gtk_show_uri_on_window(window, "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", GDK_CURRENT_TIME, NULL);
 }
 
 // Help > About

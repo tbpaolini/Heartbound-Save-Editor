@@ -10,7 +10,6 @@
 #include <stdbool.h>
 #include <hb_save.h>
 #include <unistd.h>
-#include <windows.h>
 
 // Initialize the data structures and parse the save file
 void hb_open_save(char *path)
@@ -42,12 +41,23 @@ void hb_open_save(char *path)
                 path
             );
 
-            MessageBoxA(
+            // Print the error to stderr
+            fprintf(stderr, "Heartbound Save Editor - Error: %s", message);
+
+            // Try showing a native error dialog
+            GtkWidget *error_dialog = gtk_message_dialog_new(
                 NULL,
-                message,
-                "Heartbound Save Editor - error",
-                MB_ICONWARNING | MB_OK
+                GTK_DIALOG_DESTROY_WITH_PARENT,
+                GTK_MESSAGE_ERROR,
+                GTK_BUTTONS_OK,
+                message
             );
+            if (error_dialog != NULL)\
+            {
+                gtk_window_set_title(GTK_WINDOW(error_dialog), "Heartbound Save Editor - error");
+                gtk_dialog_run(GTK_DIALOG(error_dialog));
+                gtk_widget_destroy(error_dialog);
+            }
             
             // Deallocate the message buffer
             free(message);
