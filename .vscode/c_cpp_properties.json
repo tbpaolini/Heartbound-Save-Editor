@@ -32,7 +32,8 @@
                 "/usr/lib/x86_64-linux-gnu/glib-2.0/include"
             ],
             "defines": [
-                "_DEBUG"
+                "_DEBUG",
+                "__USE_MISC"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",
@@ -42,7 +43,8 @@
                 "`pkg-config --cflags gtk+-3.0`",
                 "`pkg-config --cflags --libs gtk+-3.0`",
                 "-Iincludes",
-                "-fdiagnostics-color=always"
+                "-fdiagnostics-color=always",
+                "-D__USE_MISC"
             ]
         }
     ],
