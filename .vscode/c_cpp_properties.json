@@ -4,6 +4,10 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
+                "/usr/lib/gcc/x86_64-linux-gnu/9/include",
+                "/usr/local/include",
+                "/usr/include/x86_64-linux-gnu",
+                "/usr/include",
                 "/usr/include/gtk-3.0",
                 "/usr/include/at-spi2-atk/2.0",
                 "/usr/include/at-spi-2.0",
