@@ -22,17 +22,17 @@ ICON := icon.ico
 # Names of the GTK icons used inside the program (comma-separated)
 GTK_ICONS := document-save,document-open,dialog-error,dialog-warning,image-loading,image-missing,pan-down-symbolic,pan-up-symbolic
 
-# Files to dinamically build the user interface
+# Files to dynamically build the user interface
 STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
 
-# Files and foldes necessary for compiling the program
+# Files and folders necessary for compiling the program
 DEPENDENCIES := gtk3 structure assets $(RESOURCES_O) $(OBJECTS) $(LOADER_O)
 
 # Flags to pass to the compiler
 CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-color=always
 # Note: Here we run two shell commands to get the flags to pass to the compiler, they return the folders of the GTK 3 headers and libraries.
 
-# Target parameters that 'make' can be run with on the tarminal
+# Target parameters that 'make' can be run with on the terminal
 .PHONY: release debug clean analyze
 
 # Subfolder where the release build will go
