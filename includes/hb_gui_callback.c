@@ -1060,8 +1060,9 @@ gboolean hb_hide_file_indicator()
 // Update the title of the window with the path of the save file
 void hb_update_window_title(GtkWindow *window)
 {
-    char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
-    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
+    size_t buffer_size = PATH_BUFFER + strlen(WINDOW_TITLE) + 4;    // There are 3 chars besides the title and the path, plus the terminator
+    char *restrict text_buffer = calloc(buffer_size, sizeof(char));
+    snprintf(text_buffer, buffer_size, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
     gtk_window_set_title(window, text_buffer);
     free(text_buffer);
 }
@@ -1852,11 +1853,12 @@ void hb_flag_data_as_changed(GtkWidget *widget)
     has_unsaved_data = true;
 
     // Allocate buffer for the changed window title
-    char *restrict title = calloc(PATH_BUFFER, sizeof(char));
+    size_t buffer_size = PATH_BUFFER + strlen(WINDOW_TITLE) + 5;    // There are 4 chars besides the title and the path, plus the terminator
+    char *restrict title = calloc(buffer_size, sizeof(char));
     if (title == NULL) return;
 
     // Place an asterisk at the beginning of the window title
-    snprintf(title, PATH_BUFFER, "*%s - %s", CURRENT_FILE, WINDOW_TITLE);
+    snprintf(title, buffer_size, "*%s - %s", CURRENT_FILE, WINDOW_TITLE);
     GtkWidget *my_window = gtk_widget_get_toplevel(widget);
     if (GTK_IS_WINDOW(my_window)) gtk_window_set_title(GTK_WINDOW(my_window), title);
 
