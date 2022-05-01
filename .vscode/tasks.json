@@ -3,7 +3,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: Release",
-            "command": "C:/msys64/mingw64/bin/mingw32-make.exe",
+            "command": "make",
             "args": [
                 "-B",
                 "release"
@@ -18,12 +18,12 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "With compiler optimizations and no console window."
+            "detail": "With compiler optimizations."
         },
         {
             "type": "cppbuild",
             "label": "C/C++: Debug",
-            "command": "C:/msys64/mingw64/bin/mingw32-make.exe",
+            "command": "make",
             "args": [
                 "-B",
                 "debug"
@@ -35,7 +35,7 @@
                 "$gcc"
             ],
             "group": "build",
-            "detail": "Shows a console window and has no compiler optimizations."
+            "detail": "With debug info and optimized for debugging."
         }
     ],
     "version": "2.0.0"
