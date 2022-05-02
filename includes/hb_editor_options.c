@@ -66,6 +66,9 @@ static bool config_add(char *key, char *value)
     my_setting->key   = malloc( strnlen(key  , EDITOR_CFG_BUFFER) + 1 );
     my_setting->value = malloc( strnlen(value, EDITOR_CFG_BUFFER) + 1 );
 
+    if (my_setting->key == NULL) return;
+    if (my_setting->value == NULL) return;
+
     strncpy(my_setting->key  , key  , EDITOR_CFG_BUFFER);
     strncpy(my_setting->value, value, EDITOR_CFG_BUFFER);
 
@@ -361,4 +364,6 @@ void hb_config_close()
         current_config = current_config->list_next;
         free(previous_config);
     }
+
+    config_count = 0;
 }
