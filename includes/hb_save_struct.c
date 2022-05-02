@@ -43,6 +43,13 @@ bool hb_create_save_struct()
     // Buffer for reading the lines of the file
     char *restrict line_buffer = malloc(SAVE_STRUCT_BUFFER);
 
+    // Exit program if there's not enough memory
+    if (line_buffer == NULL)
+    {
+        fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
+        exit(EXIT_FAILURE);
+    }
+
     // Get the table header and amount of columns
     fgets(line_buffer, SAVE_STRUCT_BUFFER, save_structure);    // Read the first line
     num_columns = 1;
@@ -57,6 +64,13 @@ bool hb_create_save_struct()
     // Store the column names in an array
     hb_save_headers = malloc(num_columns * sizeof(char*));                 // Allocate enough memory for one string pointer per column
     char *restrict value_buffer = malloc(SAVE_STRUCT_BUFFER + (size_t)1); // Buffer for the column value
+    
+    // Exit program if there's not enough memory
+    if (value_buffer == NULL)
+    {
+        fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
+        exit(EXIT_FAILURE);
+    }
     
     size_t line_pos = (size_t)0;    // Current position of character on the line
     size_t value_pos = (size_t)0;   // Current position of character on the name of the current column
