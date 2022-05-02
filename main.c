@@ -214,7 +214,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_SHORTCUT(GDK_KEY_F2, 0);
         
         menu_item = gtk_check_menu_item_new_with_mnemonic("_Automatic reloading");
-        hb_automatic_reloading = atoi(hb_config_get("automatic_reloading", CFG_AUTOMATIC_RELOADING));
+        hb_automatic_reloading = (bool)atoi(hb_config_get("automatic_reloading", CFG_AUTOMATIC_RELOADING));
         gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), hb_automatic_reloading);
         g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_edit_automatic_reloading), NULL);
