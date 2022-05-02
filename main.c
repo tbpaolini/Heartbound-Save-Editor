@@ -377,7 +377,10 @@ static void activate( GtkApplication* app, gpointer user_data )
             gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper);
 
             // Copy the entry's name to the text buffer
-            strncpy(text_buffer, hb_save_data[var].name, TEXT_BUFFER_SIZE);
+            if (hb_save_data[var].name != NULL)
+            {strncpy(text_buffer, hb_save_data[var].name, TEXT_BUFFER_SIZE);}
+            else
+            {text_buffer[0] == '\0';}
             
             // If the entry has additional info, append it to the text buffer
             if (hb_save_data[var].info != NULL)
