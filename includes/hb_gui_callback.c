@@ -1501,6 +1501,14 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
 
     // Open the settings file
     FILE *settings_ini = fopen("../etc/gtk-3.0/settings.ini", "r+");
+
+    // Try creating the file and its directory, if the file could not be opened
+    if (settings_ini == NULL)
+    {
+        g_mkdir_with_parents("../etc/gtk-3.0", 755);
+        settings_ini = fopen("../etc/gtk-3.0/settings.ini", "w+");
+        if (settings_ini == NULL) return;
+    }
     
     // Get the size of the file
     fseek(settings_ini, 0, SEEK_END); 
@@ -1551,7 +1559,8 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
         // If the setting was not found, append it to the file
         fclose(settings_ini);
         settings_ini = fopen("../etc/gtk-3.0/settings.ini", "a");
-        fprintf(settings_ini, "\ngtk-application-prefer-dark-theme=%d", prefers_dark_theme);
+        if (settings_ini != NULL)
+        {fprintf(settings_ini, "\ngtk-application-prefer-dark-theme=%d", prefers_dark_theme);}
     }
 
     // Deallocate the buffer and close the file
