@@ -65,6 +65,9 @@ static bool config_add(char *key, char *value)
     strncpy_s(my_setting->key  , EDITOR_CFG_BUFFER, key  , EDITOR_CFG_BUFFER);
     strncpy_s(my_setting->value, EDITOR_CFG_BUFFER, value, EDITOR_CFG_BUFFER);
 
+    if (my_setting->key == NULL) return;
+    if (my_setting->value == NULL) return;
+
     my_setting->list_next = NULL;
     my_setting->map_next  = NULL;
 
@@ -357,4 +360,6 @@ void hb_config_close()
         current_config = current_config->list_next;
         free(previous_config);
     }
+
+    config_count = 0;
 }
