@@ -124,9 +124,6 @@ void hb_load_data_into_interface(GtkWindow *window);
 // Ask the user what to do if the program could not load the default save during startup
 void hb_failed_to_open_default_save(GtkWindow *main_window);
 
-// Handle the user's response to 'hb_failed_to_open_default_save()'
-void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, GtkWindow *main_window);
-
 // Create a save file with the default values
 bool hb_create_default_save(char *path, GtkWindow *window);
 

@@ -865,18 +865,13 @@ void hb_failed_to_open_default_save(GtkWindow *main_window)
         NULL
     );
 
-    g_signal_connect(GTK_DIALOG(warning_dialog), "response", G_CALLBACK(hb_failed_to_open_default_save_response), main_window);
-
     // Display the dialog
-    gtk_dialog_run(GTK_DIALOG(warning_dialog));
+    gint response_id = gtk_dialog_run(GTK_DIALOG(warning_dialog));
 
     // Destroy the dialog
     gtk_widget_destroy(warning_dialog);
-}
 
-// Handle the user's response to 'hb_failed_to_open_default_save()'
-void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, GtkWindow *main_window)
-{
+    // Handle the user's response
     switch (response_id)
     {
         case CREATE_NEW_SAVE:
