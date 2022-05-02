@@ -1190,6 +1190,7 @@ void hb_drag_and_drop_file(
 void hb_file_has_changed(GtkWindow self, GdkEventFocus event, GtkWindow *window)
 {
     static gint64 last_known_modified_time = 0;
+    if (last_known_modified_time == 0) last_known_modified_time = hb_save_modification_time;
 
     // Do nothing if automatic reloading is disabled
     if (!hb_automatic_reloading) return;
