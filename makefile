@@ -70,7 +70,7 @@ structure:
 analyze:
 	@gcc $(SOURCE) $(CFLAGS) -fanalyzer
 	@gcc $(SOURCE) $(CFLAGS) -fanalyzer -fanalyzer-checker=taint
-	@del a.exe
+	@rm a.out
 
 # Remove the temporary files created during compilation
 clean:
