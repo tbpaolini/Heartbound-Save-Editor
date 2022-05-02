@@ -73,27 +73,13 @@
 #define CFG_AUTOMATIC_RELOADING "1"
 
 // Macro function to display a native error dialog for fatal errors about missing or corrupted editor files
-// Note: It tries to use the native GTK system of the Linux distro. It also prints a message to 'stderr', just in case.
+// Note: It prints a message to 'stderr'.
 #define NATIVE_ERROR(message, file, buffer_size) {\
     char *err_text = calloc(buffer_size, sizeof(char));\
     snprintf(err_text, buffer_size, message, file);\
     \
     fprintf(stderr, "Heartbound Save Editor - Error: %s", err_text);\
-    GtkWidget *error_dialog = gtk_message_dialog_new(\
-        NULL,\
-        GTK_DIALOG_DESTROY_WITH_PARENT,\
-        GTK_MESSAGE_ERROR,\
-        GTK_BUTTONS_OK,\
-        "%s",\
-        err_text\
-    );\
-    if (error_dialog != NULL)\
-    {\
-        gtk_window_set_title(GTK_WINDOW(error_dialog), "Heartbound Save Editor - error");\
-        gtk_dialog_run(GTK_DIALOG(error_dialog));\
-        gtk_widget_destroy(error_dialog);\
-    }\
-    \
+    gtk_show_uri_on_window(NULL, "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", GDK_CURRENT_TIME, NULL);\
     free(err_text);\
     \
     int sys_status = system("https://github.com/tbpaolini/Heartbound-Save-Editor/releases");\

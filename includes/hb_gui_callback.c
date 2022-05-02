@@ -60,7 +60,7 @@ void hb_setvar_radio_button(GtkRadioButton* widget, StorylineVars *story_var)
             // Show a message on the console if this is the debug build
             #ifdef _DEBUG
             g_message(
-                "Var %llu -> %s = %s (%.0f)",
+                "Var %lu -> %s = %s (%.0f)",
                 story_var->index,
                 story_var->name,
                 story_var->aliases[i].description,
@@ -114,7 +114,7 @@ void hb_setvar_no_yes(GtkRadioButton* widget, StorylineVars *story_var)
     // Show a message on the console if this is the debug build
     #ifdef _DEBUG
     g_message(
-        "Var %llu -> %s = %s (%.0f)",
+        "Var %lu -> %s = %s (%.0f)",
         story_var->index,
         story_var->name,
         (story_var->value == 0.0 ? "No" : "Yes"),
@@ -168,7 +168,7 @@ void hb_setvar_text_entry(GtkEntry *widget, StorylineVars *story_var)
     // Show a message on the console if this is the debug build
     #ifdef _DEBUG
     g_message(
-        "Var %llu -> %s = %.0f",
+        "Var %lu -> %s = %.0f",
         story_var->index,
         story_var->name,
         story_var->value
@@ -867,7 +867,7 @@ void hb_failed_to_open_default_save(GtkWindow *main_window)
 
     // Display the dialog
     gint response_id = gtk_dialog_run(GTK_DIALOG(warning_dialog));
-
+    
     // Destroy the dialog
     gtk_widget_destroy(warning_dialog);
 
@@ -888,7 +888,7 @@ void hb_failed_to_open_default_save(GtkWindow *main_window)
         
         case DOWNLOAD_LATEST_VERSION:
             // Open a browser window to the download page, and exit the Save Editor
-            gtk_show_uri_on_window(main_window, "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", GDK_CURRENT_TIME, NULL);
+            gtk_show_uri_on_window(NULL, "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", GDK_CURRENT_TIME, NULL);
             exit(EXIT_SUCCESS);
             break;
         
