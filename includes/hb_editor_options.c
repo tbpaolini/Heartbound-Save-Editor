@@ -64,10 +64,9 @@ static bool config_add(char *key, char *value)
     
     // Store the key/value pair on the struct
     my_setting->key   = malloc( strnlen(key  , EDITOR_CFG_BUFFER) + 1 );
+    if (my_setting->key == NULL) return false;
     my_setting->value = malloc( strnlen(value, EDITOR_CFG_BUFFER) + 1 );
-
-    if (my_setting->key == NULL) return;
-    if (my_setting->value == NULL) return;
+    if (my_setting->value == NULL) return false;
 
     strncpy(my_setting->key  , key  , EDITOR_CFG_BUFFER);
     strncpy(my_setting->value, value, EDITOR_CFG_BUFFER);
