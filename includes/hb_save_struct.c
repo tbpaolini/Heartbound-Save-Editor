@@ -65,6 +65,12 @@ bool hb_create_save_struct()
     hb_save_headers = malloc(num_columns * sizeof(char*));                 // Allocate enough memory for one string pointer per column
     char *restrict value_buffer = malloc(SAVE_STRUCT_BUFFER + (size_t)1); // Buffer for the column value
     
+    if (value_buffer == NULL)
+    {
+        fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
+        exit(EXIT_FAILURE);
+    }
+
     // Exit program if there's not enough memory
     if (value_buffer == NULL)
     {
@@ -91,6 +97,11 @@ bool hb_create_save_struct()
         {
             value_buffer[value_pos] = '\0';                 // Terminate the string (null terminator)
             hb_save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
+            if (hb_save_headers[column] == NULL)
+            {
+                fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
+                exit(EXIT_FAILURE);
+            }
             strncpy(hb_save_headers[column++], value_buffer, value_pos);   // Copy the string from the buffer until the terminator (inclusive)
             if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
             value_pos = (size_t)0;                          // Return to the beginning of the value buffer
@@ -162,6 +173,11 @@ bool hb_create_save_struct()
                 // Parse the value of the column
                 value_buffer[value_pos] = '\0';
                 char *my_value = malloc( ++value_pos );
+                if (my_value == NULL)
+                {
+                    fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
+                    exit(EXIT_FAILURE);
+                }
                 strncpy(my_value, value_buffer, value_pos);
                 
                 // Store the corresponding column value on memory
