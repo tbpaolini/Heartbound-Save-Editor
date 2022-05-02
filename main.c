@@ -278,7 +278,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
     if (text_buffer == NULL)
     {
-        fprintf(stderr, "Not enough memory to run Heartbound Save Editor.");
+        fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
         exit(EXIT_FAILURE);
     }
 

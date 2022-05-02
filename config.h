@@ -78,7 +78,7 @@
     char *err_text = calloc(buffer_size, sizeof(char));\
     snprintf(err_text, buffer_size, message, file);\
     \
-    fprintf(stderr, "Heartbound Save Editor - Error: %s", err_text);\
+    fprintf(stderr, "Heartbound Save Editor - Error: %s\n", err_text);\
     gtk_show_uri_on_window(NULL, "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", GDK_CURRENT_TIME, NULL);\
     free(err_text);\
     \
