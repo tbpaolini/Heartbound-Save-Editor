@@ -1077,6 +1077,8 @@ void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data)
 }
 
 // Scroll the notebook's contents with the keyboard (Page Up/Down and arrows)
+// Note: This is only used on the Windows version.
+//       On Linux the window already gets scrolled by the keyboard.
 void hb_notebook_keyboard_scrolling(GtkScrolledWindow *widget, GdkEventKey event, GtkAdjustment *adjustment)
 {
     // Get the vertical position of the page
