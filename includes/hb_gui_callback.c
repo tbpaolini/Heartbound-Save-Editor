@@ -1883,7 +1883,7 @@ void hb_confirm_close(GtkWindow *window)
     {
         // Close the window if the there is no unsaved changes
         // or if the user has chosen to leave
-        gtk_main_quit();
+        gtk_widget_destroy(GTK_WIDGET(window));
     }
     else
     {
