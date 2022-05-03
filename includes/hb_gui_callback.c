@@ -875,7 +875,7 @@ void hb_failed_to_open_default_save(GtkWindow *main_window)
     switch (response_id)
     {
         case CREATE_NEW_SAVE:
-            g_mkdir_with_parents(SAVE_ROOT, 755);   // Create the save directory if it does not exist
+            g_mkdir_with_parents(SAVE_ROOT, 0700);   // Create the save directory if it does not exist
             hb_create_default_save(SAVE_PATH, main_window);
             hb_open_save(SAVE_PATH);
             break;
@@ -1505,7 +1505,7 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     // Try creating the file and its directory, if the file could not be opened
     if (settings_ini == NULL)
     {
-        g_mkdir_with_parents("../etc/gtk-3.0", 755);
+        g_mkdir_with_parents("../etc/gtk-3.0", 0700);
         settings_ini = fopen("../etc/gtk-3.0/settings.ini", "w+");
         if (settings_ini == NULL) return;
     }
