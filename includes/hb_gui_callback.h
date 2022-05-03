@@ -23,6 +23,9 @@ static char text_entry_buffer[TEXT_FIELD_MAX_CHARS + 1];
     fields at once on this program.
 */
 
+// Pointer to the main window
+static GtkWindow *main_window_ptr = NULL;
+
 // Pointers to the entry fields that hold the player's coordinates
 static GtkEntry *x_entry, *y_entry;
 
@@ -78,6 +81,11 @@ void hb_text_filter_integer(char *text, size_t max_length);
 // So this call function is called once after the first time the widget is drawn, to force the dropdown to open then close.
 // This way when the user click on the list, then it will show normally.
 void hb_dropdown_list_fix(GtkComboBox *widget);
+
+// Workaround for Linux, in order for the program to properly remember the main window's pointer.
+// For some reason, the data sent to some callback functions get garbled when connecting to signals.
+// This causes the window's pointer to not work sometimes.
+void hb_bind_main_window(GtkWindow *window);
 
 // Store the pointers for the text entries of the player's coordinates,
 // so the dropdown list can change them when a room is selected.

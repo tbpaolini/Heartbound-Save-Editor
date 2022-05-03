@@ -26,6 +26,10 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Confirm if the user wants to close the editor when there is unsaved data
     g_signal_connect(GTK_WINDOW(window), "delete-event", G_CALLBACK(hb_confirm_close), NULL);
 
+    // Store the pointer of the main window
+    // (this is a workaround for Linux, so callback functions can properly deal with the window)
+    hb_bind_main_window(GTK_WINDOW(window));
+
     // Ask the user what to do if the save file could not be opened during the program's startup
     while (!hb_save_is_open) hb_failed_to_open_default_save(GTK_WINDOW(window));
 

@@ -223,6 +223,14 @@ void hb_dropdown_list_fix(GtkComboBox *widget)
     g_signal_handlers_disconnect_by_func(widget, G_CALLBACK(hb_dropdown_list_fix), NULL);
 }
 
+// Workaround for Linux, in order for the program to properly remember the main window's pointer.
+// For some reason, the data sent to some callback functions get garbled when connecting to signals.
+// This causes the window's pointer to not work sometimes.
+void hb_bind_main_window(GtkWindow *window)
+{
+    if (window != NULL) main_window_ptr = window;
+}
+
 // Store the pointers for the text entries of the player's coordinates,
 // so the dropdown list can change them when a room is selected.
 void hb_bind_xy_entries(GtkEntry *x, GtkEntry *y)
@@ -556,8 +564,18 @@ void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data)
 // This function is called when the save option is left-clicked on the interface.
 void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 {
-    // If the left mouse button was pressed
-    if ( event.type == GDK_BUTTON_PRESS && event.button == 1 )
+    window = main_window_ptr;   // Workaround to get the window pointer working on Linux
+    
+    // A mouse button was pressed
+    // Note: At least on Ubuntu (Linux), no matter what I did,
+    //       the pressed buttons or keys event sent garbled data.
+    //       It made impossible to differentiate what was pressed,
+    //       I believe that it is a bug related to Ubuntu/GTK.
+    //       But it isn't that important to differentiate between
+    //       left and right mouse clicks on the menu, so I can
+    //       just get away with accepting both here :-)
+    
+    // if ( event.type == GDK_BUTTON_PRESS && event.button == 1 )
     {
         // Save the file to disk
         int status = hb_write_save();
@@ -625,7 +643,7 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 // (That is the case when the program failed to find a save on startup, and ask if the user wants to open another save.)
 void hb_open_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
 {
-    if (event.button != 1) return;    // Return if the pressed button is not the left mouse button
+    window = main_window_ptr;   // Workaround to get the window pointer working on Linux
 
     // Check if the data has changed
     bool proceed = hb_check_if_data_changed("Confirm opening a file", window);
