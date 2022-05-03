@@ -10,12 +10,14 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <limits.h>
 
-#define EDITOR_CFG_LOCATION "../etc/heartbound-save-editor.cfg"   // Location of the configurations file (relative to the main executable)
+#define EDITOR_CFG_NAME "heartbound-save-editor.cfg"    // Name of the configurations file, that will be stored on: ~/.config/heartbound-save-editor/
 #define EDITOR_CFG_BUCKETS     (uint32_t)101        // Amount of slots in memory that the configurations's hash map has
 #define EDITOR_CFG_BUFFER      (size_t)1024         // Maximum amount of characters on each line of the configurations file
 #define EDITOR_CFG_MAX_ENTRIES (size_t)10000        // Maximum amount of lines of the settings file
                                                     // (just a sanity check to prevent a huge file from being loaded)
+static char EDITOR_CFG_LOCATION[FILENAME_MAX+1];   // Full path to the configurations file
 
 typedef struct EditorSetting
 {

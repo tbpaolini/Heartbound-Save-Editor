@@ -10,6 +10,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <limits.h>
+#include <gtk/gtk.h>
 #include <hb_editor_options.h>
 
 #ifndef __USE_XOPEN2K8
@@ -119,6 +121,16 @@ static bool config_add(char *key, char *value)
 // Load the editor's settings into memory
 void hb_config_init()
 {
+    const char *home_folder = getenv("HOME");
+
+    // Find and create (if necessary) the folder of the configurations file
+    snprintf(EDITOR_CFG_LOCATION, FILENAME_MAX+1, "%s/%s", home_folder, ".config/heartbound-save-editor");
+    g_mkdir_with_parents(EDITOR_CFG_LOCATION, 0700);
+
+    // Build the absolute path to the configurations file
+    strncat(EDITOR_CFG_LOCATION, "/", FILENAME_MAX);
+    strncat(EDITOR_CFG_LOCATION, EDITOR_CFG_NAME, FILENAME_MAX);
+    
     // Open the configurations file
     FILE *config_file = fopen(EDITOR_CFG_LOCATION, "r");
     if (config_file == NULL) return;    // Return if there is no file to be read
