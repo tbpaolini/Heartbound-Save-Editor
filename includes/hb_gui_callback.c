@@ -532,7 +532,7 @@ void hb_random_seed(char *game_seed)
     
     // Get the last 9 decimal digits of our 64-bit number and use them as the game seed
     uint64_t new_seed = accumulator % (uint64_t)pow(10, SEED_SIZE - 1);
-    snprintf(game_seed, SEED_SIZE-1, "%llu", new_seed);
+    snprintf(game_seed, SEED_SIZE-1, "%09llu", new_seed);
 }
 
 // Highlight a menu item when the mouse pointer is over the item
