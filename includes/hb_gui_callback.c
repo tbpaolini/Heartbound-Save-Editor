@@ -205,6 +205,7 @@ void hb_text_filter_natural(char *text, size_t max_length)
 // For some reason, it only shows when clicked for the second time, perhaps because that it has several items.
 // So this call function is called once after the first time the widget is drawn, to force the dropdown to open then close.
 // This way when the user click on the list, then it will show normally.
+// Note: This fix is not necessary here, on the Linux version, so it goes unused. It is used on Windows.
 void hb_dropdown_list_fix(GtkComboBox *widget)
 {
     gtk_combo_box_popup(widget);    // Display the dropdown list
@@ -1065,6 +1066,7 @@ void hb_update_window_title(GtkWindow *window)
 // Make the widgets on the notebook to be clickable after the menu items have been used.
 // Without this fix, if one clicks on the menu, then tries to click on something on
 // the notebook, it would be necessary to click twice to interact with the notebook.
+// Note: This fix is not necessary here, on the Linux version, so it goes unused. It is used on Windows.
 void hb_notebook_fix(GtkNotebook *widget, GdkEventCrossing event, void *data)
 {
     // When the mouse enters the notebook

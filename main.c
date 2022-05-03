@@ -262,9 +262,6 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_widget_set_vexpand(notebook, TRUE);                         // The notebook fills the remaining horizontal space on the window
     gtk_container_add(GTK_CONTAINER(window_wrapper), notebook);     // Add the notebook to the window wrapper
     
-    // Fix so the user can always interact with the notebook's contents
-    g_signal_connect(GTK_NOTEBOOK(notebook), "enter-notify-event", G_CALLBACK(hb_notebook_fix), NULL);
-
     // Allocate the buffer for the text
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
     if (text_buffer == NULL)
@@ -603,9 +600,6 @@ static void activate( GtkApplication* app, gpointer user_data )
         {
             gtk_combo_box_set_active(GTK_COMBO_BOX(room_selection), current_room->index);
         }
-
-        // Workaround to get the dropdown list to show when the user clicks on it for the first time
-        g_signal_connect_after(GTK_COMBO_BOX(room_selection), "draw", G_CALLBACK(hb_dropdown_list_fix), NULL);
 
         // Update the coordinates entries when a room is selected
         // (so the player do not spaw stuck out of bounds or in walls)
