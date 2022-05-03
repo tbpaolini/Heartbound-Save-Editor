@@ -125,12 +125,18 @@ int hb_read_save(char *path)
     g_object_unref(save_file);
 
     // Store the current open file
-    snprintf(
-        CURRENT_FILE,
-        sizeof(CURRENT_FILE),
-        "%s",
-        (path != NULL ? path : SAVE_PATH)
-    );
+    // Note: On Linux, the first character of the string got replaced by a null terminator,
+    //       if the source and destination strings pointed to the same adress on memory.
+    //       Windows just handled it better by keeping the the text the same.
+    if (path != CURRENT_FILE)
+    {
+        snprintf(
+            CURRENT_FILE,
+            sizeof(CURRENT_FILE),
+            "%s",
+            (path != NULL ? path : SAVE_PATH)
+        );
+    }
 
     hb_save_get_modified_time();
     hb_save_is_open = true;
