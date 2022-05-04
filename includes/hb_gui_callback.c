@@ -1029,8 +1029,12 @@ GtkWidget *hb_create_dialog_with_title_and_image(
         flags,
         type,
         buttons,
+        message,
         NULL
     );
+
+    /*  Note: The following part from the Windows version is unecessary on Linux, because
+              the latter already adds its own image to the dialog.
 
     // Create an image to the dialok
     GtkWidget *image = gtk_image_new_from_icon_name(image_icon_name, GTK_ICON_SIZE_DIALOG);
@@ -1048,6 +1052,7 @@ GtkWidget *hb_create_dialog_with_title_and_image(
     gtk_container_add(GTK_CONTAINER(wrapper), text);
     gtk_container_add(GTK_CONTAINER(content_area), wrapper);
     gtk_widget_show_all(dialog);
+    */
 
     // Add title to the dialog
     gtk_window_set_title(GTK_WINDOW(dialog), title);
