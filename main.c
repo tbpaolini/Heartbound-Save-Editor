@@ -833,6 +833,8 @@ int main ( int argc, char **argv )
     //       Each instance works independently from each other and has its own memory.
     app = gtk_application_new( "com.github.tbpaolini.hbsaveedit", G_APPLICATION_NON_UNIQUE );
     g_application_register(G_APPLICATION(app), NULL, NULL);
+    g_set_application_name(WINDOW_TITLE);
+    g_set_prgname(WINDOW_TITLE);
     g_signal_connect( app, "activate", G_CALLBACK(activate), NULL );
 
     status = g_application_run( G_APPLICATION(app), 1, argv );
