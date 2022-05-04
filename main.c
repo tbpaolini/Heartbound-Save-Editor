@@ -79,6 +79,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     gtk_container_add(GTK_CONTAINER(window_wrapper), top_wrapper);
 
     // Get whether the application prefers dark theme
+    // (the default system-wide value for all GTK applications)
     gboolean prefers_dark_theme;
     g_object_get(
         gtk_settings_get_default(),
@@ -87,8 +88,26 @@ static void activate( GtkApplication* app, gpointer user_data )
         NULL
     );
 
+    // Get the global dark theme preference's value as a string
+    char prefers_dark_theme_str[2];
+    snprintf(prefers_dark_theme_str, 2, "%01d", prefers_dark_theme);
+
+    // Get the dark theme preference for this specific program
+    bool uses_dark_theme = hb_config_get("dark_mode", prefers_dark_theme_str)[0] != '0' ? true : false;
+
+    // Set the dark or light theme for the program according to the its own configurations
+    if (prefers_dark_theme != uses_dark_theme)
+    {
+        g_object_set(
+            gtk_settings_get_default(),
+            "gtk-application-prefer-dark-theme",
+            uses_dark_theme,
+            NULL
+        );
+    }
+
     // Set the style of the titles according to the theme
-    char *title_style = prefers_dark_theme ? CSS_TITLE_DARK : CSS_TITLE_LIGHT;
+    char *title_style = uses_dark_theme ? CSS_TITLE_DARK : CSS_TITLE_LIGHT;
     GtkCssProvider *custom_css = gtk_css_provider_new();
     gtk_css_provider_load_from_data(
         custom_css,
@@ -213,7 +232,7 @@ static void activate( GtkApplication* app, gpointer user_data )
 
         menu_item = gtk_check_menu_item_new_with_mnemonic("_Dark mode");
         gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
-        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), prefers_dark_theme);
+        gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), uses_dark_theme);
         g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_menu_edit_dark_mode), custom_css);
         NEW_SHORTCUT(GDK_KEY_F2, 0);
         
@@ -768,20 +787,6 @@ int main ( int argc, char **argv )
     // Change the current working directory to the executable directory
     int chdir_status = chdir(editor_path);
     free(editor_path);
-
-    // Check if the settings file exists, then create it if it does not
-    gboolean settings_ini_exists = g_file_test("../etc/gtk-3.0/settings.ini", G_FILE_TEST_EXISTS);
-
-    if (!settings_ini_exists)
-    {
-        FILE *settings_ini = fopen("../etc/gtk-3.0/settings.ini", "w");
-        
-        if (settings_ini != NULL)
-        {
-            fprintf(settings_ini, DEFAULT_SETTINGS_INI);
-            fclose(settings_ini);
-        }
-    }
 
     // Check if a file to be opened has been provided as an argument
     char *open_path;
