@@ -17,7 +17,7 @@
 #define EDITOR_CFG_BUFFER      (size_t)1024         // Maximum amount of characters on each line of the configurations file
 #define EDITOR_CFG_MAX_ENTRIES (size_t)10000        // Maximum amount of lines of the settings file
                                                     // (just a sanity check to prevent a huge file from being loaded)
-static char EDITOR_CFG_LOCATION[FILENAME_MAX+1];   // Full path to the configurations file
+static char *EDITOR_CFG_LOCATION;                   // Full path to the configurations file
 
 typedef struct EditorSetting
 {

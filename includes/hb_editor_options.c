@@ -61,18 +61,36 @@ static uint32_t config_hash(char *key)
 static bool config_add(char *key, char *value)
 {
     // Allocate memory for the setting struct
-    EditorSetting *my_setting = malloc(sizeof(EditorSetting));
+    EditorSetting *my_setting = calloc(1, sizeof(EditorSetting));
     if (my_setting == NULL) return false;  // Stop if there's no available memory
     
     // Store the key/value pair on the struct
-    my_setting->key   = malloc( strnlen(key  , EDITOR_CFG_BUFFER) + 1 );
-    if (my_setting->key == NULL) return false;
-    my_setting->value = malloc( strnlen(value, EDITOR_CFG_BUFFER) + 1 );
-    if (my_setting->value == NULL) return false;
 
-    strncpy(my_setting->key  , key  , EDITOR_CFG_BUFFER);
-    strncpy(my_setting->value, value, EDITOR_CFG_BUFFER);
+    // Get the size of the key and value
+    size_t key_len = strnlen(key  , EDITOR_CFG_BUFFER);
+    size_t value_len = strnlen(value  , EDITOR_CFG_BUFFER);
+    
+    // Try allocating memory for the key and value
+    my_setting->key   = calloc(key_len + 1, sizeof(char));
+    if (my_setting->key == NULL)
+    {
+        free(my_setting);
+        return false;
+    }
+    
+    my_setting->value = calloc(value_len + 1, sizeof(char));
+    if (my_setting->value == NULL)
+    {
+        free(my_setting);
+        free(my_setting->key);
+        return false;
+    }
 
+    // Copy the key and value to the allocated memory
+    strncpy(my_setting->key  , key  , key_len);
+    strncpy(my_setting->value, value, value_len);
+
+    // Pointers to the next entries on the data structures
     my_setting->list_next = NULL;
     my_setting->map_next  = NULL;
 
@@ -122,6 +140,7 @@ static bool config_add(char *key, char *value)
 void hb_config_init()
 {
     const char *home_folder = getenv("HOME");
+    EDITOR_CFG_LOCATION = calloc(FILENAME_MAX+1, sizeof(char));
 
     // Find and create (if necessary) the folder of the configurations file
     snprintf(EDITOR_CFG_LOCATION, FILENAME_MAX+1, "%s/%s", home_folder, ".config/heartbound-save-editor");
@@ -152,7 +171,7 @@ void hb_config_init()
         key   = strtok(line_buffer, "=");
         if (key == NULL)   continue;
         
-        value = strtok(NULL, "=");
+        value = strtok(NULL, "\n");
         if (value == NULL) continue;
 
         // Strip the newline at the end of the value, if there is any
@@ -190,11 +209,12 @@ void hb_config_set(char *key, char *value)
                 char *old_value = current->value;
 
                 // Try to replace the old value
-                current->value = malloc(strnlen(value, EDITOR_CFG_BUFFER) + 1);
+                size_t value_len = strnlen(value, EDITOR_CFG_BUFFER);
+                current->value = calloc(value_len + 1, sizeof(char));
                 if (current->value != NULL)
                 {
                     // Store the new value and delete the old one
-                    strncpy(current->value, value, EDITOR_CFG_BUFFER);
+                    strncpy(current->value, value, value_len);
                     free(old_value);
                     config_write();
                 }
@@ -376,5 +396,6 @@ void hb_config_close()
         free(previous_config);
     }
 
+    free(EDITOR_CFG_LOCATION);
     config_count = 0;
 }
