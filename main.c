@@ -43,14 +43,14 @@ static void activate( GtkApplication* app, gpointer user_data )
 
     // Set the main window as a target for dropped items
     GtkTargetEntry drop_target[1];
-    drop_target[0] = *gtk_target_entry_new("main-window", GTK_TARGET_OTHER_APP, 0);
+    drop_target[0] = *gtk_target_entry_new("text/uri-list", GTK_TARGET_OTHER_APP, 0);
     /* Note: the first and last arguments are just arbitrary identifiers,
              what really matters is the second argument (the target). */
     
     // Give the window the ability to receive dropped items
     gtk_drag_dest_set(
         window,
-        GTK_DEST_DEFAULT_DROP | GTK_DEST_DEFAULT_HIGHLIGHT,
+        GTK_DEST_DEFAULT_ALL,
         drop_target,
         1,
         GDK_ACTION_COPY

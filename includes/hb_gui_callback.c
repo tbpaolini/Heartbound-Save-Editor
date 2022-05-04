@@ -1160,7 +1160,7 @@ void hb_drag_and_drop_file(
     if (file_paths == NULL) return;
 
     // Strip the 'file:///' prefix and unescape the URI (notably, '%20' gets replaced by an actual space)
-    char *file_name_raw = g_str_has_prefix(file_paths[0], "file:///") ? file_paths[0] + 8 : file_paths[0];
+    char *file_name_raw = g_str_has_prefix(file_paths[0], "file:///") ? file_paths[0] + 7 : file_paths[0];
     char *file_name = g_uri_unescape_string(file_name_raw, NULL);
 
     // Check if there is unsaved data before proceeding
