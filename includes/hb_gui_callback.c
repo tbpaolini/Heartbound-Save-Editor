@@ -1218,7 +1218,7 @@ void hb_file_has_changed(GtkWindow self, GdkEventFocus event, GtkWindow *window)
     if (!hb_automatic_reloading) return;
     
     // Is the window getting or losing focus?
-    if (event.in)
+    if (gtk_window_has_toplevel_focus(window) == TRUE)
     {
         // Window got focus
         // Check if the current modification time is newer than the last known one
@@ -1534,7 +1534,7 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
 void hb_edit_automatic_reloading(GtkCheckMenuItem *widget, gpointer user_data)
 {
     // Get the current value from the check button
-    hb_automatic_reloading = (bool)gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
+    hb_automatic_reloading = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)) ? true : false;
     
     // Store the value to the configurations
     char value_string[2];
