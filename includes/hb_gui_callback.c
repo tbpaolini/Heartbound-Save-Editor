@@ -1575,9 +1575,7 @@ void hb_edit_automatic_reloading(GtkCheckMenuItem *widget, gpointer user_data)
     hb_automatic_reloading = (bool)gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
     
     // Store the value to the configurations
-    char value_string[2];
-    snprintf(value_string, sizeof(value_string), "%d", hb_automatic_reloading);
-    hb_config_set("automatic_reloading", value_string);
+    hb_config_set_bool("automatic_reloading", hb_automatic_reloading);
 
     // Show for 2.6 seconds the indicator that the setting was changed
     char *message = hb_automatic_reloading ? "Automatic reloading enabled" : "Automatic reloading disabled";

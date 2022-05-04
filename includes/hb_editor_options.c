@@ -221,6 +221,16 @@ void hb_config_set(char *key, char *value)
     config_write();
 }
 
+// Store the key/value pair of a setting, by using a boolean value ('true' or 'false')
+void hb_config_set_bool(char *key, bool value)
+{
+    // Convert the default value from boolean to string
+    char *value_str = value ? "1" : "0";
+
+    // Set the key's value
+    hb_config_set(key, value_str);
+}
+
 // Retrieve the key/value pair of a setting
 // (return and store the default value, if the key could not be found)
 char *hb_config_get(char *key, char *default_value)
@@ -249,6 +259,17 @@ char *hb_config_get(char *key, char *default_value)
     // Store and return the default value if no match was found
     config_add(key, default_value);
     return default_value;
+}
+
+// Get the key's value as a boolean data type ('true' or 'false')
+// (return and create a key with the default value, if an existing key is not found)
+bool hb_config_get_bool(char *key, bool default_value)
+{
+    // Convert the default value from boolean to string
+    char *default_str = default_value ? "1" : "0";
+
+    // Return 'false' if the value starts with the "0" character, otherwise return 'true'
+    return (hb_config_get(key, default_str)[0] == '0') ? false : true;
 }
 
 // Delete a key (and its value) from the configurations' data structures
