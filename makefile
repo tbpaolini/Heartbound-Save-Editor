@@ -17,7 +17,7 @@ STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
 DEPENDENCIES := structure assets $(OBJECTS)
 
 # Flags to pass to the compiler
-CFLAGS := $(shell pkg-config --cflags gtk+-3.0) $(shell pkg-config --cflags --libs gtk+-3.0) -lm -Iincludes -fdiagnostics-color=always
+CFLAGS := $(shell pkg-config --cflags --libs gtk+-3.0) -lm -Iincludes -fdiagnostics-color=always
 # Note: Here we run two shell commands to get the flags to pass to the compiler, they return the folders of the GTK 3 headers and libraries.
 
 # Target parameters that 'make' can be run with on the terminal
