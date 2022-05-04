@@ -44,9 +44,16 @@ void hb_config_init();
 // Store the key/value pair of a setting
 void hb_config_set(char *key, char *value);
 
+// Store the key/value pair of a setting, by using a boolean value ('true' or 'false')
+void hb_config_set_bool(char *key, bool value);
+
 // Retrieve the key/value pair of a setting
 // (return and store the default value, if the key could not be found)
 char *hb_config_get(char *key, char *default_value);
+
+// Get the key's value as a boolean data type ('true' or 'false')
+// (return and create a key with the default value, if an existing key is not found)
+bool hb_config_get_bool(char *key, bool default_value);
 
 // Delete a key (and its value) from the configurations' data structures
 void hb_config_remove(char *key);

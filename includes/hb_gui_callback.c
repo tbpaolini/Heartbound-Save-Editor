@@ -1526,12 +1526,8 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
     char *title_theme = prefers_dark_theme ? CSS_TITLE_DARK : CSS_TITLE_LIGHT;
     gtk_css_provider_load_from_data(style, title_theme, -1, NULL);
 
-    // Get the dark theme preference's value as a string
-    char prefers_dark_theme_str[2];
-    snprintf(prefers_dark_theme_str, 2, "%01d", prefers_dark_theme);
-
     // Store the preference on the configurations file
-    hb_config_set("dark_mode", prefers_dark_theme_str);
+    hb_config_set_bool("dark_mode", prefers_dark_theme);
 }
 
 // Edit > Automatic reloading
@@ -1542,9 +1538,7 @@ void hb_edit_automatic_reloading(GtkCheckMenuItem *widget, gpointer user_data)
     hb_automatic_reloading = gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget)) ? true : false;
     
     // Store the value to the configurations
-    char value_string[2];
-    snprintf(value_string, sizeof(value_string), "%d", hb_automatic_reloading);
-    hb_config_set("automatic_reloading", value_string);
+    hb_config_set_bool("automatic_reloading", hb_automatic_reloading);
 
     // Show for 2.6 seconds the indicator that the setting was changed
     char *message = hb_automatic_reloading ? "Automatic reloading enabled" : "Automatic reloading disabled";

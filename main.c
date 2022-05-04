@@ -88,12 +88,8 @@ static void activate( GtkApplication* app, gpointer user_data )
         NULL
     );
 
-    // Get the global dark theme preference's value as a string
-    char prefers_dark_theme_str[2];
-    snprintf(prefers_dark_theme_str, 2, "%01d", prefers_dark_theme);
-
     // Get the dark theme preference for this specific program
-    bool uses_dark_theme = hb_config_get("dark_mode", prefers_dark_theme_str)[0] != '0' ? true : false;
+    bool uses_dark_theme = hb_config_get_bool("dark_mode", prefers_dark_theme);
 
     // Set the dark or light theme for the program according to the its own configurations
     if (prefers_dark_theme != uses_dark_theme)
@@ -237,7 +233,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_SHORTCUT(GDK_KEY_F2, 0);
         
         menu_item = gtk_check_menu_item_new_with_mnemonic("_Automatic reloading");
-        hb_automatic_reloading = (hb_config_get("automatic_reloading", CFG_AUTOMATIC_RELOADING)[0] == '0') ? false : true;
+        hb_automatic_reloading = hb_config_get_bool("automatic_reloading", CFG_AUTOMATIC_RELOADING);
         gtk_menu_shell_append(GTK_MENU_SHELL(edit_menu), menu_item);
         gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu_item), hb_automatic_reloading);
         g_signal_connect(GTK_CHECK_MENU_ITEM(menu_item), "toggled", G_CALLBACK(hb_edit_automatic_reloading), NULL);
