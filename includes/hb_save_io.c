@@ -32,8 +32,65 @@ gint64 hb_save_modification_time = 0;
 // Store the location of the save file on the SAVE_PATH variable
 int hb_find_save()
 {
-    snprintf(SAVE_PATH, sizeof(SAVE_PATH), "%s/%s/%s", LOCAL_APP_DATA, SAVE_FOLDER, SAVE_FNAME);
-    snprintf(SAVE_ROOT, sizeof(SAVE_ROOT), "%s/%s", LOCAL_APP_DATA, SAVE_FOLDER);
+    // Whether the editor opens the save location used by Steam's Proton compatibility engine
+    // Note: That engine runs the Windows version of the game on Linux, inside an emulator.
+    //       However the save location is different than the native Linux version.
+    bool proton_compatibility = false;
+
+    // The Heartbound's manifest file on Steam
+    // (it is where is the compatibility mode setting)
+    char heartbound_appmanifest_path[PATH_BUFFER];
+
+    // Build the path to the manifest file
+    snprintf(
+        heartbound_appmanifest_path,
+        PATH_BUFFER,
+        "%s/%s/%s",
+        LOCAL_APP_DATA,
+        ".local/share/Steam/steamapps",
+        "appmanifest_567380.acf"
+    );
+
+    // Open the manifest file for reading
+    FILE *appmanifest = fopen(heartbound_appmanifest_path, "r");
+    
+    if (appmanifest != NULL)
+    {
+        // Get the size of the file
+        fseek(appmanifest, 0, SEEK_END);
+        long file_size = ftell(appmanifest);
+        rewind(appmanifest);
+
+        // Sanity check for not reading a huge file
+        // The actual file is less than 1 kB, our size limit is much higher (10 MB)
+        if (file_size < 10000000)
+        {
+            // Read the contents of the file into memory
+            char *appmanifest_buffer = calloc(file_size + 1, sizeof(char));
+            fread(appmanifest_buffer, file_size, 1, appmanifest);
+
+            // Check if the compatibility setting is present and enabled
+            if (strstr(appmanifest_buffer, "\"platform_override_source\"\t\t\"windows\"") != NULL)
+            {
+                // If yes, then flag it as enabled
+                proton_compatibility = true;
+            }
+
+            // Remove the file contents from memory
+            free(appmanifest_buffer);
+        }
+
+        // Close the manifest file
+        fclose(appmanifest);
+    }
+
+    // Which save file location to use (Proton's or Linux native's)
+    char *my_save_folder = proton_compatibility ? PROTON_FOLDER : SAVE_FOLDER;
+
+    // Build the path to the save file
+    snprintf(SAVE_PATH, sizeof(SAVE_PATH), "%s/%s/%s", LOCAL_APP_DATA, my_save_folder, SAVE_FNAME);
+    snprintf(SAVE_ROOT, sizeof(SAVE_ROOT), "%s/%s", LOCAL_APP_DATA, my_save_folder);
+    
     return 0;
     // TO DO: Error handling
 }

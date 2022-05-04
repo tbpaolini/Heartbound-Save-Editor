@@ -1311,6 +1311,8 @@ void hb_menu_file_open(GtkMenuItem *widget, GtkWindow *window)
 // Open the default Heartbound save
 void hb_menu_file_open_default(GtkMenuItem *widget, GtkWindow *window)
 {
+    hb_find_save();
+    
     // Do nothing if the default file is already open
     if (strncmp(CURRENT_FILE, SAVE_PATH, PATH_BUFFER) == 0) return;
     
@@ -1415,6 +1417,7 @@ void hb_menu_file_save_as(GtkMenuItem *widget, GtkWindow *window)
 // Write the values to the default Heartbound save
 void hb_menu_file_save_to_default(GtkMenuItem *widget, GtkWindow *window)
 {
+    hb_find_save();
     snprintf(CURRENT_FILE, PATH_BUFFER, "%s", SAVE_PATH);
     
     hb_save_file(

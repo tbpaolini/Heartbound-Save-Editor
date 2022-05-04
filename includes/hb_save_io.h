@@ -13,6 +13,7 @@
 // Save file properties
 #define LOCAL_APP_DATA getenv("HOME")           // Path to the user's programs configurations folder
 #define SAVE_FOLDER ".config/Heartbound"        // Save folder on the local application data
+#define PROTON_FOLDER ".local/share/Steam/steamapps/compatdata/567380/pfx/drive_c/users/steamuser/AppData/Local/Heartbound"  // Save folder when using the Proton compatibility engine
 #define SAVE_FNAME "heartbound_save8.thor"      // Name of the save file
 #define PATH_BUFFER 512                         // Maximum number of characters of the absolute file path
 #define SAVE_LINE_BUFFER 100                    // Maximum number of characters on each line of the save file
