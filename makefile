@@ -4,8 +4,8 @@ SOURCE := main.c $(wildcard includes/*.c)
 # The above files but with a '.o' extension
 OBJECTS := $(addsuffix .o,$(basename $(SOURCE)))
 
-# Name of the final executables
-NAME := Heartbound Save Editor
+# Name of the main executable
+NAME := heartbound-save-editor
 
 # Folder where the build will go
 DIRECTORY := build/linux
@@ -56,15 +56,16 @@ includes/%.o: includes/%.c
 
 # Copy the program's images to the build destination
 assets:
-	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/"
-	cp -u  "assets/icon.png" "$(DIRECTORY)/$(TARGET)/lib/"
-	cp -u  "assets/icon.ico" "$(DIRECTORY)/$(TARGET)/lib/"
-	cp -ru  "assets/textures" "$(DIRECTORY)/$(TARGET)/lib/textures/"
+	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/"
+	mkdir -p "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/"
+	cp -u  "assets/icon.png" "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/$(NAME).png"
+	cp -u  "assets/icon.ico" "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/$(NAME).png"
+	cp -ru  "assets/textures" "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/textures/"
 	
 # Copy the structure files to the build destination
 structure:
-	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/structure/"
-	$(foreach file, $(STRUCT), cp -ru "structure/$(file)" "$(DIRECTORY)/$(TARGET)/lib/structure/" &)
+	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/structure/"
+	$(foreach file, $(STRUCT), cp -ru "structure/$(file)" "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/structure/" &)
 
 # Perform some static code analysis
 analyze:

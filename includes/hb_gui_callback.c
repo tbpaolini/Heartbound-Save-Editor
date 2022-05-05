@@ -1689,7 +1689,7 @@ void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
 // Show a dialog with credits and info about the program
 void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
 {
-    GdkPixbuf *logo = gdk_pixbuf_new_from_file("../lib/icon.png", NULL);
+    GdkPixbuf *logo = gdk_pixbuf_new_from_file(WINDOW_ICON, NULL);
     char *authors[] = {"Tiago Becerra Paolini https://github.com/tbpaolini", NULL};
     char *documenters[] = {"Steets https://steets.tech/", NULL};
     gtk_show_about_dialog(
