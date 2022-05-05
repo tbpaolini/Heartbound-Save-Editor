@@ -57,9 +57,9 @@ includes/%.o: includes/%.c
 # Copy the program's images to the build destination
 assets:
 	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/"
-	mkdir -p "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/"
-	cp -u  "assets/icon.png" "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/$(NAME).png"
-	cp -u  "assets/icon.ico" "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/$(NAME).png"
+	mkdir -p "$(DIRECTORY)/$(TARGET)/share/pixmaps/"
+	cp -u  "assets/icon.png" "$(DIRECTORY)/$(TARGET)/share/pixmaps/$(NAME).png"
+	cp -u  "assets/icon.ico" "$(DIRECTORY)/$(TARGET)/share/pixmaps/$(NAME).png"
 	cp -ru  "assets/textures" "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/textures/"
 	
 # Copy the structure files to the build destination

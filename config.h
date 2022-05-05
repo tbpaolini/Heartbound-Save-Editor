@@ -23,7 +23,7 @@
 #define WINDOW_MIN_HEIGHT 320
 #define WINDOW_BORDER 10
 #define WINDOW_TITLE "Heartbound Save Editor"
-#define WINDOW_ICON "../usr/share/pixmaps/heartbound-save-editor.png"
+#define WINDOW_ICON "../share/pixmaps/heartbound-save-editor.png"
 
 // Page layout
 #define PAGE_BORDER 10
