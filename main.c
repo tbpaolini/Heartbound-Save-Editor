@@ -8,9 +8,6 @@
 #include <hb_save.h>
 #include "config.h"
 
-// Whether we are using the loader to open the application
-bool using_loader;
-
 static void activate( GtkApplication* app, gpointer user_data )
 {
     GtkWidget *window;
@@ -780,46 +777,30 @@ int main ( int argc, char **argv )
         }
     }
 
-    // Change the current working directory to the executable directory
-    int chdir_status = chdir(editor_path);
-    free(editor_path);
-
     // Check if a file to be opened has been provided as an argument
     char *open_path;
-    using_loader = false;  // Whether we are using the loader to open the application
     if (argc >= 2)
     {
-        // Check if we are using the loader
-        if (argc >= 3)
-        {
-            // The loader appends the "--loader" to the arguments
-            if (strncmp(argv[argc-1], "--loader", 9) == 0)
-            {
-                // If the last argument is "--loader", then it is flagged as being used
-                using_loader = true;
-            }
-        }
-
-        // Use the first command line argument as the file path, if there is one
-        if (strncmp(argv[1], "--loader", 9) != 0)
-        {
-            // If the first argument is not "--loader", use it as the path
-            open_path = argv[1];
-        }
-        else
-        {
-            // Otherwise use the default path
-            open_path = SAVE_PATH;
-        }
+        // If the an argument was passed to the program, use it as the path
+        // Note: The path is converted to absolute, if it is relative.
+        //       I am doing it because I am enforcing the working directory
+        //       to be the one of the program's executable.
+        open_path = realpath(argv[1], NULL);
     }
     else
     {
         // Use the default file path, if no path was provided
         open_path = SAVE_PATH;
     }
+
+    // Change the current working directory to the executable directory
+    int chdir_status = chdir(editor_path);
+    free(editor_path);
     
     // Open the save file
     hb_open_save(open_path);
+    if (open_path != SAVE_PATH) free(open_path);
+    // Note: 'realpath()' allocates memory, when no output buffer is provided to it.
 
     GtkApplication *app;
     int status;

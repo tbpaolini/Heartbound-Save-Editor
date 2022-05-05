@@ -86,7 +86,4 @@
     \
     exit(EXIT_FAILURE);}
 
-// Whether we are using the loader to open the application
-extern bool using_loader;
-
 #endif

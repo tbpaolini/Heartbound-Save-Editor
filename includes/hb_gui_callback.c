@@ -593,10 +593,6 @@ void hb_save_file(GtkMenuItem *widget, GdkEventButton event, GtkWindow *window)
             // Flag the editor's data as saved
             has_unsaved_data = false;
 
-            // After a new file was saved, we can be sure that the path is absolute
-            // So no need to take the loader into consideration
-            using_loader = false;
-
             #ifdef _DEBUG
             g_message("Saved: %s", CURRENT_FILE);
             #endif
