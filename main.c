@@ -833,9 +833,9 @@ int main ( int argc, char **argv )
     g_set_prgname(WINDOW_TITLE);
     g_signal_connect( app, "activate", G_CALLBACK(activate), NULL );
 
-    status = g_application_run( G_APPLICATION(app), 1, argv );
+    status = g_application_run( G_APPLICATION(app), 0, NULL );
     /* Note:
-        The value 1 is being passed to the 'argc' argument of 'g_application_run'
+        The value 0 is being passed to the 'argc' argument of 'g_application_run'
         in order to prevent GTK from throwing an error in case there is a command
         line argument given to the application.
 
