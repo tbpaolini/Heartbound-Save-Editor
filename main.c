@@ -404,7 +404,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             GtkWidget *my_name_label = gtk_label_new(text_buffer);
             gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);
             gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);
-            gtk_widget_set_margin_top(my_name_label, 8);    // Added some top margin so the label's text align with the options
+            gtk_widget_set_margin_top(my_name_label, 4);    // Added some top margin so the label's text align with the options
                                                             // (for whatever reason, just aligning both to the top was not enough)
 
             // Add the name label to the entry's box
@@ -566,7 +566,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             my_name_label = gtk_label_new(text);\
             gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);\
             gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);\
-            gtk_widget_set_margin_top(my_name_label, 8);\
+            gtk_widget_set_margin_top(my_name_label, 4);\
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);\
             gtk_container_add(GTK_CONTAINER(my_cell), my_wrapper)
         
