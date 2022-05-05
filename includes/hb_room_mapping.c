@@ -46,7 +46,7 @@ static uint32_t hash(char *key, uint32_t slots)
     uint32_t my_hash = 0xA5A5A5A5;
 
     // Length of the key
-    size_t size = strnlen(key, SAVE_STRUCT_BUFFER);
+    size_t size = strlen(key);
 
     if ( (size > 0) && (size < SAVE_STRUCT_BUFFER) )
     {
