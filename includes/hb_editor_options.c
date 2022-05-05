@@ -75,8 +75,8 @@ static bool config_add(char *key, char *value)
     my_setting->value = calloc(value_len + 1, sizeof(char));
     if (my_setting->value == NULL)
     {
-        free(my_setting);
         free(my_setting->key);
+        free(my_setting);
         return false;
     }
 
