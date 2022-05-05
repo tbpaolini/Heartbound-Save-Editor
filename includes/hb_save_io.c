@@ -67,21 +67,27 @@ int hb_find_save()
         {
             // Read the contents of the file into memory
             char *appmanifest_buffer = calloc(file_size + 1, sizeof(char));
-            fread(appmanifest_buffer, file_size, 1, appmanifest);
-
-            // Check if the compatibility setting is present and enabled
-            if (strstr(appmanifest_buffer, "\"platform_override_source\"\t\t\"windows\"") != NULL)
+            if (appmanifest_buffer != NULL)
             {
-                // If yes, then flag it as enabled
-                proton_compatibility = true;
-            }
+                // Read the file, then close it
+                size_t read_count = fread(appmanifest_buffer, file_size, 1, appmanifest);
+                fclose(appmanifest);
+                appmanifest = NULL;
 
-            // Remove the file contents from memory
-            free(appmanifest_buffer);
+                // Check if the compatibility setting is present and enabled
+                if (read_count > 0 && strstr(appmanifest_buffer, "\"platform_override_source\"\t\t\"windows\"") != NULL)
+                {
+                    // If yes, then flag it as enabled
+                    proton_compatibility = true;
+                }
+
+                // Remove the file contents from memory
+                free(appmanifest_buffer);
+            }
         }
 
         // Close the manifest file
-        fclose(appmanifest);
+        if (appmanifest != NULL) fclose(appmanifest);
     }
 
     // Which save file location to use (Proton's or Linux native's)
