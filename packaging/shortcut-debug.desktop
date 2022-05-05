@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Heartbound Save Editor (debug)
+Comment=Save editing tool for the Heartbound game
+Exec=/usr/bin/heartbound-save-editor
+Icon=/usr/share/pixmaps/heartbound-save-editor.png
+Terminal=true
+Type=Application
+Categories=Game;

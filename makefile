@@ -23,6 +23,14 @@ CFLAGS := $(shell pkg-config --cflags --libs gtk+-3.0) -lm -Iincludes -fdiagnost
 # Target parameters that 'make' can be run with on the terminal
 .PHONY: release debug clean analyze
 
+# Creation of a Debian package for the program
+define deb-package
+	cp -ru packaging/DEBIAN/ $(DIRECTORY)/$(TARGET)
+	mkdir -p $(DIRECTORY)/$(TARGET)/usr/share/applications/
+	cp -u packaging/shortcut-$(TARGET).desktop $(DIRECTORY)/$(TARGET)/usr/share/applications/$(NAME).desktop
+	dpkg-deb --build $(DIRECTORY)/$(TARGET) $(DIRECTORY)/$(NAME)_$(TARGET).deb
+endef
+
 # Subfolder where the release build will go
 release: TARGET = release
 # Activate compiler optimizations
@@ -30,8 +38,9 @@ release: CFLAGS += -O2
 # Link together the compiled objects of the release build
 release: $(DEPENDENCIES)
 	@echo Linking release build...
-	mkdir -p "$(DIRECTORY)/$(TARGET)/bin/"
-	gcc $(OBJECTS) -o "$(DIRECTORY)/$(TARGET)/bin/$(NAME)" $(CFLAGS)
+	mkdir -p "$(DIRECTORY)/$(TARGET)/usr/bin/"
+	gcc $(OBJECTS) -o "$(DIRECTORY)/$(TARGET)/usr/bin/$(NAME)" $(CFLAGS)
+	$(deb-package)
 	@echo Release build saved to the folder: $(DIRECTORY)/$(TARGET)/ 
 
 # Subfolder where the debug build will go
@@ -41,8 +50,9 @@ debug: CFLAGS += -g2 -D_DEBUG
 # Link together the compiled objects of the debug build
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
-	mkdir -p "$(DIRECTORY)/$(TARGET)/bin/"
-	gcc $(OBJECTS) -o "$(DIRECTORY)/$(TARGET)/bin/$(NAME)" $(CFLAGS)
+	mkdir -p "$(DIRECTORY)/$(TARGET)/usr/bin/"
+	gcc $(OBJECTS) -o "$(DIRECTORY)/$(TARGET)/usr/bin/$(NAME)" $(CFLAGS)
+	$(deb-package)
 	@echo Debug build saved to the folder: $(DIRECTORY)/$(TARGET)/ 
 
 # Compile 'main.c'
@@ -56,16 +66,16 @@ includes/%.o: includes/%.c
 
 # Copy the program's images to the build destination
 assets:
-	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/"
-	mkdir -p "$(DIRECTORY)/$(TARGET)/share/pixmaps/"
-	cp -u  "assets/icon.png" "$(DIRECTORY)/$(TARGET)/share/pixmaps/$(NAME).png"
-	cp -u  "assets/icon.ico" "$(DIRECTORY)/$(TARGET)/share/pixmaps/$(NAME).png"
-	cp -ru  "assets/textures" "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/textures/"
+	mkdir -p "$(DIRECTORY)/$(TARGET)/usr/lib/$(NAME)/"
+	mkdir -p "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/"
+	cp -u  "assets/icon.png" "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/$(NAME).png"
+	cp -u  "assets/icon.ico" "$(DIRECTORY)/$(TARGET)/usr/share/pixmaps/$(NAME).png"
+	cp -ru  "assets/textures" "$(DIRECTORY)/$(TARGET)/usr/lib/$(NAME)/textures/"
 	
 # Copy the structure files to the build destination
 structure:
-	mkdir -p "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/structure/"
-	$(foreach file, $(STRUCT), cp -ru "structure/$(file)" "$(DIRECTORY)/$(TARGET)/lib/$(NAME)/structure/" &)
+	mkdir -p "$(DIRECTORY)/$(TARGET)/usr/lib/$(NAME)/structure/"
+	$(foreach file, $(STRUCT), cp -ru "structure/$(file)" "$(DIRECTORY)/$(TARGET)/usr/lib/$(NAME)/structure/" &)
 
 # Perform some static code analysis
 analyze:
