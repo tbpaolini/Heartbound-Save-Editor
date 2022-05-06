@@ -29,6 +29,7 @@ define deb-package
 	mkdir -p $(DIRECTORY)/$(TARGET)/usr/share/applications/
 	cp -u packaging/shortcut-$(TARGET).desktop $(DIRECTORY)/$(TARGET)/usr/share/applications/$(NAME).desktop
 	dpkg-deb --build $(DIRECTORY)/$(TARGET) $(DIRECTORY)/$(NAME)_$(TARGET).deb
+	rm -r $(DIRECTORY)/$(TARGET)/DEBIAN
 endef
 
 # Subfolder where the release build will go
