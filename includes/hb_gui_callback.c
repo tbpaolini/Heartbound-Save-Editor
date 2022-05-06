@@ -1691,7 +1691,7 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
 {
     GdkPixbuf *logo = gdk_pixbuf_new_from_file(WINDOW_ICON, NULL);
     char *authors[] = {"Tiago Becerra Paolini https://github.com/tbpaolini", NULL};
-    char *documenters[] = {"Steets https://steets.tech/", NULL};
+    char *documenters[] = {"Steets https://steets.tech/", "Terra Hatvol https://twitter.com/TerraHatvol", NULL};
     gtk_show_about_dialog(
         window,
         "logo", logo,
