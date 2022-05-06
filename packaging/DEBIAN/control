@@ -7,7 +7,9 @@ Architecture: amd64
 Depends: libgtk-3-0
 Description: Heartbound Save Editor
  Save editing tool for the Heartbound game.
+Changes:
+ Initial release for Linux.
 Homepage: https://github.com/tbpaolini/Heartbound-Save-Editor
 Vcs-Browser: https://github.com/tbpaolini/Heartbound-Save-Editor
 Vcs-Git: <https://github.com/tbpaolini/Heartbound-Save-Editor.git> -b linux
-Installed-Size: 423
+Installed-Size: 433
