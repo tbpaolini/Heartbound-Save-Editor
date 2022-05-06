@@ -30,6 +30,8 @@ define deb-package
 	cp -u packaging/shortcut-$(TARGET).desktop $(DIRECTORY)/$(TARGET)/usr/share/applications/$(NAME).desktop
 	dpkg-deb --build $(DIRECTORY)/$(TARGET) $(DIRECTORY)/$(NAME)_$(TARGET).deb
 	rm -r $(DIRECTORY)/$(TARGET)/DEBIAN
+	cp packaging/run.sh "$(DIRECTORY)/$(TARGET)/Run Heartbound Save Editor.sh"
+	chmod +x "$(DIRECTORY)/$(TARGET)/Run Heartbound Save Editor.sh"
 endef
 
 # Subfolder where the release build will go
