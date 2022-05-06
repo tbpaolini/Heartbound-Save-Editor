@@ -1,7 +1,7 @@
 # Heartbound Save Editor
 This program allows you to change everything on the save file of [Heartbound](https://store.steampowered.com/app/567380/Heartbound/), like where you are and what you did or didn't.
 
-**Download:** [Heartbound Save Editor - v1.0.0.2 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.2/Heartbound_Save_Editor-v1.0.0.2-Windows_10.zip)
+**Download:** [Heartbound Save Editor - v1.0.0.3 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.3/Heartbound_Save_Editor-v1.0.0.3-Windows_10.zip)
 
 The program does not need installation. Just extract the zip file to any place you want, then you can just run the Heartbound Save Editor :)
 
