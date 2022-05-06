@@ -30,12 +30,12 @@ Index	Room/Object	World	Position	Image
 28	Goose Finding	2	7	spr_servers_duck_6_0.png
 29	Cafeteria	2	8	spr_cafeteria_tray_patron_1_2.png
 30	Mailshroom	2	9	spr_mailshroom_cart_small_full_0.png
-31	Void	2	10	spr_binder_down_stand_office_0.png
-32	The Tower	2	11	spr_bedhead_poster_0.png
-33	Records	2	12	spr_records_machine_0.png
-34	HR	2	13	spr_mycel_stand_left_0.png
-35	Storage	2	14	spr_storage_shelf_0.png
-36	Closet	2	15	spr_closet_shelves_0.png
+31	Closet	2	10	spr_closet_shelves_0.png
+32	Void	2	11	spr_binder_down_stand_office_0.png
+33	The Tower	2	12	spr_bedhead_poster_0.png
+34	Records	2	13	spr_records_machine_0.png
+35	HR	2	14	spr_mycel_stand_left_0.png
+36	Storage	2	15	spr_storage_shelf_0.png
 37	Middle	2	16	spr_floor2_computer_2_0.png
 38	Floor 2	2	17	spr_floor2_plant_1_0.png
 39	Pool	2	18	spr_joe_sitglasses_right_0.png
