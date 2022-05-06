@@ -124,10 +124,10 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 123	116	GLOBAL	[REDACTED] Curiosity														
 124	117	INVENTORY	Sock Tower 1		0|1	Left	Taken										
 125	118	Breakroom103	Computer Interaction		0|1	Not Used	Used										
-126	119	GLOBAL	Current World Number	Default 1	2|3|4|5			Tower	Animus	Muspelheim	Niflheim						
-127	120	GLOBAL	World Order First		2|3|4|5			Tower	Animus	Muspelheim	Niflheim						
-128	121	GLOBAL	World Order Second		2|3|4|5			Tower	Animus	Muspelheim	Niflheim						
-129	122	GLOBAL	World Order Third		2|3|4|5			Tower	Animus	Muspelheim	Niflheim						
+126	119	GLOBAL	Current World Number	Default 1	1|2|3|4|5		Hometown	Tower	Animus	Muspelheim	Niflheim						
+127	120	GLOBAL	World Order First		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim						
+128	121	GLOBAL	World Order Second		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim						
+129	122	GLOBAL	World Order Third		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim						
 130	123	Breakroom103	Keypad Solve		0|1|2|3	Unsolved	Win	Loss	Cheater								
 131	124	Breakroom103	Crypto Solve		0|1	Unsolved	Solved										
 132	125	Firepipes	Venter Switch		0|1	Off	On										
@@ -309,7 +309,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 308	301	Animus	Seto Storyline		X											Storyline Step	
 309	302	Animus	Carli Storyline		X											Storyline Step	
 310	303	Animus	Village State		0|1|2|3|4|5|100	Dillo	DilloFinished	Deer	Forest	Mole	Turtle						FullyUnlocked
-311	304	IronMines	Help Emelio?		0|1|2|3	NotYet	Yes	No	No								
+311	304	IronMines	Help Emelio?		0|1|2|3	NotYet	Yes	NoThenYes	No								
 312	305	Animus	Twins Emelio Judgement		0|1|2	NotYet	Positive	Negative									
 313	306	DilloYard	Terry Sad Talk		0|1|2	NotYet	Once	Finished									
 314	307	DilloHome	Emelio spawned at the Forge	Reality Path	0|1	NotYet	Spawned										
