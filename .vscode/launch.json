@@ -8,7 +8,7 @@
             "name": "(gdb) Iniciar",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/linux/debug/bin/heartbound-save-editor",
+            "program": "${workspaceFolder}/build/linux/debug/usr/bin/heartbound-save-editor",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
