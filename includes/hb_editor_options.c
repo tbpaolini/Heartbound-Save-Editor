@@ -400,6 +400,5 @@ void hb_config_close()
         free(previous_config);
     }
 
-    free(EDITOR_CFG_LOCATION);
     config_count = 0;
 }

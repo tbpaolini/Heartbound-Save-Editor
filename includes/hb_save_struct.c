@@ -97,16 +97,12 @@ bool hb_create_save_struct()
         {
             value_buffer[value_pos] = '\0';                 // Terminate the string (null terminator)
             hb_save_headers[column] = malloc( ++value_pos );   // Allocate enough memory for the string (including the terminator)
-<<<<<<< HEAD
-            strcpy_s(hb_save_headers[column++], value_pos, value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
-=======
             if (hb_save_headers[column] == NULL)
             {
                 fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
                 exit(EXIT_FAILURE);
             }
-            strncpy(hb_save_headers[column++], value_buffer, value_pos);   // Copy the string from the buffer until the terminator (inclusive)
->>>>>>> e465b30 (The program now exits if there weren't enough memory for the save file structure)
+            strcpy_s(hb_save_headers[column++], value_pos, value_buffer);   // Copy the string from the buffer until the terminator (inclusive)
             if (line_buffer[line_pos] == '\t') line_pos++;  // Move to the next column
             value_pos = (size_t)0;                          // Return to the beginning of the value buffer
 
