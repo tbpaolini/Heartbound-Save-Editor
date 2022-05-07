@@ -1701,7 +1701,7 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         "documenters", documenters,
         "copyright", "Copyright 2022 by Tiago Becerra Paolini",
         "license-type", GTK_LICENSE_MIT_X11,
-        "website", "https://github.com/tbpaolini/Heartbound-Save-Editor",
+        "website", "https://github.com/tbpaolini/Heartbound-Save-Editor/tree/linux",
         "website-label", "Source Code",
         "comments", "Disclaimer:\nThis program was not made by the developers of Heartbound.",
         NULL
