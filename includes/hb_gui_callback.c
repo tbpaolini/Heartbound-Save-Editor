@@ -1586,7 +1586,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         "The program opens the default Heartbound Save automatically, since the"
         " game only aloows one save file. However you can open and save to other"
         " locations using this program (click the Open button, or drag the save"
-        " file into the window or the executable). This way you can create backups.\n\n"
+        " file into the window). This way you can create backups.\n\n"
         "Your default Heartbound Save is located at:\n<tt>%s</tt>\n\n"
         "This version of the editor supports Heartbound until its version <b>1.0.9.55.</b>"
         " Whenever Heartbound gets updated, this editor will be updated as soon"
