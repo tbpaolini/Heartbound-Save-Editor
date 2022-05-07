@@ -9,7 +9,7 @@ This program allows you to change everything on the save file of [Heartbound](ht
 The editor works with latest version of Heartbound (1.0.9.55). Once the game gets updated, you might need to download a new version of the save editor.
 
 ## Screenshots
-<img src="https://user-images.githubusercontent.com/85261542/164076804-5d3bc2bb-d81e-4bbe-9340-1562f7648225.png" width=325 /> <img src="https://user-images.githubusercontent.com/85261542/164076838-c28a40d4-5c64-4902-8a79-a7dba8a7cc99.png" width=325 />
+<img src="https://user-images.githubusercontent.com/85261542/167233908-f98e048d-9f43-4d27-b955-51b85a712893.png" width=325 /> <img src="https://user-images.githubusercontent.com/85261542/167233948-84a4e34a-b4b3-4b1f-b132-1179e3fa43ac.png" width=325 />
 
 ## Compilation instructions
 It is not really necessary to compile the program by yourself, since you can just download it. But if for any reason you want to build the program from the source, then this instructions should help you.
