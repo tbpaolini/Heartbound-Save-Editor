@@ -28,7 +28,7 @@ define deb-package
 	cp -ru packaging/DEBIAN/ $(DIRECTORY)/$(TARGET)
 	mkdir -p $(DIRECTORY)/$(TARGET)/usr/share/applications/
 	cp -u packaging/shortcut-$(TARGET).desktop $(DIRECTORY)/$(TARGET)/usr/share/applications/$(NAME).desktop
-	dpkg-deb --build $(DIRECTORY)/$(TARGET) $(DIRECTORY)/$(NAME)_$(TARGET).deb
+	-dpkg-deb --build $(DIRECTORY)/$(TARGET) $(DIRECTORY)/$(NAME)_$(TARGET).deb
 	rm -r $(DIRECTORY)/$(TARGET)/DEBIAN
 	cp packaging/run.sh "$(DIRECTORY)/$(TARGET)/Run Heartbound Save Editor.sh"
 	chmod +x "$(DIRECTORY)/$(TARGET)/Run Heartbound Save Editor.sh"
