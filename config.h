@@ -63,7 +63,7 @@
     "gtk-application-prefer-dark-theme=0"\
 
 // Default editor's options
-#define CFG_AUTOMATIC_RELOADING "1"
+#define CFG_AUTOMATIC_RELOADING true
 
 // Macro function to display a native error dialog for fatal errors about missing or corrupted editor files
 // Note: Requires the 'windows.h' header

@@ -531,8 +531,8 @@ void hb_random_seed(char *game_seed)
     }
     
     // Get the last 9 decimal digits of our 64-bit number and use them as the game seed
-    uint64_t new_seed = accumulator % (uint64_t)pow(10, SEED_SIZE - 1);
-    snprintf(game_seed, SEED_SIZE-1, "%llu", new_seed);
+    uint64_t new_seed = accumulator % (uint64_t)pow(10, SEED_SIZE - 2);
+    snprintf(game_seed, SEED_SIZE-1, "%09llu", new_seed);
 }
 
 // Highlight a menu item when the mouse pointer is over the item
@@ -866,22 +866,17 @@ void hb_failed_to_open_default_save(GtkWindow *main_window)
         NULL
     );
 
-    g_signal_connect(GTK_DIALOG(warning_dialog), "response", G_CALLBACK(hb_failed_to_open_default_save_response), main_window);
-
     // Display the dialog
-    gtk_dialog_run(GTK_DIALOG(warning_dialog));
+    gint response_id = gtk_dialog_run(GTK_DIALOG(warning_dialog));
 
     // Destroy the dialog
     gtk_widget_destroy(warning_dialog);
-}
 
-// Handle the user's response to 'hb_failed_to_open_default_save()'
-void hb_failed_to_open_default_save_response(GtkDialog dialog, gint response_id, GtkWindow *main_window)
-{
+    // Handle the user's response
     switch (response_id)
     {
         case CREATE_NEW_SAVE:
-            g_mkdir_with_parents(SAVE_ROOT, 755);   // Create the save directory if it does not exist
+            g_mkdir_with_parents(SAVE_ROOT, 0700);   // Create the save directory if it does not exist
             hb_create_default_save(SAVE_PATH, main_window);
             hb_open_save(SAVE_PATH);
             break;
@@ -1061,8 +1056,9 @@ gboolean hb_hide_file_indicator()
 // Update the title of the window with the path of the save file
 void hb_update_window_title(GtkWindow *window)
 {
-    char *restrict text_buffer = calloc(TEXT_BUFFER_SIZE, sizeof(char));
-    snprintf(text_buffer, TEXT_BUFFER_SIZE, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
+    size_t buffer_size = PATH_BUFFER + strlen(WINDOW_TITLE) + 4;    // There are 3 chars besides the title and the path, plus the terminator
+    char *restrict text_buffer = calloc(buffer_size, sizeof(char));
+    snprintf(text_buffer, buffer_size, "%s - %s", CURRENT_FILE, WINDOW_TITLE);
     gtk_window_set_title(window, text_buffer);
     free(text_buffer);
 }
@@ -1195,6 +1191,7 @@ void hb_drag_and_drop_file(
 void hb_file_has_changed(GtkWindow self, GdkEventFocus event, GtkWindow *window)
 {
     static gint64 last_known_modified_time = 0;
+    if (last_known_modified_time == 0) last_known_modified_time = hb_save_modification_time;
 
     // Do nothing if automatic reloading is disabled
     if (!hb_automatic_reloading) return;
@@ -1503,7 +1500,15 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
 
     // Open the settings file
     FILE *settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "r+");
-    
+
+    // Try creating the file and its directory, if the file could not be opened
+    if (settings_ini == NULL)
+    {
+        g_mkdir_with_parents("..\\etc\\gtk-3.0", 0700);
+        settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "w+");
+        if (settings_ini == NULL) return;
+    }
+
     // Get the size of the file
     fseek(settings_ini, 0, SEEK_END); 
     long file_size = ftell(settings_ini);
@@ -1553,7 +1558,8 @@ void hb_menu_edit_dark_mode(GtkCheckMenuItem *widget, GtkCssProvider *style)
         // If the setting was not found, append it to the file
         fclose(settings_ini);
         settings_ini = fopen("..\\etc\\gtk-3.0\\settings.ini", "a");
-        fprintf(settings_ini, "\ngtk-application-prefer-dark-theme=%d", prefers_dark_theme);
+        if (settings_ini != NULL)
+        {fprintf(settings_ini, "\ngtk-application-prefer-dark-theme=%d", prefers_dark_theme);}
     }
 
     // Deallocate the buffer and close the file
@@ -1569,9 +1575,7 @@ void hb_edit_automatic_reloading(GtkCheckMenuItem *widget, gpointer user_data)
     hb_automatic_reloading = (bool)gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget));
     
     // Store the value to the configurations
-    char value_string[2];
-    snprintf(value_string, sizeof(value_string), "%d", hb_automatic_reloading);
-    hb_config_set("automatic_reloading", value_string);
+    hb_config_set_bool("automatic_reloading", hb_automatic_reloading);
 
     // Show for 2.6 seconds the indicator that the setting was changed
     char *message = hb_automatic_reloading ? "Automatic reloading enabled" : "Automatic reloading disabled";
@@ -1725,12 +1729,12 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
 {
     GdkPixbuf *logo = gdk_pixbuf_new_from_file("..\\lib\\icon.png", NULL);
     char *authors[] = {"Tiago Becerra Paolini https://github.com/tbpaolini", NULL};
-    char *documenters[] = {"Steets https://steets.tech/", NULL};
+    char *documenters[] = {"Steets https://steets.tech/", "Terra Hatvol https://twitter.com/TerraHatvol", NULL};
     gtk_show_about_dialog(
         window,
         "logo", logo,
         "program-name", "Heartbound Save Editor",
-        "version", "Version 1.0.0.2",
+        "version", "Version 1.0.0.3",
         "authors", authors,
         "documenters", documenters,
         "copyright", "Copyright 2022 by Tiago Becerra Paolini",
@@ -1853,11 +1857,12 @@ void hb_flag_data_as_changed(GtkWidget *widget)
     has_unsaved_data = true;
 
     // Allocate buffer for the changed window title
-    char *restrict title = calloc(PATH_BUFFER, sizeof(char));
+    size_t buffer_size = PATH_BUFFER + strlen(WINDOW_TITLE) + 5;    // There are 4 chars besides the title and the path, plus the terminator
+    char *restrict title = calloc(buffer_size, sizeof(char));
     if (title == NULL) return;
 
     // Place an asterisk at the beginning of the window title
-    snprintf(title, PATH_BUFFER, "*%s - %s", CURRENT_FILE, WINDOW_TITLE);
+    snprintf(title, buffer_size, "*%s - %s", CURRENT_FILE, WINDOW_TITLE);
     GtkWidget *my_window = gtk_widget_get_toplevel(widget);
     if (GTK_IS_WINDOW(my_window)) gtk_window_set_title(GTK_WINDOW(my_window), title);
 

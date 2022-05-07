@@ -55,16 +55,36 @@ static uint32_t config_hash(char *key)
 static bool config_add(char *key, char *value)
 {
     // Allocate memory for the setting struct
-    EditorSetting *my_setting = malloc(sizeof(EditorSetting));
+    EditorSetting *my_setting = calloc(1, sizeof(EditorSetting));
     if (my_setting == NULL) return false;  // Stop if there's no available memory
     
     // Store the key/value pair on the struct
-    my_setting->key   = malloc( strnlen_s(key  , EDITOR_CFG_BUFFER) + 1 );
-    my_setting->value = malloc( strnlen_s(value, EDITOR_CFG_BUFFER) + 1 );
 
-    strncpy_s(my_setting->key  , EDITOR_CFG_BUFFER, key  , EDITOR_CFG_BUFFER);
-    strncpy_s(my_setting->value, EDITOR_CFG_BUFFER, value, EDITOR_CFG_BUFFER);
+    // Get the size of the key and value
+    size_t key_len = strnlen(key  , EDITOR_CFG_BUFFER);
+    size_t value_len = strnlen(value  , EDITOR_CFG_BUFFER);
+    
+    // Try allocating memory for the key and value
+    my_setting->key   = calloc(key_len + 1, sizeof(char));
+    if (my_setting->key == NULL)
+    {
+        free(my_setting);
+        return false;
+    }
+    
+    my_setting->value = calloc(value_len + 1, sizeof(char));
+    if (my_setting->value == NULL)
+    {
+        free(my_setting->key);
+        free(my_setting);
+        return false;
+    }
 
+    // Copy the key and value to the allocated memory
+    strncpy(my_setting->key  , key  , key_len);
+    strncpy(my_setting->value, value, value_len);
+
+    // Pointers to the next entries on the data structures
     my_setting->list_next = NULL;
     my_setting->map_next  = NULL;
 
@@ -134,7 +154,7 @@ void hb_config_init()
         key   = strtok(line_buffer, "=");
         if (key == NULL)   continue;
         
-        value = strtok(NULL, "=");
+        value = strtok(NULL, "\n");
         if (value == NULL) continue;
 
         // Strip the newline at the end of the value, if there is any
@@ -172,11 +192,12 @@ void hb_config_set(char *key, char *value)
                 char *old_value = current->value;
 
                 // Try to replace the old value
-                current->value = malloc(strnlen_s(value, EDITOR_CFG_BUFFER) + 1);
+                size_t value_len = strnlen(value, EDITOR_CFG_BUFFER);
+                current->value = calloc(value_len + 1, sizeof(char));
                 if (current->value != NULL)
                 {
                     // Store the new value and delete the old one
-                    strncpy_s(current->value, EDITOR_CFG_BUFFER, value, EDITOR_CFG_BUFFER);
+                    strncpy(current->value, value, value_len);
                     free(old_value);
                     config_write();
                 }
@@ -198,6 +219,16 @@ void hb_config_set(char *key, char *value)
     // Create the key if it does not exist
     config_add(key, value);
     config_write();
+}
+
+// Store the key/value pair of a setting, by using a boolean value ('true' or 'false')
+void hb_config_set_bool(char *key, bool value)
+{
+    // Convert the default value from boolean to string
+    char *value_str = value ? "1" : "0";
+
+    // Set the key's value
+    hb_config_set(key, value_str);
 }
 
 // Retrieve the key/value pair of a setting
@@ -228,6 +259,17 @@ char *hb_config_get(char *key, char *default_value)
     // Store and return the default value if no match was found
     config_add(key, default_value);
     return default_value;
+}
+
+// Get the key's value as a boolean data type ('true' or 'false')
+// (return and create a key with the default value, if an existing key is not found)
+bool hb_config_get_bool(char *key, bool default_value)
+{
+    // Convert the default value from boolean to string
+    char *default_str = default_value ? "1" : "0";
+
+    // Return 'false' if the value starts with the "0" character, otherwise return 'true'
+    return (hb_config_get(key, default_str)[0] == '0') ? false : true;
 }
 
 // Delete a key (and its value) from the configurations' data structures
@@ -357,4 +399,6 @@ void hb_config_close()
         current_config = current_config->list_next;
         free(previous_config);
     }
+
+    config_count = 0;
 }
