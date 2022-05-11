@@ -39,8 +39,8 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 38	31	Home Bedroom	Dream Sequence Played															
 39	32	Home Bedroom	Room has been exited 2															
 40	33	INVENTORY	Baron's Collar State		0|1	Nothing	Have											
-41	34	Forest Darkbough	Darksider Growl State	Sound Triggers	0|1|2													
-42	35	Forest Treepuzzle	Darksider Growl State	Sound Triggers	0|1													
+41	34	Forest Darkbough	Darksider Growl State	Sound Triggers	0|1|2|3													
+42	35	Forest Treepuzzle	Darksider Growl State	Sound Triggers	0|1|2													
 43	36	INVENTORY	Tree Puzzle Page 1		0|1	Nothing	Have											
 44	37	INVENTORY	Tree Puzzle Page 2		0|1	Nothing	Have											
 45	38	INVENTORY	Tree Puzzle Page 3		0|1	Nothing	Have											
@@ -393,4 +393,4 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 392	385	Rhode Judge	Destroyed The Crown?		0|1|2	Not Yet	Destroyed	Ignored										
 393	386	Barghest 2	Won or Lost?		0|1|2	No	Won	Lost										
 394	387	Rhode Game	What does Rhode call eggs?		0|1	Food Pods	Egg Pods											
-395	388	Rhode Judge	Rhode bit Lore		0|1	Not Yet	Bit											
+395	388	Rhode Judge	Rhode bit Lore		0|1	Not Yet	Bit										

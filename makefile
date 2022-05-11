@@ -12,7 +12,7 @@ LOADER_O := $(addsuffix .o,$(basename $(LOADER_C)))
 NAME := Heartbound Save Editor
 
 # Folder where the build will go
-DIRECTORY := build
+DIRECTORY := build/window
 
 # Icon and metadata for the program executable
 RESOURCES := resources.rc
