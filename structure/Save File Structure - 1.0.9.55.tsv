@@ -39,8 +39,8 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 38	31	Home Bedroom	Dream Sequence Played														
 39	32	Home Bedroom	Room has been exited 2														
 40	33	INVENTORY	Baron's Collar State		0|1	Nothing	Have										
-41	34	Forest Darkbough	Darksider Growl State		0|1|2	Sound Triggers											
-42	35	Forest Treepuzzle	Darksider Growl State		0|1	Sound Triggers											
+41	34	Forest Darkbough	Darksider Growl State		0|1|2|3	Sound Triggers											
+42	35	Forest Treepuzzle	Darksider Growl State		0|1|2	Sound Triggers											
 43	36	INVENTORY	Tree Puzzle Page 1		0|1	Nothing	Have										
 44	37	INVENTORY	Tree Puzzle Page 2		0|1	Nothing	Have										
 45	38	INVENTORY	Tree Puzzle Page 3		0|1	Nothing	Have										
