@@ -33,7 +33,7 @@ CFLAGS := $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-
 # Note: Here we run a shell command to get the flags to pass to the compiler, they return the folders of the GTK 3 headers and libraries.
 
 # Target parameters that 'make' can be run with on the terminal
-.PHONY: release debug clean analyze
+.PHONY: release debug zip clean analyze
 
 # Subfolder where the release build will go
 release: TARGET = release
@@ -88,6 +88,13 @@ structure:
 # Compile the executable icon and metadata
 $(RESOURCES_O): assets\$(ICON) $(RESOURCES)
 	windres $*.rc $*.o
+
+# Create a zip file with the release build
+zip: TARGET = release
+zip:
+	move "$(DIRECTORY)\$(TARGET)" "$(DIRECTORY)\$(NAME)"
+	-cd "$(DIRECTORY)" && ..\utils\7z.exe a -tzip -mx9 "$(NAME).zip" "$(NAME)" && cd ..\ 
+	move "$(DIRECTORY)\$(NAME)" "$(DIRECTORY)\$(TARGET)"
 
 # Perform some static code analysis
 analyze:
