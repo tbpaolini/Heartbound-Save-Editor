@@ -80,6 +80,10 @@ with open("..\structure\Save File Structure - 1.0.9.55.tsv", "rt") as file:
         
         # Join each cell with a tab, then add the changed line to the list
         edited_lines.append(new_line)
+    
+    # Terminate the file
+    # (add a tab to the last line, because it got missing due to the above mofifications)
+    edited_lines[-1] = edited_lines[-1][:-1] + "\t\n"
 
 # Save a file with all the changed lines
 with open("..\structure\save_structure.tsv", "wt") as file:
