@@ -93,7 +93,7 @@ $(RESOURCES_O): assets\$(ICON) $(RESOURCES)
 zip: TARGET = release
 zip:
 	move "$(DIRECTORY)\$(TARGET)" "$(DIRECTORY)\$(NAME)"
-	-cd "$(DIRECTORY)" && ..\utils\7z.exe a -tzip -mx9 "$(NAME).zip" "$(NAME)" && cd ..\ 
+	-cd "$(DIRECTORY)" && ..\..\utils\7z.exe a -tzip -mx9 "$(NAME).zip" "$(NAME)" && cd ..\ 
 	move "$(DIRECTORY)\$(NAME)" "$(DIRECTORY)\$(TARGET)"
 
 # Perform some static code analysis
