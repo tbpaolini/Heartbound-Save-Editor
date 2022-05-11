@@ -21,7 +21,7 @@ CFLAGS := $(shell pkg-config --cflags --libs gtk+-3.0) -lm -Iincludes -fdiagnost
 # Note: Here we run two shell commands to get the flags to pass to the compiler, they return the folders of the GTK 3 headers and libraries.
 
 # Target parameters that 'make' can be run with on the terminal
-.PHONY: release debug clean analyze
+.PHONY: release debug tar clean analyze
 
 # Creation of a Debian package for the program
 define deb-package
@@ -79,6 +79,13 @@ assets:
 structure:
 	mkdir -p "$(DIRECTORY)/$(TARGET)/usr/lib/$(NAME)/structure/"
 	$(foreach file, $(STRUCT), cp -ru "structure/$(file)" "$(DIRECTORY)/$(TARGET)/usr/lib/$(NAME)/structure/" &)
+
+# Create a TAR file
+tar: TARGET = release
+tar:
+	mv $(DIRECTORY)/$(TARGET) $(DIRECTORY)/$(NAME)
+	-tar --directory=$(DIRECTORY) -cvzf $(DIRECTORY)/$(NAME).tar.xz $(NAME)
+	mv $(DIRECTORY)/$(NAME) $(DIRECTORY)/$(TARGET)
 
 # Perform some static code analysis
 analyze:
