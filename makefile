@@ -84,7 +84,9 @@ structure:
 tar: TARGET = release
 tar:
 	mv $(DIRECTORY)/$(TARGET) $(DIRECTORY)/$(NAME)
+	-cp -v packaging/tar-readme.txt $(DIRECTORY)/$(NAME)/readme.txt
 	-tar --directory=$(DIRECTORY) -cvzf $(DIRECTORY)/$(NAME).tar.xz $(NAME)
+	-rm -v $(DIRECTORY)/$(NAME)/readme.txt
 	mv $(DIRECTORY)/$(NAME) $(DIRECTORY)/$(TARGET)
 
 # Perform some static code analysis
