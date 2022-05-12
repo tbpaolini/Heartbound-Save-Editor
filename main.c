@@ -384,7 +384,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             if (hb_save_data[var].name != NULL)
             {strncpy(text_buffer, hb_save_data[var].name, TEXT_BUFFER_SIZE);}
             else
-            {text_buffer[0] == '\0';}
+            {text_buffer[0] = '\0';}
             
             // If the entry has additional info, append it to the text buffer
             if (hb_save_data[var].info != NULL)
