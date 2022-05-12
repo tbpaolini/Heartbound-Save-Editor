@@ -394,3 +394,14 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 393	386	Barghest 2	Won or Lost?		0|1|2	No	Won	Lost										
 394	387	Rhode Game	What does Rhode call eggs?		0|1	Food Pods	Egg Pods											
 395	388	Rhode Judge	Rhode bit Lore		0|1	Not Yet	Bit											
+396	389	Mole Home	Times Avocado Bothered		0|X	Not Yet										Bothered Amount		
+397	390	Mole Home	Potion given to Fancy Cacti		0|1	No	Yes											
+398	391	Mole Home	Fancy Cacti talked to with Factus		0|1	No	Yes											
+399	392	Mole Home	Bowtie		0|1|2|3	No	Red	Green	Blue									
+400	393	Mole Home	Light Scene		0|1|2	No	Light Off	Check Again										
+401	394	Mole Home	Mushroom Pun		0|1	No	Yes											
+402	395	Mailshroom	Mushroom Pun		0|1	No	Yes											
+403	396	Mole Home	Left Early		0|1	No	Yes											
+404	397	Middle	Factus Joke		0|1	No	Yes											
+405	398	Turtle Home	Lightswitch State Right		0|1	Off	On											
+406	399	Mid Lake	Fight The Aspects?		0|1|2	Not Yet	Fight	Time Out										
