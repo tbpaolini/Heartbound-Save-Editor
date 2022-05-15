@@ -155,7 +155,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 154	147	Goose Finding	6		0|1	Unknown	Found										
 155	148	Servers	Duck Finding Active		0|1|2|3	No	Active	Duck Complete	Goose Complete								
 156	149	Boardroom	Entrance Event		0|1	No	Yes										
-157	150	Techies	OScar Unlocks First Job		0|1 No|Yes	No	Yes										
+157	150	Techies	OScar Unlocks First Job		0|1	No	Yes										
 158	151	Boardroom	Password Collected		0|1	No	Yes										
 159	152	Breakroom103	Time Spent		X											Total Seconds	
 160	153	Boardroom	Password Selected		X											Password index from obj_boardroom_talker_whiteboard	
