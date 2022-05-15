@@ -438,6 +438,7 @@ static void turtlefarm_init()
             // Get the text until the next delimiter (tab or colons)
             next_char = line_buffer[line_pos++];
             if (next_char == '\0') break;       // Break if there is no text left
+            if (next_char == '\n') continue;    // Move to the next row if at newline
             
             if (next_char == '\t')
             {
