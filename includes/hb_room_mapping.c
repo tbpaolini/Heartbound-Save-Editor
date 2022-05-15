@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <stdbool.h>
 #include "../config.h"
 #include <hb_room_mapping.h>
 
@@ -27,6 +28,8 @@ HeartboundLocation* hb_location_list;                   // Lookup table for the 
 HeartboundLocation* hb_location_map[PLACE_MAP_SIZE];    // Maps to an element of the table by a hash function
 size_t hb_locations_amount;                             // Number of locations in the data structures
 
+// Whether the rooms data structures have been built already
+static bool rooms_are_initialized = false;
 
 // ********************************************************************
 // Hashmap for retrieving the values from the lists of rooms and locations
@@ -110,6 +113,8 @@ static size_t count_entries(FILE *my_file, size_t max_entries)
 // Parse the rooms/locations files and build the lookup tables and hashmaps
 void hb_parse_rooms_locations()
 {
+    if (rooms_are_initialized) return;
+    
     char *restrict read_buffer = malloc(STRUCT_LINE_BUFFER);  // Bufer for reading the lines of each file
     size_t list_index;      // Current index on the lookup table
     uint32_t map_index;     // Current index on the hashmap
@@ -333,6 +338,8 @@ void hb_parse_rooms_locations()
     
     // Deallocate the read buffer
     free(read_buffer);
+
+    rooms_are_initialized = true;
 }
 
 // Retrieve a room struct from its name
@@ -387,4 +394,6 @@ void hb_unmap_rooms_locations()
     
     free(hb_room_list);
     free(hb_location_list);
+
+    rooms_are_initialized = false;
 }
