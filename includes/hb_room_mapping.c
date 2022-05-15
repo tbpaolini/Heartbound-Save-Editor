@@ -15,7 +15,7 @@
 #endif
 
 // Array of chapter names (as strings)
-char *hb_chapter[CHAPTER_AMOUNT] = {"Global", "Hometown", "The Tower", "Animus", "Jotunheim", "REDACTED"};
+char *hb_chapter[CHAPTER_AMOUNT] = {"_Global", "_Hometown", "The _Tower", "_Animus", "_Jotunheim", "_REDACTED"};
 
 // List of all rooms in the game and their repective coordinates where the player spawns
 HeartboundRoom* hb_room_list;                  // Lookup table for the rooms
