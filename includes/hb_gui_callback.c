@@ -1083,31 +1083,49 @@ void hb_notebook_keyboard_scrolling(GtkScrolledWindow *widget, GdkEventKey event
     // Get the vertical position of the page
     gdouble position = gtk_adjustment_get_value(adjustment);
 
-    // Get the scrolling increments
-    gdouble step = gtk_adjustment_get_step_increment(adjustment);  // Amount to be scrolled by the arrows (roughly a line)
-    gdouble page = gtk_adjustment_get_page_increment(adjustment);  // Amount to be scrolled by the Page keys (roughly the visible area)
+    // The scrolling increments and limits
+    gdouble step;               // Amount to be scrolled by the arrows (roughly a line)
+    gdouble page;               // Amount to be scrolled by the Page keys (roughly the visible area)
+    gdouble position_top;       // Top of the scrolled window's contents
+    gdouble position_bottom;    // Bottom of the scrolled window's contents
 
     // Check which key was pressed
     switch (event.keyval)
     {
         case GDK_KEY_Page_Down:
             // Scroll down a page
+            page = gtk_adjustment_get_page_increment(adjustment);
             gtk_adjustment_set_value(adjustment, position + page);
             break;
         
         case GDK_KEY_Page_Up:
             // Scroll up a page
+            page = gtk_adjustment_get_page_increment(adjustment);
             gtk_adjustment_set_value(adjustment, position - page);
             break;
         
         case GDK_KEY_Down:
             // Scroll down a line
+            step = gtk_adjustment_get_step_increment(adjustment);
             gtk_adjustment_set_value(adjustment, position + step);
             break;
         
         case GDK_KEY_Up:
             // Scroll up a line
+            step = gtk_adjustment_get_step_increment(adjustment);
             gtk_adjustment_set_value(adjustment, position - step);
+            break;
+        
+        case GDK_KEY_Home:
+            // Move to the top of the contents
+            position_top = gtk_adjustment_get_lower(adjustment);
+            gtk_adjustment_set_value(adjustment, position_top);
+            break;
+        
+        case GDK_KEY_End:
+            // Move to the bottom of the contents
+            position_bottom = gtk_adjustment_get_upper(adjustment); // Bottom of the scrolled window's contents
+            gtk_adjustment_set_value(adjustment, position_bottom);
             break;
         
         default:
