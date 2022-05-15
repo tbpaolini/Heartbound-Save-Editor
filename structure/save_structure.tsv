@@ -405,3 +405,11 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 404	397	Middle	Factus Joke		0|1	No	Yes											
 405	398	Turtle Home	Lightswitch State Right		0|1	Off	On											
 406	399	Mid Lake	Fight The Aspects?		0|1|2	Not Yet	Fight	Time Out										
+407	400	Turtle Farm	Crop Values	Green Lettuce	0|X											Bitmask		
+408	401	Turtle Farm	Crop Values	Orange Carrot	0|X											Bitmask		
+409	402	Turtle Farm	Crop Values	Purple Carrot	0|X											Bitmask		
+410	403	Turtle Farm	Crop Values	Purple Lettuce	0|X											Bitmask		
+411	404	Turtle Farm	Crop Values	White Turnip	0|X											Bitmask		
+412	405	Turtle Farm	Crop Values	Green Spinach	0|X											Bitmask		
+413	406	Turtle Farm	Crop Values	Purple Radish	0|X											Bitmask		
+414	407	Turtle Farm	Crop Values	Purple Spinash	0|X											Bitmask		
