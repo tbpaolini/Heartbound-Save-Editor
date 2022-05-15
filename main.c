@@ -237,7 +237,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     for (int i = 0; i < CHAPTER_AMOUNT; i++)
     {
         // Create chapter page
-        chapter_label[i] = gtk_label_new(hb_chapter[i]);        // Notebook tab for the chapter window
+        chapter_label[i] = gtk_label_new_with_mnemonic(hb_chapter[i]);  // Notebook tab for the chapter window
         chapter_page[i] = gtk_scrolled_window_new(NULL, NULL);  // Scrollable window for the grid
         chapter_grid[i] = gtk_grid_new();                       // Grid with the contents of the chapter
 
