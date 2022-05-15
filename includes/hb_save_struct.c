@@ -18,6 +18,17 @@ static size_t unit_column;             // Index of the column with the measureme
 static size_t var_pos;                 // Index of the value of a storyline variable
 static size_t max_var;                 // Index of the last storyline variable on the structure file
 
+// Storage of which crops of the Mossback's farm have been destroyed
+// Note: Their states are stored as a bitmask across 8 different variables,
+//       with 1 meaning destroyed, and 0 meaning not destroyed.
+TurtlefarmCrop hb_turtlefarm_layout[TURTLEFARM_HEIGHT][TURTLEFARM_WIDTH];
+
+double hb_turtlefarm_mask[32];  // The first 32 powers of 2, as double precision floats
+// Note: Since I am storing all variable values as doubles, I can't just do bitwise operations
+//       with the values of the crops, without changing how the rest of the variables work.
+//       Since a value using a bitmask is the exception, rather than the rule, then I am
+//       just going to add or subtract the powers if two to the bitmask values.
+
 // Whether the structure file has been parsed
 static bool save_is_initialized = false;
 
@@ -365,10 +376,140 @@ bool hb_create_save_struct()
     // Free the memory of the text buffers
     free(value_buffer);
     free(line_buffer);
+
+    // Parse the layout of the Mossback's farm
+    turtlefarm_init();
     
     // Flag that the structure file has been parsed
     save_is_initialized = true;
     return true;
+}
+
+// Load into memory the layout of the Mossbacks farm
+static void turtlefarm_init()
+{
+    // Try opening the file
+    FILE *turtlefarm_file = fopen(TURTLEFARM_STRUCT_LOC, "r");
+
+    // Exit with an error if the file could not be found
+    if (turtlefarm_file == NULL)
+    {
+        NATIVE_ERROR(
+            "File %s could not be found.\nPlease download Heartbound Save Editor again.",
+            TURTLEFARM_STRUCT_LOC,
+            1024
+        );
+    }
+
+    // Allocate buffers for reading the lines
+    char *restrict line_buffer = malloc(TURTLEFARM_STRUCT_BUFFER * sizeof(char));
+    if (line_buffer == NULL)
+    {
+        fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
+        exit(EXIT_FAILURE);
+    }
+    
+    char *restrict value_buffer = malloc(TURTLEFARM_STRUCT_BUFFER * sizeof(char));
+    if (value_buffer == NULL)
+    {
+        fprintf(stderr, "Not enough memory to run Heartbound Save Editor.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Coordinates of the crop on the farm layout grid
+    size_t x_pos = 0;
+    size_t y_pos = 0;
+
+    // Loop through the lines of the file
+    while (!feof(turtlefarm_file) && y_pos < TURTLEFARM_HEIGHT)
+    {
+        // Read a row from the file
+        char *line_status = fgets(line_buffer, TURTLEFARM_STRUCT_BUFFER, turtlefarm_file);
+        if (line_status == NULL) break;
+
+        // Loop through the columns in the row
+        char next_char = '\0';
+        char line_pos = 0;
+        for (x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+        {
+            // Keep track if the file is well formatted
+            bool success = false;
+            
+            // Get the text until the next delimiter (tab or colons)
+            next_char = line_buffer[line_pos++];
+            if (next_char == '\0') break;       // Break if there is no text left
+            
+            if (next_char == '\t')
+            {
+                // If the cell is empty, store 0 for both values
+                hb_turtlefarm_layout[y_pos][x_pos].var = 0;
+                hb_turtlefarm_layout[y_pos][x_pos].bit = 0;
+                
+                // Move to the next cell
+                success = true;
+                continue;
+            }
+            else if (isdigit(next_char))
+            {
+                // Store the values if the cell is not empty
+                
+                // Get the storyline variable's number
+                char value_pos = 0;
+                while (isdigit(next_char))
+                {
+                    value_buffer[value_pos++] = next_char;
+                    next_char = line_buffer[line_pos++];
+                }
+                
+                // Store the storyline variable number
+                value_buffer[value_pos] = '\0';  // Null terminate the string
+                hb_turtlefarm_layout[y_pos][x_pos].var = atoll(value_buffer);
+
+                if (next_char == ':')
+                {
+                    // Get the bit position
+                    next_char = line_buffer[line_pos++];
+                    value_pos = 0;
+                    while (isdigit(next_char))
+                    {
+                        value_buffer[value_pos++] = next_char;
+                        next_char = line_buffer[line_pos++];
+                    }
+
+                    // Store the bit position
+                    value_buffer[value_pos] = '\0';  // Null terminate the string
+                    hb_turtlefarm_layout[y_pos][x_pos].bit = atoll(value_buffer);
+                    if (value_pos > 0) success = true;
+                }
+            }
+
+            // Exit with an error if the file is not properly formatted
+            if (!success)
+            {
+                NATIVE_ERROR(
+                    "File %s is corrupted.\nPlease download Heartbound Save Editor again.",
+                    TURTLEFARM_STRUCT_LOC,
+                    1024
+                );
+            }
+        }
+        
+        // Move to the next row
+        y_pos++;
+    }
+
+    // Close the file
+    fclose(turtlefarm_file);
+
+    // Deallocate the buffers
+    free(line_buffer);
+    free(value_buffer);
+
+    // Calculate the values of the bitmask
+    for (size_t i = 0; i < 32; i++)
+    {
+        hb_turtlefarm_mask[i] = (double)(1 << i);
+    }
 }
 
 // Free the used memory by the save data structure

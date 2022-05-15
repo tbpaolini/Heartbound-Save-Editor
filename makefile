@@ -23,7 +23,7 @@ ICON := icon.ico
 GTK_ICONS := document-save,document-open,dialog-error,dialog-warning,image-loading,image-missing,pan-down-symbolic,pan-up-symbolic
 
 # Files to dynamically build the user interface
-STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
+STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv turtlefarm_crops.tsv
 
 # Files and folders necessary for compiling the program
 DEPENDENCIES := gtk3 structure assets $(RESOURCES_O) $(OBJECTS) $(LOADER_O)
