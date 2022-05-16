@@ -494,6 +494,12 @@ static void turtlefarm_init()
                     value_buffer[value_pos] = '\0';  // Null terminate the string
                     hb_turtlefarm_layout[y_pos][x_pos].bit = atoll(value_buffer);
                     if (value_pos > 0) success = true;
+
+                    // Store the coordinates on the grid (only for the debug build)
+                    #ifdef _DEBUG
+                    hb_turtlefarm_layout[y_pos][x_pos].x = x_pos;
+                    hb_turtlefarm_layout[y_pos][x_pos].y = y_pos;
+                    #endif
                 }
             }
 

@@ -538,7 +538,48 @@ void hb_random_seed(char *game_seed)
 // Set the state (not destroyed or destroyed) for the crops on the Mossback's farm
 void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
 {
+    size_t crop_var = crop->var;    // Index of the storyline variable that has the crop
+    size_t bit_pos = crop->bit;     // Position on the bitmask that stores the crop's state
     
+    // The crop's state is "destroyed" if its checkbox is checked
+    gboolean is_destroyed = gtk_toggle_button_get_active(widget);
+
+    if (is_destroyed)
+    {
+        // If the crop is destroyed, add the mask's value to the variable
+        hb_save_data[crop_var].value += hb_turtlefarm_mask[bit_pos];
+
+        // Print a message on the debug build
+        #ifdef _DEBUG
+        g_message(
+            "Turtle Farm: Crop %s at %llu x %llu -> destroyed (var %llu:%llu -> %.0f)",
+            hb_save_data[crop_var].info,
+            crop->x,
+            crop->y,
+            crop->var,
+            crop->bit,
+            hb_save_data[crop_var].value
+        );
+        #endif
+    }
+    else
+    {
+        // If the crop is not destroyed, subtract the mask's value from the variable
+        hb_save_data[crop_var].value -= hb_turtlefarm_mask[bit_pos];
+
+        // Print a message on the debug build
+        #ifdef _DEBUG
+        g_message(
+            "Turtle Farm: Crop %s at %llu x %llu -> not destroyed (var %llu:%llu -> %.0f)",
+            hb_save_data[crop_var].info,
+            crop->x,
+            crop->y,
+            crop->var,
+            crop->bit,
+            hb_save_data[crop_var].value
+        );
+        #endif
+    }
 }
 
 // Highlight a menu item when the mouse pointer is over the item
