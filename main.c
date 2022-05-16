@@ -457,6 +457,24 @@ static void activate( GtkApplication* app, gpointer user_data )
                             G_CALLBACK(hb_setvar_turtlefarm),       // Calback function
                             &hb_turtlefarm_layout[y_pos][x_pos]     // The variable number and the bit position that the button modifies
                         );
+
+                        // Store the pointer to the checkbox widget
+                        hb_turtlefarm_layout[y_pos][x_pos].widget = turtlefarm_checkbox_tb;
+
+                        // Add tooltip text to the checkbox
+                        snprintf(
+                            text_buffer,
+                            TEXT_BUFFER_SIZE,
+                            "%s at %llu x %llu\nStory variable #%llu:%llu",
+                            hb_save_data[hb_turtlefarm_layout[y_pos][x_pos].var].info,
+                            hb_turtlefarm_layout[y_pos][x_pos].x,
+                            hb_turtlefarm_layout[y_pos][x_pos].y,
+                            hb_turtlefarm_layout[y_pos][x_pos].var,
+                            hb_turtlefarm_layout[y_pos][x_pos].bit,
+                            NULL
+                        );
+
+                        gtk_widget_set_tooltip_text(turtlefarm_checkbox, text_buffer);
                     }
                 }
                 
