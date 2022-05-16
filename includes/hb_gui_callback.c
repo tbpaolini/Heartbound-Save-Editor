@@ -588,6 +588,9 @@ void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
         );
         #endif
     }
+
+    // Flag the editor's data as unsaved
+    hb_flag_data_as_changed(GTK_WIDGET(widget));
 }
 
 // Highlight a menu item when the mouse pointer is over the item
