@@ -535,6 +535,12 @@ void hb_random_seed(char *game_seed)
     snprintf(game_seed, SEED_SIZE-1, "%09llu", new_seed);
 }
 
+// Set the state (not destroyed or destroyed) for the crops on the Mossback's farm
+void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
+{
+    
+}
+
 // Highlight a menu item when the mouse pointer is over the item
 void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data)
 {

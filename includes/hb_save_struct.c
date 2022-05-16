@@ -138,6 +138,7 @@ bool hb_create_save_struct()
         hb_save_data[i].info = NULL;
         hb_save_data[i].unit = NULL;
         hb_save_data[i].aliases = NULL;
+        hb_save_data[i].is_bitmask = false;
         hb_save_data[i].used = false;
         hb_save_data[i].def = 0.0;
         hb_save_data[i].maximum = 0.0;
@@ -231,6 +232,18 @@ bool hb_create_save_struct()
                     case 3:
                         // Description 1 (name of the storyline variable)
                         hb_save_data[var].name = my_value;
+
+                        // Check if this entry has data of the Mossback's farm crops
+                        if (strcmp(my_value, "Crop Values") == 0)
+                        {
+                            hb_save_data[var].is_bitmask = true;
+                        }
+                        /* Note:
+                            The crops at the Mossback's farm are unique in the sense that their state is
+                            stored in bitmasks (0 = not destroyed; 1 =  destroyed), across 8 variables.
+                            So we are have a special case for them.
+                        */
+                        
                         break;
                     
                     case 4:
@@ -552,6 +565,8 @@ void hb_destroy_save_struct()
         hb_save_data[var].maximum = 0.0;
         hb_save_data[var].num_entries = (size_t)0;
         hb_save_data[var].index = (size_t)0;
+        hb_save_data[var].is_bitmask = false;
+        hb_save_data[var].used = false;
     }
 
     // Flag that the save structure is not parsed
