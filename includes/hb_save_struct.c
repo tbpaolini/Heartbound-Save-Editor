@@ -493,7 +493,16 @@ static void turtlefarm_init()
                     // Store the bit position
                     value_buffer[value_pos] = '\0';  // Null terminate the string
                     hb_turtlefarm_layout[y_pos][x_pos].bit = atoll(value_buffer);
-                    if (value_pos > 0) success = true;
+                    if (value_pos > 0 && hb_turtlefarm_layout[y_pos][x_pos].bit < 32
+                        && hb_turtlefarm_layout[y_pos][x_pos].var < NUM_STORY_VARS)
+                    {
+                        /*
+                            The parsing is considered a success if there is at least one digit on both
+                            the variable number and bit position. Also they need to be within  their
+                            respective ranges, in order to avoid reading or writting beyond their limits.
+                        */
+                        success = true;
+                    }
 
                     // Store the coordinates on the grid (only for the debug build)
                     #ifdef _DEBUG
