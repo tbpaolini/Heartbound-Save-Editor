@@ -546,6 +546,9 @@ void hb_random_seed(char *game_seed)
 // Set the state (not destroyed or destroyed) for the crops on the Mossback's farm
 void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
 {
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
     size_t crop_var = crop->var;    // Index of the storyline variable that has the crop
     size_t bit_pos = crop->bit;     // Position on the bitmask that stores the crop's state
     
@@ -788,10 +791,40 @@ void hb_load_data_into_interface(GtkWindow *window)
     is_loading_file = true;
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
     
+    // Special case for the Mossback's farm (which uses bitmasks)
+    bool turtlefarm_is_loaded = false;
+
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
+        // Skip the variable if it is not being used
         if (!hb_save_data[var].used) continue;
 
+        // Skip a variable of the Mossback's farm if the place's data has been already loaded
+        if (turtlefarm_is_loaded && hb_save_data[var].is_bitmask);
+
+        // Special case for the Mossback's farm
+        // Update its checkboxes with the values on the bitmasks
+        if (hb_save_data[var].is_bitmask)
+        {
+            // Loop through all crops on the farm
+            for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+            {
+                for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+                {
+                    TurtlefarmCrop *crop = &hb_turtlefarm_layout[y_pos][x_pos];         // Pointer to the crop's struct
+                    if (crop->var == 0) continue;
+                    uint32_t crop_bitmask = (uint32_t)(hb_save_data[crop->var].value);  // Convert the variable's value to 32-bit unsigned integer
+                    gboolean state = (gboolean)((crop_bitmask >> crop->bit) & 1);       // Get the bit at the specified position on the value
+                    gtk_toggle_button_set_active(crop->widget, state);                  // Set the checkbox to the same state as the bit
+                }
+            }
+
+            // Flag the location as loaded and move to the next variable
+            turtlefarm_is_loaded = true;
+            continue;
+        }
+
+        // What kind of widget holds the save data
         if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
         {
             // Text field
