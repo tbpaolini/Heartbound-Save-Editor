@@ -78,10 +78,9 @@ typedef struct TurtlefarmCrop
 {
     size_t var;     // Which storyline variable has the crop's state
     size_t bit;     // Which bit of the variable stores this specific crop's state
-    #ifdef _DEBUG
     size_t x;       // Column on the farm's grid
     size_t y;       // Row on the farm's grid
-    #endif
+    GtkToggleButton *widget;    // Pointer to the checkbox widget that controls this crop
 } TurtlefarmCrop;
 
 extern TurtlefarmCrop hb_turtlefarm_layout[TURTLEFARM_HEIGHT][TURTLEFARM_WIDTH];
