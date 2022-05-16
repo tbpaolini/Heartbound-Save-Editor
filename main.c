@@ -350,6 +350,10 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Add the save entries to each page
     // *********************************
 
+    bool turtlefarm_initialized = false;    // Whether we have already processed the data of the crops of the Mossback's farm
+    // Note: Since this place stores its values differently than anything else on the game, we need a special case for it.
+    //       The crops' state is stored on bitmasks across 8 different variables (0 = not destroyed | 1 = destroyed).
+
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         /*
@@ -364,6 +368,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         
         if (hb_save_data[var].used)
         {
+            // Skip the variable if it belongs to the Mossback's farm crops and their data were already initialized
+            if (hb_save_data[var].is_bitmask && turtlefarm_initialized) continue;
+            
             // Get the chapter and window position
             HeartboundLocation *my_location = hb_get_location(hb_save_data[var].location);
             if (my_location == NULL) continue;  // Skip the entry if its location was not found
@@ -399,6 +406,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             
             // Create a name label with the string on the text buffer
             GtkWidget *my_name_label = gtk_label_new(text_buffer);
+            if (hb_save_data[var].is_bitmask) gtk_label_set_text(GTK_LABEL(my_name_label), "Destroyed crops:");  // Special case: Mossback's farm
             gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);
             gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);
             gtk_widget_set_margin_top(my_name_label, 4);    // Added some top margin so the label's text align with the options
@@ -419,6 +427,56 @@ static void activate( GtkApplication* app, gpointer user_data )
 
             // Add the flow box to the wrapper
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_options);
+
+            // Special case: Mossback's farm
+            // We are adding the checkboxes for switching the state of each crop
+            if (hb_save_data[var].is_bitmask)
+            {
+                // Grid for storing the checkboxes
+                GtkGrid *turtlefarm_grid = GTK_GRID(gtk_grid_new());
+                gtk_grid_set_row_homogeneous(turtlefarm_grid, TRUE);
+                gtk_grid_set_column_homogeneous(turtlefarm_grid, TRUE);
+
+                // Add the grid to the options area
+                gtk_container_add(GTK_CONTAINER(my_options), GTK_WIDGET(turtlefarm_grid));
+                
+                // Loop through all crop spots on the farm (16 x 15 grid)
+                for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+                {
+                    for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+                    {
+                        // Skip if there is no crop on this spot
+                        if (hb_turtlefarm_layout[y_pos][x_pos].var == 0) continue;
+
+                        // Create the checkbox and add it to the grid at the crop's position
+                        // (The grid layout mimics the layout of the crops on the farm)
+                        GtkWidget *turtlefarm_checkbox = gtk_check_button_new();
+                        gtk_grid_attach(turtlefarm_grid, turtlefarm_checkbox, (gint)x_pos, (gint)y_pos, 1, 1);
+
+                        // Check if the current crop is destroyed
+                        size_t crop_var = hb_turtlefarm_layout[y_pos][x_pos].var;
+                        uint32_t turtlefarm_bitmask = (uint32_t)hb_save_data[crop_var].value;
+                        uint32_t bit_position = (uint32_t)hb_turtlefarm_layout[y_pos][x_pos].bit;
+                        bool is_destroyed = (bool)((turtlefarm_bitmask >> bit_position) & 1);
+                        
+                        // Set the checkbox as "checked" if the current crop is destroyed
+                        GtkToggleButton *turtlefarm_checkbox_tb = GTK_TOGGLE_BUTTON(turtlefarm_checkbox);
+                        if (is_destroyed) gtk_toggle_button_set_active(turtlefarm_checkbox_tb, TRUE);
+                        
+                        // Set the callback function for when the checkbox gets checked or unchecked
+                        g_signal_connect(
+                            turtlefarm_checkbox_tb,                 // The checkbox
+                            "toggled",                              // Event to be listened
+                            G_CALLBACK(hb_setvar_turtlefarm),       // Calback function
+                            &hb_turtlefarm_layout[y_pos][x_pos]     // The variable number and the bit position that the button modifies
+                        );
+                    }
+                }
+                
+                // Mark the farm's data as initialized, then go to the next storyline variable
+                turtlefarm_initialized = true;
+                continue;
+            }
             
             // The type of entry field
             /*  If the '.num_entries' attribute is set to 0, then it means that
