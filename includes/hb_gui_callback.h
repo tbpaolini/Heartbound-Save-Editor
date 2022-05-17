@@ -111,6 +111,12 @@ void hb_random_seed(char *game_seed);
 // Set the state (not destroyed or destroyed) for the crops on the Mossback's farm
 void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop);
 
+// Check all checkboxes that represent the crops of the Mossback's farm
+void hb_turtlefarm_check_all(GtkButton *widget);
+
+// Uncheck all checkboxes that represent the crops of the Mossback's farm
+void hb_turtlefarm_uncheck_all(GtkButton *widget);
+
 // Highlight a menu item when the mouse pointer is over the item
 void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data);
 

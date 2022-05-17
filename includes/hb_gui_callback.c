@@ -588,6 +588,32 @@ void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
     hb_flag_data_as_changed(GTK_WIDGET(widget));
 }
 
+// Check all checkboxes that represent the crops of the Mossback's farm
+void hb_turtlefarm_check_all(GtkButton *widget)
+{
+    for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+    {
+        for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+        {
+            if (hb_turtlefarm_layout[y_pos][x_pos].var == 0) continue;
+            gtk_toggle_button_set_active(hb_turtlefarm_layout[y_pos][x_pos].widget, TRUE);
+        }
+    }
+}
+
+// Uncheck all checkboxes that represent the crops of the Mossback's farm
+void hb_turtlefarm_uncheck_all(GtkButton *widget)
+{
+    for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+    {
+        for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+        {
+            if (hb_turtlefarm_layout[y_pos][x_pos].var == 0) continue;
+            gtk_toggle_button_set_active(hb_turtlefarm_layout[y_pos][x_pos].widget, FALSE);
+        }
+    }
+}
+
 // Highlight a menu item when the mouse pointer is over the item
 void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data)
 {
