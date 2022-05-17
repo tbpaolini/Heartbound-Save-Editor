@@ -542,6 +542,38 @@ static void activate( GtkApplication* app, gpointer user_data )
                     }
                 }
                 
+                // Create and add the check/uncheck all buttons to the bottom
+                GtkWidget *turtlefarm_button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+                GtkWidget *turtlefarm_check_all_button = gtk_button_new_with_label("Check all");
+                GtkWidget *turtlefarm_uncheck_all_button = gtk_button_new_with_label("Uncheck all");
+
+                gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), turtlefarm_check_all_button);
+                gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), turtlefarm_uncheck_all_button);
+
+                gtk_grid_attach(
+                    turtlefarm_grid,        // Parent (the grid)
+                    turtlefarm_button_box,  // Children (the box with buttons)
+                    0,                      // Grid's column
+                    TURTLEFARM_HEIGHT,      // Grid's row
+                    TURTLEFARM_WIDTH,       // Amount of occupied grid cells on the horizontal
+                    1                       // Amount of occupied grid cells on the vertical
+                );
+
+                // Set up the actions of those buttons
+                g_signal_connect(
+                    GTK_BUTTON(turtlefarm_check_all_button),
+                    "clicked",
+                    G_CALLBACK(hb_turtlefarm_check_all),
+                    NULL
+                );
+
+                g_signal_connect(
+                    GTK_BUTTON(turtlefarm_uncheck_all_button),
+                    "clicked",
+                    G_CALLBACK(hb_turtlefarm_uncheck_all),
+                    NULL
+                );
+                
                 // Mark the farm's data as initialized, then go to the next storyline variable
                 turtlefarm_initialized = true;
                 continue;
