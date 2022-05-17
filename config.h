@@ -70,7 +70,7 @@
     "gtk-application-prefer-dark-theme=0"\
 
 // Style for the checkbox buttons of the Mossback's farm crops
-#define CSS_TURTLEFARM_LOC "..\\lib\\structure\\turtlefarm_crops.css"
+#define CSS_TURTLEFARM_LOC "../lib/heartbound-save-editor/structure/turtlefarm_crops.css"
 
 // Default editor's options
 #define CFG_AUTOMATIC_RELOADING true

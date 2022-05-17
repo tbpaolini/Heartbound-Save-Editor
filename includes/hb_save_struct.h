@@ -17,7 +17,7 @@
 #define COLUMN_OFFSET (size_t)6                     // Amount of columns until the storyline variable values
 #define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
 
-#define TURTLEFARM_STRUCT_LOC "..\\lib\\structure\\turtlefarm_crops.tsv"    // The file that stores the layout of the Mossback's farm
+#define TURTLEFARM_STRUCT_LOC "../lib/heartbound-save-editor/structure/turtlefarm_crops.tsv"    // The file that stores the layout of the Mossback's farm
 #define TURTLEFARM_STRUCT_BUFFER (size_t)150                                // Buffer size (in bytes) for each line of the farm layout file
 #define TURTLEFARM_WIDTH (size_t)16     // Amount of columns of crops on the Mossback's farms
 #define TURTLEFARM_HEIGHT (size_t)15    // Amount of rows of crops on the Mossback's farms

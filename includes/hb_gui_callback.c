@@ -563,7 +563,7 @@ void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
         // Print a message on the debug build
         #ifdef _DEBUG
         g_message(
-            "Turtle Farm: Crop %s at %llu x %llu -> destroyed (var %llu:%llu -> %.0f)",
+            "Turtle Farm: Crop %s at %lu x %lu -> destroyed (var %lu:%lu -> %.0f)",
             hb_save_data[crop_var].info,
             crop->x,
             crop->y,
@@ -581,7 +581,7 @@ void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
         // Print a message on the debug build
         #ifdef _DEBUG
         g_message(
-            "Turtle Farm: Crop %s at %llu x %llu -> not destroyed (var %llu:%llu -> %.0f)",
+            "Turtle Farm: Crop %s at %lu x %lu -> not destroyed (var %lu:%lu -> %.0f)",
             hb_save_data[crop_var].info,
             crop->x,
             crop->y,

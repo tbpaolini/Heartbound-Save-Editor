@@ -488,13 +488,12 @@ static void activate( GtkApplication* app, gpointer user_data )
                         snprintf(
                             text_buffer,
                             TEXT_BUFFER_SIZE,
-                            "%s at %llu x %llu\nStory variable #%llu:%llu",
+                            "%s at %lu x %lu\nStory variable #%lu:%lu",
                             hb_save_data[hb_turtlefarm_layout[y_pos][x_pos].var].info,
                             hb_turtlefarm_layout[y_pos][x_pos].x,
                             hb_turtlefarm_layout[y_pos][x_pos].y,
                             hb_turtlefarm_layout[y_pos][x_pos].var,
-                            hb_turtlefarm_layout[y_pos][x_pos].bit,
-                            NULL
+                            hb_turtlefarm_layout[y_pos][x_pos].bit
                         );
 
                         gtk_widget_set_tooltip_text(turtlefarm_checkbox, text_buffer);
