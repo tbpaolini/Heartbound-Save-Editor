@@ -11,7 +11,7 @@ NAME := heartbound-save-editor
 DIRECTORY := build/linux
 
 # Files to dynamically build the user interface
-STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv turtlefarm_crops.tsv
+STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv turtlefarm_crops.tsv turtlefarm_crops.css
 
 # Files and folders necessary for compiling the program
 DEPENDENCIES := structure assets $(OBJECTS)
