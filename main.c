@@ -421,11 +421,21 @@ static void activate( GtkApplication* app, gpointer user_data )
             {
                 // Grid for storing the checkboxes
                 GtkGrid *turtlefarm_grid = GTK_GRID(gtk_grid_new());
-                gtk_grid_set_row_homogeneous(turtlefarm_grid, TRUE);
-                gtk_grid_set_column_homogeneous(turtlefarm_grid, TRUE);
+                gtk_grid_set_row_homogeneous(turtlefarm_grid, TRUE);            // Rows have the save width
+                gtk_grid_set_column_homogeneous(turtlefarm_grid, TRUE);         // Columns have the same height
+                gtk_widget_set_name(GTK_WIDGET(turtlefarm_grid), "turtlefarm"); // CSS id for stlying the grid
 
                 // Add the grid to the options area
                 gtk_container_add(GTK_CONTAINER(my_options), GTK_WIDGET(turtlefarm_grid));
+
+                // Set the style of the checkboxes
+                GtkCssProvider *checkbox_css = gtk_css_provider_new();
+                
+                GFile *css_file = g_file_new_for_path(CSS_TURTLEFARM_LOC);
+                gtk_css_provider_load_from_file(checkbox_css, css_file, NULL);
+                g_object_unref(css_file);
+                
+                gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(checkbox_css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
                 
                 // Loop through all crop spots on the farm (16 x 15 grid)
                 for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
@@ -475,6 +485,47 @@ static void activate( GtkApplication* app, gpointer user_data )
                         );
 
                         gtk_widget_set_tooltip_text(turtlefarm_checkbox, text_buffer);
+
+                        // Add background color for each crop type
+                        // Note: We are setting the CSS id here, the color definitions are on the
+                        //       stylesheet specified at the macro CSS_TURTLEFARM_LOC
+                        switch (hb_turtlefarm_layout[y_pos][x_pos].var)
+                        {
+                            case 400:
+                                gtk_widget_set_name(turtlefarm_checkbox, "green-lettuce");
+                                break;
+                            
+                            case 401:
+                                gtk_widget_set_name(turtlefarm_checkbox, "orange-carrot");
+                                break;
+                            
+                            case 402:
+                                gtk_widget_set_name(turtlefarm_checkbox, "purple-carrot");
+                                break;
+                            
+                            case 403:
+                                gtk_widget_set_name(turtlefarm_checkbox, "purple-lettuce");
+                                break;
+                            
+                            case 404:
+                                gtk_widget_set_name(turtlefarm_checkbox, "white-turnip");
+                                break;
+                            
+                            case 405:
+                                gtk_widget_set_name(turtlefarm_checkbox, "green-spinach");
+                                break;
+                            
+                            case 406:
+                                gtk_widget_set_name(turtlefarm_checkbox, "purple-radish");
+                                break;
+                            
+                            case 407:
+                                gtk_widget_set_name(turtlefarm_checkbox, "purple-spinach");
+                                break;
+                            
+                            default:
+                                break;
+                        }
                     }
                 }
                 
