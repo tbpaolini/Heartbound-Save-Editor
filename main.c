@@ -434,6 +434,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             {
                 // Grid for storing the checkboxes
                 GtkGrid *turtlefarm_grid = GTK_GRID(gtk_grid_new());
+                gtk_grid_set_column_spacing(turtlefarm_grid, 10);
                 gtk_grid_set_row_homogeneous(turtlefarm_grid, TRUE);            // Rows have the save width
                 gtk_grid_set_column_homogeneous(turtlefarm_grid, TRUE);         // Columns have the same height
                 gtk_widget_set_name(GTK_WIDGET(turtlefarm_grid), "turtlefarm"); // CSS id for stlying the grid
