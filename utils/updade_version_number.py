@@ -12,8 +12,7 @@ Usage:
 
 Note:
     This script is used by the 'dual_compile.bat' script at the utils folder of
-    the Windows version. That script will create a git commit on the 'development'
-    and 'linux' branches with the new updated version number.
+    the Windows version.
     
     For this reason, this python script does not update the version number at the
     '.bat' script, which should be updated manually if you want to run the '.bat'.
