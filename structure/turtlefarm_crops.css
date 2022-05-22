@@ -2,6 +2,10 @@
     background-color: rgba(145, 83, 63, 0.4);
 }
 
+#turtlefarm checkbutton {
+    padding: 5px;
+}
+
 #green-lettuce {
     background-color: rgba(128, 164, 41, 0.6);
 }
