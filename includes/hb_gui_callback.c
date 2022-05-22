@@ -1850,6 +1850,16 @@ void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
     ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, SW_SHOWNORMAL);
 }
 
+// Display the Interactive Debugging window
+// (only on the Debug build)
+#ifdef _DEBUG
+void hb_menu_help_debug(GtkMenuItem *widget, GtkWindow *window)
+{
+    setenv("GOBJECT_DEBUG", "instance-count", 0);
+    gtk_window_set_interactive_debugging(TRUE);
+}
+#endif
+
 // Help > About
 // Show a dialog with credits and info about the program
 void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
