@@ -252,6 +252,12 @@ void hb_help_window_destroyed(GtkWidget *help_window, GtkWidget **current_help_w
 // Unselect the help text when it is drawn for the first time
 void hb_help_window_fix(GtkLabel *help_label);
 
+// Display the Interactive Debugging window
+// (only on the Debug build)
+#ifdef _DEBUG
+void hb_menu_help_debug(GtkMenuItem *widget, GtkWindow *window);
+#endif
+
 // Help > About
 // Show a dialog with credits and info about the program
 void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window);

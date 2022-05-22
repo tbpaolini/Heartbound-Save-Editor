@@ -240,6 +240,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_OPTION("_Help...", help_menu, hb_menu_help_help);
         NEW_SHORTCUT(GDK_KEY_F1, 0);
         NEW_OPTION("_Download page...", help_menu, hb_menu_help_download);
+        #ifdef _DEBUG
+        NEW_OPTION("_Interactive debugging...", help_menu, hb_menu_help_debug);
+        #endif
         NEW_SEPARATOR(help_menu);
         NEW_OPTION("_About...", help_menu, hb_menu_help_about);
 
