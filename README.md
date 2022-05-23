@@ -37,6 +37,7 @@ pacman -S --needed base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-gtk3
 If you haven't downloaded the source code of Heartbound Save Editor, it can be [downloaded here](https://github.com/tbpaolini/Heartbound-Save-Editor/archive/refs/heads/master.zip). Unzip the project wherever you want. Then you can just run `compile.bat` script in the project folder. It will ask which build you want to compile (Release, Debug, or both). Once the compilation is done, the program will be saved to the `build` folder inside the project.
 
 The debug build is almost the same as the release build, with two differences:
+* Has the GTK Inspector enabled (Menu: Help > Interactive debugging).
 * It prints errors and messages to a terminal window.
 * It can be used with [GDB](https://www.sourceware.org/gdb/), or another similar debugging tool, in order to debug the source code line by line.
 
@@ -68,7 +69,7 @@ The `-B` flag forces the entire project to be rebuilt from scratch, which for th
 
 Alternatively, you can instead just run the script `compile.sh` that will ask you which build you want to make and then clean the temporary files after it is finished.
 
-The Release and Debug builds are almost the same, with the difference that the latter includes debug symbols and display some additional messages on the terminal. It can be used with some debugging tool, like the `gdb` package, in order to debug the program line by line.
+The Release and Debug builds are almost the same, with the differences that the latter includes GTK Inspector (Menu: Help > Interactive debugging), debug symbols and display some additional messages on the terminal. This build can be used with some debugging tool, like the `gdb` package, in order to debug the program line by line.
 
 ## Contact
 You are welcome to leave comments and suggestions on [Discussions](https://github.com/tbpaolini/Heartbound-Save-Editor/discussions), to report bugs on [Issues](https://github.com/tbpaolini/Heartbound-Save-Editor/issues), and security matters on [Security](https://github.com/tbpaolini/Heartbound-Save-Editor/security).
