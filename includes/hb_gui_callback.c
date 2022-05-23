@@ -1855,7 +1855,7 @@ void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
 #ifdef _DEBUG
 void hb_menu_help_debug(GtkMenuItem *widget, GtkWindow *window)
 {
-    setenv("GOBJECT_DEBUG", "instance-count", 0);
+    g_setenv("GOBJECT_DEBUG", "instance-count", 0);
     gtk_window_set_interactive_debugging(TRUE);
 }
 #endif

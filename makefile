@@ -49,6 +49,8 @@ release: $(DEPENDENCIES)
 debug: TARGET = debug
 # Add debug symbols to the executable and define the '_DEBUG' macro
 debug: CFLAGS += -g2 -Og -D_DEBUG
+# Add icons used by the GTK Inspector
+debug: GTK_ICONS += ,find-location-symbolic,view-list-symbolic,dialog-information,window-close,window-close-symbolic,window-maximize-symbolic,window-minimize-symbolic,window-restore-symbolic
 # Link together the compiled objects of the debug build
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
