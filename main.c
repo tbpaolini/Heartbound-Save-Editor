@@ -7,6 +7,9 @@
 #include <unistd.h>
 #include <hb_save.h>
 #include "config.h"
+#ifdef _DEBUG
+#include <time.h>
+#endif
 
 static void activate( GtkApplication* app, gpointer user_data )
 {
@@ -955,11 +958,27 @@ int main ( int argc, char **argv )
     // Change the current working directory to the executable directory
     int chdir_status = chdir(editor_path);
     free(editor_path);
+
+    // Debug build: Begin counting time to parse the Save File Structure
+    #ifdef _DEBUG
+        # ifndef CLOCK_THREAD_CPUTIME_ID
+        # define CLOCK_THREAD_CPUTIME_ID 3
+        #endif
+    struct timespec start_time, end_time;
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start_time);
+    #endif
     
     // Open the save file
     hb_open_save(open_path);
     if (open_path != SAVE_PATH) free(open_path);
     // Note: 'realpath()' allocates memory, when no output buffer is provided to it.
+
+    // Debug build: Finish counting the Save File Structure time and display it
+    #ifdef _DEBUG
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end_time);
+    double total_time = (double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000.0;
+    g_message("Save File Structure parsed in: %.1f ms (Thread CPU time)", total_time);
+    #endif
 
     GtkApplication *app;
     int status;
