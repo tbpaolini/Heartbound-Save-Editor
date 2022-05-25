@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include <hb_save.h>
 #include "config.h"
+#ifdef _DEBUG
+#include <time.h>
+#endif
 // #include <windows.h>
 
 // Whether we are using the loader to open the application
@@ -980,9 +983,22 @@ int main ( int argc, char **argv )
         // Use the default file path, if no path was provided
         open_path = SAVE_PATH;
     }
+
+    // Debug build: Begin counting time to parse the Save File Structure
+    #ifdef _DEBUG
+    struct timespec start_time, end_time;
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start_time);
+    #endif
     
     // Open the save file
     hb_open_save(open_path);
+
+    // Debug build: Finish counting the Save File Structure time and display it
+    #ifdef _DEBUG
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end_time);
+    double total_time = (double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000.0;
+    g_message("Save File Structure parsed in: %.1f ms (Thread CPU time)", total_time);
+    #endif
 
     GtkApplication *app;
     int status;
