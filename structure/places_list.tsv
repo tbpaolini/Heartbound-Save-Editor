@@ -69,11 +69,13 @@ Index	Room/Object	World	Position	Image
 67	Deer Bridge	3	21	spr_deerbridge_crown_0.png
 68	Lake	3	22	spr_lake_monster_idle_0.png
 69	Mole Home	3	23	spr_avocado_mask_0.png
-70	Turtle Home	3	24	spr_shelly_mask_0.png
-71	Snake Home	3	25	spr_reme_mask_0.png
-72	Dillo Judge	3	26	spr_emelio_talky_sad_1.png
-73	Deer Judge	3	27	spr_fern_talky_sad_crown_0.png
-74	Rhode Judge	3	28	spr_rhode_talky_broken_0.png
-75	Judgement	3	29	spr_lore_talky_darksider_sweater_0.png
-76	Timeroom	3	30	spr_animus_watchback_3.png
-77	Firepipes	4	0	spr_firepipes_machine_1a_0.png
+70	Mid Lake	3	24	spr_misery_down_head_0.png
+71	Turtle Farm	3	25	spr_turtlefarm_plant_1_0.png
+72	Turtle Home	3	26	spr_shelly_mask_0.png
+73	Snake Home	3	27	spr_reme_mask_0.png
+74	Dillo Judge	3	28	spr_emelio_talky_sad_1.png
+75	Deer Judge	3	29	spr_fern_talky_sad_crown_0.png
+76	Rhode Judge	3	30	spr_rhode_talky_broken_0.png
+77	Judgement	3	31	spr_lore_talky_darksider_sweater_0.png
+78	Timeroom	3	32	spr_animus_watchback_3.png
+79	Firepipes	4	0	spr_firepipes_machine_1a_0.png

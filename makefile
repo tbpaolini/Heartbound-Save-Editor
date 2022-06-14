@@ -12,7 +12,7 @@ LOADER_O := $(addsuffix .o,$(basename $(LOADER_C)))
 NAME := Heartbound Save Editor
 
 # Folder where the build will go
-DIRECTORY := build
+DIRECTORY := build\windows
 
 # Icon and metadata for the program executable
 RESOURCES := resources.rc
@@ -23,7 +23,7 @@ ICON := icon.ico
 GTK_ICONS := document-save,document-open,dialog-error,dialog-warning,image-loading,image-missing,pan-down-symbolic,pan-up-symbolic
 
 # Files to dynamically build the user interface
-STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv
+STRUCT := places_list.tsv save_structure.tsv room_coordinates.tsv turtlefarm_crops.tsv turtlefarm_crops.css
 
 # Files and folders necessary for compiling the program
 DEPENDENCIES := gtk3 structure assets $(RESOURCES_O) $(OBJECTS) $(LOADER_O)
@@ -33,7 +33,7 @@ CFLAGS := $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-
 # Note: Here we run a shell command to get the flags to pass to the compiler, they return the folders of the GTK 3 headers and libraries.
 
 # Target parameters that 'make' can be run with on the terminal
-.PHONY: release debug clean analyze
+.PHONY: release debug zip clean analyze
 
 # Subfolder where the release build will go
 release: TARGET = release
@@ -49,6 +49,8 @@ release: $(DEPENDENCIES)
 debug: TARGET = debug
 # Add debug symbols to the executable and define the '_DEBUG' macro
 debug: CFLAGS += -g2 -Og -D_DEBUG
+# Add icons used by the GTK Inspector
+debug: GTK_ICONS += ,find-location-symbolic,view-list-symbolic,dialog-information,window-close,window-close-symbolic,window-maximize-symbolic,window-minimize-symbolic,window-restore-symbolic
 # Link together the compiled objects of the debug build
 debug: $(DEPENDENCIES)
 	@echo Linking debug build...
@@ -88,6 +90,13 @@ structure:
 # Compile the executable icon and metadata
 $(RESOURCES_O): assets\$(ICON) $(RESOURCES)
 	windres $*.rc $*.o
+
+# Create a zip file with the release build
+zip: TARGET = release
+zip:
+	move "$(DIRECTORY)\$(TARGET)" "$(DIRECTORY)\$(NAME)"
+	-cd "$(DIRECTORY)" && ..\..\utils\7z.exe a -tzip -mx9 "$(NAME).zip" "$(NAME)" && cd ..\ 
+	move "$(DIRECTORY)\$(NAME)" "$(DIRECTORY)\$(TARGET)"
 
 # Perform some static code analysis
 analyze:

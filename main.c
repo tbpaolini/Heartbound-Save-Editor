@@ -6,6 +6,9 @@
 #include <unistd.h>
 #include <hb_save.h>
 #include "config.h"
+#ifdef _DEBUG
+#include <time.h>
+#endif
 // #include <windows.h>
 
 // Whether we are using the loader to open the application
@@ -223,6 +226,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_OPTION("_Help...", help_menu, hb_menu_help_help);
         NEW_SHORTCUT(GDK_KEY_F1, 0);
         NEW_OPTION("_Download page...", help_menu, hb_menu_help_download);
+        #ifdef _DEBUG
+        NEW_OPTION("_Interactive debugging...", help_menu, hb_menu_help_debug);
+        #endif
         NEW_SEPARATOR(help_menu);
         NEW_OPTION("_About...", help_menu, hb_menu_help_about);
 
@@ -237,7 +243,7 @@ static void activate( GtkApplication* app, gpointer user_data )
     for (int i = 0; i < CHAPTER_AMOUNT; i++)
     {
         // Create chapter page
-        chapter_label[i] = gtk_label_new(hb_chapter[i]);        // Notebook tab for the chapter window
+        chapter_label[i] = gtk_label_new_with_mnemonic(hb_chapter[i]);  // Notebook tab for the chapter window
         chapter_page[i] = gtk_scrolled_window_new(NULL, NULL);  // Scrollable window for the grid
         chapter_grid[i] = gtk_grid_new();                       // Grid with the contents of the chapter
 
@@ -340,6 +346,10 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Add the save entries to each page
     // *********************************
 
+    bool turtlefarm_initialized = false;    // Whether we have already processed the data of the crops of the Mossback's farm
+    // Note: Since this place stores its values differently than anything else on the game, we need a special case for it.
+    //       The crops' state is stored on bitmasks across 8 different variables (0 = not destroyed | 1 = destroyed).
+
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         /*
@@ -354,6 +364,9 @@ static void activate( GtkApplication* app, gpointer user_data )
         
         if (hb_save_data[var].used)
         {
+            // Skip the variable if it belongs to the Mossback's farm crops and their data were already initialized
+            if (hb_save_data[var].is_bitmask && turtlefarm_initialized) continue;
+            
             // Get the chapter and window position
             HeartboundLocation *my_location = hb_get_location(hb_save_data[var].location);
             if (my_location == NULL) continue;  // Skip the entry if its location was not found
@@ -386,6 +399,7 @@ static void activate( GtkApplication* app, gpointer user_data )
             
             // Create a name label with the string on the text buffer
             GtkWidget *my_name_label = gtk_label_new(text_buffer);
+            if (hb_save_data[var].is_bitmask) gtk_label_set_text(GTK_LABEL(my_name_label), "Destroyed crops:");  // Special case: Mossback's farm
             gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);
             gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);
             gtk_widget_set_margin_top(my_name_label, 8);    // Added some top margin so the label's text align with the options
@@ -406,6 +420,157 @@ static void activate( GtkApplication* app, gpointer user_data )
 
             // Add the flow box to the wrapper
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_options);
+
+            // Special case: Mossback's farm
+            // We are adding the checkboxes for switching the state of each crop
+            if (hb_save_data[var].is_bitmask)
+            {
+                // Grid for storing the checkboxes
+                GtkGrid *turtlefarm_grid = GTK_GRID(gtk_grid_new());
+                gtk_grid_set_row_homogeneous(turtlefarm_grid, TRUE);            // Rows have the save width
+                gtk_grid_set_column_homogeneous(turtlefarm_grid, TRUE);         // Columns have the same height
+                gtk_widget_set_name(GTK_WIDGET(turtlefarm_grid), "turtlefarm"); // CSS id for stlying the grid
+
+                // Add the grid to the options area
+                gtk_container_add(GTK_CONTAINER(my_options), GTK_WIDGET(turtlefarm_grid));
+
+                // Set the style of the checkboxes
+                GtkCssProvider *checkbox_css = gtk_css_provider_new();
+                
+                GFile *css_file = g_file_new_for_path(CSS_TURTLEFARM_LOC);
+                gtk_css_provider_load_from_file(checkbox_css, css_file, NULL);
+                g_object_unref(css_file);
+                
+                gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(checkbox_css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+                
+                // Loop through all crop spots on the farm (16 x 15 grid)
+                for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+                {
+                    for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+                    {
+                        // Skip if there is no crop on this spot
+                        if (hb_turtlefarm_layout[y_pos][x_pos].var == 0) continue;
+
+                        // Create the checkbox and add it to the grid at the crop's position
+                        // (The grid layout mimics the layout of the crops on the farm)
+                        GtkWidget *turtlefarm_checkbox = gtk_check_button_new();
+                        gtk_grid_attach(turtlefarm_grid, turtlefarm_checkbox, (gint)x_pos, (gint)y_pos, 1, 1);
+
+                        // Check if the current crop is destroyed
+                        size_t crop_var = hb_turtlefarm_layout[y_pos][x_pos].var;
+                        uint32_t turtlefarm_bitmask = (uint32_t)hb_save_data[crop_var].value;
+                        uint32_t bit_position = (uint32_t)hb_turtlefarm_layout[y_pos][x_pos].bit;
+                        bool is_destroyed = (bool)((turtlefarm_bitmask >> bit_position) & 1);
+                        
+                        // Set the checkbox as "checked" if the current crop is destroyed
+                        GtkToggleButton *turtlefarm_checkbox_tb = GTK_TOGGLE_BUTTON(turtlefarm_checkbox);
+                        if (is_destroyed) gtk_toggle_button_set_active(turtlefarm_checkbox_tb, TRUE);
+                        
+                        // Set the callback function for when the checkbox gets checked or unchecked
+                        g_signal_connect(
+                            turtlefarm_checkbox_tb,                 // The checkbox
+                            "toggled",                              // Event to be listened
+                            G_CALLBACK(hb_setvar_turtlefarm),       // Calback function
+                            &hb_turtlefarm_layout[y_pos][x_pos]     // The variable number and the bit position that the button modifies
+                        );
+
+                        // Store the pointer to the checkbox widget
+                        hb_turtlefarm_layout[y_pos][x_pos].widget = turtlefarm_checkbox_tb;
+
+                        // Add tooltip text to the checkbox
+                        snprintf(
+                            text_buffer,
+                            TEXT_BUFFER_SIZE,
+                            "%s at %llu x %llu\nStory variable #%llu:%llu",
+                            hb_save_data[hb_turtlefarm_layout[y_pos][x_pos].var].info,
+                            hb_turtlefarm_layout[y_pos][x_pos].x,
+                            hb_turtlefarm_layout[y_pos][x_pos].y,
+                            hb_turtlefarm_layout[y_pos][x_pos].var,
+                            hb_turtlefarm_layout[y_pos][x_pos].bit,
+                            NULL
+                        );
+
+                        gtk_widget_set_tooltip_text(turtlefarm_checkbox, text_buffer);
+
+                        // Add background color for each crop type
+                        // Note: We are setting the CSS id here, the color definitions are on the
+                        //       stylesheet specified at the macro CSS_TURTLEFARM_LOC
+                        switch (hb_turtlefarm_layout[y_pos][x_pos].var)
+                        {
+                            case 400:
+                                gtk_widget_set_name(turtlefarm_checkbox, "green-lettuce");
+                                break;
+                            
+                            case 401:
+                                gtk_widget_set_name(turtlefarm_checkbox, "orange-carrot");
+                                break;
+                            
+                            case 402:
+                                gtk_widget_set_name(turtlefarm_checkbox, "purple-carrot");
+                                break;
+                            
+                            case 403:
+                                gtk_widget_set_name(turtlefarm_checkbox, "purple-lettuce");
+                                break;
+                            
+                            case 404:
+                                gtk_widget_set_name(turtlefarm_checkbox, "white-turnip");
+                                break;
+                            
+                            case 405:
+                                gtk_widget_set_name(turtlefarm_checkbox, "green-spinach");
+                                break;
+                            
+                            case 406:
+                                gtk_widget_set_name(turtlefarm_checkbox, "purple-radish");
+                                break;
+                            
+                            case 407:
+                                gtk_widget_set_name(turtlefarm_checkbox, "purple-spinach");
+                                break;
+                            
+                            default:
+                                break;
+                        }
+                    }
+                }
+                
+                // Create and add the check/uncheck all buttons to the bottom
+                GtkWidget *turtlefarm_button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+                GtkWidget *turtlefarm_check_all_button = gtk_button_new_with_label("Check all");
+                GtkWidget *turtlefarm_uncheck_all_button = gtk_button_new_with_label("Uncheck all");
+
+                gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), turtlefarm_check_all_button);
+                gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), turtlefarm_uncheck_all_button);
+
+                gtk_grid_attach(
+                    turtlefarm_grid,        // Parent (the grid)
+                    turtlefarm_button_box,  // Children (the box with buttons)
+                    0,                      // Grid's column
+                    TURTLEFARM_HEIGHT,      // Grid's row
+                    TURTLEFARM_WIDTH,       // Amount of occupied grid cells on the horizontal
+                    1                       // Amount of occupied grid cells on the vertical
+                );
+
+                // Set up the actions of those buttons
+                g_signal_connect(
+                    GTK_BUTTON(turtlefarm_check_all_button),
+                    "clicked",
+                    G_CALLBACK(hb_turtlefarm_check_all),
+                    NULL
+                );
+
+                g_signal_connect(
+                    GTK_BUTTON(turtlefarm_uncheck_all_button),
+                    "clicked",
+                    G_CALLBACK(hb_turtlefarm_uncheck_all),
+                    NULL
+                );
+                
+                // Mark the farm's data as initialized, then go to the next storyline variable
+                turtlefarm_initialized = true;
+                continue;
+            }
             
             // The type of entry field
             /*  If the '.num_entries' attribute is set to 0, then it means that
@@ -818,9 +983,22 @@ int main ( int argc, char **argv )
         // Use the default file path, if no path was provided
         open_path = SAVE_PATH;
     }
+
+    // Debug build: Begin counting time to parse the Save File Structure
+    #ifdef _DEBUG
+    struct timespec start_time, end_time;
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &start_time);
+    #endif
     
     // Open the save file
     hb_open_save(open_path);
+
+    // Debug build: Finish counting the Save File Structure time and display it
+    #ifdef _DEBUG
+    clock_gettime(CLOCK_THREAD_CPUTIME_ID, &end_time);
+    double total_time = (double)(end_time.tv_nsec - start_time.tv_nsec) / 1000000.0;
+    g_message("Save File Structure parsed in: %.1f ms (Thread CPU time)", total_time);
+    #endif
 
     GtkApplication *app;
     int status;

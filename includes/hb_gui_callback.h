@@ -108,6 +108,15 @@ void hb_setvar_game_seed(GtkEntry *widget,  char *game_seed);
 // Generate a random game seed (9 numeric digits)
 void hb_random_seed(char *game_seed);
 
+// Set the state (not destroyed or destroyed) for the crops on the Mossback's farm
+void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop);
+
+// Check all checkboxes that represent the crops of the Mossback's farm
+void hb_turtlefarm_check_all(GtkButton *widget);
+
+// Uncheck all checkboxes that represent the crops of the Mossback's farm
+void hb_turtlefarm_uncheck_all(GtkButton *widget);
+
 // Highlight a menu item when the mouse pointer is over the item
 void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data);
 
@@ -234,6 +243,12 @@ void hb_help_window_destroyed(GtkWidget *help_window, GtkWidget **current_help_w
 
 // Unselect the help text when it is drawn for the first time
 void hb_help_window_fix(GtkLabel *help_label);
+
+// Display the Interactive Debugging window
+// (only on the Debug build)
+#ifdef _DEBUG
+void hb_menu_help_debug(GtkMenuItem *widget, GtkWindow *window);
+#endif
 
 // Help > About
 // Show a dialog with credits and info about the program

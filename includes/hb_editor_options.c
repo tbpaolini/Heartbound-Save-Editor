@@ -20,6 +20,9 @@ static EditorSetting *config_list = NULL;              // Linked list of of sett
 static EditorSetting *config_list_tail = NULL;         // Last item of the linked list
 static EditorSetting *config_map[EDITOR_CFG_BUCKETS];  // Hash map of settings
 
+// Whether the options data structures have been initialized yet
+static bool options_are_initialized = false;
+
 // Map a key (as a string) into a position on the hash map
 static uint32_t config_hash(char *key)
 {
@@ -133,6 +136,8 @@ static bool config_add(char *key, char *value)
 // Load the editor's settings into memory
 void hb_config_init()
 {
+    if (options_are_initialized) return;
+    
     // Open the configurations file
     FILE *config_file = fopen(EDITOR_CFG_LOCATION, "r");
     if (config_file == NULL) return;    // Return if there is no file to be read
@@ -171,6 +176,7 @@ void hb_config_init()
     
     // Close the configurations file
     fclose(config_file);
+    options_are_initialized = true;
 }
 
 // Store the key/value pair of a setting
@@ -401,4 +407,5 @@ void hb_config_close()
     }
 
     config_count = 0;
+    options_are_initialized = false;
 }

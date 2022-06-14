@@ -2,11 +2,11 @@
 This program allows you to change everything on the save file of [Heartbound](https://store.steampowered.com/app/567380/Heartbound/), like where you are and what you did or didn't.
 
 **Downloads:**
-* *Windows:* [Heartbound Save Editor - v1.0.0.3 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.3/Heartbound_Save_Editor-v1.0.0.3-Windows_10.zip) - standalone executable, requires no installation.
-* *Linux (Debian/Ubuntu):* [Heartbound Save Editor - v1.0.0.3 (Debian/Ubuntu package)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.3/Heartbound_Save_Editor-v1.0.0.3-Linux_Ubuntu.deb) - installation package, should work on Debian/Ubuntu and distros based on those.
-* *Linux (binary):* [Heartbound Save Editor - v1.0.0.3 (Linux binary)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.3/Heartbound_Save_Editor-v1.0.0.3-Linux_binary.tar.xz) - just the binary, in order to run you first need to install the `libgtk-3-0` package.
+* *Windows:* [Heartbound Save Editor - v1.0.0.4 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.4/Heartbound_Save_Editor-v1.0.0.4-Windows_10.zip) - standalone executable, requires no installation.
+* *Linux (Debian/Ubuntu):* [Heartbound Save Editor - v1.0.0.4 (Debian/Ubuntu package)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.4/Heartbound_Save_Editor-v1.0.0.4-Linux_Ubuntu.deb) - installation package, should work on Debian/Ubuntu and distros based on those.
+* *Linux (binary):* [Heartbound Save Editor - v1.0.0.4 (Linux binary)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.4/Heartbound_Save_Editor-v1.0.0.4-Linux_binary.tar.xz) - just the binary, in order to run you first need to install the `libgtk-3-0` package.
 
-The editor works with latest version of Heartbound (1.0.9.55). Once the game gets updated, you might need to download a new version of the save editor.
+The editor works with latest version of Heartbound (1.0.9.56). Once the game gets updated, you might need to download a new version of the save editor.
 
 ## Screenshots
 <img src="https://user-images.githubusercontent.com/85261542/164076804-5d3bc2bb-d81e-4bbe-9340-1562f7648225.png" width=325 /> <img src="https://user-images.githubusercontent.com/85261542/164076838-c28a40d4-5c64-4902-8a79-a7dba8a7cc99.png" width=325 />
@@ -37,6 +37,7 @@ pacman -S --needed base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-gtk3
 If you haven't downloaded the source code of Heartbound Save Editor, it can be [downloaded here](https://github.com/tbpaolini/Heartbound-Save-Editor/archive/refs/heads/master.zip). Unzip the project wherever you want. Then you can just run `compile.bat` script in the project folder. It will ask which build you want to compile (Release, Debug, or both). Once the compilation is done, the program will be saved to the `build` folder inside the project.
 
 The debug build is almost the same as the release build, with two differences:
+* Has the GTK Inspector enabled (Menu: Help > Interactive debugging).
 * It prints errors and messages to a terminal window.
 * It can be used with [GDB](https://www.sourceware.org/gdb/), or another similar debugging tool, in order to debug the source code line by line.
 
@@ -68,7 +69,7 @@ The `-B` flag forces the entire project to be rebuilt from scratch, which for th
 
 Alternatively, you can instead just run the script `compile.sh` that will ask you which build you want to make and then clean the temporary files after it is finished.
 
-The Release and Debug builds are almost the same, with the difference that the latter includes debug symbols and display some additional messages on the terminal. It can be used with some debugging tool, like the `gdb` package, in order to debug the program line by line.
+The Release and Debug builds are almost the same, with the differences that the latter includes GTK Inspector (Menu: Help > Interactive debugging), debug symbols and display some additional messages on the terminal. This build can be used with some debugging tool, like the `gdb` package, in order to debug the program line by line.
 
 ## Contact
 You are welcome to leave comments and suggestions on [Discussions](https://github.com/tbpaolini/Heartbound-Save-Editor/discussions), to report bugs on [Issues](https://github.com/tbpaolini/Heartbound-Save-Editor/issues), and security matters on [Security](https://github.com/tbpaolini/Heartbound-Save-Editor/security).

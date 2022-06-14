@@ -535,6 +535,85 @@ void hb_random_seed(char *game_seed)
     snprintf(game_seed, SEED_SIZE-1, "%09llu", new_seed);
 }
 
+// Set the state (not destroyed or destroyed) for the crops on the Mossback's farm
+void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
+{
+    // Exit the function if the editor is currently loading a file
+    if (is_loading_file) return;
+    
+    size_t crop_var = crop->var;    // Index of the storyline variable that has the crop
+    size_t bit_pos = crop->bit;     // Position on the bitmask that stores the crop's state
+    
+    // The crop's state is "destroyed" if its checkbox is checked
+    gboolean is_destroyed = gtk_toggle_button_get_active(widget);
+
+    if (is_destroyed)
+    {
+        // If the crop is destroyed, add the mask's value to the variable
+        hb_save_data[crop_var].value += hb_turtlefarm_mask[bit_pos];
+
+        // Print a message on the debug build
+        #ifdef _DEBUG
+        g_message(
+            "Turtle Farm: Crop %s at %llu x %llu -> destroyed (var %llu:%llu -> %.0f)",
+            hb_save_data[crop_var].info,
+            crop->x,
+            crop->y,
+            crop->var,
+            crop->bit,
+            hb_save_data[crop_var].value
+        );
+        #endif
+    }
+    else
+    {
+        // If the crop is not destroyed, subtract the mask's value from the variable
+        hb_save_data[crop_var].value -= hb_turtlefarm_mask[bit_pos];
+
+        // Print a message on the debug build
+        #ifdef _DEBUG
+        g_message(
+            "Turtle Farm: Crop %s at %llu x %llu -> not destroyed (var %llu:%llu -> %.0f)",
+            hb_save_data[crop_var].info,
+            crop->x,
+            crop->y,
+            crop->var,
+            crop->bit,
+            hb_save_data[crop_var].value
+        );
+        #endif
+    }
+
+    // Flag the editor's data as unsaved
+    hb_flag_data_as_changed(GTK_WIDGET(widget));
+}
+
+// Check all checkboxes that represent the crops of the Mossback's farm
+void hb_turtlefarm_check_all(GtkButton *widget)
+{
+    for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+    {
+        for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+        {
+            if (hb_turtlefarm_layout[y_pos][x_pos].var == 0) continue;
+            gtk_toggle_button_set_active(hb_turtlefarm_layout[y_pos][x_pos].widget, TRUE);
+        }
+    }
+}
+
+// Uncheck all checkboxes that represent the crops of the Mossback's farm
+void hb_turtlefarm_uncheck_all(GtkButton *widget)
+{
+    for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+    {
+        for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+        {
+            if (hb_turtlefarm_layout[y_pos][x_pos].var == 0) continue;
+            gtk_toggle_button_set_active(hb_turtlefarm_layout[y_pos][x_pos].widget, FALSE);
+        }
+    }
+}
+
 // Highlight a menu item when the mouse pointer is over the item
 void hb_menu_hover(GtkMenuItem *widget, GdkEventCrossing event, void *data)
 {
@@ -724,10 +803,40 @@ void hb_load_data_into_interface(GtkWindow *window)
     is_loading_file = true;
     char *restrict text_buffer = malloc( TEXT_BUFFER_SIZE * sizeof(char) );
     
+    // Special case for the Mossback's farm (which uses bitmasks)
+    bool turtlefarm_is_loaded = false;
+
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
+        // Skip the variable if it is not being used
         if (!hb_save_data[var].used) continue;
 
+        // Skip a variable of the Mossback's farm if the place's data has been already loaded
+        if (turtlefarm_is_loaded && hb_save_data[var].is_bitmask);
+
+        // Special case for the Mossback's farm
+        // Update its checkboxes with the values on the bitmasks
+        if (hb_save_data[var].is_bitmask)
+        {
+            // Loop through all crops on the farm
+            for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+            {
+                for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+                {
+                    TurtlefarmCrop *crop = &hb_turtlefarm_layout[y_pos][x_pos];         // Pointer to the crop's struct
+                    if (crop->var == 0) continue;
+                    uint32_t crop_bitmask = (uint32_t)(hb_save_data[crop->var].value);  // Convert the variable's value to 32-bit unsigned integer
+                    gboolean state = (gboolean)((crop_bitmask >> crop->bit) & 1);       // Get the bit at the specified position on the value
+                    gtk_toggle_button_set_active(crop->widget, state);                  // Set the checkbox to the same state as the bit
+                }
+            }
+
+            // Flag the location as loaded and move to the next variable
+            turtlefarm_is_loaded = true;
+            continue;
+        }
+
+        // What kind of widget holds the save data
         if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
         {
             // Text field
@@ -1083,31 +1192,49 @@ void hb_notebook_keyboard_scrolling(GtkScrolledWindow *widget, GdkEventKey event
     // Get the vertical position of the page
     gdouble position = gtk_adjustment_get_value(adjustment);
 
-    // Get the scrolling increments
-    gdouble step = gtk_adjustment_get_step_increment(adjustment);  // Amount to be scrolled by the arrows (roughly a line)
-    gdouble page = gtk_adjustment_get_page_increment(adjustment);  // Amount to be scrolled by the Page keys (roughly the visible area)
+    // The scrolling increments and limits
+    gdouble step;               // Amount to be scrolled by the arrows (roughly a line)
+    gdouble page;               // Amount to be scrolled by the Page keys (roughly the visible area)
+    gdouble position_top;       // Top of the scrolled window's contents
+    gdouble position_bottom;    // Bottom of the scrolled window's contents
 
     // Check which key was pressed
     switch (event.keyval)
     {
         case GDK_KEY_Page_Down:
             // Scroll down a page
+            page = gtk_adjustment_get_page_increment(adjustment);
             gtk_adjustment_set_value(adjustment, position + page);
             break;
         
         case GDK_KEY_Page_Up:
             // Scroll up a page
+            page = gtk_adjustment_get_page_increment(adjustment);
             gtk_adjustment_set_value(adjustment, position - page);
             break;
         
         case GDK_KEY_Down:
             // Scroll down a line
+            step = gtk_adjustment_get_step_increment(adjustment);
             gtk_adjustment_set_value(adjustment, position + step);
             break;
         
         case GDK_KEY_Up:
             // Scroll up a line
+            step = gtk_adjustment_get_step_increment(adjustment);
             gtk_adjustment_set_value(adjustment, position - step);
+            break;
+        
+        case GDK_KEY_Home:
+            // Move to the top of the contents
+            position_top = gtk_adjustment_get_lower(adjustment);
+            gtk_adjustment_set_value(adjustment, position_top);
+            break;
+        
+        case GDK_KEY_End:
+            // Move to the bottom of the contents
+            position_bottom = gtk_adjustment_get_upper(adjustment);
+            gtk_adjustment_set_value(adjustment, position_bottom);
             break;
         
         default:
@@ -1626,7 +1753,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         " locations using this program (click the Open button, or drag the save"
         " file into the window or the executable). This way you can create backups.\n\n"
         "Your default Heartbound Save is located at:\n<tt>%s</tt>\n\n"
-        "This version of the editor supports Heartbound until its version <b>1.0.9.55.</b>"
+        "This version of the editor supports Heartbound until its version <b>1.0.9.56.</b>"
         " Whenever Heartbound gets updated, this editor will be updated as soon"
         " as possible to support it. So feel free to check our "
         "<a href='https://github.com/tbpaolini/Heartbound-Save-Editor/releases'>download page</a>"
@@ -1723,6 +1850,16 @@ void hb_menu_help_download(GtkMenuItem *widget, GtkWindow *window)
     ShellExecuteA(NULL, "open", "https://github.com/tbpaolini/Heartbound-Save-Editor/releases", NULL, NULL, SW_SHOWNORMAL);
 }
 
+// Display the Interactive Debugging window
+// (only on the Debug build)
+#ifdef _DEBUG
+void hb_menu_help_debug(GtkMenuItem *widget, GtkWindow *window)
+{
+    g_setenv("GOBJECT_DEBUG", "instance-count", 0);
+    gtk_window_set_interactive_debugging(TRUE);
+}
+#endif
+
 // Help > About
 // Show a dialog with credits and info about the program
 void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
@@ -1734,7 +1871,7 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         window,
         "logo", logo,
         "program-name", "Heartbound Save Editor",
-        "version", "Version 1.0.0.3",
+        "version", "Version 1.0.0.4",
         "authors", authors,
         "documenters", documenters,
         "copyright", "Copyright 2022 by Tiago Becerra Paolini",

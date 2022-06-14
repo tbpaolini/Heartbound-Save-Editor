@@ -39,8 +39,8 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 38	31	Home Bedroom	Dream Sequence Played															
 39	32	Home Bedroom	Room has been exited 2															
 40	33	INVENTORY	Baron's Collar State		0|1	Nothing	Have											
-41	34	Forest Darkbough	Darksider Growl State	Sound Triggers	0|1|2													
-42	35	Forest Treepuzzle	Darksider Growl State	Sound Triggers	0|1													
+41	34	Forest Darkbough	Darksider Growl State	Sound Triggers	0|1|2|3													
+42	35	Forest Treepuzzle	Darksider Growl State	Sound Triggers	0|1|2													
 43	36	INVENTORY	Tree Puzzle Page 1		0|1	Nothing	Have											
 44	37	INVENTORY	Tree Puzzle Page 2		0|1	Nothing	Have											
 45	38	INVENTORY	Tree Puzzle Page 3		0|1	Nothing	Have											
@@ -155,7 +155,7 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 154	147	Goose Finding	6		0|1	Unknown	Found											
 155	148	Servers	Duck Finding Active		0|1|2|3	No	Active	Duck Complete	Goose Complete									
 156	149	Boardroom	Entrance Event		0|1	No	Yes											
-157	150	Techies	OScar Unlocks First Job		0|1 No|Yes	No	Yes											
+157	150	Techies	OScar Unlocks First Job		0|1	No	Yes											
 158	151	Boardroom	Password Collected		0|1	No	Yes											
 159	152	Breakroom 103	Time Spent		X											Total Seconds		
 160	153	Boardroom	Password Selected		X											Password index from obj_boardroom_talker_whiteboard		
@@ -394,3 +394,22 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 393	386	Barghest 2	Won or Lost?		0|1|2	No	Won	Lost										
 394	387	Rhode Game	What does Rhode call eggs?		0|1	Food Pods	Egg Pods											
 395	388	Rhode Judge	Rhode bit Lore		0|1	Not Yet	Bit											
+396	389	Mole Home	Times Avocado Bothered		0|X	Not Yet										Bothered Amount		
+397	390	Mole Home	Potion given to Fancy Cacti		0|1	No	Yes											
+398	391	Mole Home	Fancy Cacti talked to with Factus		0|1	No	Yes											
+399	392	Mole Home	Bowtie		0|1|2|3	No	Red	Green	Blue									
+400	393	Mole Home	Light Scene		0|1|2	No	Light Off	Check Again										
+401	394	Mole Home	Mushroom Pun		0|1	No	Yes											
+402	395	Mailshroom	Mushroom Pun		0|1	No	Yes											
+403	396	Mole Home	Left Early		0|1	No	Yes											
+404	397	Middle	Factus Joke		0|1	No	Yes											
+405	398	Turtle Home	Lightswitch State Right		0|1	Off	On											
+406	399	Mid Lake	Fight The Aspects?		0|1|2	Not Yet	Fight	Time Out										
+407	400	Turtle Farm	Crop Values	Green Lettuce	0|X											Bitmask		
+408	401	Turtle Farm	Crop Values	Orange Carrot	0|X											Bitmask		
+409	402	Turtle Farm	Crop Values	Purple Carrot	0|X											Bitmask		
+410	403	Turtle Farm	Crop Values	Purple Lettuce	0|X											Bitmask		
+411	404	Turtle Farm	Crop Values	White Turnip	0|X											Bitmask		
+412	405	Turtle Farm	Crop Values	Green Spinach	0|X											Bitmask		
+413	406	Turtle Farm	Crop Values	Purple Radish	0|X											Bitmask		
+414	407	Turtle Farm	Crop Values	Purple Spinash	0|X											Bitmask		

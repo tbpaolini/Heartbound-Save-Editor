@@ -15,7 +15,6 @@ Usage:
     The icon names are separated by commas.
 """
 
-from distutils.command.build import build
 import os, sys, shutil
 from pathlib import Path
 from time import perf_counter

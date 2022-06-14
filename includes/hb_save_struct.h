@@ -17,6 +17,11 @@
 #define COLUMN_OFFSET (size_t)6                     // Amount of columns until the storyline variable values
 #define ROW_OFFSET (size_t)7                        // Amount of rows before the first storyline variable
 
+#define TURTLEFARM_STRUCT_LOC "..\\lib\\structure\\turtlefarm_crops.tsv"    // The file that stores the layout of the Mossback's farm
+#define TURTLEFARM_STRUCT_BUFFER (size_t)150                                // Buffer size (in bytes) for each line of the farm layout file
+#define TURTLEFARM_WIDTH (size_t)16     // Amount of columns of crops on the Mossback's farms
+#define TURTLEFARM_HEIGHT (size_t)15    // Amount of rows of crops on the Mossback's farms
+
 // Player attributes
 extern char hb_game_seed[SEED_SIZE];                       // Game seed (9 decimal characters long)
 extern char hb_room_id[ROOM_NAME_SIZE];                    // The ID (as a string) of the room the player is
@@ -56,6 +61,7 @@ typedef struct StorylineVars
     size_t num_entries;          // Amount of different values that the field accept (0 if it accepts any value)
     ValueAlias *aliases;         // Associate each numeric value to its meaning (as strings)
     VariableWidget widget;       // Pointer to the GTK entry or the radio buttons group used to display the variable's value
+    bool is_bitmask;             // If the value represents a bitmask (32-bits)
     bool used;                   // Wheter the variable has data on it
 } StorylineVars;
 
@@ -65,8 +71,30 @@ extern StorylineVars hb_save_data[NUM_STORY_VARS];
 // Names of the columns (array of strings)
 extern char **hb_save_headers;
 
+// Storage of which crops of the Mossback's farm have been destroyed
+// Note: Their states are stored as a bitmask across 8 different variables,
+//       with 1 meaning destroyed, and 0 meaning not destroyed.
+typedef struct TurtlefarmCrop
+{
+    size_t var;     // Which storyline variable has the crop's state
+    size_t bit;     // Which bit of the variable stores this specific crop's state
+    size_t x;       // Column on the farm's grid
+    size_t y;       // Row on the farm's grid
+    GtkToggleButton *widget;    // Pointer to the checkbox widget that controls this crop
+} TurtlefarmCrop;
+
+extern TurtlefarmCrop hb_turtlefarm_layout[TURTLEFARM_HEIGHT][TURTLEFARM_WIDTH];
+extern double hb_turtlefarm_mask[32];  // The first 32 powers of 2, as double precision floats
+// Note: Since I am storing all variable values as doubles, I can't just do bitwise operations
+//       with the values of the crops, without changing how the rest of the variables work.
+//       Since a value using a bitmask is the exception, rather than the rule, then I am
+//       just going to add or subtract the powers if two to the bitmask values.
+
 // Create the data structure for the save file
 bool hb_create_save_struct();
+
+// Load into memory the layout of the Mossbacks farm
+static void turtlefarm_init();
 
 // Free the used memory by the save data structure
 void hb_destroy_save_struct();
