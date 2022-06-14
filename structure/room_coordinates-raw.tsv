@@ -33,7 +33,6 @@ darkworld_barghest2	320	1420
 darkworld_lossdream	320	270
 darkworld_portals	320	270
 darkworld_windream	320	270
-darkworld_portals	320	270
 death_barghest	320	270
 global_worldfall	320	270
 office_breakroom103	359	220
@@ -169,3 +168,9 @@ joe_regular	348	155
 ARENA_TESTER	320	180
 DIALOG_TESTER	320	180
 PHYSICS_TESTER	320	180
+animus_moleyard_full	350	309
+animus_moleyard_1	606	160
+animus_midlake	14	160
+darkworld_moleyarddark	144	249
+animus_moleyard_closed	144	249
+animus_moleyard_2	144	247

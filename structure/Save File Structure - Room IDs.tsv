@@ -38,8 +38,12 @@ animus_ironyard_1
 animus_ironyard_full
 animus_lake_1
 animus_lake_full
+animus_midlake
 animus_molehome
-animus_moleyard
+animus_moleyard_1
+animus_moleyard_2
+animus_moleyard_closed
+animus_moleyard_full
 animus_moleyard_sad
 animus_possumhome
 animus_possumshame
@@ -61,7 +65,6 @@ animus_snabityard
 animus_snakehome
 animus_thanks
 animus_turtlefarm_1
-animus_turtlefarm_full
 animus_turtlehome
 animus_vaporcave
 binder_bookdream
@@ -85,6 +88,7 @@ darkworld_falsestart
 darkworld_finaljudge
 darkworld_lossdream
 darkworld_molejudge
+darkworld_moleyarddark
 darkworld_portals
 darkworld_rhodejudge
 darkworld_timeroom
