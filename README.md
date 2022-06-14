@@ -2,9 +2,9 @@
 This program allows you to change everything on the save file of [Heartbound](https://store.steampowered.com/app/567380/Heartbound/), like where you are and what you did or didn't.
 
 **Downloads:**
-* *Windows:* [Heartbound Save Editor - v1.0.0.3 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.3/Heartbound_Save_Editor-v1.0.0.3-Windows_10.zip) - standalone executable, requires no installation.
-* *Linux (Debian/Ubuntu):* [Heartbound Save Editor - v1.0.0.3 (Debian/Ubuntu package)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.3/Heartbound_Save_Editor-v1.0.0.3-Linux_Ubuntu.deb) - installation package, should work on Debian/Ubuntu and distros based on those.
-* *Linux (binary):* [Heartbound Save Editor - v1.0.0.3 (Linux binary)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.3/Heartbound_Save_Editor-v1.0.0.3-Linux_binary.tar.xz) - just the binary, in order to run you first need to install the `libgtk-3-0` package.
+* *Windows:* [Heartbound Save Editor - v1.0.0.4 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.4/Heartbound_Save_Editor-v1.0.0.4-Windows_10.zip) - standalone executable, requires no installation.
+* *Linux (Debian/Ubuntu):* [Heartbound Save Editor - v1.0.0.4 (Debian/Ubuntu package)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.4/Heartbound_Save_Editor-v1.0.0.4-Linux_Ubuntu.deb) - installation package, should work on Debian/Ubuntu and distros based on those.
+* *Linux (binary):* [Heartbound Save Editor - v1.0.0.4 (Linux binary)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.4/Heartbound_Save_Editor-v1.0.0.4-Linux_binary.tar.xz) - just the binary, in order to run you first need to install the `libgtk-3-0` package.
 
 The editor works with latest version of Heartbound (1.0.9.56). Once the game gets updated, you might need to download a new version of the save editor.
 
