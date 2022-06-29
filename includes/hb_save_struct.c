@@ -538,6 +538,19 @@ static void turtlefarm_init()
     {
         hb_turtlefarm_mask[i] = (double)(1 << i);
     }
+
+    // Determine the maximum value for each of the crop's variables.
+    // Since the maximum values are initialized to zero, we just add the value of
+    // each crop's bitmask (for all crops) to the maximum of its corresponding variable.
+    for (size_t y_pos = 0; y_pos < TURTLEFARM_HEIGHT; y_pos++)
+    {
+        for (size_t x_pos = 0; x_pos < TURTLEFARM_WIDTH; x_pos++)
+        {
+            TurtlefarmCrop *crop = &hb_turtlefarm_layout[y_pos][x_pos];         // Pointer to the crop's struct
+            if (crop->var == 0) continue;
+            hb_save_data[crop->var].maximum += hb_turtlefarm_mask[crop->bit];   // Add the crop's bitmask value to the maximum 
+        }
+    }
 }
 
 // Free the used memory by the save data structure
