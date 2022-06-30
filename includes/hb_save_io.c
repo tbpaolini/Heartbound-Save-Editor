@@ -205,6 +205,24 @@ int hb_validate_save(GInputStream *save_file)
                 }
                 break;
             
+            case 406:
+            case 407:
+            case 408:
+            case 409:
+            case 410:
+            case 411:
+            case 412:
+            case 413:
+                // Lines 407 to 414, the Turtle Farm's crops
+                // Thanks to the ARG (Alternate Reality Game), these values can be set to very high numbers,
+                // which would make the game to save them in scientific notation, for example 2.00913e+31
+                if ( !isdigit(current_character) && current_character != '+' && current_character != 'e' && current_character != '.')
+                {
+                    g_seekable_seek(G_SEEKABLE(save_file), my_position, G_SEEK_SET, NULL, NULL);
+                    return SAVE_FILE_NOT_VALID;
+                }
+                break;
+            
             default:
                 // On all lines, except for lines 2 to 4, the characters can only be decimal digits
                 if ( !isdigit(current_character) )
