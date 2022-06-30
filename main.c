@@ -454,17 +454,27 @@ static void activate( GtkApplication* app, gpointer user_data )
                         // Create the checkbox and add it to the grid at the crop's position
                         // (The grid layout mimics the layout of the crops on the farm)
                         GtkWidget *turtlefarm_checkbox = gtk_check_button_new();
+                        GtkToggleButton *turtlefarm_checkbox_tb = GTK_TOGGLE_BUTTON(turtlefarm_checkbox);
                         gtk_grid_attach(turtlefarm_grid, turtlefarm_checkbox, (gint)x_pos, (gint)y_pos, 1, 1);
 
                         // Check if the current crop is destroyed
                         size_t crop_var = hb_turtlefarm_layout[y_pos][x_pos].var;
-                        uint32_t turtlefarm_bitmask = (uint32_t)hb_save_data[crop_var].value;
-                        uint32_t bit_position = (uint32_t)hb_turtlefarm_layout[y_pos][x_pos].bit;
-                        bool is_destroyed = (bool)((turtlefarm_bitmask >> bit_position) & 1);
-                        
-                        // Set the checkbox as "checked" if the current crop is destroyed
-                        GtkToggleButton *turtlefarm_checkbox_tb = GTK_TOGGLE_BUTTON(turtlefarm_checkbox);
-                        if (is_destroyed) gtk_toggle_button_set_active(turtlefarm_checkbox_tb, TRUE);
+                        if (hb_save_data[crop_var].value <= hb_save_data[crop_var].maximum)
+                        {
+                            uint32_t turtlefarm_bitmask = (uint32_t)hb_save_data[crop_var].value;
+                            uint32_t bit_position = (uint32_t)hb_turtlefarm_layout[y_pos][x_pos].bit;
+                            bool is_destroyed = (bool)((turtlefarm_bitmask >> bit_position) & 1);
+                            
+                            // Set the checkbox as "checked" if the current crop is destroyed
+                            if (is_destroyed) gtk_toggle_button_set_active(turtlefarm_checkbox_tb, TRUE);
+                        }
+                        else
+                        {
+                            // If the mask's value is above its maximum, consider the crop as "destroyed"
+                            // Note: This check is here because the ARG (Alternate Reality Game) ends up
+                            //       setting the crop's value to some very high number.
+                            gtk_toggle_button_set_active(turtlefarm_checkbox_tb, TRUE);
+                        }
                         
                         // Set the callback function for when the checkbox gets checked or unchecked
                         g_signal_connect(
@@ -539,8 +549,11 @@ static void activate( GtkApplication* app, gpointer user_data )
                 GtkWidget *turtlefarm_button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
                 GtkWidget *turtlefarm_check_all_button = gtk_button_new_with_label("Check all");
                 GtkWidget *turtlefarm_uncheck_all_button = gtk_button_new_with_label("Uncheck all");
+                hb_arg_remember_button_init();  // This button is hidden by default, it only appears
+                                                // if the user has completed the necessary ARG step.
 
                 gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), turtlefarm_check_all_button);
+                gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), hb_arg_remember_button);
                 gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), turtlefarm_uncheck_all_button);
 
                 gtk_grid_attach(

@@ -547,6 +547,21 @@ void hb_setvar_turtlefarm(GtkToggleButton *widget, TurtlefarmCrop *crop)
     // The crop's state is "destroyed" if its checkbox is checked
     gboolean is_destroyed = gtk_toggle_button_get_active(widget);
 
+    // If the bitmask's value is beyond its maximum, set it to the maximum
+    if (hb_save_data[crop_var].value > hb_save_data[crop_var].maximum)
+    {
+        hb_save_data[crop_var].value = hb_save_data[crop_var].maximum;
+        /* Note:
+            This check is here because of the Heartbound ARG ("Alternate Reality Game").
+            In one of the steps it requires setting the crop variables to some weird values,
+            that will make the variable go beyond the size limit.
+            With this check, if the user edit the variables through the save editor, they
+            will be reset to the proper range and the editor will work fine with them.
+            If the user do not change the crops' checkboxes, their values on the save file
+            will remain unchanged.
+        */
+    }
+
     if (is_destroyed)
     {
         // If the crop is destroyed, add the mask's value to the variable
@@ -806,6 +821,17 @@ void hb_load_data_into_interface(GtkWindow *window)
     // Special case for the Mossback's farm (which uses bitmasks)
     bool turtlefarm_is_loaded = false;
 
+    // Display the "Remember painful memory" button, if its corresponding part of the ARG has been completed
+    bool arg_deep_thought_completed = hb_arg_check_deep_thought();
+    if (arg_deep_thought_completed)
+    {
+        gtk_widget_show(hb_arg_remember_button);
+    }
+    else
+    {
+        gtk_widget_hide(hb_arg_remember_button);
+    }
+
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         // Skip the variable if it is not being used
@@ -825,8 +851,21 @@ void hb_load_data_into_interface(GtkWindow *window)
                 {
                     TurtlefarmCrop *crop = &hb_turtlefarm_layout[y_pos][x_pos];         // Pointer to the crop's struct
                     if (crop->var == 0) continue;
-                    uint32_t crop_bitmask = (uint32_t)(hb_save_data[crop->var].value);  // Convert the variable's value to 32-bit unsigned integer
-                    gboolean state = (gboolean)((crop_bitmask >> crop->bit) & 1);       // Get the bit at the specified position on the value
+                    
+                    // Get whether the crop is destroyed
+                    gboolean state;
+                    if (hb_save_data[crop->var].value <= hb_save_data[crop->var].maximum)
+                    {
+                        uint32_t crop_bitmask = (uint32_t)(hb_save_data[crop->var].value);  // Convert the variable's value to 32-bit unsigned integer
+                        state = (gboolean)((crop_bitmask >> crop->bit) & 1);                // Get the bit at the specified position on the value
+                    }
+                    else
+                    {
+                        // If the mask's value is above its maximum, consider the crop as "destroyed"
+                        // Note: This check is here because the ARG (Alternate Reality Game) ends up
+                        //       setting the crop's value to some very high number.
+                        state = TRUE;
+                    }
                     gtk_toggle_button_set_active(crop->widget, state);                  // Set the checkbox to the same state as the bit
                 }
             }
@@ -1753,7 +1792,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         " locations using this program (click the Open button, or drag the save"
         " file into the window or the executable). This way you can create backups.\n\n"
         "Your default Heartbound Save is located at:\n<tt>%s</tt>\n\n"
-        "This version of the editor supports Heartbound until its version <b>1.0.9.56.</b>"
+        "This version of the editor supports Heartbound until its version <b>1.0.9.57.</b>"
         " Whenever Heartbound gets updated, this editor will be updated as soon"
         " as possible to support it. So feel free to check our "
         "<a href='https://github.com/tbpaolini/Heartbound-Save-Editor/releases'>download page</a>"
@@ -1871,7 +1910,7 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         window,
         "logo", logo,
         "program-name", "Heartbound Save Editor",
-        "version", "Version 1.0.0.4",
+        "version", "Version 1.0.0.5",
         "authors", authors,
         "documenters", documenters,
         "copyright", "Copyright 2022 by Tiago Becerra Paolini",
