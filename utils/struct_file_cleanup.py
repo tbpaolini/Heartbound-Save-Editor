@@ -30,7 +30,7 @@ swap_5_7 = re.compile(r"((?:[a-zA-z0-9 \|]*\t){4})([a-zA-z0-9 \|]*)((?:[a-zA-z0-
 
 # Loop through the file
 edited_lines = []
-with open("..\structure\Save File Structure - 1.0.9.55.tsv", "rt") as file:
+with open("..\structure\Save File Structure - 1.0.9.57.tsv", "rt") as file:
     for line in file:
 
         # Change the header 'X (Count)' to just 'X'
