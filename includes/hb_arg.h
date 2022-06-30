@@ -6,7 +6,7 @@
 #define _HB_ARG
 
 #include <stdbool.h>
-#include <gtk\gtk.h>
+#include <gtk/gtk.h>
 
 // This button set the values on the save file necessary during the "Deep Thought" puzzle of the ARG:
 // https://gopiratesoftware.com/games/Heartbound/CORE_DUMP/MEMORY_ALPHA/CRASH_LOG/BOOT_RECORD/DEEP_THOUGHT/

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include <gtk\gtk.h>
+#include <gtk/gtk.h>
 
 #include <hb_arg.h>
 #include <hb_save_io.h>
@@ -29,7 +29,7 @@ bool hb_arg_check_deep_thought()
     if (!path_is_initialized)
     {
         // Build the path, if it was not built yet
-        snprintf(painful_memory_path, PATH_BUFFER, "%s\\painful.memory", SAVE_ROOT);
+        snprintf(painful_memory_path, PATH_BUFFER, "%s/painful.memory", SAVE_ROOT);
         path_is_initialized = true;
     }
 
