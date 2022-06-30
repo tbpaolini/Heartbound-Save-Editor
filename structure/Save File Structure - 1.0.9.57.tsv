@@ -413,3 +413,5 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 412	405	TurtleFarm	Crop Values	Green Spinach	0|X											Bitmask	
 413	406	TurtleFarm	Crop Values	Purple Radish	0|X											Bitmask	
 414	407	TurtleFarm	Crop Values	Purple Spinash	0|X											Bitmask	
+415	408	NOT USED															
+416	409	GLOBAL	Room is Judgement		0|1|2|3|4	No	Yes	Limbo 1	Limbo 2	Limbo 3							
