@@ -29,7 +29,10 @@ bool hb_arg_check_deep_thought()
     if (!path_is_initialized)
     {
         // Build the path, if it was not built yet
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wformat-truncation"
         snprintf(painful_memory_path, PATH_BUFFER, "%s/painful.memory", SAVE_ROOT);
+        #pragma GCC diagnostic pop
         path_is_initialized = true;
     }
 
