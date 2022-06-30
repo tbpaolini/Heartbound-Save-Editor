@@ -835,6 +835,17 @@ void hb_load_data_into_interface(GtkWindow *window)
     // Special case for the Mossback's farm (which uses bitmasks)
     bool turtlefarm_is_loaded = false;
 
+    // Display the "Remember painful memory" button, if its corresponding part of the ARG has been completed
+    bool arg_deep_thought_completed = hb_arg_check_deep_thought();
+    if (arg_deep_thought_completed)
+    {
+        gtk_widget_show(hb_arg_remember_button);
+    }
+    else
+    {
+        gtk_widget_hide(hb_arg_remember_button);
+    }
+
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         // Skip the variable if it is not being used
