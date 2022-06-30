@@ -549,8 +549,11 @@ static void activate( GtkApplication* app, gpointer user_data )
                 GtkWidget *turtlefarm_button_box = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
                 GtkWidget *turtlefarm_check_all_button = gtk_button_new_with_label("Check all");
                 GtkWidget *turtlefarm_uncheck_all_button = gtk_button_new_with_label("Uncheck all");
+                hb_arg_remember_button_init();  // This button is hidden by default, it only appears
+                                                // if the user has completed the necessary ARG step.
 
                 gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), turtlefarm_check_all_button);
+                gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), hb_arg_remember_button);
                 gtk_container_add(GTK_CONTAINER(turtlefarm_button_box), turtlefarm_uncheck_all_button);
 
                 gtk_grid_attach(
