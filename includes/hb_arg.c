@@ -92,6 +92,13 @@ void hb_remember_painful_memory(GtkWidget *widget)
     // Check all checkboxes at the Turtle Farm's grid
     hb_turtlefarm_check_all(NULL);
 
+    // Remember the old values of the variables
+    double old_values[8];
+    for (size_t i = 0; i < 8; i++)
+    {
+        old_values[i] = hb_save_data[400+i].value;
+    }
+
     // Set the variables to the values that the game expects
     // (those values were found at the 'painful.memory' file)
     hb_save_data[400].value = atof("20091305120914049516247267147776");
@@ -102,6 +109,23 @@ void hb_remember_painful_memory(GtkWidget *widget)
     hb_save_data[405].value = atof("25152108010425151453030124617728");
     hb_save_data[406].value = atof("25152103081519050043749574901760");
     hb_save_data[407].value = atof("20091305071815232707362816");
+
+    // Has at least one value changed?
+    bool has_changed = false;
+    for (size_t i = 0; i < 8; i++)
+    {
+        if (old_values[i] != hb_save_data[400+i].value)
+        {
+            has_changed = true;
+            break;
+        }
+    }
+
+    // Exit the function if nothing has changed
+    if (!has_changed) return;
+
+    // Mark the file as unsaved if there were changes
+    hb_flag_data_as_changed(widget);
 
     // Show a dialog to indicate the changes
     GtkWidget *info_dialog = hb_create_dialog_with_title_and_image(
