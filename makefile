@@ -1,3 +1,8 @@
+# On Windows, set the default shell to CMD
+ifeq ($(OS),Windows_NT)
+    SHELL := cmd.exe
+endif
+
 # 'main.c' file and all '*.c' files on the 'includes' folder
 SOURCE := main.c $(wildcard includes/*.c)
 
