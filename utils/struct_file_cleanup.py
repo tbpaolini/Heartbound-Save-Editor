@@ -20,7 +20,7 @@ in order to make it more user friendly:
 # [0-9]+            Decimal digits
 camel_case = re.compile(r"(?<=[a-z])([A-Z]+[a-z]+|[0-9]+)")
 
-# Regular expression to match the 'Rn_' pattert (where n = 1,2,3)
+# Regular expression to match the 'Rn_' pattern (where n = 1,2,3)
 round_n = re.compile(r"R([1-3])_")
 
 # Regular expression for finding the 5th and 7th columns
@@ -30,7 +30,7 @@ swap_5_7 = re.compile(r"((?:[a-zA-z0-9 \|]*\t){4})([a-zA-z0-9 \|]*)((?:[a-zA-z0-
 
 # Loop through the file
 edited_lines = []
-with open("..\structure\Save File Structure - 1.0.9.57.tsv", "rt") as file:
+with open("..\structure\Save File Structure - 1.0.9.58.tsv", "rt") as file:
     for line in file:
 
         # Change the header 'X (Count)' to just 'X'
@@ -43,7 +43,7 @@ with open("..\structure\Save File Structure - 1.0.9.57.tsv", "rt") as file:
 
         # Add the value to the ARG variable
         if line.startswith("245\t"):
-            line = "245\t238\tThe Truth\t\t\t0|42\tNo\t\t\t\t\t\t\t\t\t\t\t\tYes\n"
+            line = "245\t238\tThe Truth\t\t\t0|42\tNo\t\t\t\t\t\t\t\t\t\t\t\t\tYes\n"
 
         # Replace 'Rn_' by 'Round n '
         # (working only on lines 350 or 354 because it only happens there)
@@ -62,7 +62,7 @@ with open("..\structure\Save File Structure - 1.0.9.57.tsv", "rt") as file:
         
         if line.startswith("386\t"):
             # That is such an oddball line that it deserves its very own special case :-)
-            line = "386\t379\tDeer Judge\tFlowers Stepped On\tMax 15\t0|X\t\t\t\t\t\t\t\t\t\t\tNumberOfFlowers\t\t\n"
+            line = "386\t379\tDeer Judge\tFlowers Stepped On\tMax 15\t0|X\t\t\t\t\t\t\t\t\t\t\t\tNumberOfFlowers\t\t\n"
 
         # Split the cells before the capital letters in the middle,
         # then join the parts by a space

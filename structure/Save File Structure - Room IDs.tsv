@@ -3,7 +3,7 @@ ARENA_TESTER
 DIALOG_TESTER			
 PHYSICS_TESTER			
 animus_basil			
-animus_bearyard
+animus_bearyard			Any Animus locations are pending mapping.
 animus_clockyard			
 animus_corridor			
 animus_crossroads_1			
@@ -63,8 +63,14 @@ animus_runetrial4
 animus_runeward			
 animus_snabityard			
 animus_snakehome			
+animus_strollsheldon			
+animus_strollshelly			
 animus_thanks			
+animus_turtlecorridor			
 animus_turtlefarm_1			
+animus_turtlefarm_2			
+animus_turtlefarm_full			
+animus_turtlefollow			
 animus_turtlehome			
 animus_vaporcave			
 binder_bookdream			
@@ -152,7 +158,6 @@ home_kitchen
 home_livingroom			
 home_yard			
 joe_regular			
-menu_controls			
 menu_credits			
 menu_language			
 menu_logo			
