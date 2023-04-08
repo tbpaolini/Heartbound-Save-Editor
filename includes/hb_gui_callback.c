@@ -2049,18 +2049,18 @@ void hb_flag_data_as_changed(GtkWidget *widget)
 }
 
 // Confirm if the user wants to close the editor when there is unsaved data
-void hb_confirm_close(GtkWindow *window)
+gboolean hb_confirm_close(GtkWindow *window, GdkEvent* event, gpointer user_data)
 {
     bool proceed = hb_check_if_data_changed("Confirm exit", window);
     if (proceed)
     {
         // Close the window if the there is no unsaved changes
         // or if the user has chosen to leave
-        gtk_window_close(window);
+        return FALSE;
     }
     else
     {
         // Keep showing the window if the user has chosen to stay
-        gtk_window_present(window);
+        return TRUE;
     }
 }
