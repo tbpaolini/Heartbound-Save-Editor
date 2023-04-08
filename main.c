@@ -386,6 +386,15 @@ static void activate( GtkApplication* app, gpointer user_data )
             // Copy the entry's name to the text buffer
             strcpy_s(text_buffer, TEXT_BUFFER_SIZE, hb_save_data[var].name);
             
+            // Special case: unused storyline variable
+            // (the variable's number is showed since it has no name)
+            bool var_not_used = false;
+            if (strcmp(hb_save_data[var].location, "NOT USED") == 0)
+            {
+                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%zu", var);
+                var_not_used = true;
+            }
+            
             // If the entry has additional info, append it to the text buffer
             if (hb_save_data[var].info != NULL)
             {
@@ -592,7 +601,7 @@ static void activate( GtkApplication* app, gpointer user_data )
                 radio buttons will be used.
                 If the variable does not specify a measurement unit and a number
                 of values, then 'No' and 'Yes' radio buttons will be used. */
-            if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
+            if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0) || var_not_used)
             {
                 // Create the text entry field
                 GtkWidget *my_entry_field = gtk_entry_new();
