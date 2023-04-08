@@ -286,6 +286,6 @@ bool hb_check_if_data_changed(char *dialog_title, GtkWindow *window);
 void hb_flag_data_as_changed(GtkWidget *widget);
 
 // Confirm if the user wants to close the editor when there is unsaved data
-void hb_confirm_close(GtkWindow *window);
+gboolean hb_confirm_close(GtkWindow *window, GdkEvent* event, gpointer user_data);
 
 #endif
