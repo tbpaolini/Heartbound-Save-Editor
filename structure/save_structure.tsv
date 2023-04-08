@@ -292,22 +292,22 @@ Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0
 291	284	Lake	Beetle 4		0|1	Not Taken	Taken												
 292	285	Lake	Beetle 5		0|1	Not Taken	Taken												
 293	286	Animus	Watch Complete		0|1	Broken	Fixed												
-294	287	Animus	Watch Baseplate	Fern|Avocado	0|1|2|3	Broken	Fixed	Color Broken	Color Fixed										
+294	287	Animus	Watch Baseplate	Fern	0|1	Broken	Fixed												
 295	288	Animus	Watch Hands	Emelio	0|1	Broken	Fixed												
-296	289	Animus	Watch Gears	Mossbacks|Avocado	0|1|2|3	Broken	Fixed	Color Broken	Color Fixed										
+296	289	Animus	Watch Gears	Avocado	0|1	Broken	Fixed												
 297	290	Animus	Watch Sealed	Mossbacks	0|1	Broken	Fixed												
 298	291	Animus	Ramul Storyline		X												Storyline Step		
-299	292	Animus	Avocado Storyline		0|1|2|3|4|5|6|7	At Lake First Contact	At Pier Happy	At Pier Grumpy	Abandoned	Home Sad Fern Advice	Home Sad Rhode Advice	Home Sad No Advice	At Home Happy	At Home Working	At Home Watch Finished	In Yard Staying			
+299	292	Animus	Avocado Storyline		0|1|2|3|4|5|6|7|8|9|10	At Lake First Contact	At Pier Happy	At Pier Grumpy	Abandoned	Home Sad Fern Advice	Home Sad Rhode Advice	Home Sad No Advice	At Home Happy	At Home Working	At Home Watch Finished	In Yard Staying			
 300	293	Animus	Emelio Storyline		0|1|2|3|4|5|6|7|8|9	At Home	Ready For Mines	In Mines	In Bed	Saved	Abandoned	Abandoned Then Saved	At Forge	Fantasy	Reality				
 301	294	Animus	Rhode Storyline		0|1|2|3|4|5|6|7	In Yard	In Home	In Yard Lunch	Gone Lunch	On Bridge Happy	On Bridge Sad	Gone	At Home						
 302	295	Animus	Fern Storyline		0|1|2|3|4|5|6|7	In Yard	In Home	In Yard Lunch	Gone Lunch	On Bridge Happy	On Bridge Sad	Gone	At Home				Storyline Step		
-303	296	Animus	Mossback Storyline		X	In Yard	In Home	In Home Waiting	Yard Leaving	At Pathway							Storyline Step		
+303	296	Animus	Mossback Storyline		0|1|2|3|4	In Yard	In Home	In Home Waiting	Yard Leaving	At Pathway							Storyline Step		
 304	297	NOT USED																	
-305	298	Animus	Cirsi Storyline		X												Storyline Step		
-306	299	Animus	Reme Storyline		X												Storyline Step		
-307	300	Animus	Phil Storyline		X												Storyline Step		
-308	301	Animus	Seto Storyline		X												Storyline Step		
-309	302	Animus	Carli Storyline		X												Storyline Step		
+305	298	NOT USED																	
+306	299	NOT USED																	
+307	300	NOT USED																	
+308	301	NOT USED																	
+309	302	NOT USED																	
 310	303	Animus	Village State		0|1|2|3|4|5|100	Dillo	Dillo Finished	Deer	Forest	Mole	Turtle							Fully Unlocked	
 311	304	Iron Mines	Help Emelio?		0|1|2|3	Not Yet	Yes	No	No Then Yes										
 312	305	Animus	Twins Emelio Judgement		0|1|2	Not Yet	Positive	Negative											
