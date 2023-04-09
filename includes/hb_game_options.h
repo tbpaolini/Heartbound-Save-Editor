@@ -30,6 +30,8 @@ Indices:
 extern char hb_game_options[OPTIONS_COUNT][OPTIONS_BUFFER];
 
 // Read the game's options file
+// Note: this function should be called after the save was opened,
+//       because that sets the variable SAVE_ROOT (path to the save's folder).
 void hb_read_game_options();
 
 // Save the game's options file
