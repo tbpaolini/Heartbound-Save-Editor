@@ -28,7 +28,7 @@ char hb_game_options[OPTIONS_COUNT][OPTIONS_BUFFER] = {0};
 
 // Map the four controller buttons to their respective ID
 // Note: values obtained from data mining the game
-static char gamepad_buttons[4][6] = {
+static const char gamepad_buttons[4][6] = {
     "32769",    // A or ×
     "32770",    // B or ○
     "32771",    // X or □
@@ -36,7 +36,7 @@ static char gamepad_buttons[4][6] = {
 };
 
 // Default game options
-static char *default_options[OPTIONS_COUNT] = {
+static const char *default_options[OPTIONS_COUNT] = {
     "0.5",
     "W", "A", "S", "D", "Z", "X",
     "32769", "32770", "32771", "32772",
