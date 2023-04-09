@@ -13,4 +13,10 @@ extern char OPTIONS_PATH[PATH_BUFFER];
 // Store each of the game options as a C-style string
 extern char hb_game_options[OPTIONS_COUNT][OPTIONS_BUFFER];
 
+// Read the game's options file
+void hb_read_game_options();
+
+// Save the game's options file
+void hb_save_game_options();
+
 #endif // _HB_GAME_OPTIONS
