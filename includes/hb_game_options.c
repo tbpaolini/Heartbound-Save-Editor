@@ -22,6 +22,15 @@ Indices:
 */
 char hb_game_options[OPTIONS_COUNT][OPTIONS_BUFFER] = {0};
 
+// Map the four controller buttons to their respective ID
+// Note: values obtained from data mining the game
+static char gamepad_buttons[4][6] = {
+    "32769",    // A or ×
+    "32770",    // B or ○
+    "32771",    // X or □
+    "32772",    // Y or △
+};
+
 // Read the game's options file
 void hb_read_game_options()
 {
