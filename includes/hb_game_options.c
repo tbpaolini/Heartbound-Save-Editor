@@ -49,7 +49,7 @@ static const char *default_options[OPTIONS_COUNT] = {
 void hb_read_game_options()
 {
     // Initialize the game options' variables when running the function for the first time
-    static options_init = false;
+    static bool options_init = false;
     if (!options_init)
     {
         // Parse the path to the options file
