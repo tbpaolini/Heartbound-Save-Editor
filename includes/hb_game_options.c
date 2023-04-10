@@ -111,6 +111,7 @@ void hb_read_game_options()
             {
                 // If we arrived at the end of the line without invalid characters
                 is_valid = true;
+                line_buffer[pos] = '\0';    // Remove the newline character
                 break;
             }
 
