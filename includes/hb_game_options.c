@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdbool.h>
 #include <hb_game_options.h>
 
@@ -90,6 +91,43 @@ void hb_read_game_options()
     
     FILE *options_file = fopen(my_path, "rt");
     if (!options_file) return;  // The default option values will be used if opening the file fails
+    
+    char line_buffer[OPTIONS_BUFFER+1] = {0};   // Buffer for reading the lines of the options file
+    size_t pos = 0; // Position on the line buffer
+
+    // Volume's value
+    {
+        char *const status = fgets(line_buffer, OPTIONS_BUFFER, options_file);
+        if (!status) {fclose(options_file); return;}
+
+        // Validate the volume's value
+        bool is_valid = false;
+        size_t dot_count = 0;
+        while (line_buffer[pos] != '\0')
+        {
+            const char my_char = line_buffer[pos++];
+            
+            if (my_char == '\n')
+            {
+                // If we arrived at the end of the line without invalid characters
+                is_valid = true;
+                break;
+            }
+
+            // Each character can only be a digit or a dot (being one dot at most)
+            if (!isdigit(my_char) && my_char != '.') break;
+            if (my_char == '.') dot_count++;
+            if (dot_count > 1) break;
+        }
+
+        // Store the value if valid
+        if (is_valid)
+        {
+            snprintf(hb_game_options[0], OPTIONS_BUFFER, "%s", line_buffer);
+        }
+    }
+
+    /* TO DO: other values... */
 
     fclose(options_file);
 }
