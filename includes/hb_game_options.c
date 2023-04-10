@@ -12,12 +12,12 @@ char OPTIONS_PATH[PATH_BUFFER] = {0};
 
 Indices:
     [0]  Global audio volume (float from 0.00 to 1.00)
-    [1]  Keyboard move Up (printable character)
-    [2]  Keyboard move Left key (printable character)
-    [3]  Keyboard move Down (printable character)
-    [4]  Keyboard move Right (printable character)
-    [5]  Accept key (printable character or controller button)
-    [6]  Cancel key (printable character or controller button)
+    [1]  Keyboard move Up (digit or uppercase A-Z letter)
+    [2]  Keyboard move Left key (digit or uppercase A-Z letter)
+    [3]  Keyboard move Down (digit or uppercase A-Z letter)
+    [4]  Keyboard move Right (digit or uppercase A-Z letter)
+    [5]  Accept key (digit or uppercase A-Z letter)
+    [6]  Cancel key (digit or uppercase A-Z letter)
     [7]  Gamepad button 1 ('accept' function)
     [8]  Gamepad button 2 ('cancel' function)
     [9]  Gamepad button 3 (used on minigames, function varies)
@@ -124,6 +124,25 @@ void hb_read_game_options()
         if (is_valid)
         {
             snprintf(hb_game_options[0], OPTIONS_BUFFER, "%s", line_buffer);
+        }
+    }
+
+    // Keyboard input
+    for (size_t i = 0; i < 6; i++)
+    {
+        char *const status = fgets(line_buffer, OPTIONS_BUFFER, options_file);
+        if (!status) {fclose(options_file); return;}
+
+        // Validate the input's value
+        // The line can only have one character, and it has to be a digit or letter
+        if (
+            (isalpha(line_buffer[0]) || isdigit(line_buffer[0]))
+            &&
+            (line_buffer[1] == '\n')
+        )
+        {
+            // Store the character, converting it to uppercase if needed.
+            snprintf(hb_game_options[1+i], OPTIONS_BUFFER, "%c", (char)toupper(line_buffer[0]));
         }
     }
 
