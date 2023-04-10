@@ -178,8 +178,25 @@ void hb_read_game_options()
             snprintf(hb_game_options[7+i], OPTIONS_BUFFER, "%s", line_buffer);
         }
     }
-    
-    /* TO DO: other values... */
+
+    // Controller type and fullscreen (booleans)
+    for (size_t i = 0; i < 2; i++)
+    {
+        char *const status = fgets(line_buffer, OPTIONS_BUFFER, options_file);
+        if (!status) {fclose(options_file); return;}
+
+        // Validate the input's value
+        // The line can only be '0' or '1'
+        if (
+            (line_buffer[0] == '0' || line_buffer[0] == '1')
+            &&
+            (line_buffer[1] == '\n')
+        )
+        {
+            // Store the value, if valid
+            snprintf(hb_game_options[11+i], OPTIONS_BUFFER, "%c", line_buffer[0]);
+        }
+    }
 
     fclose(options_file);
 }
