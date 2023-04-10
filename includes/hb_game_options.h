@@ -14,12 +14,12 @@ extern char OPTIONS_PATH[PATH_BUFFER];
 
 Indices:
     [0]  Global audio volume (float from 0.00 to 1.00)
-    [1]  Keyboard move Up (printable character)
-    [2]  Keyboard move Left key (printable character)
-    [3]  Keyboard move Down (printable character)
-    [4]  Keyboard move Right (printable character)
-    [5]  Accept key (printable character or controller button)
-    [6]  Cancel key (printable character or controller button)
+    [1]  Keyboard move Up (digit or uppercase A-Z letter)
+    [2]  Keyboard move Left key (digit or uppercase A-Z letter)
+    [3]  Keyboard move Down (digit or uppercase A-Z letter)
+    [4]  Keyboard move Right (digit or uppercase A-Z letter)
+    [5]  Accept key (digit or uppercase A-Z letter)
+    [6]  Cancel key (digit or uppercase A-Z letter)
     [7]  Gamepad button 1 ('accept' function)
     [8]  Gamepad button 2 ('cancel' function)
     [9]  Gamepad button 3 (used on minigames, function varies)
