@@ -889,8 +889,11 @@ void hb_load_data_into_interface(GtkWindow *window)
             continue;
         }
 
+        // Is the variable not used by the game?
+        const bool not_used = (strcmp("NOT USED", hb_save_data[var].location) == 0);
+
         // What kind of widget holds the save data
-        if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
+        if ( (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0)) || not_used )
         {
             // Text field
             GtkEntry *text_entry = hb_save_data[var].widget.entry;
