@@ -147,6 +147,38 @@ void hb_read_game_options()
         }
     }
 
+    // Gamepad input
+    for (size_t i = 0; i < 4; i++)
+    {
+        char *const status = fgets(line_buffer, OPTIONS_BUFFER, options_file);
+        if (!status) {fclose(options_file); return;}
+
+        // Validate the input's value
+        // The line can only have digits
+        bool is_valid = false;
+        size_t pos = 0;
+        while (line_buffer[pos] != '\0')
+        {
+            const char my_char = line_buffer[pos++];
+            if (my_char == '\n')
+            {
+                // If we arrived at the end of the line without invalid characters
+                is_valid = true;
+                line_buffer[pos] = '\0';    // Remove the newline character
+                break;
+            }
+
+            // Each character can only be a digit
+            if (!isdigit(my_char)) break;
+        }
+
+        // Store the value if valid
+        if (is_valid)
+        {
+            snprintf(hb_game_options[7+i], OPTIONS_BUFFER, "%s", line_buffer);
+        }
+    }
+    
     /* TO DO: other values... */
 
     fclose(options_file);
