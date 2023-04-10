@@ -372,6 +372,7 @@ int hb_write_save()
     g_object_unref(save_file);
     
     hb_save_get_modified_time(); 
+    hb_save_game_options();
     return FILE_SAVING_SUCCESS;
     // TO DO: Backup of the original save file
 }

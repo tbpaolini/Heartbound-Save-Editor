@@ -204,5 +204,32 @@ void hb_read_game_options()
 // Save the game's options file
 void hb_save_game_options()
 {
+    // Path were to save the options file
+    char *my_path;
+    char path_alt[PATH_BUFFER]; // Buffer for the case the options file needs to be saved to a non-default location
+    
+    if (strncmp(CURRENT_FILE, SAVE_PATH, PATH_BUFFER) == 0)
+    {
+        // If saving to the default save location,
+        // the options file will be saved to the default options location
+        my_path = OPTIONS_PATH;
+    }
+    else
+    {
+        // If not saving to the default save file location,
+        // the options file will be saved to a new file (different from the save file)
+        snprintf(path_alt, PATH_BUFFER, "%s-options", CURRENT_FILE);
+        my_path = path_alt;
+    }
 
+    FILE *options_file = fopen(my_path, "wt");
+    if (!options_file) return;
+
+    for (size_t i = 0; i < OPTIONS_COUNT; i++)
+    {
+        // Write the values to the options file
+        fprintf(options_file, "%s\n", hb_game_options[i]);
+    }
+
+    fclose(options_file);
 }
