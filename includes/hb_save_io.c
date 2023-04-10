@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <gtk\gtk.h>
 #include <hb_save_io.h>
+#include <hb_game_options.h>
 #include "..\config.h"
 
 char SAVE_PATH[PATH_BUFFER];
@@ -132,6 +133,7 @@ int hb_read_save(char *path)
 
     hb_save_get_modified_time();
     hb_save_is_open = true;
+    hb_read_game_options();
     return SAVE_FILE_IS_VALID;
 }
 
