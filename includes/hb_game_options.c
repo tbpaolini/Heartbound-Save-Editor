@@ -233,3 +233,10 @@ void hb_save_game_options()
 
     fclose(options_file);
 }
+
+// Add to the user interface the fields corresponding to the game options
+// Note: the function needs to receive the GTK container where the fields will be added on.
+void hb_insert_options_fields(GtkWidget *container)
+{
+    
+}
