@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <hb_game_options.h>
+#include "../config.h"
 
 // Full file system path to the game options file
 char OPTIONS_PATH[PATH_BUFFER] = {0};
@@ -43,6 +44,10 @@ static const char *default_options[OPTIONS_COUNT] = {
     "32769", "32770", "32771", "32772",
     "0", "0",
 };
+
+// The GTK widgets of the game options fields on the user interface
+// (the new option values will be read from there when saving the options)
+static GtkWidget *options_widgets[OPTIONS_COUNT];
 
 // Read the game's options file
 // Note: this function should be called after the save was opened,
@@ -238,5 +243,55 @@ void hb_save_game_options()
 // Note: the function needs to receive the GTK container where the fields will be added on.
 void hb_insert_options_fields(GtkWidget *container)
 {
+    // Create and add a new box with a label (for the name of an option)
+    GtkWidget *my_wrapper;
+    GtkWidget *my_name_label;
+    #define NEW_LABEL_BOX(text) \
+        my_wrapper = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, ENTRY_VERTICAL_SPACING);\
+        gtk_widget_set_hexpand(my_wrapper, TRUE);\
+        my_name_label = gtk_label_new(text);\
+        gtk_widget_set_valign(my_name_label, GTK_ALIGN_START);\
+        gtk_widget_set_margin_end(my_name_label, ENTRY_HORIZONTAL_SPACING);\
+        gtk_widget_set_margin_top(my_name_label, 8);\
+        gtk_container_add(GTK_CONTAINER(my_wrapper), my_name_label);\
+        gtk_container_add(GTK_CONTAINER(container), my_wrapper)
     
+    // Create and add flow box for the contents
+    GtkWidget *my_flowbox;
+    #define NEW_FLOWBOX() \
+        my_flowbox = gtk_flow_box_new();\
+        gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_flowbox), GTK_SELECTION_NONE);\
+        gtk_widget_set_valign(my_flowbox, GTK_ALIGN_START);\
+        gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), 2);\
+        gtk_container_add(GTK_CONTAINER(my_wrapper), my_flowbox);
+        
+    // Volume slider
+
+    // Create the wrapper box for the volume slider
+    NEW_LABEL_BOX("Audio volume :");
+    NEW_FLOWBOX();
+    gtk_widget_set_tooltip_text(
+        my_name_label,
+        "Global volume control for the game."
+    );
+
+    // Create the slider
+    GtkWidget *volume_slider = gtk_scale_new_with_range(
+        GTK_ORIENTATION_HORIZONTAL,
+        0.0, 1.0, 0.05  // Minumum and max values, and step when moving the slider with the keyboard
+    );
+    gtk_container_add(GTK_CONTAINER(my_flowbox), volume_slider);
+    gtk_scale_set_has_origin(GTK_SCALE(volume_slider), TRUE);   // Highlight the position between the start and the current value
+    gtk_scale_set_draw_value(GTK_SCALE(volume_slider), TRUE);   // Display the current value next to the slider
+    gtk_scale_set_digits(GTK_SCALE(volume_slider), 2);          // Amount of decimal places to show on the value
+    gtk_scale_set_value_pos(GTK_SCALE(volume_slider), GTK_POS_RIGHT);   // Where to display the value in relation to the slider
+
+    // Set the slider's initial position
+    const double volume_value = atof(hb_game_options[0]);
+    gtk_range_set_value(GTK_RANGE(volume_slider), volume_value);    // Function automatically clamps the value to fit between min and max
+
+    /* TO DO: Add the remaining fields */
+
+    #undef NEW_LABEL_BOX
+    #undef NEW_FLOWBOX
 }
