@@ -350,6 +350,14 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Note: Since this place stores its values differently than anything else on the game, we need a special case for it.
     //       The crops' state is stored on bitmasks across 8 different variables (0 = not destroyed | 1 = destroyed).
 
+    // Add the fields for the game options
+    HeartboundLocation *my_location = hb_get_location("Settings");
+    size_t my_chapter = my_location->world;
+    size_t my_position = my_location->position * 2 + 1;
+    GtkWidget *my_cell = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
+    hb_insert_options_fields(my_cell);
+
+    // Add the fields for each of the storyline variables
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         /*
