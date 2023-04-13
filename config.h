@@ -28,6 +28,8 @@
 #define IMAGE_MARGIN 10
 #define ENTRY_VERTICAL_SPACING 0
 #define ENTRY_HORIZONTAL_SPACING 0
+#define MIN_ITEMS_PER_LINE 2
+#define MAX_ITEMS_PER_LINE 10
 #define VOLUME_SLIDER_MIN_WIDTH 200
 
 // Text fields properties
