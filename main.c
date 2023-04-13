@@ -447,7 +447,8 @@ static void activate( GtkApplication* app, gpointer user_data )
             GtkWidget *my_options = gtk_flow_box_new();
             gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_options), GTK_SELECTION_NONE);  // Prevents the text inside from getting highlighted when you click on them
             gtk_widget_set_valign(my_options, GTK_ALIGN_START);
-            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_options), 2);
+            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_options), MIN_ITEMS_PER_LINE);
+            gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(my_options), MAX_ITEMS_PER_LINE);
 
             // Add the flow box to the wrapper
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_options);
@@ -766,7 +767,8 @@ static void activate( GtkApplication* app, gpointer user_data )
             my_flowbox = gtk_flow_box_new();\
             gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_flowbox), GTK_SELECTION_NONE);\
             gtk_widget_set_valign(my_flowbox, GTK_ALIGN_START);\
-            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), 2);\
+            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), MIN_ITEMS_PER_LINE);\
+            gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(my_flowbox), MAX_ITEMS_PER_LINE);\
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_flowbox);
 
         // Create and add the entries for the attributes
