@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <locale.h>
 #include <gtk\gtk.h>
 #include <unistd.h>
 #include <hb_save.h>
@@ -946,6 +947,12 @@ static void activate( GtkApplication* app, gpointer user_data )
 
 int main ( int argc, char **argv )
 {
+    // Set the locale to English (US) and UTF-8
+    // (Because the save file store values in that format, like using a dot for decimals.
+    //  This way, the string to number functions should work as expected.)
+    setlocale(LC_ALL, "en_US.utf8");
+    gtk_disable_setlocale();    // Prevent GTK from resetting the locale to the system's default
+    
     // Find the directory of our executable
     char *editor_path = calloc(PATH_BUFFER, sizeof(char));  // Full path including the executable itself
     GetModuleFileNameA(NULL, editor_path, PATH_BUFFER);
