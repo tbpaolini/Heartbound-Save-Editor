@@ -280,6 +280,7 @@ void hb_insert_options_fields(GtkWidget *container)
         GTK_ORIENTATION_HORIZONTAL,
         0.0, 1.0, 0.01  // Minumum and max values, and step when moving the slider with the keyboard
     );
+    options_widgets[0] = volume_slider;
     gtk_widget_set_hexpand(volume_slider, TRUE);
     gtk_widget_set_size_request(volume_slider, VOLUME_SLIDER_MIN_WIDTH, -1);
     gtk_container_add(GTK_CONTAINER(my_flowbox), volume_slider);
