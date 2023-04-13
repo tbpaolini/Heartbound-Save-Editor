@@ -45,6 +45,18 @@ static const char *default_options[OPTIONS_COUNT] = {
     "0", "0",
 };
 
+
+// The keyboard controls that the player can change
+static const char *kb_controls[] = {"Up :", "Left :", "Down :", "Right :", "Accept :", "Cancel :"};
+static const size_t kb_controls_len = sizeof(kb_controls) / sizeof(char *);
+
+// The allowed keys of the keyboard
+static const char *kb_inputs[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8",
+    "9", "A", "B", "C", "D", "E", "F", "G", "H",
+    "I", "J", "K", "L", "M", "N", "O", "P", "Q",
+    "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+static const size_t kb_inputs_len = sizeof(kb_inputs) / sizeof(char *);
+
 // The GTK widgets of the game options fields on the user interface
 // (the new option values will be read from there when saving the options)
 static GtkWidget *options_widgets[OPTIONS_COUNT];
@@ -263,6 +275,7 @@ void hb_insert_options_fields(GtkWidget *container)
         gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_flowbox), GTK_SELECTION_NONE);\
         gtk_widget_set_valign(my_flowbox, GTK_ALIGN_START);\
         gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), 2);\
+        gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(my_flowbox), 14);\
         gtk_container_add(GTK_CONTAINER(my_wrapper), my_flowbox);
         
     // Volume slider
@@ -292,6 +305,57 @@ void hb_insert_options_fields(GtkWidget *container)
     // Set the slider's initial position
     const double volume_value = atof(hb_game_options[0]);
     gtk_range_set_value(GTK_RANGE(volume_slider), volume_value);    // Function automatically clamps the value to fit between min and max
+
+    // Keyboard input
+
+    // Create the wrapper box for the volume slider
+    NEW_LABEL_BOX("Keyboard controls :");
+    NEW_FLOWBOX();
+    gtk_widget_set_tooltip_text(
+        my_name_label,
+        "Game input when using a keyboard."
+    );
+    
+    // Create all fields for the keyboard controls
+    for (size_t i = 0; i < kb_controls_len; i++)
+    {
+        // Text label for the key
+        GtkWidget *my_label = gtk_label_new(kb_controls[i]);
+        gtk_container_add(GTK_CONTAINER(my_flowbox), my_label);
+        gtk_widget_set_margin_start(my_label, TEXT_FIELD_MARGIN);
+
+        // Drop down menu for each possible key value
+        GtkWidget *key_selection = gtk_combo_box_text_new();
+        options_widgets[1+i] = key_selection;
+        gtk_container_add(GTK_CONTAINER(my_flowbox), key_selection);
+        
+        // Add the possible keys to the dropdown menu
+        for (size_t j = 0; j < kb_inputs_len; j++)
+        {
+            gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(key_selection), kb_inputs[j]);
+        }
+        
+        // Current key set on the game options file
+        const char my_key = toupper((int)hb_game_options[1+i][0]);
+        
+        // Get the index on the dropdown menu for the current key
+        size_t my_index = SIZE_MAX;
+
+        if (isupper(my_key))
+        {
+            my_index = (my_key - 'A') + 10;
+        }
+        else if (isdigit(my_key))
+        {
+            my_index = my_key - '0';
+        }
+
+        // Set the dropdown menu to the current key
+        if (my_index < kb_inputs_len)
+        {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(key_selection), my_index);
+        }
+    }
 
     /* TO DO: Add the remaining fields */
 
