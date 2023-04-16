@@ -46,7 +46,6 @@ static const char *default_options[OPTIONS_COUNT] = {
     "0", "0",
 };
 
-
 // The keyboard controls that the player can change
 static const char *kb_controls[] = {"Up :", "Left :", "Down :", "Right :", "Accept :", "Cancel :"};
 static const size_t kb_controls_len = sizeof(kb_controls) / sizeof(char *);
@@ -70,6 +69,10 @@ static const size_t gp_inputs_len = sizeof(gp_inputs[0]) / sizeof(char *);      
 // The gamepad controls that the player can change
 static const char *gp_controls[] = {"Accept :", "Cancel :", "Button 3 :", "Button 4 :"};
 static const size_t gp_controls_len = sizeof(gp_controls) / sizeof(char *);
+
+// Names of the gamepad types
+const char *gp_types[2] = {"Xbox", "PlayStation"};
+const size_t gp_types_len = sizeof(gp_types) / sizeof(char *);
 
 // The GTK widgets of the game options fields on the user interface
 // (the new option values will be read from there when saving the options)
@@ -380,6 +383,10 @@ void hb_insert_options_fields(GtkWidget *container)
         my_name_label,
         "Game input when using a controller."
     );
+
+    // Whether using a Xbox or a PlayStation controller (0 or 1, respectively)
+    size_t control_type = hb_game_options[11][0] - '0';
+    if (control_type >= gp_inputs_num) control_type = 0;    // Check if not out-of-bound
     
     // Create all fields for the gamepad controls
     for (size_t i = 0; i < gp_controls_len; i++)
@@ -393,10 +400,6 @@ void hb_insert_options_fields(GtkWidget *container)
         GtkWidget *button_selection = gtk_combo_box_text_new();
         options_widgets[7+i] = button_selection;
         gtk_container_add(GTK_CONTAINER(my_flowbox), button_selection);
-
-        // Whether using a Xbox or a PlayStation controller (0 or 1, respectively)
-        size_t control_type = hb_game_options[11][0] - '0';
-        if (control_type >= gp_inputs_num) control_type = 0;    // Check if not out-of-bound
         
         // Add the possible buttons to the dropdown menu
         for (size_t j = 0; j < gp_inputs_len; j++)
@@ -424,6 +427,39 @@ void hb_insert_options_fields(GtkWidget *container)
         {
             gtk_combo_box_set_active(GTK_COMBO_BOX(button_selection), my_index);
         }
+    }
+
+    // Controller type
+
+    NEW_LABEL_BOX("Gamepad type :");
+    NEW_FLOWBOX();
+    gtk_widget_set_tooltip_text(
+        my_name_label,
+        "Which kind of controller is being used for the game."
+    );
+
+    {
+        GtkWidget *my_radio_button = NULL;
+        GtkWidget *previous_button = NULL;
+
+        for (size_t i = 0; i < gp_types_len; i++)
+        {
+            // Create a radio button within the controller type's group
+            my_radio_button = gtk_radio_button_new_with_label(NULL, gp_types[i]);
+            gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
+            previous_button = my_radio_button;
+
+            // Set to active the radio button that corresponds to the controller type
+            if (control_type == i)
+            {
+                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
+            }
+
+            // Add the radio button to the flow box
+            gtk_container_add(GTK_CONTAINER(my_flowbox), my_radio_button);
+        }
+
+        options_widgets[11] = previous_button;
     }
 
     /* TO DO: Add the remaining fields */
