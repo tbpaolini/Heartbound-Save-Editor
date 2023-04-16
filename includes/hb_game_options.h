@@ -45,4 +45,7 @@ void hb_insert_options_fields(GtkWidget *container);
 // (the text will be toggled between "ABXY" and "×○□△")
 static void __update_buttons_text(GtkToggleButton* widget, gpointer user_data);
 
+// Update the values on the 'hb_game_options[]' array from the selections on the interface
+static inline void __update_game_options();
+
 #endif // _HB_GAME_OPTIONS

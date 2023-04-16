@@ -238,6 +238,9 @@ void hb_read_game_options()
 // Save the game's options file
 void hb_save_game_options()
 {
+    // Update the options' values before saving
+    __update_game_options();
+    
     // Path were to save the options file
     char *my_path;
     char path_alt[PATH_BUFFER]; // Buffer for the case the options file needs to be saved to a non-default location
@@ -544,4 +547,43 @@ static void __update_buttons_text(GtkToggleButton* widget, gpointer user_data)
         // Set the index back to the original position
         gtk_combo_box_set_active(GTK_COMBO_BOX(button_selection), my_index);
     }
+}
+
+// Update the values on the 'hb_game_options[]' array from the selections on the interface
+static inline void __update_game_options()
+{
+    // Audio's volume
+    GtkRange *volume_slider = GTK_RANGE(options_widgets[0]);
+    const double volume_value = gtk_range_get_value(volume_slider);
+    snprintf(hb_game_options[0], OPTIONS_BUFFER, "%.2f", volume_value);
+
+    // Keyboard controls
+    for (size_t i = 0; i < kb_controls_len; i++)
+    {
+        GtkComboBox *key_selection = GTK_COMBO_BOX(options_widgets[1+i]);
+        const gint my_index = gtk_combo_box_get_active(key_selection);
+        if (my_index < kb_inputs_len)
+        {
+            snprintf(hb_game_options[1+i], OPTIONS_BUFFER, "%s", kb_inputs[my_index]);
+        }
+    }
+
+    // Gamepad controls
+    for (size_t i = 0; i < gp_controls_len; i++)
+    {
+        GtkComboBox *button_selection = GTK_COMBO_BOX(options_widgets[7+i]);
+        const gint my_index = gtk_combo_box_get_active(button_selection);
+        if (my_index < gp_inputs_len)
+        {
+            snprintf(hb_game_options[7+i], OPTIONS_BUFFER, "%s", gamepad_buttons[my_index]);
+        }
+    }
+    
+    // If using a PlayStation or a Xbox controller (ASCII '1' or '0', respectively)
+    const char control_type = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(options_widgets[11])) ? '1' : '0';
+    snprintf(hb_game_options[11], OPTIONS_BUFFER, "%c", control_type);
+
+    // If full screen is active on the game
+    const char is_fullscreen = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(options_widgets[12])) ? '1' : '0';
+    snprintf(hb_game_options[12], OPTIONS_BUFFER, "%c", is_fullscreen);
 }
