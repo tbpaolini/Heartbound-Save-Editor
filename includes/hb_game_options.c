@@ -36,6 +36,7 @@ static const char gamepad_buttons[4][6] = {
     "32771",    // X or □
     "32772",    // Y or △
 };
+static const size_t gamepad_buttons_len = sizeof(gamepad_buttons) / sizeof(gamepad_buttons[0]);
 
 // Default game options
 static const char *default_options[OPTIONS_COUNT] = {
@@ -56,6 +57,19 @@ static const char *kb_inputs[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8",
     "I", "J", "K", "L", "M", "N", "O", "P", "Q",
     "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
 static const size_t kb_inputs_len = sizeof(kb_inputs) / sizeof(char *);
+
+// The allowed buttons of the gamepad
+// (the button order matches the order on the 'gamepad_buttons[]' array)
+static const char *gp_inputs[2][4] = {
+    {"A", "B", "X", "Y"},           // Xbox controller
+    {u8"×", u8"○", u8"□", u8"△"},   // PlayStation controller
+};
+static const size_t gp_inputs_num = sizeof(gp_inputs) / sizeof(gp_inputs[0]);   // Amount of gamepad types
+static const size_t gp_inputs_len = sizeof(gp_inputs[0]) / sizeof(char *);      // Amount of buttons on the gamepad
+
+// The gamepad controls that the player can change
+static const char *gp_controls[] = {"Accept :", "Cancel :", "Button 3 :", "Button 4 :"};
+static const size_t gp_controls_len = sizeof(gp_controls) / sizeof(char *);
 
 // The GTK widgets of the game options fields on the user interface
 // (the new option values will be read from there when saving the options)
@@ -354,6 +368,61 @@ void hb_insert_options_fields(GtkWidget *container)
         if (my_index < kb_inputs_len)
         {
             gtk_combo_box_set_active(GTK_COMBO_BOX(key_selection), my_index);
+        }
+    }
+
+    // Gamepad input
+
+    // Create the wrapper box for the gamepad controls
+    NEW_LABEL_BOX("Gamepad controls :");
+    NEW_FLOWBOX();
+    gtk_widget_set_tooltip_text(
+        my_name_label,
+        "Game input when using a controller."
+    );
+    
+    // Create all fields for the gamepad controls
+    for (size_t i = 0; i < gp_controls_len; i++)
+    {
+        // Text label for the button
+        GtkWidget *my_label = gtk_label_new(gp_controls[i]);
+        gtk_container_add(GTK_CONTAINER(my_flowbox), my_label);
+        gtk_widget_set_margin_start(my_label, TEXT_FIELD_MARGIN);
+
+        // Drop down menu for each possible button value
+        GtkWidget *button_selection = gtk_combo_box_text_new();
+        options_widgets[7+i] = button_selection;
+        gtk_container_add(GTK_CONTAINER(my_flowbox), button_selection);
+
+        // Whether using a Xbox or a PlayStation controller (0 or 1, respectively)
+        size_t control_type = hb_game_options[11][0] - '0';
+        if (control_type >= gp_inputs_num) control_type = 0;    // Check if not out-of-bound
+        
+        // Add the possible buttons to the dropdown menu
+        for (size_t j = 0; j < gp_inputs_len; j++)
+        {
+            gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(button_selection), gp_inputs[control_type][j]);
+        }
+        
+        // Current button set on the game options file
+        const char *my_button = hb_game_options[7+i];
+        
+        // Get the index on the dropdown menu for the current button
+        size_t my_index = SIZE_MAX;
+
+        for (size_t j = 0; j < gamepad_buttons_len; j++)
+        {
+            if (strcmp(my_button, gamepad_buttons[j]) == 0)
+            {
+                my_index = j;
+                break;
+            }
+        }
+
+        // Set the dropdown menu to the current button
+        if (my_index < gp_inputs_len)
+        {
+            gtk_combo_box_set_active(GTK_COMBO_BOX(button_selection), my_index);
         }
     }
 
