@@ -308,7 +308,7 @@ void hb_insert_options_fields(GtkWidget *container)
 
     // Keyboard input
 
-    // Create the wrapper box for the volume slider
+    // Create the wrapper box for the keyboard controls
     NEW_LABEL_BOX("Keyboard controls :");
     NEW_FLOWBOX();
     gtk_widget_set_tooltip_text(
