@@ -462,7 +462,45 @@ void hb_insert_options_fields(GtkWidget *container)
         options_widgets[11] = previous_button;
     }
 
-    /* TO DO: Add the remaining fields */
+    // Full screen active
+
+    NEW_LABEL_BOX("Full screen active :");
+    NEW_FLOWBOX();
+    gtk_widget_set_tooltip_text(
+        my_name_label,
+        "Whether the game is running in windowed or full screen mode."
+    );
+
+    {
+        GtkWidget *my_radio_button = NULL;
+        GtkWidget *previous_button = NULL;
+
+        const char *my_text[2] = {"No", "Yes"};
+        const bool is_fullscreen = (hb_game_options[12][0] != '0') ? true : false;
+
+        for (size_t i = 0; i < 2; i++)
+        {
+            // Create a radio button within the full screen's group
+            my_radio_button = gtk_radio_button_new_with_label(NULL, my_text[i]);
+            gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
+            previous_button = my_radio_button;
+
+            // Set to active the radio button that corresponds to the active mode
+            if (is_fullscreen)
+            {
+                if (i == 1) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
+            }
+            else
+            {
+                if (i == 0) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
+            }
+
+            // Add the radio button to the flow box
+            gtk_container_add(GTK_CONTAINER(my_flowbox), my_radio_button);
+        }
+
+        options_widgets[12] = previous_button;
+    }
 
     #undef NEW_LABEL_BOX
     #undef NEW_FLOWBOX
