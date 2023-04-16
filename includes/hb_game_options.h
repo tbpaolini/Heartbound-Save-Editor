@@ -41,4 +41,8 @@ void hb_save_game_options();
 // Note: the function needs to receive the GTK container where the fields will be added on.
 void hb_insert_options_fields(GtkWidget *container);
 
+// Change the displayed text of the gamepad buttons in order to match the selected gamepad type
+// (the text will be toggled between "ABXY" and "×○□△")
+static void __update_buttons_text(GtkToggleButton* widget, gpointer user_data);
+
 #endif // _HB_GAME_OPTIONS

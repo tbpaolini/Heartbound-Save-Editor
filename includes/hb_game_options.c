@@ -457,6 +457,10 @@ void hb_insert_options_fields(GtkWidget *container)
 
             // Add the radio button to the flow box
             gtk_container_add(GTK_CONTAINER(my_flowbox), my_radio_button);
+
+            // Callback function for updating the buttons's text when the gamepad's type is toggled
+            // (the text will be toggled between "ABXY" and "×○□△")
+            g_signal_connect(GTK_TOGGLE_BUTTON(my_radio_button), "toggled", G_CALLBACK(__update_buttons_text), NULL);
         }
 
         options_widgets[11] = previous_button;
@@ -504,4 +508,40 @@ void hb_insert_options_fields(GtkWidget *container)
 
     #undef NEW_LABEL_BOX
     #undef NEW_FLOWBOX
+}
+
+// Change the displayed text of the gamepad buttons in order to match the selected gamepad type
+// (the text will be toggled between "ABXY" and "×○□△")
+static void __update_buttons_text(GtkToggleButton* widget, gpointer user_data)
+{
+    // Is the button that triggered the 'toggled' event active?
+    gboolean button_is_active = gtk_toggle_button_get_active(widget);
+    if (!button_is_active) return;
+
+    // Get the group that the button is part of
+    GSList *my_group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(widget));
+    GtkToggleButton *current_button = GTK_TOGGLE_BUTTON(my_group->data);
+
+    // If using a PlayStation or a Xbox controller (1 or 0, respectively)
+    const size_t control_type = gtk_toggle_button_get_active(current_button) ? 1 : 0;
+
+    for (size_t i = 0; i < gp_inputs_len; i++)
+    {
+        GtkComboBoxText *button_selection = GTK_COMBO_BOX_TEXT(options_widgets[7+i]);
+        
+        // Remember the current item's index
+        gint my_index = gtk_combo_box_get_active(GTK_COMBO_BOX(button_selection));
+
+        // Remove all items from the menu
+        gtk_combo_box_text_remove_all(button_selection);
+        
+        // Add the corresponding buttons to the dropdown menu
+        for (size_t j = 0; j < gp_inputs_len; j++)
+        {
+            gtk_combo_box_text_append_text(button_selection, gp_inputs[control_type][j]);
+        }
+
+        // Set the index back to the original position
+        gtk_combo_box_set_active(GTK_COMBO_BOX(button_selection), my_index);
+    }
 }
