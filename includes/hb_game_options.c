@@ -94,13 +94,13 @@ void hb_read_game_options()
         snprintf(OPTIONS_PATH, sizeof(OPTIONS_PATH), "%s/%s", SAVE_ROOT, OPTIONS_FNAME);
         #endif
 
-        // Set the default values for the game options
-        for (size_t i = 0; i < OPTIONS_COUNT; i++)
-        {
-            snprintf(hb_game_options[i], OPTIONS_BUFFER, "%s", default_options[i]);
-        }
-
         options_init = true;
+    }
+
+    // Set the default values for the game options
+    for (size_t i = 0; i < OPTIONS_COUNT; i++)
+    {
+        snprintf(hb_game_options[i], OPTIONS_BUFFER, "%s", default_options[i]);
     }
 
     // Path were to save the options file
@@ -322,10 +322,6 @@ void hb_insert_options_fields(GtkWidget *container)
     gtk_scale_set_digits(GTK_SCALE(volume_slider), 2);          // Amount of decimal places to show on the value
     gtk_scale_set_value_pos(GTK_SCALE(volume_slider), GTK_POS_RIGHT);   // Where to display the value in relation to the slider
 
-    // Set the slider's initial position
-    const double volume_value = atof(hb_game_options[0]);
-    gtk_range_set_value(GTK_RANGE(volume_slider), volume_value);    // Function automatically clamps the value to fit between min and max
-
     // Keyboard input
 
     // Create the wrapper box for the keyboard controls
@@ -353,27 +349,6 @@ void hb_insert_options_fields(GtkWidget *container)
         for (size_t j = 0; j < kb_inputs_len; j++)
         {
             gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(key_selection), kb_inputs[j]);
-        }
-        
-        // Current key set on the game options file
-        const char my_key = toupper((int)hb_game_options[1+i][0]);
-        
-        // Get the index on the dropdown menu for the current key
-        size_t my_index = SIZE_MAX;
-
-        if (isupper(my_key))
-        {
-            my_index = (my_key - 'A') + 10;
-        }
-        else if (isdigit(my_key))
-        {
-            my_index = my_key - '0';
-        }
-
-        // Set the dropdown menu to the current key
-        if (my_index < kb_inputs_len)
-        {
-            gtk_combo_box_set_active(GTK_COMBO_BOX(key_selection), my_index);
         }
     }
 
@@ -409,27 +384,6 @@ void hb_insert_options_fields(GtkWidget *container)
         {
             gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(button_selection), gp_inputs[control_type][j]);
         }
-        
-        // Current button set on the game options file
-        const char *my_button = hb_game_options[7+i];
-        
-        // Get the index on the dropdown menu for the current button
-        size_t my_index = SIZE_MAX;
-
-        for (size_t j = 0; j < gamepad_buttons_len; j++)
-        {
-            if (strcmp(my_button, gamepad_buttons[j]) == 0)
-            {
-                my_index = j;
-                break;
-            }
-        }
-
-        // Set the dropdown menu to the current button
-        if (my_index < gp_inputs_len)
-        {
-            gtk_combo_box_set_active(GTK_COMBO_BOX(button_selection), my_index);
-        }
     }
 
     // Controller type
@@ -451,12 +405,6 @@ void hb_insert_options_fields(GtkWidget *container)
             my_radio_button = gtk_radio_button_new_with_label(NULL, gp_types[i]);
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
             previous_button = my_radio_button;
-
-            // Set to active the radio button that corresponds to the controller type
-            if (control_type == i)
-            {
-                gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
-            }
 
             // Add the radio button to the flow box
             gtk_container_add(GTK_CONTAINER(my_flowbox), my_radio_button);
@@ -492,16 +440,6 @@ void hb_insert_options_fields(GtkWidget *container)
             gtk_radio_button_join_group(GTK_RADIO_BUTTON(my_radio_button), GTK_RADIO_BUTTON(previous_button));
             previous_button = my_radio_button;
 
-            // Set to active the radio button that corresponds to the active mode
-            if (is_fullscreen)
-            {
-                if (i == 1) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
-            }
-            else
-            {
-                if (i == 0) gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(my_radio_button), TRUE);
-            }
-
             // Add the radio button to the flow box
             gtk_container_add(GTK_CONTAINER(my_flowbox), my_radio_button);
         }
@@ -509,8 +447,90 @@ void hb_insert_options_fields(GtkWidget *container)
         options_widgets[12] = previous_button;
     }
 
+    // Draw the modified options to the interface
+    __update_options_interface();
+
     #undef NEW_LABEL_BOX
     #undef NEW_FLOWBOX
+}
+
+// Draw the changed game options fields to the interface
+static inline void __update_options_interface()
+{
+    // Volume slider's initial position
+    const double volume_value = atof(hb_game_options[0]);
+    gtk_range_set_value(GTK_RANGE(options_widgets[0]), volume_value);   // Function automatically clamps the value to fit between min and max
+
+    // Keyboard controls
+    for (size_t i = 0; i < kb_controls_len; i++)
+    {
+        // Current key set on the game options file
+        const char my_key = toupper((int)hb_game_options[1+i][0]);
+        
+        // Get the index on the dropdown menu for the current key
+        size_t my_index = SIZE_MAX;
+
+        if (isupper(my_key))
+        {
+            my_index = (my_key - 'A') + 10;
+        }
+        else if (isdigit(my_key))
+        {
+            my_index = my_key - '0';
+        }
+
+        // Set the dropdown menu to the current key
+        if (my_index < kb_inputs_len)
+        {
+            gtk_combo_box_set_active( GTK_COMBO_BOX(options_widgets[1+i]), my_index );
+        }
+    }
+    
+    // Gamepad controls
+    for (size_t i = 0; i < gp_controls_len; i++)
+    {
+        // Current button set on the game options file
+        const char *my_button = hb_game_options[7+i];
+        
+        // Get the index on the dropdown menu for the current button
+        size_t my_index = SIZE_MAX;
+
+        for (size_t j = 0; j < gamepad_buttons_len; j++)
+        {
+            if (strcmp(my_button, gamepad_buttons[j]) == 0)
+            {
+                my_index = j;
+                break;
+            }
+        }
+
+        // Set the dropdown menu to the current button
+        if (my_index < gp_inputs_len)
+        {
+            gtk_combo_box_set_active( GTK_COMBO_BOX(options_widgets[7+i]), my_index );
+        }
+    }
+
+    // Controller type and full screen
+    for (size_t i = 0; i < 2; i++)
+    {
+        // Get which one of the two radio buttons is active
+        GtkWidget *radio_button = options_widgets[11+i];
+        bool is_active = (hb_game_options[11+i][0] != '0');
+        
+        if (is_active)
+        {
+            // Set the right button to active
+            gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON(radio_button), TRUE );
+        }
+        else
+        {
+            // Set the left button to active
+            GSList *my_group = gtk_radio_button_get_group( GTK_RADIO_BUTTON(radio_button) );
+            GtkToggleButton *other_button = GTK_TOGGLE_BUTTON(my_group->next->data);
+            gtk_toggle_button_set_active( other_button, TRUE );
+        }
+    }
 }
 
 // Change the displayed text of the gamepad buttons in order to match the selected gamepad type
