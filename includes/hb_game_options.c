@@ -5,6 +5,10 @@
 #include <stdbool.h>
 #include <hb_game_options.h>
 #include "../config.h"
+#ifdef _WIN32
+#include <windows.h>
+#include <wchar.h>
+#endif // _WIN32
 
 // Full file system path to the game options file
 char OPTIONS_PATH[PATH_BUFFER] = {0};
@@ -123,7 +127,11 @@ void hb_read_game_options()
 
     // Parse the values from the game options file
     
+    #ifdef _WIN32
+    FILE *options_file = __win_fopen(my_path, "rt");
+    #else
     FILE *options_file = fopen(my_path, "rt");
+    #endif // _WIN32
     if (!options_file) return;  // The default option values will be used if opening the file fails
     
     char line_buffer[OPTIONS_BUFFER+1] = {0};   // Buffer for reading the lines of the options file
@@ -265,7 +273,11 @@ void hb_save_game_options()
         my_path = path_alt;
     }
 
+    #ifdef _WIN32
+    FILE *options_file = __win_fopen(my_path, "wt");
+    #else
     FILE *options_file = fopen(my_path, "wt");
+    #endif // _WIN32
     if (!options_file) return;
 
     for (size_t i = 0; i < OPTIONS_COUNT; i++)
@@ -626,3 +638,28 @@ static inline void __update_game_options()
     const char is_fullscreen = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(options_widgets[12])) ? '1' : '0';
     snprintf(hb_game_options[12], OPTIONS_BUFFER, "%c", is_fullscreen);
 }
+
+// On Windows: Open a file that has unicode (UTF-8) characters in its path
+#ifdef _WIN32
+static inline FILE* __win_fopen(const char *path, const char *mode)
+{
+    // Size of the string buffers
+    size_t path_len = strlen(path) + 1;
+    size_t mode_len = strlen(mode) + 1;
+
+    // Convert the path string from UTF-8 to wide char
+    int w_path_len = MultiByteToWideChar(CP_UTF8, 0, path, path_len, NULL, 0);
+    if (w_path_len <= 0) return NULL;
+    wchar_t w_path[w_path_len];
+    MultiByteToWideChar(CP_UTF8, 0, path, path_len, w_path, w_path_len);
+
+    // Convert the mode string from UTF-8 to wide char
+    int w_mode_len = MultiByteToWideChar(CP_UTF8, 0, mode, mode_len, NULL, 0);
+    if (w_mode_len <= 0) return NULL;
+    wchar_t w_mode[w_mode_len];
+    MultiByteToWideChar(CP_UTF8, 0, mode, mode_len, w_mode, w_mode_len);
+    
+    // Open the file using the wide strings
+    return _wfopen(w_path, w_mode);
+}
+#endif // _WIN32
