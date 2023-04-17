@@ -42,7 +42,7 @@ endef
 # Subfolder where the release build will go
 release: TARGET = release
 # Activate compiler optimizations
-release: CFLAGS += -O2
+release: CFLAGS += -O3
 # Link together the compiled objects of the release build
 release: $(DEPENDENCIES)
 	@echo Linking release build...
