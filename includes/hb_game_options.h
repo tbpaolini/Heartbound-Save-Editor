@@ -54,4 +54,9 @@ static void __update_buttons_text(GtkToggleButton* widget, gpointer user_data);
 // Update the values on the 'hb_game_options[]' array from the selections on the interface
 static inline void __update_game_options();
 
+// On Windows: Open a file that has unicode (UTF-8) characters in its path
+#ifdef _WIN32
+static inline FILE* __win_fopen(const char *path, const char *mode);
+#endif // _WIN32
+
 #endif // _HB_GAME_OPTIONS
