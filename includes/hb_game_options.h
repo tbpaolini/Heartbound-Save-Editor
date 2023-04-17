@@ -37,6 +37,9 @@ void hb_read_game_options();
 // Save the game's options file
 void hb_save_game_options();
 
+// Reset the game's options back to their default values
+void hb_reset_game_options();
+
 // Add to the user interface the fields corresponding to the game options
 // Note: the function needs to receive the GTK container where the fields will be added on.
 void hb_insert_options_fields(GtkWidget *container);
