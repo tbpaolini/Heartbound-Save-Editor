@@ -97,7 +97,10 @@ void hb_read_game_options()
         #ifdef _WIN32
         snprintf(OPTIONS_PATH, sizeof(OPTIONS_PATH), "%s\\%s", SAVE_ROOT, OPTIONS_FNAME);
         #else
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wformat-truncation"
         snprintf(OPTIONS_PATH, sizeof(OPTIONS_PATH), "%s/%s", SAVE_ROOT, OPTIONS_FNAME);
+        #pragma GCC diagnostic pop
         #endif
     }
 
@@ -121,7 +124,10 @@ void hb_read_game_options()
     {
         // If not saving to the default save file location,
         // the options file will be saved to a new file (different from the save file)
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wformat-truncation"
         snprintf(path_alt, PATH_BUFFER, "%s-options", CURRENT_FILE);
+        #pragma GCC diagnostic pop
         my_path = path_alt;
     }
 
@@ -269,7 +275,10 @@ void hb_save_game_options()
     {
         // If not saving to the default save file location,
         // the options file will be saved to a new file (different from the save file)
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wformat-truncation"
         snprintf(path_alt, PATH_BUFFER, "%s-options", CURRENT_FILE);
+        #pragma GCC diagnostic pop
         my_path = path_alt;
     }
 
