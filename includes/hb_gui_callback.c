@@ -1433,6 +1433,9 @@ void hb_menu_file_new(GtkMenuItem *widget, GtkWindow *window)
             // Display a "file created" message
             // Note: The 'hb_read_save()' function already set the timeout for the file indicator
             gtk_label_set_text(GTK_LABEL(file_indicator), FILE_CREATED_MESSAGE);
+
+            // Reset the game options' back to their defaults
+            hb_reset_game_options();
         }
     }
 
@@ -1642,6 +1645,9 @@ void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window)
     {
         hb_save_data[var].value = hb_save_data[var].def;
     }
+
+    // Reset the game options' back to their defaults
+    hb_reset_game_options();
     
     // Load the values into the interface
     hb_load_data_into_interface(window);

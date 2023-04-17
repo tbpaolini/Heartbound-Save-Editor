@@ -83,8 +83,10 @@ static GtkWidget *options_widgets[OPTIONS_COUNT];
 //       because that sets the variable SAVE_ROOT (path to the save's folder).
 void hb_read_game_options()
 {
-    // Initialize the game options' variables when running the function for the first time
+    // If this function was run before
     static bool options_init = false;
+    
+    // Initialize the game options' path when running the function for the first time
     if (!options_init)
     {
         // Parse the path to the options file
@@ -93,8 +95,6 @@ void hb_read_game_options()
         #else
         snprintf(OPTIONS_PATH, sizeof(OPTIONS_PATH), "%s/%s", SAVE_ROOT, OPTIONS_FNAME);
         #endif
-
-        options_init = true;
     }
 
     // Set the default values for the game options
@@ -233,6 +233,12 @@ void hb_read_game_options()
     }
 
     fclose(options_file);
+
+    // Update the interface in case the options are loaded again
+    if (options_init) __update_options_interface();
+
+    // Flag that this function has been run at least once
+    options_init = true;
 }
 
 // Save the game's options file
@@ -269,6 +275,19 @@ void hb_save_game_options()
     }
 
     fclose(options_file);
+}
+
+// Reset the game's options back to their default values
+void hb_reset_game_options()
+{
+    // Set the the game options back to the default values
+    for (size_t i = 0; i < OPTIONS_COUNT; i++)
+    {
+        snprintf(hb_game_options[i], OPTIONS_BUFFER, "%s", default_options[i]);
+    }
+
+    // Draw the options' values on the interface
+    __update_options_interface();
 }
 
 // Add to the user interface the fields corresponding to the game options
