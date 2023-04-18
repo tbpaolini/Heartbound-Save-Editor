@@ -139,7 +139,7 @@ void hb_read_game_options()
     #else
     FILE *options_file = fopen(my_path, "rt");
     #endif // _WIN32
-    if (!options_file) return;  // The default option values will be used if opening the file fails
+    if (!options_file) goto update_interface;;  // The default option values will be used if opening the file fails
     
     char line_buffer[OPTIONS_BUFFER+1] = {0};   // Buffer for reading the lines of the options file
     size_t pos = 0; // Position on the line buffer
@@ -147,7 +147,7 @@ void hb_read_game_options()
     // Volume's value
     {
         char *const status = fgets(line_buffer, OPTIONS_BUFFER, options_file);
-        if (!status) {fclose(options_file); return;}
+        if (!status) {fclose(options_file); goto update_interface;}
 
         // Validate the volume's value
         bool is_valid = false;
@@ -181,7 +181,7 @@ void hb_read_game_options()
     for (size_t i = 0; i < 6; i++)
     {
         char *const status = fgets(line_buffer, OPTIONS_BUFFER, options_file);
-        if (!status) {fclose(options_file); return;}
+        if (!status) {fclose(options_file); goto update_interface;}
 
         // Validate the input's value
         // The line can only have one character, and it has to be a digit or letter
@@ -200,7 +200,7 @@ void hb_read_game_options()
     for (size_t i = 0; i < 4; i++)
     {
         char *const status = fgets(line_buffer, OPTIONS_BUFFER, options_file);
-        if (!status) {fclose(options_file); return;}
+        if (!status) {fclose(options_file); goto update_interface;}
 
         // Validate the input's value
         // The line can only have digits
@@ -232,7 +232,7 @@ void hb_read_game_options()
     for (size_t i = 0; i < 2; i++)
     {
         char *const status = fgets(line_buffer, OPTIONS_BUFFER, options_file);
-        if (!status) {fclose(options_file); return;}
+        if (!status) {fclose(options_file); goto update_interface;}
 
         // Validate the input's value
         // The line can only be '0' or '1'
@@ -250,6 +250,7 @@ void hb_read_game_options()
     fclose(options_file);
 
     // Update the interface in case the options are loaded again
+    update_interface:
     if (options_init) __update_options_interface();
 
     // Flag that this function has been run at least once
