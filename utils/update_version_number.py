@@ -3,7 +3,7 @@ This Python script replaces the version number occurrences on the source files,
 by the number specified as the command line argument of the script.
 
 Usage:
-    python updade_version_number.py N.N.N.N
+    python update_version_number.py N.N.N.N
 
     Where N is an unsigned integer.
     For example: 1.0.0.4
