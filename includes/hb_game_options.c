@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <hb_game_options.h>
+#include <hb_gui_callback.h>
 #include "../config.h"
 #ifdef _WIN32
 #include <windows.h>
@@ -362,6 +363,9 @@ void hb_insert_options_fields(GtkWidget *container)
     gtk_scale_set_digits(GTK_SCALE(volume_slider), 2);          // Amount of decimal places to show on the value
     gtk_scale_set_value_pos(GTK_SCALE(volume_slider), GTK_POS_RIGHT);   // Where to display the value in relation to the slider
 
+    // Flag the data as "changed" after the slider is moved
+    g_signal_connect(volume_slider, "value-changed", G_CALLBACK(__options_have_changed), NULL);
+
     // Keyboard input
 
     // Create the wrapper box for the keyboard controls
@@ -390,6 +394,9 @@ void hb_insert_options_fields(GtkWidget *container)
         {
             gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(key_selection), kb_inputs[j]);
         }
+
+        // Flag the data as "changed" when another option is chosen on the menu
+        g_signal_connect(key_selection, "changed", G_CALLBACK(__options_have_changed), NULL);
     }
 
     // Gamepad input
@@ -424,6 +431,9 @@ void hb_insert_options_fields(GtkWidget *container)
         {
             gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(button_selection), gp_inputs[control_type][j]);
         }
+
+        // Flag the data as "changed" when another option is chosen on the menu
+        g_signal_connect(button_selection, "changed", G_CALLBACK(__options_have_changed), NULL);
     }
 
     // Controller type
@@ -452,6 +462,9 @@ void hb_insert_options_fields(GtkWidget *container)
             // Callback function for updating the buttons's text when the gamepad's type is toggled
             // (the text will be toggled between "ABXY" and "×○□△")
             g_signal_connect(GTK_TOGGLE_BUTTON(my_radio_button), "toggled", G_CALLBACK(__update_buttons_text), NULL);
+
+            // Flag the data as "changed" when the button is toggled
+            g_signal_connect(my_radio_button, "toggled", G_CALLBACK(__options_have_changed), NULL);
         }
 
         options_widgets[11] = previous_button;
@@ -482,6 +495,9 @@ void hb_insert_options_fields(GtkWidget *container)
 
             // Add the radio button to the flow box
             gtk_container_add(GTK_CONTAINER(my_flowbox), my_radio_button);
+
+            // Flag the data as "changed" when the button is toggled
+            g_signal_connect(my_radio_button, "toggled", G_CALLBACK(__options_have_changed), NULL);
         }
 
         options_widgets[12] = previous_button;
@@ -646,6 +662,18 @@ static inline void __update_game_options()
     // If full screen is active on the game
     const char is_fullscreen = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(options_widgets[12])) ? '1' : '0';
     snprintf(hb_game_options[12], OPTIONS_BUFFER, "%c", is_fullscreen);
+}
+
+// Callback function to flag the data as "changed" when the user changes an option
+// (the save editor warns if the use is exiting with unsaved data)
+static inline void __options_have_changed(GtkWidget *widget, gpointer user_data)
+{
+    if (gtk_widget_get_realized(widget))
+    {
+        hb_flag_data_as_changed(widget);
+    }
+    // Note: We did this check to prevent the data being flagged when
+    //       the options are loaded during the program's startup.
 }
 
 // On Windows: Open a file that has unicode (UTF-8) characters in its path
