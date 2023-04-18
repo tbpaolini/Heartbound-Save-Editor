@@ -26,7 +26,7 @@
 :: Path to the repository on WSL (linux branch)
 SET LINUX_PATH=~/hbse
 :: Current version number of Heartbound Save Editor
-SET VERSION=1.0.0.5
+SET VERSION=1.0.0.6
 
 cd ..\
 git pull

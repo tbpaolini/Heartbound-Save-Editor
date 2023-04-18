@@ -1801,7 +1801,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         " locations using this program (click the Open button, or drag the save"
         " file into the window or the executable). This way you can create backups.\n\n"
         "Your default Heartbound Save is located at:\n<tt>%s</tt>\n\n"
-        "This version of the editor supports Heartbound until its version <b>1.0.9.57.</b>"
+        "This version of the editor supports Heartbound until its version <b>1.0.9.58.</b>"
         " Whenever Heartbound gets updated, this editor will be updated as soon"
         " as possible to support it. So feel free to check our "
         "<a href='https://github.com/tbpaolini/Heartbound-Save-Editor/releases'>download page</a>"
@@ -1919,10 +1919,10 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         window,
         "logo", logo,
         "program-name", "Heartbound Save Editor",
-        "version", "Version 1.0.0.5",
+        "version", "Version 1.0.0.6",
         "authors", authors,
         "documenters", documenters,
-        "copyright", "Copyright 2022 by Tiago Becerra Paolini",
+        "copyright", "Copyright 2022-2023 by Tiago Becerra Paolini",
         "license-type", GTK_LICENSE_MIT_X11,
         "website", "https://github.com/tbpaolini/Heartbound-Save-Editor",
         "website-label", "Source Code",
