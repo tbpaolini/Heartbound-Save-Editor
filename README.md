@@ -2,11 +2,11 @@
 This program allows you to change everything on the save file of [Heartbound](https://store.steampowered.com/app/567380/Heartbound/), like where you are and what you did or didn't.
 
 **Downloads:**
-* *Windows:* [Heartbound Save Editor - v1.0.0.5 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.5/Heartbound_Save_Editor-v1.0.0.5-Windows_10.zip) - standalone executable, requires no installation.
-* *Linux (Debian/Ubuntu):* [Heartbound Save Editor - v1.0.0.5 (Debian/Ubuntu package)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.5/Heartbound_Save_Editor-v1.0.0.5-Linux_Ubuntu.deb) - installation package, should work on Debian/Ubuntu and distros based on those.
-* *Linux (binary):* [Heartbound Save Editor - v1.0.0.5 (Linux binary)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.5/Heartbound_Save_Editor-v1.0.0.5-Linux_binary.tar.xz) - just the binary, in order to run you first need to install the `libgtk-3-0` package.
+* *Windows:* [Heartbound Save Editor - v1.0.0.6 (Windows 10)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.6/Heartbound_Save_Editor-v1.0.0.6-Windows_10.zip) - standalone executable, requires no installation.
+* *Linux (Debian/Ubuntu):* [Heartbound Save Editor - v1.0.0.6 (Debian/Ubuntu package)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.6/Heartbound_Save_Editor-v1.0.0.6-Linux_Ubuntu.deb) - installation package, should work on Debian/Ubuntu and distros based on those.
+* *Linux (binary):* [Heartbound Save Editor - v1.0.0.6 (Linux binary)](https://github.com/tbpaolini/Heartbound-Save-Editor/releases/download/v1.0.0.6/Heartbound_Save_Editor-v1.0.0.6-Linux_binary.tar.xz) - just the binary, in order to run you first need to install the `libgtk-3-0` package.
 
-The editor works with latest version of Heartbound (1.0.9.57). Once the game gets updated, you might need to download a new version of the save editor.
+The editor works with latest version of Heartbound (1.0.9.58). Once the game gets updated, you might need to download a new version of the save editor.
 
 ## Screenshots
 <img src="https://user-images.githubusercontent.com/85261542/167233908-f98e048d-9f43-4d27-b955-51b85a712893.png" width=325 /> <img src="https://user-images.githubusercontent.com/85261542/167233948-84a4e34a-b4b3-4b1f-b132-1179e3fa43ac.png" width=325 />
