@@ -54,6 +54,10 @@ static void __update_buttons_text(GtkToggleButton* widget, gpointer user_data);
 // Update the values on the 'hb_game_options[]' array from the selections on the interface
 static inline void __update_game_options();
 
+// Callback function to flag the data as "changed" when the user changes an option
+// (the save editor warns if the use is exiting with unsaved data)
+static void __options_have_changed(GtkWidget *widget, gpointer user_data);
+
 // On Windows: Open a file that has unicode (UTF-8) characters in its path
 #ifdef _WIN32
 static inline FILE* __win_fopen(const char *path, const char *mode);
