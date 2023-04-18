@@ -1,5 +1,5 @@
 Package: heartbound-save-editor
-Version: 1.0.0.5-1
+Version: 1.0.0.6-1
 Section: utils
 Priority: optional
 Maintainer: Tiago Becerra Paolini <tpaolini@gmail.com>
@@ -8,7 +8,7 @@ Depends: libgtk-3-0
 Description: Heartbound Save Editor
  Save editing tool for the Heartbound game.
 Changes:
- Added support for version 1.0.9.57 of Heartbound.
+ Added support for version 1.0.9.58 of Heartbound.
 Homepage: https://github.com/tbpaolini/Heartbound-Save-Editor
 Vcs-Browser: https://github.com/tbpaolini/Heartbound-Save-Editor
 Vcs-Git: <https://github.com/tbpaolini/Heartbound-Save-Editor.git> -b linux
