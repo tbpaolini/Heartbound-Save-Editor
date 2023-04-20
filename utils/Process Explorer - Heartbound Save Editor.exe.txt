@@ -1,220 +1,16 @@
 ﻿Process	CPU	Private Bytes	Working Set	PID	Description	Company Name
-Registry		11.904 K	43.512 K	92		
-System Idle Process	83.36	60 K	8 K	0		
-System	0.67	196 K	24 K	4		
- Interrupts	0.67	0 K	0 K	n/a	Hardware Interrupts and DPCs	
- smss.exe		1.084 K	468 K	392		
- Memory Compression		1.464 K	533.336 K	1632		
-csrss.exe		2.096 K	3.740 K	644		
-wininit.exe		1.604 K	3.184 K	760		
- services.exe		5.984 K	7.132 K	880		
-  svchost.exe	< 0.01	16.816 K	25.972 K	1004	Processo de Host para Serviços do Windows	Microsoft Corporation
-   dllhost.exe		3.496 K	4.260 K	4768		
-   WmiPrvSE.exe		7.624 K	10.368 K	10040		
-   igfxext.exe		4.448 K	7.816 K	1316		
-   StartMenuExperienceHost.exe		25.676 K	62.988 K	4336		
-   TextInputHost.exe	< 0.01	14.720 K	37.240 K	9384		Microsoft Corporation
-   MoUsoCoreWorker.exe		14.924 K	17.724 K	12052		
-   RuntimeBroker.exe		5.828 K	21.188 K	2764	Runtime Broker	Microsoft Corporation
-   SettingSyncHost.exe		10.616 K	7.364 K	10728	Host Process for Setting Synchronization	Microsoft Corporation
-   SearchApp.exe	Suspended	116.336 K	83.256 K	9884	Search application	Microsoft Corporation
-   RuntimeBroker.exe	< 0.01	19.448 K	47.996 K	8344	Runtime Broker	Microsoft Corporation
-   ShellExperienceHost.exe	Suspended	22.228 K	45.672 K	7052	Windows Shell Experience Host	Microsoft Corporation
-   YourPhone.exe	Suspended	32.376 K	35.472 K	548	 	Microsoft Corporation
-   RuntimeBroker.exe		3.180 K	18.000 K	11356	Runtime Broker	Microsoft Corporation
-   dllhost.exe		3.572 K	11.216 K	8468	COM Surrogate	Microsoft Corporation
-   RuntimeBroker.exe		5.152 K	19.536 K	4472	Runtime Broker	Microsoft Corporation
-   UserOOBEBroker.exe		2.056 K	8.488 K	5884	User OOBE Broker	Microsoft Corporation
-   RuntimeBroker.exe		6.396 K	23.044 K	7912	Runtime Broker	Microsoft Corporation
-   SearchApp.exe	Suspended	264.080 K	71.524 K	9484	Search application	Microsoft Corporation
-   SystemSettings.exe	Suspended	26.480 K	2.700 K	2616	Configurações	Microsoft Corporation
-   ApplicationFrameHost.exe		7.944 K	22.052 K	2812	Application Frame Host	Microsoft Corporation
-   dllhost.exe		17.864 K	34.952 K	13540	COM Surrogate	Microsoft Corporation
-  svchost.exe	< 0.01	21.712 K	23.552 K	636	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		2.756 K	5.268 K	956	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	2.596 K	6.360 K	1168	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	1.932 K	2.388 K	1220	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	2.300 K	4.852 K	1232	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		2.704 K	4.020 K	1296	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		6.848 K	8.132 K	1368	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	15.760 K	11.492 K	1448	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		7.316 K	10.628 K	1468	Processo de Host para Serviços do Windows	Microsoft Corporation
-   taskhostw.exe		7.244 K	16.628 K	1376	Processo de Host para Tarefas do Windows	Microsoft Corporation
-  svchost.exe		3.084 K	8.052 K	1516	Processo de Host para Serviços do Windows	Microsoft Corporation
-   sihost.exe		6.312 K	26.116 K	2676	Shell Infrastructure Host	Microsoft Corporation
-  svchost.exe	< 0.01	101.884 K	103.132 K	1548	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		2.084 K	3.796 K	1556	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.372 K	1.880 K	1568	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		5.324 K	5.980 K	1696	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.988 K	4.540 K	1736	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	2.876 K	4.500 K	1776	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	6.552 K	10.152 K	1852	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.452 K	2.836 K	1936	Processo de Host para Serviços do Windows	Microsoft Corporation
-  igfxCUIService.exe		1.992 K	4.472 K	1988	igfxCUIService Module	Intel Corporation
-  svchost.exe		2.012 K	3.580 K	2032	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.876 K	3.088 K	2040	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	3.424 K	6.288 K	2088	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	3.732 K	10.148 K	2196	Processo de Host para Serviços do Windows	Microsoft Corporation
-   audiodg.exe	1.98	9.212 K	15.480 K	13648		
-  svchost.exe	< 0.01	7.056 K	6.744 K	2264	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	1.864 K	3.184 K	2268	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	3.412 K	5.692 K	2280	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		10.080 K	15.908 K	2412	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	2.204 K	4.112 K	2436	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	7.176 K	13.044 K	2512	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		2.592 K	6.576 K	2560	Processo de Host para Serviços do Windows	Microsoft Corporation
-  scheduler.exe	< 0.01	5.448 K	5.824 K	2592	FortiClient Scheduler	Fortinet Inc.
-   FCDBLog.exe	< 0.01	9.040 K	4.792 K	4060		
-   FortiSSLVPNdaemon.exe	< 0.01	2.120 K	2.628 K	4484		
-   FortiSettings.exe		2.016 K	2.256 K	4492		
-   FortiTray.exe	< 0.01	7.424 K	18.756 K	9688	FortiClient System Tray Controller	Fortinet Inc.
-  svchost.exe		3.024 K	7.336 K	2824	Processo de Host para Serviços do Windows	Microsoft Corporation
-  spoolsv.exe	< 0.01	7.404 K	9.104 K	2916	Aplicativo de subsistema de spooler	Microsoft Corporation
-  svchost.exe	< 0.01	14.536 K	15.100 K	2956	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	2.144 K	3.056 K	3020	Processo de Host para Serviços do Windows	Microsoft Corporation
-  AdminService.exe	< 0.01	1.944 K	2.820 K	2224	Windows Setup API	Windows (R) Win 7 DDK provider
-  svchost.exe		1.604 K	2.924 K	2304	Processo de Host para Serviços do Windows	Microsoft Corporation
-   dasHost.exe	< 0.01	3.768 K	6.352 K	3496		
-  svchost.exe		7.936 K	12.444 K	2120	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		27.580 K	30.648 K	2328	Processo de Host para Serviços do Windows	Microsoft Corporation
-  ETDService.exe		1.160 K	2.104 K	3084	Elan Service	ELAN Microelectronics Corp.
-   ETDCtrl.exe	< 0.01	7.100 K	24.532 K	8184	ETD Control Center	ELAN Microelectronics Corp.
-    ETDTouch.exe		2.004 K	5.492 K	10700		
-    ETDCtrlHelper.exe		2.516 K	7.164 K	2784		
-  svchost.exe	< 0.01	41.200 K	36.996 K	3096	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		8.212 K	12.880 K	3220	Processo de Host para Serviços do Windows	Microsoft Corporation
-  SettingsLauncher.exe		4.052 K	3.236 K	3228	SettingsLauncher	Samsung Electronics CO., LTD.
-   SettingsCmdServer.exe	< 0.01	6.024 K	12.856 K	13140		
-   SettingsEventHandler.exe	< 0.01	8.584 K	21.492 K	12940		
-  ntpd.exe	< 0.01	2.644 K	4.016 K	3236		
-  LmsaWindowsService.exe	< 0.01	11.708 K	4.132 K	3248	LmsaWindowsService	
-  svchost.exe		1.608 K	1.508 K	3280	Processo de Host para Serviços do Windows	Microsoft Corporation
-  sqlwriter.exe		1.752 K	2.680 K	3288	SQL Server VSS Writer - 64 Bit	Microsoft Corporation
-  svchost.exe		1.280 K	1.876 K	3296	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	4.784 K	15.368 K	3304	Processo de Host para Serviços do Windows	Microsoft Corporation
-  ijplmsvc.exe		1.836 K	4.260 K	3312		
-  svchost.exe		3.292 K	6.468 K	3332	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		2.052 K	1.680 K	3444	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		2.424 K	4.352 K	3544	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		3.072 K	6.268 K	3596	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		3.660 K	5.316 K	3604	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		4.124 K	15.404 K	3632	Processo de Host para Serviços do Windows	Microsoft Corporation
-  OfficeClickToRun.exe	< 0.01	35.128 K	24.820 K	3768	Microsoft Office Click-to-Run (SxS)	Microsoft Corporation
-  MsMpEng.exe	< 0.01	492.204 K	280.476 K	3816	Antimalware Service Executable	Microsoft Corporation
-  svchost.exe		5.652 K	12.840 K	2792	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		6.312 K	18.696 K	3988	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	2.464 K	4.228 K	5388	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		2.904 K	6.212 K	5968	Processo de Host para Serviços do Windows	Microsoft Corporation
-  NisSrv.exe		6.360 K	6.900 K	1408	Microsoft Network Realtime Inspection Service	Microsoft Corporation
-  svchost.exe		1.480 K	3.768 K	5400	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		6.308 K	13.340 K	6592	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.844 K	2.972 K	6980	Processo de Host para Serviços do Windows	Microsoft Corporation
-   ctfmon.exe	< 0.01	4.304 K	19.464 K	3976		
-  svchost.exe	< 0.01	2.108 K	4.048 K	7136	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		8.064 K	9.164 K	1432	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		2.124 K	4.024 K	8032	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	7.336 K	15.588 K	2672	Processo de Host para Serviços do Windows	Microsoft Corporation
-  SearchIndexer.exe		46.188 K	45.244 K	6256	Indexador do Microsoft Windows Search	Microsoft Corporation
-  SgrmBroker.exe		5.512 K	5.640 K	808	Serviço System Guard Runtime Monitor Broker	Microsoft Corporation
-  svchost.exe		4.056 K	10.168 K	9092	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	3.712 K	7.008 K	8312	Processo de Host para Serviços do Windows	Microsoft Corporation
-  SecurityHealthService.exe		5.096 K	9.780 K	7384	Windows Security Health Service	Microsoft Corporation
-  svchost.exe		7.328 K	11.900 K	9476	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.668 K	3.332 K	2500	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.656 K	2.676 K	2116	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		6.052 K	2.900 K	5812	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.776 K	10.540 K	11496	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		1.964 K	6.680 K	11444	Processo de Host para Serviços do Windows	Microsoft Corporation
-  PresentationFontCache.exe		26.964 K	13.280 K	12076	PresentationFontCache.exe	Microsoft Corporation
-  svchost.exe		1.352 K	4.524 K	5992	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	10.740 K	25.908 K	5288	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		9.712 K	33.588 K	10968	Processo de Host para Serviços do Windows	Microsoft Corporation
-  core.exe	< 0.01	252.364 K	173.576 K	4880	Topaz OFD - Protection Module	Topaz OFD
-   core.exe	< 0.01	94.696 K	80.604 K	6496		
-  svchost.exe		1.760 K	6.804 K	4468	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe	< 0.01	3.976 K	23.024 K	7736	Processo de Host para Serviços do Windows	Microsoft Corporation
-  svchost.exe		5.252 K	17.608 K	10316	Processo de Host para Serviços do Windows	Microsoft Corporation
-  SteamService.exe	< 0.01	5.596 K	9.468 K	7940	Steam Client Service	Valve Corporation
-  svchost.exe		1.876 K	7.504 K	7628	Processo de Host para Serviços do Windows	Microsoft Corporation
- lsass.exe		10.616 K	19.036 K	900	Local Security Authority Process	Microsoft Corporation
- fontdrvhost.exe		1.608 K	1.300 K	60		
-GoogleCrashHandler.exe		1.776 K	1.412 K	7520		
-GoogleCrashHandler64.exe		1.676 K	556 K	7616		
-csrss.exe	0.67	2.788 K	7.056 K	11428		
-winlogon.exe		2.560 K	9.976 K	8156		
- dwm.exe	3.33	81.004 K	89.368 K	1816		
- fontdrvhost.exe		6.756 K	14.936 K	7992		
-igfxEM.exe		7.576 K	12.700 K	6152	igfxEM Module	Intel Corporation
-igfxHK.exe		7.200 K	9.972 K	6784	igfxHK Module	Intel Corporation
-explorer.exe	< 0.01	298.892 K	284.664 K	7096	Windows Explorer	Microsoft Corporation
- SecurityHealthSystray.exe		1.712 K	8.512 K	12656	Windows Security notification icon	Microsoft Corporation
- OneDrive.exe		275.068 K	61.172 K	5920	Microsoft OneDrive	Microsoft Corporation
- steam.exe	0.67	69.508 K	54.592 K	2464	Steam	Valve Corporation
-  steamwebhelper.exe	< 0.01	22.712 K	59.732 K	9192	Steam Client WebHelper	Valve Corporation
-   steamwebhelper.exe		7.664 K	10.988 K	4848	Steam Client WebHelper	Valve Corporation
-   steamwebhelper.exe		46.096 K	26.324 K	9060	Steam Client WebHelper	Valve Corporation
-   steamwebhelper.exe	< 0.01	12.516 K	23.040 K	1016	Steam Client WebHelper	Valve Corporation
-   steamwebhelper.exe	< 0.01	63.844 K	49.448 K	9220	Steam Client WebHelper	Valve Corporation
-   steamwebhelper.exe		23.240 K	27.572 K	6540	Steam Client WebHelper	Valve Corporation
-   steamwebhelper.exe		79.664 K	55.756 K	9632	Steam Client WebHelper	Valve Corporation
- notepad++.exe		15.548 K	23.092 K	8804	Notepad++ : a free (GPL) source code editor	Don HO don.h@free.fr
- Code.exe	< 0.01	54.344 K	78.160 K	4860	Visual Studio Code	Microsoft Corporation
-  Code.exe		10.164 K	17.140 K	5712	Visual Studio Code	Microsoft Corporation
-  Code.exe	< 0.01	94.356 K	98.576 K	11128	Visual Studio Code	Microsoft Corporation
-  Code.exe	< 0.01	13.108 K	31.600 K	4168	Visual Studio Code	Microsoft Corporation
-  Code.exe		282.356 K	272.376 K	556	Visual Studio Code	Microsoft Corporation
-  Code.exe	< 0.01	49.488 K	72.992 K	8384	Visual Studio Code	Microsoft Corporation
-   Code.exe		25.380 K	48.728 K	5048	Visual Studio Code	Microsoft Corporation
-   Code.exe		23.028 K	47.032 K	6836	Visual Studio Code	Microsoft Corporation
-  Code.exe	< 0.01	134.144 K	118.424 K	11180	Visual Studio Code	Microsoft Corporation
-   cpptools.exe	< 0.01	150.448 K	105.996 K	4428	C/C++ Extension for Visual Studio Code	Microsoft Corporation
-    conhost.exe		6.340 K	5.700 K	1092	Host da Janela do Console	Microsoft Corporation
-    cpptools-srv.exe	< 0.01	81.496 K	42.196 K	6488	C/C++ IntelliSense Server for Visual Studio Code	Microsoft Corporation
-    cpptools-srv.exe	< 0.01	153.540 K	46.040 K	14316	C/C++ IntelliSense Server for Visual Studio Code	Microsoft Corporation
-   Code.exe	< 0.01	20.180 K	43.892 K	8380	Visual Studio Code	Microsoft Corporation
- powershell.exe	< 0.01	65.184 K	58.024 K	10920	Windows PowerShell	Microsoft Corporation
-  conhost.exe		5.300 K	13.328 K	2420	Host da Janela do Console	Microsoft Corporation
- rundll32.exe		1.656 K	8.848 K	5804	Processo de host do Windows (Rundll32)	Microsoft Corporation
- Heartbound Save Editor.exe		47.544 K	74.444 K	12572		
-  gdbus.exe		7.016 K	19.840 K	10956		
- procexp64.exe	11.86	42.304 K	78.140 K	5280	Sysinternals Process Explorer	Sysinternals - www.sysinternals.com
-igfxTray.exe		13.032 K	12.156 K	6996	igfxTray Module	Intel Corporation
-chrome.exe	< 0.01	190.960 K	245.932 K	6564	Google Chrome	Google LLC
- chrome.exe		2.196 K	8.008 K	1912	Google Chrome	Google LLC
- chrome.exe	< 0.01	104.008 K	96.256 K	8696	Google Chrome	Google LLC
- chrome.exe	< 0.01	18.604 K	42.528 K	3116	Google Chrome	Google LLC
- chrome.exe	< 0.01	8.596 K	18.748 K	13464	Google Chrome	Google LLC
- chrome.exe	< 0.01	28.036 K	57.504 K	9164	Google Chrome	Google LLC
- chrome.exe		117.852 K	149.060 K	6752	Google Chrome	Google LLC
- chrome.exe		15.516 K	38.164 K	5976	Google Chrome	Google LLC
- chrome.exe	< 0.01	42.104 K	72.460 K	7744	Google Chrome	Google LLC
- chrome.exe	< 0.01	71.892 K	42.288 K	11884	Google Chrome	Google LLC
- chrome.exe	< 0.01	36.052 K	51.064 K	1404	Google Chrome	Google LLC
- chrome.exe	< 0.01	40.356 K	58.456 K	2528	Google Chrome	Google LLC
- chrome.exe	< 0.01	27.816 K	50.448 K	14268	Google Chrome	Google LLC
- chrome.exe	< 0.01	27.868 K	50.772 K	6064	Google Chrome	Google LLC
- chrome.exe	< 0.01	27.704 K	50.332 K	10924	Google Chrome	Google LLC
- chrome.exe		47.568 K	66.768 K	14252	Google Chrome	Google LLC
- chrome.exe		13.792 K	28.616 K	12488	Google Chrome	Google LLC
- chrome.exe	< 0.01	51.252 K	72.224 K	8504	Google Chrome	Google LLC
- chrome.exe	< 0.01	32.656 K	62.140 K	13028	Google Chrome	Google LLC
- chrome.exe	< 0.01	27.560 K	50.256 K	13168	Google Chrome	Google LLC
- chrome.exe	< 0.01	53.828 K	72.940 K	5916	Google Chrome	Google LLC
- chrome.exe	< 0.01	7.588 K	21.676 K	12412	Google Chrome	Google LLC
- chrome.exe		57.604 K	100.500 K	12608	Google Chrome	Google LLC
- chrome.exe		40.632 K	85.628 K	2884	Google Chrome	Google LLC
- chrome.exe	< 0.01	45.592 K	87.688 K	9468	Google Chrome	Google LLC
- chrome.exe		50.440 K	88.756 K	1800	Google Chrome	Google LLC
- chrome.exe		12.480 K	29.064 K	9076	Google Chrome	Google LLC
-perfmon.exe	0.66	48.260 K	65.976 K	5080		
+Heartbound Save Editor.exe		72.032 K	90.824 K	9720	Heartbound Save Editor	Tiago Becerra Paolini
 
-Process: Heartbound Save Editor.exe Pid: 12572
+Process: Heartbound Save Editor.exe Pid: 9720
 
 Name	Description	Company Name	Path
-{6AF0698E-D558-4F6E-9B3C-3716689AF493}.2.ver0x0000000000000005.db			C:\ProgramData\Microsoft\Windows\Caches\{6AF0698E-D558-4F6E-9B3C-3716689AF493}.2.ver0x0000000000000005.db
-{AFBF9F1A-8EE8-4C77-AF34-C647E37CA0D9}.1.ver0x00000000000001f6.db			C:\Users\Tiago\AppData\Local\Microsoft\Windows\Caches\{AFBF9F1A-8EE8-4C77-AF34-C647E37CA0D9}.1.ver0x00000000000001f6.db
-{DDF571F2-BE98-426D-8288-1A9A39C3FDA2}.2.ver0x0000000000000005.db			C:\ProgramData\Microsoft\Windows\Caches\{DDF571F2-BE98-426D-8288-1A9A39C3FDA2}.2.ver0x0000000000000005.db
+{6AF0698E-D558-4F6E-9B3C-3716689AF493}.2.ver0x0000000000000003.db			C:\ProgramData\Microsoft\Windows\Caches\{6AF0698E-D558-4F6E-9B3C-3716689AF493}.2.ver0x0000000000000003.db
+{AFBF9F1A-8EE8-4C77-AF34-C647E37CA0D9}.1.ver0x000000000000005c.db			C:\Users\tpaol\AppData\Local\Microsoft\Windows\Caches\{AFBF9F1A-8EE8-4C77-AF34-C647E37CA0D9}.1.ver0x000000000000005c.db
+{DDF571F2-BE98-426D-8288-1A9A39C3FDA2}.2.ver0x0000000000000003.db			C:\ProgramData\Microsoft\Windows\Caches\{DDF571F2-BE98-426D-8288-1A9A39C3FDA2}.2.ver0x0000000000000003.db
+~FontCache-FontFace.dat			C:\Windows\ServiceProfiles\LocalService\AppData\Local\FontCache\~FontCache-FontFace.dat
+~FontCache-System.dat			C:\Windows\ServiceProfiles\LocalService\AppData\Local\FontCache\~FontCache-System.dat
 advapi32.dll	API de base do Windows 32 avançada	Microsoft Corporation	C:\Windows\System32\advapi32.dll
+apphelp.dll	Biblioteca de cliente de compatibilidade de aplicativos	Microsoft Corporation	C:\Windows\System32\apphelp.dll
 AppXDeploymentClient.dll	DLL do Cliente de Implantação AppX	Microsoft Corporation	C:\Windows\System32\AppXDeploymentClient.dll
 BCP47mrm.dll	BCP47 Language Classes for Resource Management	Microsoft Corporation	C:\Windows\System32\BCP47mrm.dll
 bcrypt.dll	Biblioteca de Primitivos Criptografados do Windows	Microsoft Corporation	C:\Windows\System32\bcrypt.dll
@@ -244,17 +40,28 @@ crypt32.dll	Crypto API32	Microsoft Corporation	C:\Windows\System32\crypt32.dll
 cryptbase.dll	Base cryptographic API DLL	Microsoft Corporation	C:\Windows\System32\cryptbase.dll
 cversions.2.db			C:\ProgramData\Microsoft\Windows\Caches\cversions.2.db
 cversions.2.db			C:\ProgramData\Microsoft\Windows\Caches\cversions.2.db
+cversions.2.db			C:\ProgramData\Microsoft\Windows\Caches\cversions.2.db
+davclnt.dll	Web DAV Client DLL	Microsoft Corporation	C:\Windows\System32\davclnt.dll
+davhlpr.dll	DAV Helper DLL	Microsoft Corporation	C:\Windows\System32\davhlpr.dll
 devobj.dll	Device Information Set DLL	Microsoft Corporation	C:\Windows\System32\devobj.dll
 dnsapi.dll	DLL da API de cliente DNS	Microsoft Corporation	C:\Windows\System32\dnsapi.dll
+drprov.dll	Provedor de Rede do Servidor Host da Sessão da Área de Trabalho Remota da Microsoft	Microsoft Corporation	C:\Windows\System32\drprov.dll
 dwmapi.dll	API do Gerenciador de Janelas da Área de Trabalho Microsoft	Microsoft Corporation	C:\Windows\System32\dwmapi.dll
 DWrite.dll	Serviços de Tipografia de DirectX da Microsoft	Microsoft Corporation	C:\Windows\System32\DWrite.dll
+FontCache-Obsolete-500.dat			C:\Windows\ServiceProfiles\LocalService\AppData\Local\FontCache\FontCache-Obsolete-500.dat
 gdi32.dll	GDI Client DLL	Microsoft Corporation	C:\Windows\System32\gdi32.dll
 gdi32full.dll	GDI Client DLL	Microsoft Corporation	C:\Windows\System32\gdi32full.dll
-GdiPlus.dll	Microsoft GDI+	Microsoft Corporation	C:\Windows\WinSxS\amd64_microsoft.windows.gdiplus_6595b64144ccf1df_1.1.19041.1566_none_91a49058cc87e409\GdiPlus.dll
-Heartbound Save Editor.exe			C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\Heartbound Save Editor.exe
+GdiPlus.dll	Microsoft GDI+	Microsoft Corporation	C:\Windows\WinSxS\amd64_microsoft.windows.gdiplus_6595b64144ccf1df_1.1.19041.2251_none_91a40448cc8846c1\GdiPlus.dll
+Heartbound Save Editor.exe	Heartbound Save Editor	Tiago Becerra Paolini	C:\Users\tpaol\Documents\proj\hbse\build\windows\debug\bin\Heartbound Save Editor.exe
 hid.dll	Biblioteca de Usuário de HID	Microsoft Corporation	C:\Windows\System32\hid.dll
 icm32.dll	Microsoft Color Management Module (CMM)	Microsoft Corporation	C:\Windows\System32\icm32.dll
 IconCodecService.dll	Converts a PNG part of the icon to a legacy bmp icon	Microsoft Corporation	C:\Windows\System32\IconCodecService.dll
+icon-theme.cache			C:\Users\tpaol\Documents\proj\hbse\build\windows\debug\share\icons\Adwaita\icon-theme.cache
+icon-theme.cache			C:\msys64\mingw64\share\icons\Adwaita\icon-theme.cache
+icon-theme.cache			C:\msys64\mingw64\share\icons\Adwaita\icon-theme.cache
+icon-theme.cache			C:\msys64\mingw64\share\icons\hicolor\icon-theme.cache
+icon-theme.cache			C:\msys64\mingw64\share\icons\hicolor\icon-theme.cache
+icon-theme.cache			C:\Users\tpaol\Documents\proj\hbse\build\windows\debug\share\icons\hicolor\icon-theme.cache
 iertutil.dll	Executar utilitário de tempo do Internet Explorer	Microsoft Corporation	C:\Windows\System32\iertutil.dll
 imm32.dll	Multi-User Windows IMM32 API Client DLL	Microsoft Corporation	C:\Windows\System32\imm32.dll
 InputHost.dll	InputHost	Microsoft Corporation	C:\Windows\System32\InputHost.dll
@@ -263,8 +70,9 @@ KBDBR.DLL	Brazilian Keyboard Layout	Microsoft Corporation	C:\Windows\System32\KB
 kernel.appcore.dll	AppModel API Host	Microsoft Corporation	C:\Windows\System32\kernel.appcore.dll
 kernel32.dll	DLL cliente da API BASE do Windows NT	Microsoft Corporation	C:\Windows\System32\kernel32.dll
 KernelBase.dll	DLL cliente da API BASE do Windows NT	Microsoft Corporation	C:\Windows\System32\KernelBase.dll
-KernelBase.dll.mui	DLL cliente da API BASE do Windows NT	Microsoft Corporation	C:\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_19041.40.125.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\KernelBase.dll.mui
-libatk-1.0-0.dll	atk	Sun Microsystems Inc.	C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libatk-1.0-0.dll
+KernelBase.dll.mui	DLL cliente da API BASE do Windows NT	Microsoft Corporation	C:\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_19041.56.186.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\KernelBase.dll.mui
+LanguageOverlayUtil.dll	Provides helper APIs for managing overlaid localized Windows resources.	Microsoft Corporation	C:\Windows\System32\LanguageOverlayUtil.dll
+libatk-1.0-0.dll	atk	Sun Microsystems Inc.	C:\msys64\mingw64\bin\libatk-1.0-0.dll
 libbrotlicommon.dll			C:\msys64\mingw64\bin\libbrotlicommon.dll
 libbrotlidec.dll			C:\msys64\mingw64\bin\libbrotlidec.dll
 libbz2-1.dll			C:\msys64\mingw64\bin\libbz2-1.dll
@@ -273,30 +81,30 @@ libcairo-gobject-2.dll			C:\msys64\mingw64\bin\libcairo-gobject-2.dll
 libdatrie-1.dll			C:\msys64\mingw64\bin\libdatrie-1.dll
 libepoxy-0.dll			C:\msys64\mingw64\bin\libepoxy-0.dll
 libexpat-1.dll			C:\msys64\mingw64\bin\libexpat-1.dll
-libffi-7.dll			C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libffi-7.dll
+libffi-8.dll			C:\msys64\mingw64\bin\libffi-8.dll
 libfontconfig-1.dll			C:\msys64\mingw64\bin\libfontconfig-1.dll
 libfreetype-6.dll	Font Rendering Library	The FreeType Project	C:\msys64\mingw64\bin\libfreetype-6.dll
 libfribidi-0.dll			C:\msys64\mingw64\bin\libfribidi-0.dll
 libgcc_s_seh-1.dll			C:\msys64\mingw64\bin\libgcc_s_seh-1.dll
-libgdk_pixbuf-2.0-0.dll	GIMP Toolkit	The GTK developer community	C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libgdk_pixbuf-2.0-0.dll
+libgdk_pixbuf-2.0-0.dll	GIMP Toolkit	The GTK developer community	C:\msys64\mingw64\bin\libgdk_pixbuf-2.0-0.dll
 libgdk-3-0.dll	GIMP Drawing Kit	The GTK developer community	C:\msys64\mingw64\bin\libgdk-3-0.dll
-libgio-2.0-0.dll	Gio	The GLib developer community	C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libgio-2.0-0.dll
-libglib-2.0-0.dll	GLib	The GLib developer community	C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libglib-2.0-0.dll
-libgmodule-2.0-0.dll	GModule	The GLib developer community	C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libgmodule-2.0-0.dll
-libgobject-2.0-0.dll	GObject	The GLib developer community	C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libgobject-2.0-0.dll
+libgio-2.0-0.dll	Gio	The GLib developer community	C:\msys64\mingw64\bin\libgio-2.0-0.dll
+libglib-2.0-0.dll	GLib	The GLib developer community	C:\msys64\mingw64\bin\libglib-2.0-0.dll
+libgmodule-2.0-0.dll	GModule	The GLib developer community	C:\msys64\mingw64\bin\libgmodule-2.0-0.dll
+libgobject-2.0-0.dll	GObject	The GLib developer community	C:\msys64\mingw64\bin\libgobject-2.0-0.dll
 libgraphite2.dll			C:\msys64\mingw64\bin\libgraphite2.dll
-libgtk-3-0.dll	GIMP Toolkit	The GTK developer community	C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libgtk-3-0.dll
+libgtk-3-0.dll	GIMP Toolkit	The GTK developer community	C:\msys64\mingw64\bin\libgtk-3-0.dll
 libharfbuzz-0.dll			C:\msys64\mingw64\bin\libharfbuzz-0.dll
 libiconv-2.dll	LGPLed libiconv for Windows	Free Software Foundation	C:\msys64\mingw64\bin\libiconv-2.dll
-libintl-8.dll	LGPLed libintl for Windows	Free Software Foundation	C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libintl-8.dll
+libintl-8.dll	LGPLed libintl for Windows	Free Software Foundation	C:\msys64\mingw64\bin\libintl-8.dll
 liblzma-5.dll	liblzma data compression library	The Tukaani Project <https://tukaani.org/>	C:\msys64\mingw64\bin\liblzma-5.dll
 libpango-1.0-0.dll	Pango	Red Hat Software	C:\msys64\mingw64\bin\libpango-1.0-0.dll
 libpangocairo-1.0-0.dll	PangoCairo	Red Hat Software	C:\msys64\mingw64\bin\libpangocairo-1.0-0.dll
 libpangoft2-1.0-0.dll	PangoFT2	Red Hat Software	C:\msys64\mingw64\bin\libpangoft2-1.0-0.dll
 libpangowin32-1.0-0.dll	PangoWin32	Red Hat Software	C:\msys64\mingw64\bin\libpangowin32-1.0-0.dll
-libpcre-1.dll			C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\libpcre-1.dll
-libpixbufloader-png.dll			C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\lib\gdk-pixbuf-2.0\2.10.0\loaders\libpixbufloader-png.dll
-libpixbufloader-svg.dll			C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\lib\gdk-pixbuf-2.0\2.10.0\loaders\libpixbufloader-svg.dll
+libpcre2-8-0.dll			C:\msys64\mingw64\bin\libpcre2-8-0.dll
+libpixbufloader-png.dll			C:\msys64\mingw64\lib\gdk-pixbuf-2.0\2.10.0\loaders\libpixbufloader-png.dll
+libpixbufloader-svg.dll			C:\msys64\mingw64\lib\gdk-pixbuf-2.0\2.10.0\loaders\libpixbufloader-svg.dll
 libpixman-1-0.dll			C:\msys64\mingw64\bin\libpixman-1-0.dll
 libpng16-16.dll			C:\msys64\mingw64\bin\libpng16-16.dll
 librsvg-2-2.dll			C:\msys64\mingw64\bin\librsvg-2-2.dll
@@ -305,6 +113,8 @@ libthai-0.dll			C:\msys64\mingw64\bin\libthai-0.dll
 libwinpthread-1.dll	POSIX WinThreads for Windows	MingW-W64 Project. All rights reserved.	C:\msys64\mingw64\bin\libwinpthread-1.dll
 libxml2-2.dll			C:\msys64\mingw64\bin\libxml2-2.dll
 locale.nls			C:\Windows\System32\locale.nls
+mpr.dll	DLL do roteador provedor múltiplo	Microsoft Corporation	C:\Windows\System32\mpr.dll
+mpr.dll.mui	DLL do roteador provedor múltiplo	Microsoft Corporation	C:\Program Files\WindowsApps\Microsoft.LanguageExperiencePackpt-BR_19041.56.186.0_neutral__8wekyb3d8bbwe\Windows\System32\pt-BR\mpr.dll.mui
 MrmCoreR.dll	Microsoft Windows MRM	Microsoft Corporation	C:\Windows\System32\MrmCoreR.dll
 msasn1.dll	ASN.1 Runtime APIs	Microsoft Corporation	C:\Windows\System32\msasn1.dll
 mscms.dll	DLL do Sistema de Correspondência de Cores Microsoft	Microsoft Corporation	C:\Windows\System32\mscms.dll
@@ -314,13 +124,17 @@ mssprxy.dll	Microsoft Search Proxy	Microsoft Corporation	C:\Windows\System32\mss
 msvcp_win.dll	Microsoft® C Runtime Library	Microsoft Corporation	C:\Windows\System32\msvcp_win.dll
 msvcrt.dll	Windows NT CRT DLL	Microsoft Corporation	C:\Windows\System32\msvcrt.dll
 mswsock.dll	Provedor de serviços do Microsoft Windows Sockets 2.0	Microsoft Corporation	C:\Windows\System32\mswsock.dll
+networkexplorer.dll	Gerenciador de Rede	Microsoft Corporation	C:\Windows\System32\networkexplorer.dll
 nsi.dll	NSI User-mode interface DLL	Microsoft Corporation	C:\Windows\System32\nsi.dll
 ntdll.dll	DLL de nível do NT	Microsoft Corporation	C:\Windows\System32\ntdll.dll
+ntlanman.dll	Microsoft(R) Lan Manager	Microsoft Corporation	C:\Windows\System32\ntlanman.dll
 ntmarta.dll	Provedor MARTA do Windows NT	Microsoft Corporation	C:\Windows\System32\ntmarta.dll
 ole32.dll	Microsoft OLE para Windows	Microsoft Corporation	C:\Windows\System32\ole32.dll
 oleaut32.dll	OLEAUT32.DLL	Microsoft Corporation	C:\Windows\System32\oleaut32.dll
+p9np.dll	Plan 9 Network Provider	Microsoft Corporation	C:\Windows\System32\p9np.dll
 profapi.dll	User Profile Basic API	Microsoft Corporation	C:\Windows\System32\profapi.dll
 propsys.dll	Sistema de Propriedades  Microsoft	Microsoft Corporation	C:\Windows\System32\propsys.dll
+R000000000015.clb			C:\Windows\registration\R000000000015.clb
 rpcrt4.dll	Tempo de Execução da Chamada de Procedimento Remoto	Microsoft Corporation	C:\Windows\System32\rpcrt4.dll
 sechost.dll	Host for SCM/SDDL/LSA Lookup APIs	Microsoft Corporation	C:\Windows\System32\sechost.dll
 setupapi.dll	API de instalação do Windows	Microsoft Corporation	C:\Windows\System32\setupapi.dll
@@ -339,15 +153,18 @@ win32u.dll	Win32u	Microsoft Corporation	C:\Windows\System32\win32u.dll
 WindowManagementAPI.dll			C:\Windows\System32\WindowManagementAPI.dll
 Windows.ApplicationModel.dll	Servidor da API Windows ApplicationModel	Microsoft Corporation	C:\Windows\System32\Windows.ApplicationModel.dll
 Windows.FileExplorer.Common.dll	Windows.FileExplorer.Common	Microsoft Corporation	C:\Windows\System32\Windows.FileExplorer.Common.dll
+Windows.StateRepositoryBroker.dll	Windows StateRepository API Broker	Microsoft Corporation	C:\Windows\System32\Windows.StateRepositoryBroker.dll
 Windows.StateRepositoryCore.dll	Windows StateRepository API Core	Microsoft Corporation	C:\Windows\System32\Windows.StateRepositoryCore.dll
+Windows.StateRepositoryPS.dll	Windows StateRepository Proxy/Stub Server	Microsoft Corporation	C:\Windows\System32\Windows.StateRepositoryPS.dll
 windows.storage.dll	API de Armazenamento Microsoft WinRT	Microsoft Corporation	C:\Windows\System32\windows.storage.dll
 Windows.UI.dll	Windows Runtime UI Foundation DLL	Microsoft Corporation	C:\Windows\System32\Windows.UI.dll
 WindowsCodecs.dll	Microsoft Windows Codecs Library	Microsoft Corporation	C:\Windows\System32\WindowsCodecs.dll
 winhttp.dll	Windows HTTP Services	Microsoft Corporation	C:\Windows\System32\winhttp.dll
 winmm.dll	MCI API DLL	Microsoft Corporation	C:\Windows\System32\winmm.dll
 winspool.drv	Driver de spooler do Windows	Microsoft Corporation	C:\Windows\System32\winspool.drv
+winsta.dll	Winstation Library	Microsoft Corporation	C:\Windows\System32\winsta.dll
 wintrust.dll	Microsoft Trust Verification APIs	Microsoft Corporation	C:\Windows\System32\wintrust.dll
 WinTypes.dll	DLL dos Tipos de Base do Windows	Microsoft Corporation	C:\Windows\System32\WinTypes.dll
 wldp.dll	Política de Bloqueio do Windows	Microsoft Corporation	C:\Windows\System32\wldp.dll
 ws2_32.dll	DLL de 32 bits do Windows Socket 2.0	Microsoft Corporation	C:\Windows\System32\ws2_32.dll
-zlib1.dll			C:\Users\Tiago\Desktop\C\Projetos\Heartbound Save Editor\build\release\bin\zlib1.dll
+zlib1.dll			C:\msys64\mingw64\bin\zlib1.dll

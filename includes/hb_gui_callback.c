@@ -875,8 +875,11 @@ void hb_load_data_into_interface(GtkWindow *window)
             continue;
         }
 
+        // Is the variable not used by the game?
+        const bool not_used = (strcmp("NOT USED", hb_save_data[var].location) == 0);
+
         // What kind of widget holds the save data
-        if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
+        if ( (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0)) || not_used )
         {
             // Text field
             GtkEntry *text_entry = hb_save_data[var].widget.entry;
@@ -1430,6 +1433,9 @@ void hb_menu_file_new(GtkMenuItem *widget, GtkWindow *window)
             // Display a "file created" message
             // Note: The 'hb_read_save()' function already set the timeout for the file indicator
             gtk_label_set_text(GTK_LABEL(file_indicator), FILE_CREATED_MESSAGE);
+
+            // Reset the game options' back to their defaults
+            hb_reset_game_options();
         }
     }
 
@@ -1639,6 +1645,9 @@ void hb_menu_edit_clear(GtkMenuItem *widget, GtkWindow *window)
     {
         hb_save_data[var].value = hb_save_data[var].def;
     }
+
+    // Reset the game options' back to their defaults
+    hb_reset_game_options();
     
     // Load the values into the interface
     hb_load_data_into_interface(window);
@@ -1792,7 +1801,7 @@ void hb_menu_help_help(GtkMenuItem *widget, GtkWindow *parent_window)
         " locations using this program (click the Open button, or drag the save"
         " file into the window or the executable). This way you can create backups.\n\n"
         "Your default Heartbound Save is located at:\n<tt>%s</tt>\n\n"
-        "This version of the editor supports Heartbound until its version <b>1.0.9.57.</b>"
+        "This version of the editor supports Heartbound until its version <b>1.0.9.58.</b>"
         " Whenever Heartbound gets updated, this editor will be updated as soon"
         " as possible to support it. So feel free to check our "
         "<a href='https://github.com/tbpaolini/Heartbound-Save-Editor/releases'>download page</a>"
@@ -1910,10 +1919,10 @@ void hb_menu_help_about(GtkMenuItem *widget, GtkWindow *window)
         window,
         "logo", logo,
         "program-name", "Heartbound Save Editor",
-        "version", "Version 1.0.0.5",
+        "version", "Version 1.0.0.6",
         "authors", authors,
         "documenters", documenters,
-        "copyright", "Copyright 2022 by Tiago Becerra Paolini",
+        "copyright", "Copyright 2022-2023 by Tiago Becerra Paolini",
         "license-type", GTK_LICENSE_MIT_X11,
         "website", "https://github.com/tbpaolini/Heartbound-Save-Editor",
         "website-label", "Source Code",
@@ -2049,18 +2058,18 @@ void hb_flag_data_as_changed(GtkWidget *widget)
 }
 
 // Confirm if the user wants to close the editor when there is unsaved data
-void hb_confirm_close(GtkWindow *window)
+gboolean hb_confirm_close(GtkWindow *window, GdkEvent* event, gpointer user_data)
 {
     bool proceed = hb_check_if_data_changed("Confirm exit", window);
     if (proceed)
     {
         // Close the window if the there is no unsaved changes
         // or if the user has chosen to leave
-        gtk_window_close(window);
+        return FALSE;
     }
     else
     {
         // Keep showing the window if the user has chosen to stay
-        gtk_window_present(window);
+        return TRUE;
     }
 }

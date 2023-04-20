@@ -1,3 +1,8 @@
+# On Windows, set the default shell to CMD
+ifeq ($(OS),Windows_NT)
+    SHELL := cmd.exe
+endif
+
 # 'main.c' file and all '*.c' files on the 'includes' folder
 SOURCE := main.c $(wildcard includes/*.c)
 
@@ -38,7 +43,7 @@ CFLAGS := $(shell pkg-config --cflags --libs gtk+-3.0) -Iincludes -fdiagnostics-
 # Subfolder where the release build will go
 release: TARGET = release
 # Activate compiler optimizations
-release: CFLAGS += -O2
+release: CFLAGS += -O3
 # Link together the compiled objects of the release build
 release: $(DEPENDENCIES)
 	@echo Linking release build...

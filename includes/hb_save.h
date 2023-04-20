@@ -17,6 +17,7 @@
 #include <hb_gui_callback.h>    // Callback funtions for the user interface
 #include <hb_editor_options.h>  // Store and retrieve the configurations of the editor
 #include <hb_arg.h>             // Features to help with the Heartbound's ARG (Alternate Reality Game)
+#include <hb_game_options.h>    // Read and write the game's options file
 
 // Initialize the data structures and parse the save file
 void hb_open_save(char *path);

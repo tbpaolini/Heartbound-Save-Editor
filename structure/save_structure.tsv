@@ -1,417 +1,437 @@
-Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0	1	2	3	4	5	6	7	8	9	X	100	42
-1			Seed Code															
-2			Room ID	Click to view.														
-3			X Axis															
-4			Y Axis															
-5			Current HP															
-6			Maximum HP															
-7			Language															
-	0	DEBUG VARIABLE	DOES NOT SAVE															
-8	1	GLOBAL	Lores Current Clothing		0|1	Pajamas	Sweater											
-9	2	Home Bedroom	Lightswitch State		0|1	Off	On											
-10	3	Home Bedroom	Lightswitch Event															
-11	4	Home Bedroom	Lightswitch Burn State		0|1	Unburnt	Burnt											
-12	5	Home Bedroom	Room has been exited															
-13	6	Home Bedroom	Baron woken up															
-14	7	GLOBAL	Baron following Lore															
-15	8	Home Hallway	Lightswitch State		0|1	Off	On											
-16	9	Home Hallway	Door Slammed															
-17	10	Home Hallway	Lore's Dad	Conversation														
-19	12	Home Bedroom	Leaving State	Dialog Options	0|1|2													
-20	13	Home Livingroom	Lightswitch State		0|1	Off	On											
-21	14	Home Livingroom	TV State		0|1	Off	On											
-22	15	Home Hallway	Lightswitch Uses		0|X	Not Used										Used		
-23	16	Home Kitchen	Lightswitch State		0|1	Off	On											
-24	17	Home	Power Still On	Conversation														
-25	18	Home Kitchen	Sink State	Dialog Options	0|1|2													
-26	19	Home Kitchen	Stove State		0|1	Off	On											
-27	20	Home	Garbage State		0|1|2	Full	Empty	Used										
-28	21	INVENTORY	Food Can State		0|1|2	Nothing	Have	Used										
-29	22	Home Kitchen	Baron Fed		0|1|2	Nothing	Food	Garbage										
-30	23	INVENTORY	Axe State		0|1|2|3	Nothing	Have	Gone	Emelio Improved									
-31	24	Home Yard	Trashcan State		0|1|2|3	Empty	Trash	Mean Trash	Food									
-32	25	Home	Progression State		0|1|2	Normal	Spooky	Trashed										
-33	26	Home Yard	Going Home	Conversation														
-34	27	Home	Power Is Dead	Conversation														
-35	28	Home Hallway	Spooky Dad	Conversation														
-36	29	Home Hallway	Electric Breaker State		0|1	On	Off											
-37	30	Home Bedroom	Baron is asleep for the second time															
-38	31	Home Bedroom	Dream Sequence Played															
-39	32	Home Bedroom	Room has been exited 2															
-40	33	INVENTORY	Baron's Collar State		0|1	Nothing	Have											
-41	34	Forest Darkbough	Darksider Growl State	Sound Triggers	0|1|2|3													
-42	35	Forest Treepuzzle	Darksider Growl State	Sound Triggers	0|1|2													
-43	36	INVENTORY	Tree Puzzle Page 1		0|1	Nothing	Have											
-44	37	INVENTORY	Tree Puzzle Page 2		0|1	Nothing	Have											
-45	38	INVENTORY	Tree Puzzle Page 3		0|1	Nothing	Have											
-46	39	Forest Barghest 1	Combat Completed		0|1|2	No	Win	Lose										
-47	40	Binder Bookhome	Entrance		0|1	None	Complete											
-48	41	Binder Bookhome	Apple Chest		0|1|2|3	Untouched	Touched	Left Behind	Stolen									
-49	42	Binder Bookhome	Glued Books		0|1	Untouched	Curious											
-50	43	Binder Bookhome	Bottom Stick		0|1|2	No Stick	Agnes	Stick										
-51	44	Binder Bookhome	Top Stick		0|1|2	No Stick	Agnes	Stick										
-52	45	Binder Bookhome	Son of Stick Lives		0|1	No Stick	Alive											
-53	46	Binder Bookhome	Book Tower 1		0|1	Nothing	Curious											
-54	47	Binder Bookhome	Book Tower 2		0|1	Nothing	Curious											
-55	48	Binder Bookhome	Book Tower 3		0|1	Nothing	Curious											
-56	49	Binder Bookhome	Book Tower 4		0|1	Nothing	Curious											
-57	50	Binder Bookhome	Book Tower 5		0|1	Nothing	Curious											
-58	51	Binder Bookhome	Book Tower 6		0|1	Nothing	Curious											
-59	52	Binder Bookhome	Book Tower 7		0|1	Nothing	Curious											
-60	53	Binder Bookhome	Book Tower Complete		0|1	Nothing	Finished											
-61	54	Binder Bookhome	The Shy Book		0|1|2	Nothing	Finished	Darksider										
-62	55	Binder Bookhome	The Red Book		0|1	Nothing	Finished											
-63	56	INVENTORY	The Dog Figurine		0|1	Nothing	Have											
-64	57	Falsepath	Mindworm 1															
-65	58	Falsepath	Mindworm 2															
-66	59	Falsepath	Mindworm 3															
-67	60	Falsepath	Mindworm 4															
-68	61	Falsepath	Mindworm 5															
-69	62	Falsepath	Mindworm 6															
-70	63	Falsepath	Mindworm 7															
-71	64	Falsepath	Mindworm 8															
-72	65	Falsepath	Axe Choice 2		0|1|2	Nothing	Took	Left										
-73	66	Barghest 2	Mindworm 1															
-74	67	Barghest 2	Mindworm 2															
-75	68	Barghest 2	Mindworm 3															
-76	69	Barghest 2	Mindworm 4															
-77	70	Bedhead	Lightswitch State		0|1	Off	On											
-78	71	Barghest 2	Axe Thrown?		0|1|2	No	Weapon Held	Weapon Thrown										
-79	72	INVENTORY	The Artifact		0|1|2	Nothing	Have	Absorbed										
-80	73	INVENTORY	Sock Hometown 1		0|1	Left	Taken											
-81	74	INVENTORY	Sock Hometown 2		0|1	Left	Taken											
-82	75	INVENTORY	Sock Hometown 3		0|1	Left	Taken											
-83	76	INVENTORY	Sock Hometown 4		0|1	Left	Taken											
-84	77	INVENTORY	Sock Hometown 5		0|1	Left	Taken											
-85	78	GLOBAL	Death Counter		0|X	None										Amount of Deaths		
-86	79	INVENTORY	Chapter 1 Socks	Max 5														
-87	80	INVENTORY	Gizmo		0|1|2	Not Found	Taken	Left										
-88	81	Binder Booktrial 1	Event Executed															
-89	82	Possum Home	Initial Event Executed															
-90	83	Possum Home	Trash Inspected															
-91	84	Possum Home	Bed Status		0|1	Messy	Clean											
-92	85	Animus	Left Possum Home															
-93	86	Possum Yard	Talked To Sapling															
-94	87	Corridor	Fought With Emelio															
-95	88	Frog Pond	Found the secret path															
-96	89	Animus	Time Frozen		0|1	No	Yes											
-97	90	Animus	Time Hour	Default 12, Max 23	0|23											Hour		
-98	91	Animus	Time Minute	Default 7, Max 59	0|59											Minute		
-99	92	Animus	Time Second	Max 59	0|59											Second		
-100	93	Animus	Time Phase	Default 1	0|1|2|3	Morning	Day	Evening	Night									
-101	94	Animus	Time Color	Default 1	0|1|2|3	Morning	Day	Evening	Night									
-102	95	Animus	Time Days		0|X											Total number of days		
-103	96	Snake Home	Lightswitch State		0|1	Off	On											
-104	97	Possum Yard	Plants 1		0|1	Nothing	Curious											
-105	98	Possum Yard	Plants 2		0|1	Nothing	Curious											
-106	99	Possum Yard	Plants 3		0|1	Nothing	Curious											
-107	100	Possum Yard	Plants 4		0|1	Nothing	Curious											
-108	101	Possum Yard	Plants 5		0|1	Nothing	Curious											
-109	102	Possum Yard	Plants 6		0|1	Nothing	Curious											
-110	103	Possum Yard	Plants 7		0|1	Nothing	Curious											
-111	104	Possum Yard	Plants Complete		0|1	Nothing	Finished											
-112	105	Possum Store	Shopkeep Event		0|1	Nothing	Finished											
-113	106	GLOBAL	Have we saved before?		0|1	Not Saved	Saved											
-114	107	GLOBAL	Hometown Fear	Max 5														
-115	108	GLOBAL	Hometown Curiosity	Max 11														
-116	109	GLOBAL	Tower Corp Fear	Max 5														
-117	110	GLOBAL	Tower Corp Curiosity	Max 9														
-118	111	GLOBAL	Animus Fear	Max 2														
-119	112	GLOBAL	Animus Curiosity	Max 3														
-120	113	GLOBAL	Jotunheim Fear															
-121	114	GLOBAL	Jotunheim Curiosity															
-122	115	GLOBAL	[REDACTED] Fear															
-123	116	GLOBAL	[REDACTED] Curiosity															
-124	117	INVENTORY	Sock Tower 1		0|1	Left	Taken											
-125	118	Breakroom 103	Computer Interaction		0|1	Not Used	Used											
-126	119	GLOBAL	Current World Number	Default 1	1|2|3|4|5		Hometown	Tower	Animus	Muspelheim	Niflheim							
-127	120	GLOBAL	World Order First		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim							
-128	121	GLOBAL	World Order Second		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim							
-129	122	GLOBAL	World Order Third		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim							
-130	123	Breakroom 103	Keypad Solve		0|1|2|3	Unsolved	Win	Loss	Cheater									
-131	124	Breakroom 103	Crypto Solve		0|1	Unsolved	Solved											
-132	125	Firepipes	Venter Switch		0|1	Off	On											
-133	126	Firepipes	Regulator Switch		0|1	Off	On											
-134	127	Firepipes	Electrifier Switch		0|1	Off	On											
-135	128	Vaporcave	Aesthetic		0|1|2	Off	No	Yes										
-136	129	Breakroom 103	Keypad Hint 1		0|1	Hidden	Found											
-137	130	Breakroom 103	Keypad Hint 2		0|1	Hidden	Found											
-138	131	Breakroom 103	Keypad Hint 3		0|1	Hidden	Found											
-139	132	Breakroom 103	Keypad Hint 4		0|1	Hidden	Found											
-140	133	Firepipes	Pipe Break		0|1	Normal	Broken											
-141	134	Vaporcave	Found the environment		0|1	No	Yes											
-142	135	Corridor 103	Played the Dad event		0|1	No	Yes											
-143	136	Techies	Entrance Event		0|1	No	Yes											
-144	137	Darkworld 103	Chose Tome Path		0|1|2|3	Nothing	Light	Dark	Mixed									
-145	138	Storage	Talked to Inky		0|1	No	Yes											
-146	139	Techies	Times Caught		0|X	Never										Number of Times		
-147	140	Breakroom 103	Pickles		0|1|2	Not Found	Didn't Take	Took Them										
-148	141	Mailshroom	Dark Lights		0|1	On	Off											
-149	142	Duck Finding	1		0|1	Unknown	Found											
-150	143	Duck Finding	2		0|1	Unknown	Found											
-151	144	Duck Finding	3		0|1	Unknown	Found											
-152	145	Duck Finding	4		0|1	Unknown	Found											
-153	146	Duck Finding	5		0|1	Unknown	Found											
-154	147	Goose Finding	6		0|1	Unknown	Found											
-155	148	Servers	Duck Finding Active		0|1|2|3	No	Active	Duck Complete	Goose Complete									
-156	149	Boardroom	Entrance Event		0|1	No	Yes											
-157	150	Techies	OScar Unlocks First Job		0|1	No	Yes											
-158	151	Boardroom	Password Collected		0|1	No	Yes											
-159	152	Breakroom 103	Time Spent		X											Total Seconds		
-160	153	Boardroom	Password Selected		X											Password index from obj_boardroom_talker_whiteboard		
-161	154	Techies	Smartliness		0|1	Fail	Pass											
-162	155	Techies	Speederosity		0|2	Fail		Pass										
-163	156	Techies	Sneaktitude		0|4	Fail				Pass								
-164	157	Techies	Job 1 Index		0|1|2|3|4|5|6|7|8	Actual Potato	Programmer	Cafeteria Worker	Supervisor	IT Specialist	Janitor	Ninja	Game Developer	Hacker				
-165	158	Techies	Cookies		0|X											Number of Cookies		
-166	159	Techies	Password Fails		0|X											Number of Fails		
-167	160	Servers	Sticky Mission Active		0|1|2	No	Active	Complete										
-168	161	Servers	Sticky Mission Sticky		0|1	No	Yes											
-169	162	INVENTORY	Sock Tower 2		0|1	Left	Taken											
-170	163	Techies	We work in a cubicle		0|1|2	No	Yes	Promoted										
-171	164	Techies	Spawn Location		0|1|2	Bottom	6A	4C										
-172	165	Techies	Birdcam Caught OScar Laughs		0|X	Never										Number of Times		
-173	166	Techies	Obedient Worker		0|1	No	Yes											
-174	167	Cafe	We know to use the vending machine		0|1	No	Yes											
-175	168	Servers	Job Completed		0|1|2	No	Started	Yes										
-176	169	Cafeteria	Job Completed		0|1|2	No	Started	Yes										
-177	170	Mailshroom	Job Completed		0|1|2	No	Started	Yes										
-178	171	Cafeteria	Shades Fed		0|X	None										Number Fed		
-179	172	Cafeteria	Food Dropped		0|X	None										Number Dropped		
-180	173	Cafeteria	Game Over		0|1	No	Yes											
-181	174	Mailshroom	Event		0|1	No	Yes											
-182	175	Mailshroom	Letters Stamped		0|X	None										Amount		
-183	176	Middle	Entrance Event		0|1	Not Yet	Done											
-184	177	INVENTORY	Noir Hat		0|1|2	No	Yes	Finished										
-185	178	INVENTORY	Propaganda Obtained		0|1|2	No	Left	Took										
-186	179	Servers	Racks Inspected		0|X	None										Amount		
-187	180	Middle	Salamurderer		0|1	No	Yes											
-188	181	Middle	Camera Uses		0|X	Not Yet										Number Of Uses		
-189	182	Middle	Stapler Taken		0|1|2	Not Yet	Taken	Left										
-190	183	Middle	Floppy 'Copied'		0|1|2	Not Yet	Left	Taken										
-191	184	Middle	Salamurderer Floor Ham		0|1	No	Yes											
-192	185	Middle	4B Shade		0|1	No	Yes											
-193	186	Middle	3A Shade Question		0|1|2	Nothing	No	Yes										
-194	187	Middle	1B Desk		0|1|2	Nothing	No	Yes										
-195	188	Middle	3A Quit		0|1	No	Yes											
-196	189	Middle	We read a sign about the Lost and Found		0|1	No	Yes											
-197	190	Middle	Talked to D4 Shade		0|1	No	Yes											
-198	191	Middle	Investigations Found		0|X	None										Amount		
-199	192	Floor 2	Shortstack Location		0|1|2	Cafe	Gym Lift	Gym Bag										
-200	193	Noir	Object 1 Bracelet		0|1|2	None	Spawned	Taken										
-201	194	Noir	Object 2 Necklace		0|1|2	None	Spawned	Taken										
-202	195	Noir	Object 3 Key		0|1|2	None	Spawned	Taken										
-203	196	Noir	Object 4 Handbag		0|1|2	None	Spawned	Taken										
-204	197	Noir	Object 5 Pendant		0|1|2	None	Spawned	Taken										
-205	198	Noir	Events Played		0|X	None										Amount		
-206	199	INVENTORY	Chapter 2 Socks	Max 4														
-207	200	Pool	Did we say No to Joe?		0|1|2	Not Yet	No	Yes										
-208	201	Pool	Learned To Whistle		0|1	No	Yes											
-209	202	Floor 2	Have Money		0|1|2|3	No	Dollar	Coins	Used									
-210	203	Pool	Whistled at PPP		0|1	No	Yes											
-211	204	Gym	Talked At Benchpress		0|1	No	Yes											
-212	205	Void	Told The Truth		0|1|2	Not Yet	Truth	Lied										
-213	206	Closet	Enter Void		0|1	No	Drink											
-214	207	Middle	Joe's Sunglasses		0|1|2	No	Yes	Used										
-215	208	Middle	Joe's Computer Checked		0|1	No	Yes											
-216	209	Records	Lightswitch State		0|1	No	Yes											
-217	210	Cafe	Coffee Obtained		0|1|2	No	Yes	Delivered										
-218	211	Cafe	Talked to Whistler about Shortstack		0|1	No	Yes											
-219	212	Floor 2	Coffee Age		0|X	Not Yet										Coffee Age		
-220	213	Cafe	Coffee Cold Knowledge		0|1	No	Yes											
-221	214	Cafe	Final Whistler Knowledge		0|1	No	Yes											
-222	215	Cafe	We talked to Whistler about the Lost and Found		0|1	No	Yes											
-223	216	Pool	Coffee Temperature		0|1|2	None	Cold	Hot										
-224	217	Pool	PPP Is Gone		0|1	No	Yes											
-225	218	Cafe	Checked Menu		0|1	No	Yes											
-226	219	Cafe	Personal Space Count		0|X	No										Number of Times		
-227	220	Cafe	Coffee Joke		0|1	No	Done											
-228	221	Cafe	Stress Guy		0|1	No	Done											
-229	222	Pool	That Guy Story		0|1	No	Done											
-230	223	INVENTORY	Sock Tower 3		0|1	Left	Taken											
-231	224	Boss	Music Timing		X											Seconds		
-232	225	Boss	Memory 1 Match to 22		0|1|2	Not Yet	Food	Garbage										
-233	226	Boss	Memory 2 Match to 41		0|2|3	Not Yet	Left	Stolen										
-234	227	Boss	Memory 3 Match to 71		0|1|2	Not Yet	Axe Kept	Axe Thrown										
-235	228	Boss	Memory 4 Did we kill Joe?		0|1|2	Not Yet	No	Yes										
-236	229	Boss	Memory 5 Do we hate the boss?		0|1|2	Not Yet	No	Yes										
-237	230	Animus	Portal Network		0|1	Not Active	Active											
-238	231	NOT USED																
-239	232	INVENTORY	Phone Found		0|1	No	Yes											
-240	233	HR	Talked To Mycel		0|1	No	Yes											
-241	234	Gym	Talked To Trapper		0|1	No	Yes											
-242	235	Gym	Talked To Chomper		0|1	No	Yes											
-243	236	Records	Read Dad's Information		0|1	No	Yes											
-244	237	INVENTORY	Sock Tower 4		0|1	Left	Taken											
-245	238	The Truth			0|42	No												Yes
-246	239	Animus	Full Time													Count		
-247	240	DEBUG	Early Access Cutscene		0|1	Not Yet	Finished											
-248	241	NOT USED																
-249	242	Timeroom	Manipulator		0|1	No	Yes											
-250	243	Timeroom	Day or Night		0|1|2	None	Day	Night										
-251	244	Animus	Clothing when we first met Ramul		0|1|2	Not Yet	Pajama	Sweater										
-252	245	Animus	Ramul knows our name		0|1	No	Yes											
-253	246	Animus	Ramul talked about our sweater		0|1	No	Yes											
-254	247	Turtle Home	Lightswitch State		0|1	Off	On											
-255	248	Breakroom 103	Red Papers Investigated		0|1|2	No	Yes	Completed										
-256	249	Techies	Talked to shirt guy		0|1	No	Yes											
-257	250	Techies	Talked to hat guy		0|1	No	Yes											
-258	251	Mole Home	Lightswitch State		0|1	Off	On											
-259	252	Techies	Ant chat		0|1	No	Yes											
-260	253	Mole Home	Ant chat		0|1	No	Yes											
-261	254	Mole Home	Frog chat		0|1	No	Yes											
-262	255	Mole Home	Spider chat		0|1	No	Yes											
-263	256	Mole Home	The Factus		0|1	Not Yet	Taken											
-264	257	INVENTORY	Gadget		0|1|2	Not Found	Taken	Left										
-265	258	Bedhead	Phone Step		X											Phone Conversation		
-266	259	Mole Home	Salamander food chat		0|1	No	Yes											
-267	260	Mole Home	Bed Crime Level		0|1|2|3|4|5	No	Angry	Double Angry	Kicked Out	Banned	Unbanned							
-268	261	Nekane	Entrance Event		0|1	No	Yes											
-269	262	Nekane	Beard Mirror		0|1	No	Yes											
-270	263	Nekane	Clock		0|1	No	Yes											
-271	264	Nekane	Bookshelf		0|1	No	Yes											
-272	265	Nekane	Scythe		0|1	No	Yes											
-273	266	Nekane	Chest		0|1	No	Yes											
-274	267	Nekane	Potions Inspected		0|1	No	Yes											
-275	268	Nekane	Potion Stolen		0|1|2|3|4	No	Left	Middle	Right	Never								
-276	269	Nekane	Houseplant		0|1	No	Yes											
-277	270	Nekane	Wrong Side		0|1	No	Yes											
-278	271	Mole Home	Worm Tank		0|1	No	Yes											
-279	272	Dillo Home	Lightswitch State		0|1	Off	On											
-280	273	Mole Home	Snakesock Tank		0|1|2	No	Yes	Complete										
-281	274	INVENTORY	Snakewarmer		0|1|2	No	Yes	Used										
-282	275	INVENTORY	Sock Animus 1		0|1	Left	Taken											
-283	276	Terminated	Nekane Unlocked		0|1	No	Yes											
-284	277	INVENTORY	Pocketwatch		0|1|2	Not Found	Found	Not With Us										
-285	278	Dillo Home Dark	Hurt Emelio?		0|1|2	Not Yet	No	Yes										
-286	279	Animus	Basil Secret Found		0|1	Not Found	Found											
-287	280	GLOBAL	Hit In Combat															
-288	281	Lake	Beetle 1		0|1	Not Taken	Taken											
-289	282	Lake	Beetle 2		0|1	Not Taken	Taken											
-290	283	Lake	Beetle 3		0|1	Not Taken	Taken											
-291	284	Lake	Beetle 4		0|1	Not Taken	Taken											
-292	285	Lake	Beetle 5		0|1	Not Taken	Taken											
-293	286	Animus	Watch Complete		0|1	Broken	Fixed											
-294	287	Animus	Watch Baseplate	Fern|Avocado	0|1|2|3	Broken	Fixed	Color Broken	Color Fixed									
-295	288	Animus	Watch Hands	Emelio	0|1	Broken	Fixed											
-296	289	Animus	Watch Gears	Mossbacks|Avocado	0|1|2|3	Broken	Fixed	Color Broken	Color Fixed									
-297	290	Animus	Watch Sealed	Mossbacks	0|1	Broken	Fixed											
-298	291	Animus	Ramul Storyline		X											Storyline Step		
-299	292	Animus	Avocado Storyline		0|1|2|3|4|5|6|7	At Lake First Contact	At Pier Happy	At Pier Grumpy	Abandoned	Home Sad Fern Advice	Home Sad Rhode Advice	Home Sad No Advice	At Home Happy					
-300	293	Animus	Emelio Storyline		0|1|2|3|4|5|6|7|8|9	At Home	Ready For Mines	In Mines	In Bed	Saved	Abandoned	Abandoned Then Saved	At Forge	Fantasy	Reality			
-301	294	Animus	Rhode Storyline		0|1|2|3|4|5|6|7	In Yard	In Home	In Yard Lunch	Gone Lunch	On Bridge Happy	On Bridge Sad	Gone	At Home					
-302	295	Animus	Fern Storyline		0|1|2|3|4|5|6|7	In Yard	In Home	In Yard Lunch	Gone Lunch	On Bridge Happy	On Bridge Sad	Gone	At Home			Storyline Step		
-303	296	Animus	Shelly Storyline		X											Storyline Step		
-304	297	Animus	Sheldon Storyline		X											Storyline Step		
-305	298	Animus	Cirsi Storyline		X											Storyline Step		
-306	299	Animus	Reme Storyline		X											Storyline Step		
-307	300	Animus	Phil Storyline		X											Storyline Step		
-308	301	Animus	Seto Storyline		X											Storyline Step		
-309	302	Animus	Carli Storyline		X											Storyline Step		
-310	303	Animus	Village State		0|1|2|3|4|5|100	Dillo	Dillo Finished	Deer	Forest	Mole	Turtle						Fully Unlocked	
-311	304	Iron Mines	Help Emelio?		0|1|2|3	Not Yet	Yes	No Then Yes	No									
-312	305	Animus	Twins Emelio Judgement		0|1|2	Not Yet	Positive	Negative										
-313	306	Dillo Yard	Terry Sad Talk		0|1|2	Not Yet	Once	Finished										
-314	307	Dillo Home	Emelio spawned at the Forge	Reality Path	0|1	Not Yet	Spawned											
-315	308	Dillo Yard	Terry Thankful Talk		0|1	Not Yet	Finished											
-316	309	Animus	We know about Sunstones		0|1	Not Yet	Yes											
-317	310	Iron Mines 2	Shortcut Question		0|1	Not Yet	Yes											
-318	311	Deer Yard	Ant Conversation		0|X	Not Yet										Number Of Conversations		
-319	312	Deer Home	Eggs Obtained		0|X	Not Yet										Number Found		
-320	313	Deer Yard	Got mad at Fern?		0|1|2	Not Yet	No	Yes										
-321	314	Deer Yard	Ate the flower?		0|1|2|3	Not Yet	Smelled	No	Yes									
-322	315	Deer Yard	Yard Approach Cutscene		0|1	Not Yet	Done											
-323	316	Iron Mines	Dialog Steps		0|X	Not Yet										Steps		
-324	317	Iron Mines	Light Activated		0|1	Not Yet	Active											
-325	318	INVENTORY	Mining Pickaxe		0|1	Nothing	Have											
-326	319	Iron Mines	Destroy Whale?		0|1|2|3	Not Yet	No	Yes	Ignored									
-327	320	Iron Mines	Emelio Dialog Step		0|1	Not Talked	Talked											
-328	321	Dillo Home	Talked To Emelio In Bed		0|1	Not Talked	Talked											
-329	322	Dillo Home	Mining Tools		0|1	On The Wall	Missing											
-330	323	Iron Mines	Spoke to Emelio from behind		0|1	Not Yet	Yes											
-331	324	Iron Mines	Mindworms		0|X	Nothing										Number Of Worms		
-332	325	Iron Mines	Harvest Sunstone?		0|1	Not Yet	Finished											
-333	326	Iron Mines 2	Mindworms 1-2		0|X	Nothing										Number Of Worms		
-334	327	GLOBAL	Worlds Finished		0|X											Number Of Worlds		
-335	328	Deer Home	Fern Talked To		0|1	No	Yes											
-336	329	Deer Home	Rhode Talked To		0|1	No	Yes											
-337	330	Deer Home	Rhode asked us out to lunch		0|1|2	Not Yet	Yes	No										
-338	331	Deer Home	Time spent before talking to Fern		0|X	No										Seconds Spent		
-339	332	Animus	Fern Crown		0|1	No	Yes											
-340	333	Deer Home	Lunch Chosen		0|1|2	Not Yet	Fern	Rhode										
-341	334	Deer Yard	Lunch Leaving Cutscene		0|1	Not Yet	Yes											
-342	335	INVENTORY	Chapter 3 Socks	Max 2														
-343	336	Deer/Rhode	Cutscene Played		0|1	Not Yet	Yes											
-344	337	Dillo Home	Walked up to Emelio		0|X	Not Yet										Number Of Steps		
-345	338	Deer Field	Ate the flower?		0|1|2	Not Yet	No	Yes										
-346	339	Deer Field	Joe's Mug		0|1	Not Caught	Caught											
-347	340	Deer Field	Baskets Filled		0|1|2|3													
-348	341	The Tower	Mailshroom Key		0|1|2	Not Yet	Have	Used										
-349	342	Deer Field	Ferns mood about Rhode		0|1|2	Not Yet	Negative	Positive										
-350	343	Deer Field	Minigame Outcome		0|1|2|3|4|5|6	Not Yet	Round 1 No Flowers	Round 1 Loss	Round 2 Loss	Round 3 Loss	Round 3 Win	Round 3 Perfect						
-351	344	Deer Field	Basket Image Index		0|X											Image Index		
-352	345	Deer Field	Advice for Fern		0|1|2	Not Yet	Heart	Safety										
-353	346	Rhode Game	Cartons Filled		0|1|2|3													
-354	347	Rhode Game	Minigame Outcome		0|1|2|3|4|5|6	Not Yet	Round 1 No Eggs	Round 1 Loss	Round 2 Loss	Round 3 Loss	Round 3 Win	Round 3 No Obstacles						
-355	348	GLOBAL	World Resolution First		0|1|2	Not Yet	Positive	Negative										
-356	349	GLOBAL	World Resolution Second		0|1|2	Not Yet	Positive	Negative										
-357	350	GLOBAL	World Resolution Third		0|1|2	Not Yet	Positive	Negative										
-358	351	Rhode Game	Obstacles Hit		0|X	No												
-359	352	Rhode Game	Eggs Dropped		0|X											Number of Eggs		
-360	353	Rhode Field	Hang Out?		0|1|2	Not Yet	Yes	No										
-361	354	Deer Forest	Boulder		0|1	In Room	Moved											
-362	355	Animus	Bird Counter		0|X	None										Number Of Birds		
-363	356	Rhode Field	Advice for Rhode		0|1|2	Not Yet	Heart	Safety										
-364	357	Rhode Field	Who to think about?		0|1|2	Not Yet	Self	Rhode										
-365	358	Rhode Field	How do we feel about Fern?		0|1|2	Not Yet	Positive	Negative										
-366	359	Rhode Field /Deer Field	Fight The Aspects?		0|1|2	Not Yet	Fight	Time Out										
-367	360	Deer Home	Looked at the seed packets?		0|1	Not Yet	Yes											
-368	361	Deer Home	Fertilizer 1		0|1	Not Yet	Yes											
-369	362	Deer Home	Fertilizer 2		0|1	Not Yet	Yes											
-370	363	Deer Home	Egg Pun Experienced		0|1	Not Yet	Yes											
-371	364	Deer Field	Hit By Falling Object		0|1	No	Yes											
-372	365	Deer Field	Caught at least one flower		0|1	No	Yes											
-373	366	Deer Field	Question about Rhode to Fern		0|1|2|3|4	Not Yet	Prying	Lying	Matchmaker	Avoidance								
-374	367	Deer Bridge	Fern/Rhode Ending Cutscene		0|1	Not Yet	Finished											
-375	368	Deer Bridge	Floating Crown		0|1|2	Not Yet	Floating	Particles Gone										
-376	369	Deer Yard	Watch Door		0|1|2|3	Not Yet	Present	Finished	Unblocked									
-377	370	Deer Yard	Picket Line		0|1|2|3	Not Yet	Present	Cross Attempted	Gone									
-378	371	Deer Secret	Frog		0|1|2	There	Gone To Space	Stayed On Ground										
-379	372	Lake	Time Before Pier		0|X	Not Yet										Time In Seconds		
-380	373	Lake	Pier Cutscene		0|1	Not Yet	Finished											
-381	374	Lake	Avocado Pier Mood		0|1|2	Not Yet	Happy	Sad										
-382	375	Dillo Judge	Do we know who we are?		0|1|2	Not Yet	Yes	No										
-383	376	Judgement	Corruption Level		0|X	Not Yet										Corruption Level		
-384	377	INVENTORY	Fishing Rod		0|1	Not Yet	Have											
-385	378	Lake	Gave Avocado Advice		0|1	Not Yet	Gave Advice											
-386	379	Deer Judge	Flowers Stepped On	Max 15	0|X											Number Of Flowers		
-387	380	Rhode Judge	Combat Outcome		0|1|2	Not Yet	Victory	Defeat										
-388	381	Rhode Judge	Kill or Don't		0|1|2	Not Yet	Killed	Not Killed										
-389	382	Rhode Judge	Number of Killing Blows		0|X	Not Yet										Number Of Blows		
-390	383	Rhode Judge	Moved In Combat		0|1	Not Moved	Moved											
-391	384	GLOBAL	Lores Polarity		0|1	Positive	Negative											
-392	385	Rhode Judge	Destroyed The Crown?		0|1|2	Not Yet	Destroyed	Ignored										
-393	386	Barghest 2	Won or Lost?		0|1|2	No	Won	Lost										
-394	387	Rhode Game	What does Rhode call eggs?		0|1	Food Pods	Egg Pods											
-395	388	Rhode Judge	Rhode bit Lore		0|1	Not Yet	Bit											
-396	389	Mole Home	Times Avocado Bothered		0|X	Not Yet										Bothered Amount		
-397	390	Mole Home	Potion given to Fancy Cacti		0|1	No	Yes											
-398	391	Mole Home	Fancy Cacti talked to with Factus		0|1	No	Yes											
-399	392	Mole Home	Bowtie		0|1|2|3	No	Red	Green	Blue									
-400	393	Mole Home	Light Scene		0|1|2	No	Light Off	Check Again										
-401	394	Mole Home	Mushroom Pun		0|1	No	Yes											
-402	395	Mailshroom	Mushroom Pun		0|1	No	Yes											
-403	396	Mole Home	Left Early		0|1	No	Yes											
-404	397	Middle	Factus Joke		0|1	No	Yes											
-405	398	Turtle Home	Lightswitch State Right		0|1	Off	On											
-406	399	Mid Lake	Fight The Aspects?		0|1|2	Not Yet	Fight	Time Out										
-407	400	Turtle Farm	Crop Values	Green Lettuce	0|X											Bitmask		
-408	401	Turtle Farm	Crop Values	Orange Carrot	0|X											Bitmask		
-409	402	Turtle Farm	Crop Values	Purple Carrot	0|X											Bitmask		
-410	403	Turtle Farm	Crop Values	Purple Lettuce	0|X											Bitmask		
-411	404	Turtle Farm	Crop Values	White Turnip	0|X											Bitmask		
-412	405	Turtle Farm	Crop Values	Green Spinach	0|X											Bitmask		
-413	406	Turtle Farm	Crop Values	Purple Radish	0|X											Bitmask		
-414	407	Turtle Farm	Crop Values	Purple Spinash	0|X											Bitmask		
-415	408	NOT USED																
-416	409	GLOBAL	Room is Judgement		0|1|2|3|4	No	Yes	Limbo 1	Limbo 2	Limbo 3								
+Row	Storyline Var	Room/Object	Description 1	Description 2	Internal State Count	0	1	2	3	4	5	6	7	8	9	10	X	100	42
+1			Seed Code																
+2			Room ID	Click to view.															
+3			X Axis																
+4			Y Axis																
+5			Current HP																
+6			Maximum HP																
+7			Language																
+	0	DEBUG VARIABLE	DOES NOT SAVE																
+8	1	GLOBAL	Lores Current Clothing		0|1	Pajamas	Sweater												
+9	2	Home Bedroom	Lightswitch State		0|1	Off	On												
+10	3	Home Bedroom	Lightswitch Event																
+11	4	Home Bedroom	Lightswitch Burn State		0|1	Unburnt	Burnt												
+12	5	Home Bedroom	Room has been exited																
+13	6	Home Bedroom	Baron woken up																
+14	7	GLOBAL	Baron following Lore																
+15	8	Home Hallway	Lightswitch State		0|1	Off	On												
+16	9	Home Hallway	Door Slammed																
+17	10	Home Hallway	Lore's Dad	Conversation															
+19	12	Home Bedroom	Leaving State	Dialog Options	0|1|2														
+20	13	Home Livingroom	Lightswitch State		0|1	Off	On												
+21	14	Home Livingroom	TV State		0|1	Off	On												
+22	15	Home Hallway	Lightswitch Uses		0|X	Not Used											Used		
+23	16	Home Kitchen	Lightswitch State		0|1	Off	On												
+24	17	Home	Power Still On	Conversation															
+25	18	Home Kitchen	Sink State	Dialog Options	0|1|2														
+26	19	Home Kitchen	Stove State		0|1	Off	On												
+27	20	Home	Garbage State		0|1|2	Full	Empty	Used											
+28	21	INVENTORY	Food Can State		0|1|2	Nothing	Have	Used											
+29	22	Home Kitchen	Baron Fed		0|1|2	Nothing	Food	Garbage											
+30	23	INVENTORY	Axe State		0|1|2|3	Nothing	Have	Gone	Emelio Improved										
+31	24	Home Yard	Trashcan State		0|1|2|3	Empty	Trash	Mean Trash	Food										
+32	25	Home	Progression State		0|1|2	Normal	Spooky	Trashed											
+33	26	Home Yard	Going Home	Conversation															
+34	27	Home	Power Is Dead	Conversation															
+35	28	Home Hallway	Spooky Dad	Conversation															
+36	29	Home Hallway	Electric Breaker State		0|1	On	Off												
+37	30	Home Bedroom	Baron is asleep for the second time																
+38	31	Home Bedroom	Dream Sequence Played																
+39	32	Home Bedroom	Room has been exited 2																
+40	33	INVENTORY	Baron's Collar State		0|1	Nothing	Have												
+41	34	Forest Darkbough	Darksider Growl State	Sound Triggers	0|1|2|3														
+42	35	Forest Treepuzzle	Darksider Growl State	Sound Triggers	0|1|2														
+43	36	INVENTORY	Tree Puzzle Page 1		0|1	Nothing	Have												
+44	37	INVENTORY	Tree Puzzle Page 2		0|1	Nothing	Have												
+45	38	INVENTORY	Tree Puzzle Page 3		0|1	Nothing	Have												
+46	39	Forest Barghest 1	Combat Completed		0|1|2	No	Win	Lose											
+47	40	Binder Bookhome	Entrance		0|1	None	Complete												
+48	41	Binder Bookhome	Apple Chest		0|1|2|3	Untouched	Touched	Left Behind	Stolen										
+49	42	Binder Bookhome	Glued Books		0|1	Untouched	Curious												
+50	43	Binder Bookhome	Bottom Stick		0|1|2	No Stick	Agnes	Stick											
+51	44	Binder Bookhome	Top Stick		0|1|2	No Stick	Agnes	Stick											
+52	45	Binder Bookhome	Son of Stick Lives		0|1	No Stick	Alive												
+53	46	Binder Bookhome	Book Tower 1		0|1	Nothing	Curious												
+54	47	Binder Bookhome	Book Tower 2		0|1	Nothing	Curious												
+55	48	Binder Bookhome	Book Tower 3		0|1	Nothing	Curious												
+56	49	Binder Bookhome	Book Tower 4		0|1	Nothing	Curious												
+57	50	Binder Bookhome	Book Tower 5		0|1	Nothing	Curious												
+58	51	Binder Bookhome	Book Tower 6		0|1	Nothing	Curious												
+59	52	Binder Bookhome	Book Tower 7		0|1	Nothing	Curious												
+60	53	Binder Bookhome	Book Tower Complete		0|1	Nothing	Finished												
+61	54	Binder Bookhome	The Shy Book		0|1|2	Nothing	Finished	Darksider											
+62	55	Binder Bookhome	The Red Book		0|1	Nothing	Finished												
+63	56	INVENTORY	The Dog Figurine		0|1	Nothing	Have												
+64	57	Falsepath	Mindworm 1																
+65	58	Falsepath	Mindworm 2																
+66	59	Falsepath	Mindworm 3																
+67	60	Falsepath	Mindworm 4																
+68	61	Falsepath	Mindworm 5																
+69	62	Falsepath	Mindworm 6																
+70	63	Falsepath	Mindworm 7																
+71	64	Falsepath	Mindworm 8																
+72	65	Falsepath	Axe Choice 2		0|1|2	Nothing	Took	Left											
+73	66	Barghest 2	Mindworm 1																
+74	67	Barghest 2	Mindworm 2																
+75	68	Barghest 2	Mindworm 3																
+76	69	Barghest 2	Mindworm 4																
+77	70	Bedhead	Lightswitch State		0|1	Off	On												
+78	71	Barghest 2	Axe Thrown?		0|1|2	No	Weapon Held	Weapon Thrown											
+79	72	INVENTORY	The Artifact		0|1|2	Nothing	Have	Absorbed											
+80	73	INVENTORY	Sock Hometown 1		0|1	Left	Taken												
+81	74	INVENTORY	Sock Hometown 2		0|1	Left	Taken												
+82	75	INVENTORY	Sock Hometown 3		0|1	Left	Taken												
+83	76	INVENTORY	Sock Hometown 4		0|1	Left	Taken												
+84	77	INVENTORY	Sock Hometown 5		0|1	Left	Taken												
+85	78	GLOBAL	Death Counter		0|X	None											Amount of Deaths		
+86	79	INVENTORY	Chapter 1 Socks	Max 5															
+87	80	INVENTORY	Gizmo		0|1|2	Not Found	Taken	Left											
+88	81	Binder Booktrial 1	Event Executed																
+89	82	Possum Home	Initial Event Executed																
+90	83	Possum Home	Trash Inspected																
+91	84	Possum Home	Bed Status		0|1	Messy	Clean												
+92	85	Animus	Left Possum Home																
+93	86	Possum Yard	Talked To Sapling																
+94	87	Corridor	Fought With Emelio																
+95	88	Frog Pond	Found the secret path																
+96	89	Animus	Time Frozen		0|1	No	Yes												
+97	90	Animus	Time Hour	Default 12, Max 23	0|23												Hour		
+98	91	Animus	Time Minute	Default 7, Max 59	0|59												Minute		
+99	92	Animus	Time Second	Max 59	0|59												Second		
+100	93	Animus	Time Phase	Default 1	0|1|2|3	Morning	Day	Evening	Night										
+101	94	Animus	Time Color	Default 1	0|1|2|3	Morning	Day	Evening	Night										
+102	95	Animus	Time Days		0|X												Total number of days		
+103	96	Snake Home	Lightswitch State		0|1	Off	On												
+104	97	Possum Yard	Plants 1		0|1	Nothing	Curious												
+105	98	Possum Yard	Plants 2		0|1	Nothing	Curious												
+106	99	Possum Yard	Plants 3		0|1	Nothing	Curious												
+107	100	Possum Yard	Plants 4		0|1	Nothing	Curious												
+108	101	Possum Yard	Plants 5		0|1	Nothing	Curious												
+109	102	Possum Yard	Plants 6		0|1	Nothing	Curious												
+110	103	Possum Yard	Plants 7		0|1	Nothing	Curious												
+111	104	Possum Yard	Plants Complete		0|1	Nothing	Finished												
+112	105	Possum Store	Shopkeep Event		0|1	Nothing	Finished												
+113	106	GLOBAL	Have we saved before?		0|1	Not Saved	Saved												
+114	107	GLOBAL	Hometown Fear	Max 5															
+115	108	GLOBAL	Hometown Curiosity	Max 11															
+116	109	GLOBAL	Tower Corp Fear	Max 5															
+117	110	GLOBAL	Tower Corp Curiosity	Max 9															
+118	111	GLOBAL	Animus Fear	Max 3															
+119	112	GLOBAL	Animus Curiosity	Max 3															
+120	113	GLOBAL	Jotunheim Fear																
+121	114	GLOBAL	Jotunheim Curiosity																
+122	115	GLOBAL	[REDACTED] Fear																
+123	116	GLOBAL	[REDACTED] Curiosity																
+124	117	INVENTORY	Sock Tower 1		0|1	Left	Taken												
+125	118	Breakroom 103	Computer Interaction		0|1	Not Used	Used												
+126	119	GLOBAL	Current World Number	Default 1	1|2|3|4|5		Hometown	Tower	Animus	Muspelheim	Niflheim								
+127	120	GLOBAL	World Order First		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim								
+128	121	GLOBAL	World Order Second		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim								
+129	122	GLOBAL	World Order Third		0|2|3|4|5	Not Yet		Tower	Animus	Muspelheim	Niflheim								
+130	123	Breakroom 103	Keypad Solve		0|1|2|3	Unsolved	Win	Loss	Cheater										
+131	124	Breakroom 103	Crypto Solve		0|1	Unsolved	Solved												
+132	125	Firepipes	Venter Switch		0|1	Off	On												
+133	126	Firepipes	Regulator Switch		0|1	Off	On												
+134	127	Firepipes	Electrifier Switch		0|1	Off	On												
+135	128	Vaporcave	Aesthetic		0|1|2	Off	No	Yes											
+136	129	Breakroom 103	Keypad Hint 1		0|1	Hidden	Found												
+137	130	Breakroom 103	Keypad Hint 2		0|1	Hidden	Found												
+138	131	Breakroom 103	Keypad Hint 3		0|1	Hidden	Found												
+139	132	Breakroom 103	Keypad Hint 4		0|1	Hidden	Found												
+140	133	Firepipes	Pipe Break		0|1	Normal	Broken												
+141	134	Vaporcave	Found the environment		0|1	No	Yes												
+142	135	Corridor 103	Played the Dad event		0|1	No	Yes												
+143	136	Techies	Entrance Event		0|1	No	Yes												
+144	137	Darkworld 103	Chose Tome Path		0|1|2|3	Nothing	Light	Dark	Mixed										
+145	138	Storage	Talked to Inky		0|1	No	Yes												
+146	139	Techies	Times Caught		0|X	Never											Number of Times		
+147	140	Breakroom 103	Pickles		0|1|2	Not Found	Didn't Take	Took Them											
+148	141	Mailshroom	Dark Lights		0|1	On	Off												
+149	142	Duck Finding	1		0|1	Unknown	Found												
+150	143	Duck Finding	2		0|1	Unknown	Found												
+151	144	Duck Finding	3		0|1	Unknown	Found												
+152	145	Duck Finding	4		0|1	Unknown	Found												
+153	146	Duck Finding	5		0|1	Unknown	Found												
+154	147	Goose Finding	6		0|1	Unknown	Found												
+155	148	Servers	Duck Finding Active		0|1|2|3	No	Active	Duck Complete	Goose Complete										
+156	149	Boardroom	Entrance Event		0|1	No	Yes												
+157	150	Techies	OScar Unlocks First Job		0|1	No	Yes												
+158	151	Boardroom	Password Collected		0|1	No	Yes												
+159	152	Breakroom 103	Time Spent		X												Total Seconds		
+160	153	Boardroom	Password Selected		0|1|2|3|4|5|6|7|8|9	god	password	love	qwerty	secret	login	letmein	abc 123	footbal	iloveyou		Password index from obj_boardroom_talker_whiteboard		
+161	154	Techies	Smartliness		0|1	Fail	Pass												
+162	155	Techies	Speederosity		0|2	Fail		Pass											
+163	156	Techies	Sneaktitude		0|4	Fail				Pass									
+164	157	Techies	Job 1 Index		0|1|2|3|4|5|6|7|8	Actual Potato	Programmer	Cafeteria Worker	Supervisor	IT Specialist	Janitor	Ninja	Game Developer	Hacker					
+165	158	Techies	Cookies		0|X												Number of Cookies		
+166	159	Techies	Password Fails		0|X												Number of Fails		
+167	160	Servers	Sticky Mission Active		0|1|2	No	Active	Complete											
+168	161	Servers	Sticky Mission Sticky		0|1	No	Yes												
+169	162	INVENTORY	Sock Tower 2		0|1	Left	Taken												
+170	163	Techies	We work in a cubicle		0|1|2	No	Yes	Promoted											
+171	164	Techies	Spawn Location		0|1|2	Bottom	6A	4C											
+172	165	Techies	Birdcam Caught OScar Laughs		0|X	Never											Number of Times		
+173	166	Techies	Obedient Worker		0|1	No	Yes												
+174	167	Cafe	We know to use the vending machine		0|1	No	Yes												
+175	168	Servers	Job Completed		0|1|2	No	Started	Yes											
+176	169	Cafeteria	Job Completed		0|1|2	No	Started	Yes											
+177	170	Mailshroom	Job Completed		0|1|2	No	Started	Yes											
+178	171	Cafeteria	Shades Fed		0|X	None											Number Fed		
+179	172	Cafeteria	Food Dropped		0|X	None											Number Dropped		
+180	173	Cafeteria	Game Over		0|1	No	Yes												
+181	174	Mailshroom	Event		0|1	No	Yes												
+182	175	Mailshroom	Letters Stamped		0|X	None											Amount		
+183	176	Middle	Entrance Event		0|1	Not Yet	Done												
+184	177	INVENTORY	Noir Hat		0|1|2	No	Yes	Finished											
+185	178	INVENTORY	Propaganda Obtained		0|1|2	No	Left	Took											
+186	179	Servers	Racks Inspected		0|X	None											Amount		
+187	180	Middle	Salamurderer		0|1	No	Yes												
+188	181	Middle	Camera Uses		0|X	Not Yet											Number Of Uses		
+189	182	Middle	Stapler Taken		0|1|2	Not Yet	Taken	Left											
+190	183	Middle	Floppy 'Copied'		0|1|2	Not Yet	Left	Taken											
+191	184	Middle	Salamurderer Floor Ham		0|1	No	Yes												
+192	185	Middle	4B Shade		0|1	No	Yes												
+193	186	Middle	3A Shade Question		0|1|2	Nothing	No	Yes											
+194	187	Middle	1B Desk		0|1|2	Nothing	No	Yes											
+195	188	Middle	3A Quit		0|1	No	Yes												
+196	189	Middle	We read a sign about the Lost and Found		0|1	No	Yes												
+197	190	Middle	Talked to D4 Shade		0|1	No	Yes												
+198	191	Middle	Investigations Found		0|X	None											Amount		
+199	192	Floor 2	Shortstack Location		0|1|2	Cafe	Gym Lift	Gym Bag											
+200	193	Noir	Object 1 Bracelet		0|1|2	None	Spawned	Taken											
+201	194	Noir	Object 2 Necklace		0|1|2	None	Spawned	Taken											
+202	195	Noir	Object 3 Key		0|1|2	None	Spawned	Taken											
+203	196	Noir	Object 4 Handbag		0|1|2	None	Spawned	Taken											
+204	197	Noir	Object 5 Pendant		0|1|2	None	Spawned	Taken											
+205	198	Noir	Events Played		0|X	None											Amount		
+206	199	INVENTORY	Chapter 2 Socks	Max 4															
+207	200	Pool	Did we say No to Joe?		0|1|2	Not Yet	No	Yes											
+208	201	Pool	Learned To Whistle		0|1	No	Yes												
+209	202	Floor 2	Have Money		0|1|2|3	No	Dollar	Coins	Used										
+210	203	Pool	Whistled at PPP		0|1	No	Yes												
+211	204	Gym	Talked At Benchpress		0|1	No	Yes												
+212	205	Void	Told The Truth		0|1|2	Not Yet	Truth	Lied											
+213	206	Closet	Enter Void		0|1	No	Drink												
+214	207	Middle	Joe's Sunglasses		0|1|2	No	Yes	Used											
+215	208	Middle	Joe's Computer Checked		0|1	No	Yes												
+216	209	Records	Lightswitch State		0|1	No	Yes												
+217	210	Cafe	Coffee Obtained		0|1|2	No	Yes	Delivered											
+218	211	Cafe	Talked to Whistler about Shortstack		0|1	No	Yes												
+219	212	Floor 2	Coffee Age		0|X	Not Yet											Coffee Age		
+220	213	Cafe	Coffee Cold Knowledge		0|1	No	Yes												
+221	214	Cafe	Final Whistler Knowledge		0|1	No	Yes												
+222	215	Cafe	We talked to Whistler about the Lost and Found		0|1	No	Yes												
+223	216	Pool	Coffee Temperature		0|1|2	None	Cold	Hot											
+224	217	Pool	PPP Is Gone		0|1	No	Yes												
+225	218	Cafe	Checked Menu		0|1	No	Yes												
+226	219	Cafe	Personal Space Count		0|X	No											Number of Times		
+227	220	Cafe	Coffee Joke		0|1	No	Done												
+228	221	Cafe	Stress Guy		0|1	No	Done												
+229	222	Pool	That Guy Story		0|1	No	Done												
+230	223	INVENTORY	Sock Tower 3		0|1	Left	Taken												
+231	224	Boss	Music Timing		X												Seconds		
+232	225	Boss	Memory 1 Match to 22		0|1|2	Not Yet	Food	Garbage											
+233	226	Boss	Memory 2 Match to 41		0|2|3	Not Yet	Left	Stolen											
+234	227	Boss	Memory 3 Match to 71		0|1|2	Not Yet	Axe Kept	Axe Thrown											
+235	228	Boss	Memory 4 Did we kill Joe?		0|1|2	Not Yet	No	Yes											
+236	229	Boss	Memory 5 Do we hate the boss?		0|1|2	Not Yet	No	Yes											
+237	230	Animus	Portal Network		0|1	Not Active	Active												
+238	231	NOT USED																	
+239	232	INVENTORY	Phone Found		0|1	No	Yes												
+240	233	HR	Talked To Mycel		0|1	No	Yes												
+241	234	Gym	Talked To Trapper		0|1	No	Yes												
+242	235	Gym	Talked To Chomper		0|1	No	Yes												
+243	236	Records	Read Dad's Information		0|1	No	Yes												
+244	237	INVENTORY	Sock Tower 4		0|1	Left	Taken												
+245	238	The Truth			0|42	No													Yes
+246	239	Animus	Full Time														Seconds		
+247	240	DEBUG	Early Access Cutscene		0|1	Not Yet	Finished												
+248	241	NOT USED																	
+249	242	Timeroom	Manipulator		0|1	No	Yes												
+250	243	Timeroom	Day or Night		0|1|2	None	Day	Night											
+251	244	Animus	Clothing when we first met Ramul		0|1|2	Not Yet	Pajama	Sweater											
+252	245	Animus	Ramul knows our name	POST ANIMUS	0|1	No	Yes												
+253	246	Animus	Ramul talked about our sweater	POST ANIMUS	0|1	No	Yes												
+254	247	Turtle Home	Lightswitch State		0|1	Off	On												
+255	248	Breakroom 103	Red Papers Investigated		0|1|2	No	Yes	Completed											
+256	249	Techies	Talked to shirt guy		0|1	No	Yes												
+257	250	Techies	Talked to hat guy		0|1	No	Yes												
+258	251	Mole Home	Lightswitch State		0|1	Off	On												
+259	252	Techies	Ant chat		0|1	No	Yes												
+260	253	Mole Home	Ant chat		0|1	No	Yes												
+261	254	Mole Home	Frog chat		0|1	No	Yes												
+262	255	Mole Home	Spider chat		0|1	No	Yes												
+263	256	Mole Home	The Factus		0|1	Not Yet	Taken												
+264	257	INVENTORY	Gadget		0|1|2	Not Found	Taken	Left											
+265	258	Bedhead	Phone Step		X												Phone Conversation		
+266	259	Mole Home	Salamander food chat		0|1	No	Yes												
+267	260	Mole Home	Bed Crime Level		0|1|2|3|4|5	No	Angry	Double Angry	Kicked Out	Banned	Unbanned								
+268	261	Nekane	Entrance Event		0|1	No	Yes												
+269	262	Nekane	Beard Mirror		0|1	No	Yes												
+270	263	Nekane	Clock		0|1	No	Yes												
+271	264	Nekane	Bookshelf		0|1	No	Yes												
+272	265	Nekane	Scythe		0|1	No	Yes												
+273	266	Nekane	Chest		0|1	No	Yes												
+274	267	Nekane	Potions Inspected		0|1	No	Yes												
+275	268	Nekane	Potion Stolen		0|1|2|3|4	No	Left	Middle	Right	Never									
+276	269	Nekane	Houseplant		0|1	No	Yes												
+277	270	Nekane	Wrong Side		0|1	No	Yes												
+278	271	Mole Home	Worm Tank		0|1	No	Yes												
+279	272	NOT USED																	
+280	273	Mole Home	Snakesock Tank		0|1|2	No	Yes	Complete											
+281	274	INVENTORY	Snakewarmer		0|1|2	No	Yes	Used											
+282	275	NOT USED																	
+283	276	Terminated	Nekane Unlocked		0|1	No	Yes												
+284	277	INVENTORY	Pocketwatch		0|1|2	Not Found	Found	Not With Us											
+285	278	Dillo Home Dark	Hurt Emelio?		0|1|2	Not Yet	No	Yes											
+286	279	Animus	Basil Secret Found		0|1	Not Found	Found												
+287	280	GLOBAL	Hit In Combat																
+288	281	Lake	Beetle 1		0|1	Not Taken	Taken												
+289	282	Lake	Beetle 2		0|1	Not Taken	Taken												
+290	283	Lake	Beetle 3		0|1	Not Taken	Taken												
+291	284	Lake	Beetle 4		0|1	Not Taken	Taken												
+292	285	Lake	Beetle 5		0|1	Not Taken	Taken												
+293	286	Animus	Watch Complete		0|1	Broken	Fixed												
+294	287	Animus	Watch Baseplate	Fern	0|1	Broken	Fixed												
+295	288	Animus	Watch Hands	Emelio	0|1	Broken	Fixed												
+296	289	Animus	Watch Gears	Avocado	0|1	Broken	Fixed												
+297	290	Animus	Watch Sealed	Mossbacks	0|1	Broken	Fixed												
+298	291	Animus	Ramul Storyline		X												Storyline Step		
+299	292	Animus	Avocado Storyline		0|1|2|3|4|5|6|7|8|9|10	At Lake First Contact	At Pier Happy	At Pier Grumpy	Abandoned	Home Sad Fern Advice	Home Sad Rhode Advice	Home Sad No Advice	At Home Happy	At Home Working	At Home Watch Finished	In Yard Staying			
+300	293	Animus	Emelio Storyline		0|1|2|3|4|5|6|7|8|9	At Home	Ready For Mines	In Mines	In Bed	Saved	Abandoned	Abandoned Then Saved	At Forge	Fantasy	Reality				
+301	294	Animus	Rhode Storyline		0|1|2|3|4|5|6|7	In Yard	In Home	In Yard Lunch	Gone Lunch	On Bridge Happy	On Bridge Sad	Gone	At Home						
+302	295	Animus	Fern Storyline		0|1|2|3|4|5|6|7	In Yard	In Home	In Yard Lunch	Gone Lunch	On Bridge Happy	On Bridge Sad	Gone	At Home				Storyline Step		
+303	296	Animus	Mossback Storyline		0|1|2|3|4	In Yard	In Home	In Home Waiting	Yard Leaving	At Pathway							Storyline Step		
+304	297	NOT USED																	
+305	298	NOT USED																	
+306	299	NOT USED																	
+307	300	NOT USED																	
+308	301	NOT USED																	
+309	302	NOT USED																	
+310	303	Animus	Village State		0|1|2|3|4|5|100	Dillo	Dillo Finished	Deer	Forest	Mole	Turtle							Fully Unlocked	
+311	304	Iron Mines	Help Emelio?		0|1|2|3	Not Yet	Yes	No	No Then Yes										
+312	305	Animus	Twins Emelio Judgement		0|1|2	Not Yet	Positive	Negative											
+313	306	Dillo Yard	Terry Sad Talk		0|1|2	Not Yet	Once	Finished											
+314	307	Dillo Home	Emelio spawned at the Forge	Reality Path	0|1	Not Yet	Spawned												
+315	308	Dillo Yard	Terry Thankful Talk		0|1	Not Yet	Finished												
+316	309	Animus	We know about Sunstones		0|1	Not Yet	Yes												
+317	310	Iron Mines 2	Shortcut Question		0|1	Not Yet	Yes												
+318	311	Deer Yard	Ant Conversation	Max 4	0|X	Not Yet											Number Of Conversations		
+319	312	Deer Home	Eggs Obtained		0|X	Not Yet											Number Found		
+320	313	Deer Yard	Got mad at Fern?		0|1|2	Not Yet	No	Yes											
+321	314	Deer Yard	Ate the flower?		0|1|2|3	Not Yet	Smelled	No	Yes										
+322	315	Deer Yard	Yard Approach Cutscene		0|1	Not Yet	Done												
+323	316	Iron Mines	Dialog Steps	Max 2	0|X	Not Yet											Steps		
+324	317	Iron Mines	Light Activated		0|1	Not Yet	Active												
+325	318	INVENTORY	Mining Pickaxe		0|1	Nothing	Have												
+326	319	Iron Mines	Destroy Whale?		0|1|2|3	Not Yet	No	Yes	Ignored										
+327	320	Iron Mines	Emelio Dialog Step		0|1	Not Talked	Talked												
+328	321	Dillo Home	Talked To Emelio In Bed		0|1	Not Talked	Talked												
+329	322	Dillo Home	Mining Tools		0|1	On The Wall	Missing												
+330	323	Iron Mines	Spoke to Emelio from behind		0|1	Not Yet	Yes												
+331	324	Iron Mines	Mindworms	Max 13	0|X	Nothing											Number Of Worms		
+332	325	Iron Mines	Harvest Sunstone?		0|1	Not Yet	Finished												
+333	326	Iron Mines 2	Mindworms 1-2	Max 2	0|X	Nothing											Number Of Worms		
+334	327	GLOBAL	Worlds Finished	Max 5	0|X												Number Of Worlds		
+335	328	Deer Home	Fern Talked To		0|1	No	Yes												
+336	329	Deer Home	Rhode Talked To		0|1	No	Yes												
+337	330	Deer Home	Rhode asked us out to lunch		0|1|2	Not Yet	Yes	No											
+338	331	Deer Home	Time spent before talking to Fern		0|X	No											Seconds Spent		
+339	332	Animus	Fern Crown		0|1	No	Yes												
+340	333	Deer Home	Lunch Chosen		0|1|2	Not Yet	Fern	Rhode											
+341	334	Deer Yard	Lunch Leaving Cutscene		0|1	Not Yet	Yes												
+342	335	INVENTORY	Chapter 3 Socks	Max 5															
+343	336	Deer/Rhode	Cutscene Played		0|1	Not Yet	Yes												
+344	337	Dillo Home	Walked up to Emelio		0|X	Not Yet											Number Of Steps		
+345	338	Deer Field	Ate the flower?		0|1|2	Not Yet	No	Yes											
+346	339	Deer Field	Joe's Mug		0|1	Not Caught	Caught												
+347	340	Deer Field	Baskets Filled		0|1|2|3														
+348	341	The Tower	Mailshroom Key		0|1|2	Not Yet	Have	Used											
+349	342	Deer Field	Ferns mood about Rhode		0|1|2	Not Yet	Negative	Positive											
+350	343	Deer Field	Minigame Outcome		0|1|2|3|4|5|6	Not Yet	Round 1 No Flowers	Round 1 Loss	Round 2 Loss	Round 3 Loss	Round 3 Win	Round 3 Perfect							
+351	344	Deer Field	Basket Image Index	Max 3	0|X												Image Index		
+352	345	Deer Field	Advice for Fern		0|1|2	Not Yet	Heart	Safety											
+353	346	Rhode Game	Cartons Filled		0|1|2|3														
+354	347	Rhode Game	Minigame Outcome		0|1|2|3|4|5|6	Not Yet	Round 1 No Eggs	Round 1 Loss	Round 2 Loss	Round 3 Loss	Round 3 Win	Round 3 No Obstacles							
+355	348	GLOBAL	World Resolution First		0|1|2	Not Yet	Positive	Negative											
+356	349	GLOBAL	World Resolution Second		0|1|2	Not Yet	Positive	Negative											
+357	350	GLOBAL	World Resolution Third		0|1|2	Not Yet	Positive	Negative											
+358	351	Rhode Game	Obstacles Hit		0|X	No													
+359	352	Rhode Game	Eggs Dropped		0|X												Number of Eggs		
+360	353	Rhode Field	Hang Out?		0|1|2	Not Yet	Yes	No											
+361	354	Deer Forest	Boulder		0|1	In Room	Moved												
+362	355	Animus	Bird Counter		0|X	None											Number Of Birds		
+363	356	Rhode Field	Advice for Rhode		0|1|2	Not Yet	Heart	Safety											
+364	357	Rhode Field	Who to think about?		0|1|2	Not Yet	Self	Rhode											
+365	358	Rhode Field	How do we feel about Fern?		0|1|2	Not Yet	Positive	Negative											
+366	359	Rhode Field /Deer Field	Fight The Aspects?		0|1|2	Not Yet	Fight	Time Out											
+367	360	Deer Home	Looked at the seed packets?		0|1	Not Yet	Yes												
+368	361	Deer Home	Fertilizer 1		0|1	Not Yet	Yes												
+369	362	Deer Home	Fertilizer 2		0|1	Not Yet	Yes												
+370	363	Deer Home	Egg Pun Experienced		0|1	Not Yet	Yes												
+371	364	Deer Field	Hit By Falling Object		0|1	No	Yes												
+372	365	Deer Field	Caught at least one flower		0|1	No	Yes												
+373	366	Deer Field	Question about Rhode to Fern		0|1|2|3|4	Not Yet	Prying	Lying	Matchmaker	Avoidance									
+374	367	Deer Bridge	Fern/Rhode Ending Cutscene		0|1	Not Yet	Finished												
+375	368	Deer Bridge	Floating Crown		0|1|2	Not Yet	Floating	Particles Gone											
+376	369	Deer Yard	Watch Door		0|1|2|3	Not Yet	Present	Finished	Unblocked										
+377	370	Deer Yard	Picket Line		0|1|2|3	Not Yet	Present	Cross Attempted	Gone										
+378	371	Deer Secret	Frog		0|1|2	There	Gone To Space	Stayed On Ground											
+379	372	Lake	Time Before Pier		0|X	Not Yet											Time In Seconds		
+380	373	Lake	Pier Cutscene		0|1	Not Yet	Finished												
+381	374	Lake	Avocado Pier Mood		0|1|2	Not Yet	Happy	Sad											
+382	375	Dillo Judge	Do we know who we are?		0|1|2	Not Yet	Yes	No											
+383	376	Judgement	Corruption Level		0|X	Not Yet											Corruption Level		
+384	377	INVENTORY	Fishing Rod		0|1	Not Yet	Have												
+385	378	Lake	Gave Avocado Advice		0|1	Not Yet	Gave Advice												
+386	379	Deer Judge	Flowers Stepped On	Max 15	0|X												Number Of Flowers		
+387	380	Rhode Judge	Combat Outcome		0|1|2	Not Yet	Victory	Defeat											
+388	381	Rhode Judge	Kill or Don't		0|1|2	Not Yet	Killed	Not Killed											
+389	382	Rhode Judge	Number of Killing Blows		0|X	Not Yet											Number Of Blows		
+390	383	Rhode Judge	Moved In Combat		0|1	Not Moved	Moved												
+391	384	GLOBAL	Lores Polarity		0|1	Positive	Negative												
+392	385	Rhode Judge	Destroyed The Crown?		0|1|2	Not Yet	Destroyed	Ignored											
+393	386	Barghest 2	Won or Lost?		0|1|2	No	Won	Lost											
+394	387	Rhode Game	What does Rhode call eggs?		0|1	Food Pods	Egg Pods												
+395	388	Rhode Judge	Rhode bit Lore		0|1	Not Yet	Bit												
+396	389	Mole Home	Times Avocado Bothered		0|X	Not Yet											Bothered Amount		
+397	390	Mole Home	Potion given to Fancy Cacti		0|1	No	Yes												
+398	391	Mole Home	Fancy Cacti talked to with Factus		0|1	No	Yes												
+399	392	Mole Home	Bowtie		0|1|2|3	No	Red	Green	Blue										
+400	393	Mole Home	Light Scene		0|1|2	No	Light Off	Check Again											
+401	394	Mole Home	Mushroom Pun		0|1	No	Yes												
+402	395	Mailshroom	Mushroom Pun		0|1	No	Yes												
+403	396	Mole Home	Left Early		0|1	No	Yes												
+404	397	Middle	Factus Joke		0|1	No	Yes												
+405	398	Turtle Home	Lightswitch State Right		0|1	Off	On												
+406	399	Mid Lake	Fight The Aspects?		0|1|2	Not Yet	Fight	Time Out											
+407	400	Turtle Farm	Crop Values	Green Lettuce	0|X												Bitmask		
+408	401	Turtle Farm	Crop Values	Orange Carrot	0|X												Bitmask		
+409	402	Turtle Farm	Crop Values	Purple Carrot	0|X												Bitmask		
+410	403	Turtle Farm	Crop Values	Purple Lettuce	0|X												Bitmask		
+411	404	Turtle Farm	Crop Values	White Turnip	0|X												Bitmask		
+412	405	Turtle Farm	Crop Values	Green Spinach	0|X												Bitmask		
+413	406	Turtle Farm	Crop Values	Purple Radish	0|X												Bitmask		
+414	407	Turtle Farm	Crop Values	Purple Spinash	0|X												Bitmask		
+415	408	Home Livingroom	Best Seat Joke		0|1	No	Heard												
+416	409	Animus	Artifact End		0|1|2|3|4	No	Judge Head	Limbo 1	Limbo 2	Limbo 3									
+417	410	Animus	Turtlefarm Door Entered		0|1|2	Not Yet	Left	Right											
+418	411	Settings	Frog Clicks		0|X												Total Frog Clicks		
+419	412	Turtle Home	Fertilizer		0|1	Not Yet	Yes												
+420	413	Animus	Clothing when we first met Shelly		0|1|2	Not Yet	Pajama	Sweater											
+421	414	Animus	Shelly Clothing Joke		0|1	Not Yet	Done												
+422	415	Turtle Home	Asked To Go		0|1	Not Yet	Yes												
+423	416	Turtle Home	Stolen Treat?		0|1|2	Not Yet	No	Yes											
+424	417	NOT USED																	
+425	418	Turtle Home	Fertilizer Table		0|1	Not Yet	Yes												
+426	419	Turtle Follow	Shelly or Sheldon		0|1|2	Not Yet	Shelly	Sheldon											
+427	420	Turtle Stroll	Which Path?		0|1|2|3	Not Yet	No Death	Some Death	All Death										
+428	421	Turtle Stroll	Question 1 Answer		0|1|2	Not Yet	No	Yes											
+429	422	Turtle Stroll	Question 2 Answer		0|1|2	Not Yet	No	Yes											
+430	423	Turtle Stroll	Question 3 Answer		0|1|2	Not Yet	No	Yes											
+431	424	Turtle Stroll	Question 4 Answer		0|1|2	Not Yet	No	Yes											
+432	425	INVENTORY	Sock Animus 1		0|1	Left	Taken												
+433	426	INVENTORY	Sock Animus 2		0|1	Left	Taken												
+434	427	INVENTORY	Sock Animus 3		0|1	Left	Taken												
+435	428	INVENTORY	Sock Animus 4		0|1	Left	Taken												
+436	429	INVENTORY	Sock Animus 5		0|1	Left	Taken												

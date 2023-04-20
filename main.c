@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <locale.h>
 #include <gtk\gtk.h>
 #include <unistd.h>
 #include <hb_save.h>
@@ -350,6 +351,14 @@ static void activate( GtkApplication* app, gpointer user_data )
     // Note: Since this place stores its values differently than anything else on the game, we need a special case for it.
     //       The crops' state is stored on bitmasks across 8 different variables (0 = not destroyed | 1 = destroyed).
 
+    // Add the fields for the game options
+    HeartboundLocation *my_location = hb_get_location("Settings");
+    size_t my_chapter = my_location->world;
+    size_t my_position = my_location->position * 2 + 1;
+    GtkWidget *my_cell = gtk_grid_get_child_at( GTK_GRID(chapter_grid[my_chapter]), 1, my_position );
+    hb_insert_options_fields(my_cell);
+
+    // Add the fields for each of the storyline variables
     for (size_t var = 0; var < NUM_STORY_VARS; var++)
     {
         /*
@@ -386,6 +395,15 @@ static void activate( GtkApplication* app, gpointer user_data )
             // Copy the entry's name to the text buffer
             strcpy_s(text_buffer, TEXT_BUFFER_SIZE, hb_save_data[var].name);
             
+            // Special case: unused storyline variable
+            // (the variable's number is showed since it has no name)
+            bool var_not_used = false;
+            if (strcmp(hb_save_data[var].location, "NOT USED") == 0)
+            {
+                snprintf(text_buffer, TEXT_BUFFER_SIZE, "%zu", var);
+                var_not_used = true;
+            }
+            
             // If the entry has additional info, append it to the text buffer
             if (hb_save_data[var].info != NULL)
             {
@@ -416,7 +434,8 @@ static void activate( GtkApplication* app, gpointer user_data )
             GtkWidget *my_options = gtk_flow_box_new();
             gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_options), GTK_SELECTION_NONE);  // Prevents the text inside from getting highlighted when you click on them
             gtk_widget_set_valign(my_options, GTK_ALIGN_START);
-            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_options), 2);
+            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_options), MIN_ITEMS_PER_LINE);
+            gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(my_options), MAX_ITEMS_PER_LINE);
 
             // Add the flow box to the wrapper
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_options);
@@ -592,7 +611,7 @@ static void activate( GtkApplication* app, gpointer user_data )
                 radio buttons will be used.
                 If the variable does not specify a measurement unit and a number
                 of values, then 'No' and 'Yes' radio buttons will be used. */
-            if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0))
+            if (hb_save_data[var].num_entries == 0 && (hb_save_data[var].unit != NULL || hb_save_data[var].maximum > 0.0) || var_not_used)
             {
                 // Create the text entry field
                 GtkWidget *my_entry_field = gtk_entry_new();
@@ -738,7 +757,8 @@ static void activate( GtkApplication* app, gpointer user_data )
             my_flowbox = gtk_flow_box_new();\
             gtk_flow_box_set_selection_mode(GTK_FLOW_BOX(my_flowbox), GTK_SELECTION_NONE);\
             gtk_widget_set_valign(my_flowbox, GTK_ALIGN_START);\
-            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), 2);\
+            gtk_flow_box_set_min_children_per_line(GTK_FLOW_BOX(my_flowbox), MIN_ITEMS_PER_LINE);\
+            gtk_flow_box_set_max_children_per_line(GTK_FLOW_BOX(my_flowbox), MAX_ITEMS_PER_LINE);\
             gtk_container_add(GTK_CONTAINER(my_wrapper), my_flowbox);
 
         // Create and add the entries for the attributes
@@ -929,6 +949,12 @@ static void activate( GtkApplication* app, gpointer user_data )
 
 int main ( int argc, char **argv )
 {
+    // Set the locale to English (US) and UTF-8
+    // (Because the save file store values in that format, like using a dot for decimals.
+    //  This way, the string to number functions should work as expected.)
+    setlocale(LC_ALL, "en_US.utf8");
+    gtk_disable_setlocale();    // Prevent GTK from resetting the locale to the system's default
+    
     // Find the directory of our executable
     char *editor_path = calloc(PATH_BUFFER, sizeof(char));  // Full path including the executable itself
     GetModuleFileNameA(NULL, editor_path, PATH_BUFFER);
