@@ -778,7 +778,7 @@ static void activate( GtkApplication* app, gpointer user_data )
         NEW_LABEL_BOX("Room :");
         gtk_widget_set_tooltip_text(
             my_name_label,
-            "The location where you will spaw.\n"
+            "The location where you will spawn.\n"
             "Changing this automatically update the coordinates, "
             "so you do not end up out of bounds or inside walls."
         );
